@@ -24,10 +24,22 @@ import Aside from "@/components/Aside";
 import axios from "axios";
 
 async function loadOrders() {
-	const { data } = await axios.get(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/commands`
-	);
-	return data;
+	try {
+		const { data } = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/api/commands`,
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+		return data;
+	} catch (error) {
+		console.error(
+			"Error fetching reservations:",
+			error.response?.data || error.message
+		);
+	}
 }
 
 export default async function AllOrdersPage() {

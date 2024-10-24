@@ -68,17 +68,29 @@ function ReservationForm() {
 		// Obtener la fecha de instalación
 		const fechaInstalacion = vehicle.fecha_instalacion;
 
-		// Crear la fecha y hora actuales si hay una fecha de instalación
+		// Crear la fecha y hora actuales
 		const currentDateTime = new Date();
 
 		// Solo asignar la hora actual si se ha ingresado una fecha
 		let formattedFechaInstalacion = "";
 		if (fechaInstalacion) {
-			formattedFechaInstalacion = new Date(
-				`${fechaInstalacion}T${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:00.000Z`
-			).toISOString();
-		}
+			// Asegurarse de que fechaInstalacion sea una fecha válida
+			const parsedFechaInstalacion = new Date(fechaInstalacion);
 
+			// Verificar si la fecha es válida
+			if (!isNaN(parsedFechaInstalacion.getTime())) {
+				// Agregar la hora actual a la fecha de instalación
+				parsedFechaInstalacion.setHours(currentDateTime.getHours());
+				parsedFechaInstalacion.setMinutes(currentDateTime.getMinutes());
+				parsedFechaInstalacion.setSeconds(0);
+				parsedFechaInstalacion.setMilliseconds(0);
+
+				// Convertir a ISOString
+				formattedFechaInstalacion = parsedFechaInstalacion.toISOString();
+			} else {
+				console.error("Fecha de instalación inválida:", fechaInstalacion);
+			}
+		}
 		const reservationData = {
 			...client,
 			...vehicle,
