@@ -22,10 +22,23 @@ import axios from "axios";
 
 import Aside from "@/components/Aside";
 async function loadReservations() {
-	const { data } = await axios.get(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/reservations`
-	);
-	return data;
+	try {
+		const { data } = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/api/reservations`,
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+				withCredentials: true, // Si tu API requiere cookies o autenticación
+			}
+		);
+		return data;
+	} catch (error) {
+		console.error(
+			"Error fetching reservations:",
+			error.response?.data || error.message
+		);
+	}
 }
 
 async function loadOrders() {
