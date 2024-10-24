@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model boletos_reservas {
+  id                 Int        @id @default(autoincrement())
+  usuario_id         Int
+  cliente_id         Int
+  modelo_patente     String     @db.VarChar(100)
+  equipo             String     @db.VarChar(100)
+  precio             Decimal    @db.Decimal(10, 2)
+  reforma_escape     Boolean?   @default(false)
+  carga_externa      Boolean?   @default(false)
+  sena               Decimal?   @db.Decimal(10, 2)
+  monto_final_abonar Decimal    @db.Decimal(10, 2)
+  fecha_instalacion  DateTime   @db.Date
+  creado_en          DateTime   @default(now()) @db.Timestamp(0)
+  actualizado_en     DateTime   @default(now()) @db.Timestamp(0)
+  usuarios           usuarios   @relation(fields: [usuario_id], references: [id], onDelete: Cascade, map: "boletos_reservas_ibfk_1")
+  clientes           clientes   @relation(fields: [cliente_id], references: [id], onDelete: Cascade, map: "boletos_reservas_ibfk_2")
+  comandas           comandas[]
+
+  @@index([cliente_id], map: "cliente_id")
+  @@index([usuario_id], map: "usuario_id")
+}
+
+model clientes {
+  id               Int                @id @default(autoincrement())
+  nombre_completo  String             @db.VarChar(200)
+  dni              BigInt             @unique(map: "dni")
+  domicilio        String?            @db.VarChar(255)
+  localidad        String?            @db.VarChar(100)
+  telefono         BigInt?
+  creado_en        DateTime           @default(now()) @db.Timestamp(0)
+  actualizado_en   DateTime           @default(now()) @db.Timestamp(0)
+  boletos_reservas boletos_reservas[]
+}
+
+model comandas {
+  id                                   Int              @id @default(autoincrement())
+  boleto_reserva_id                    Int
+  creado_en                            DateTime         @default(now()) @db.Timestamp(0)
+  actualizado_en                       DateTime         @default(now()) @db.Timestamp(0)
+  estado                               comandas_estado? @default(pendiente)
+  reductor_cod                         String?          @db.VarChar(100)
+  reductor_numero                      Int?
+  cilindro_1_cod                       String?          @db.VarChar(100)
+  cilindro_1_numero                    Int?
+  valvula_1_cod                        String?          @db.VarChar(100)
+  valvula_1_numero                     Int?
+  reforma_escape_texto                 String?          @db.Text
+  carga_externa                        Boolean?         @default(false)
+  precio_carga_externa                 Decimal?         @db.Decimal(10, 2)
+  cilindro_2_cod                       String?          @db.VarChar(100)
+  cilindro_2_numero                    Int?
+  valvula_2_cod                        String?          @db.VarChar(100)
+  valvula_2_numero                     Int?
+  cuna                                 String?          @db.VarChar(255)
+  materiales                           String?          @db.Text
+  tecnica_id                           Int?
+  boletos_reservas                     boletos_reservas @relation(fields: [boleto_reserva_id], references: [id], onDelete: Cascade, map: "comandas_ibfk_1")
+  tecnica                              tecnica?         @relation(fields: [tecnica_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comandas_ibfk_2")
+  tecnica_tecnica_comanda_idTocomandas tecnica?         @relation("tecnica_comanda_idTocomandas")
+
+  @@index([boleto_reserva_id], map: "boleto_reserva_id")
+  @@index([tecnica_id], map: "tecnica_id")
+}
+
+model roles {
+  id             Int        @id @default(autoincrement())
+  nombre         String     @db.VarChar(50)
+  creado_en      DateTime   @default(now()) @db.Timestamp(0)
+  actualizado_en DateTime   @default(now()) @db.Timestamp(0)
+  usuarios       usuarios[]
+}
+
+model tecnica {
+  id                                    Int        @id @default(autoincrement())
+  dia                                   String     @db.VarChar(20)
+  mes                                   Int
+  propietario                           String     @db.VarChar(100)
+  dni                                   BigInt
+  marca_vehiculo                        String     @db.VarChar(100)
+  modelo                                String     @db.VarChar(100)
+  anio_fabricacion                      Int
+  patente                               String     @db.VarChar(20)
+  dominio                               String     @db.VarChar(100)
+  color                                 String     @db.VarChar(50)
+  anio                                  Int
+  detalle1                              Decimal?   @db.Decimal(10, 2)
+  detalle2                              Decimal?   @db.Decimal(10, 2)
+  detalle3                              Decimal?   @db.Decimal(10, 2)
+  detalle4                              Decimal?   @db.Decimal(10, 2)
+  observaciones_personales              String     @db.Text
+  observaciones_tecnicas                String     @db.Text
+  creado_en                             DateTime   @default(now()) @db.Timestamp(0)
+  actualizado_en                        DateTime   @default(now()) @db.Timestamp(0)
+  perdidas_gas                          Boolean?   @default(false)
+  cableado                              Boolean?   @default(false)
+  nivel_agua                            Boolean?   @default(false)
+  nivel_aceite                          Boolean?   @default(false)
+  inspeccion_instalacion                String?    @db.Text
+  funcionamiento_unidad                 Boolean?   @default(false)
+  herramientas                          String?    @db.Text
+  otras_observaciones                   String?    @db.Text
+  firma                                 String?    @db.VarChar(255)
+  usuario_id                            Int?
+  comanda_id                            Int        @unique(map: "unique_comanda_id")
+  comandas                              comandas[]
+  comandas_tecnica_comanda_idTocomandas comandas   @relation("tecnica_comanda_idTocomandas", fields: [comanda_id], references: [id], onDelete: Cascade, map: "fk_tecnica_comanda")
+  usuarios                              usuarios?  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, map: "tecnica_ibfk_usuario")
+
+  @@index([usuario_id], map: "idx_usuario_id")
+}
+
+model usuarios {
+  id               Int                @id @default(autoincrement())
+  nombre_usuario   String             @unique(map: "nombre_usuario") @db.VarChar(50)
+  email            String             @unique(map: "email") @db.VarChar(100)
+  contrase_a       String             @map("contraseña") @db.VarChar(255)
+  cover_image      String?            @db.VarChar(255)
+  role_id          Int
+  creado_en        DateTime           @default(now()) @db.Timestamp(0)
+  actualizado_en   DateTime           @default(now()) @db.Timestamp(0)
+  boletos_reservas boletos_reservas[]
+  tecnica          tecnica[]
+  roles            roles              @relation(fields: [role_id], references: [id], map: "usuarios_ibfk_1")
+
+  @@index([role_id], map: "role_id")
+}
+
+enum comandas_estado {
+  pendiente
+  en_proceso
+  completado
+}
