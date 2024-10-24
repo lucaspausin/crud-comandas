@@ -29,7 +29,6 @@ async function loadReservations() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				withCredentials: true, // Si tu API requiere cookies o autenticación
 			}
 		);
 		return data;
