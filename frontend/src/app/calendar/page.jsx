@@ -79,12 +79,12 @@ export default function Calendar() {
 
 			console.log(formattedEvents);
 
-			const eventosPorUsuario = formattedEvents.reduce((acc, event) => {
-				const usuario = event.usuario;
-				acc[usuario] = (acc[usuario] || 0) + 1;
-				return acc;
-			}, {});
-			setEventosPorUsuario(eventosPorUsuario);
+			// const eventosPorUsuario = formattedEvents.reduce((acc, event) => {
+			// 	const usuario = event.usuario;
+			// 	acc[usuario] = (acc[usuario] || 0) + 1;
+			// 	return acc;
+			// }, {});
+			// setEventosPorUsuario(eventosPorUsuario);
 
 			setLoading(false);
 		};
