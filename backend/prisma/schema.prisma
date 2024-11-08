@@ -8,21 +8,22 @@ datasource db {
 }
 
 model boletos_reservas {
-  id                 Int        @id @default(autoincrement())
+  id                 Int          @id @default(autoincrement())
   usuario_id         Int
   cliente_id         Int
-  modelo_patente     String     @db.VarChar(100)
-  equipo             String     @db.VarChar(100)
-  precio             Decimal    @db.Decimal(10, 2)
-  reforma_escape     Boolean?   @default(false)
-  carga_externa      Boolean?   @default(false)
-  sena               Decimal?   @db.Decimal(10, 2)
-  monto_final_abonar Decimal    @db.Decimal(10, 2)
-  fecha_instalacion  DateTime   @db.Date
-  creado_en          DateTime   @default(now()) @db.Timestamp(0)
-  actualizado_en     DateTime   @default(now()) @db.Timestamp(0)
-  usuarios           usuarios   @relation(fields: [usuario_id], references: [id], onDelete: Cascade, map: "boletos_reservas_ibfk_1")
-  clientes           clientes   @relation(fields: [cliente_id], references: [id], onDelete: Cascade, map: "boletos_reservas_ibfk_2")
+  modelo_patente     String       @db.VarChar(100)
+  equipo             String       @db.VarChar(100)
+  precio             Decimal      @db.Decimal(10, 2)
+  reforma_escape     Boolean?     @default(false)
+  carga_externa      Boolean?     @default(false)
+  sena               Decimal?     @db.Decimal(10, 2)
+  monto_final_abonar Decimal      @db.Decimal(10, 2)
+  fecha_instalacion  DateTime     @db.Date
+  creado_en          DateTime     @default(now()) @db.Timestamp(0)
+  actualizado_en     DateTime     @default(now()) @db.Timestamp(0)
+  usuarios           usuarios     @relation(fields: [usuario_id], references: [id], onDelete: Cascade, map: "boletos_reservas_ibfk_1")
+  clientes           clientes     @relation(fields: [cliente_id], references: [id], onDelete: Cascade, map: "boletos_reservas_ibfk_2")
+  calendario         calendario[]
   comandas           comandas[]
 
   @@index([cliente_id], map: "cliente_id")
@@ -80,47 +81,48 @@ model roles {
 }
 
 model tecnica {
-  id                                    Int        @id @default(autoincrement())
-  dia                                   String     @db.VarChar(20)
-  mes                                   Int
-  propietario                           String     @db.VarChar(100)
+  id                                    Int             @id @default(autoincrement())
+  dia                                   Decimal         @db.Decimal(2, 0)
+  mes                                   Decimal         @db.Decimal(2, 0)
+  propietario                           String          @db.VarChar(100)
   dni                                   BigInt
-  marca_vehiculo                        String     @db.VarChar(100)
-  modelo                                String     @db.VarChar(100)
+  marca_vehiculo                        String          @db.VarChar(100)
+  modelo                                String          @db.VarChar(100)
   anio_fabricacion                      Int
-  patente                               String     @db.VarChar(20)
-  dominio                               String     @db.VarChar(100)
-  color                                 String     @db.VarChar(50)
+  patente                               String          @db.VarChar(20)
+  dominio                               String          @db.VarChar(100)
+  color                                 String          @db.VarChar(50)
   anio                                  Int
-  detalle1                              Decimal?   @db.Decimal(10, 2)
-  detalle2                              Decimal?   @db.Decimal(10, 2)
-  detalle3                              Decimal?   @db.Decimal(10, 2)
-  detalle4                              Decimal?   @db.Decimal(10, 2)
-  observaciones_personales              String     @db.Text
-  observaciones_tecnicas                String     @db.Text
-  creado_en                             DateTime   @default(now()) @db.Timestamp(0)
-  actualizado_en                        DateTime   @default(now()) @db.Timestamp(0)
-  perdidas_gas                          Boolean?   @default(false)
-  cableado                              Boolean?   @default(false)
-  nivel_agua                            Boolean?   @default(false)
-  nivel_aceite                          Boolean?   @default(false)
-  inspeccion_instalacion                String?    @db.Text
-  funcionamiento_unidad                 Boolean?   @default(false)
-  herramientas                          String?    @db.Text
-  otras_observaciones                   String?    @db.Text
-  firma                                 String?    @db.VarChar(255)
+  detalle1                              String?         @db.VarChar(255)
+  detalle2                              String?         @db.VarChar(255)
+  detalle3                              String?         @db.VarChar(255)
+  detalle4                              String?         @db.VarChar(255)
+  observaciones_personales              String          @db.Text
+  observaciones_tecnicas                String          @db.Text
+  creado_en                             DateTime        @default(now()) @db.Timestamp(0)
+  actualizado_en                        DateTime        @default(now()) @db.Timestamp(0)
+  perdidas_gas                          Boolean?        @default(false)
+  cableado                              Boolean?        @default(false)
+  nivel_agua                            Boolean?        @default(false)
+  nivel_aceite                          Boolean?        @default(false)
+  inspeccion_instalacion                Boolean?
+  funcionamiento_unidad                 Boolean?        @default(false)
+  herramientas                          Boolean?
+  otras_observaciones                   String?         @db.Text
+  firma                                 String?         @db.VarChar(255)
   usuario_id                            Int?
-  comanda_id                            Int        @unique(map: "unique_comanda_id")
+  comanda_id                            Int             @unique(map: "unique_comanda_id")
+  estado                                tecnica_estado?
   comandas                              comandas[]
-  comandas_tecnica_comanda_idTocomandas comandas   @relation("tecnica_comanda_idTocomandas", fields: [comanda_id], references: [id], onDelete: Cascade, map: "fk_tecnica_comanda")
-  usuarios                              usuarios?  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, map: "tecnica_ibfk_usuario")
+  comandas_tecnica_comanda_idTocomandas comandas        @relation("tecnica_comanda_idTocomandas", fields: [comanda_id], references: [id], onDelete: Cascade, map: "fk_tecnica_comanda")
+  usuarios                              usuarios?       @relation(fields: [usuario_id], references: [id], onDelete: Cascade, map: "tecnica_ibfk_usuario")
 
   @@index([usuario_id], map: "idx_usuario_id")
 }
 
 model usuarios {
   id               Int                @id @default(autoincrement())
-  nombre_usuario   String             @unique(map: "nombre_usuario") @db.VarChar(50)
+  nombre_usuario   String?            @unique(map: "nombre_usuario") @db.VarChar(50)
   email            String             @unique(map: "email") @db.VarChar(100)
   contrase_a       String             @map("contraseña") @db.VarChar(255)
   cover_image      String?            @db.VarChar(255)
@@ -134,8 +136,36 @@ model usuarios {
   @@index([role_id], map: "role_id")
 }
 
+model calendario {
+  id                Int                @id @default(autoincrement())
+  boleto_reserva_id Int
+  titulo            String             @db.VarChar(255)
+  descripcion       String?            @db.Text
+  fecha_inicio      DateTime           @db.DateTime(0)
+  fecha_fin         DateTime?          @db.DateTime(0)
+  estado            calendario_estado? @default(pendiente)
+  creado_en         DateTime           @default(now()) @db.Timestamp(0)
+  actualizado_en    DateTime           @default(now()) @db.Timestamp(0)
+  boletos_reservas  boletos_reservas   @relation(fields: [boleto_reserva_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_boleto_reserva_id")
+
+  @@index([boleto_reserva_id], map: "idx_boleto_reserva_id")
+}
+
 enum comandas_estado {
   pendiente
   en_proceso
   completado
+}
+
+enum calendario_estado {
+  pendiente
+  confirmado
+  completado
+  cancelado
+  no_presentado
+}
+
+enum tecnica_estado {
+  pendiente
+  completo
 }

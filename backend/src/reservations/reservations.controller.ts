@@ -5,11 +5,14 @@ import {
   Body,
   Patch,
   Param,
+  UseGuards,
+  Request,
   Delete,
 } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('reservations')
 export class ReservationsController {
@@ -25,9 +28,13 @@ export class ReservationsController {
     return this.reservationsService.findAll();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('summary')
-  findSummary() {
-    return this.reservationsService.findSummary(); // Puedes cambiar esto si necesitas una lógica específica para summary
+  async findSummary(@Request() req: any) {
+    const userId = Number(req.user.userId); // Asegúrate de acceder correctamente
+    const userRole = req.user.role; // Accede al rol
+
+    return await this.reservationsService.findSummary(userId, userRole);
   }
 
   @Get(':id')
