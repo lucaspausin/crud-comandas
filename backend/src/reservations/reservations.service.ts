@@ -340,64 +340,85 @@ export class ReservationsService {
   }
 
   async remove(id: number) {
-    const [reservationDeleted, comandaDeleted, clientDeleted] =
-      await this.prismaService.$transaction(async (prisma) => {
-        // Paso 1: Encontrar la reserva por su ID
-        const reservation = await prisma.boletos_reservas.findUnique({
-          where: { id },
-        });
-
-        if (!reservation) {
-          throw new NotFoundException(
-            `No fue encontrada la reserva. Número: ${id}`,
-          );
-        }
-
-        // Paso 2: Obtener la comanda vinculada a la reserva
-        const comanda = await prisma.comandas.findFirst({
-          where: { boleto_reserva_id: id },
-        });
-
-        // Paso 3: Desvincular el tecnico_id en la comanda (si existe)
-        if (comanda && comanda.tecnica_id) {
-          await prisma.comandas.update({
-            where: { id: comanda.id },
-            data: {
-              tecnica_id: null,
-              estado: 'pendiente', // Se actualiza el campo para desvincular la técnica
-            },
-          });
-
-          // Paso 4: Borrar el técnico vinculado a la comanda
-          await prisma.tecnica.delete({
-            where: { id: comanda.tecnica_id },
-          });
-        }
-
-        // Paso 5: Borrar la comanda
-        const comandaDeleted = await prisma.comandas.deleteMany({
-          where: {
-            boleto_reserva_id: id,
-          },
-        });
-
-        // Paso 6: Borrar la reserva
-        const reservationDeleted = await prisma.boletos_reservas.delete({
-          where: {
-            id: id,
-          },
-        });
-
-        // Paso 7: Borrar el cliente vinculado a la reserva
-        const clientDeleted = await prisma.clientes.delete({
-          where: {
-            id: reservation.cliente_id,
-          },
-        });
-
-        return [reservationDeleted, comandaDeleted, clientDeleted];
+    const [
+      reservationDeleted,
+      comandaDeleted,
+      clientDeleted,
+      calendarioDeleted,
+    ] = await this.prismaService.$transaction(async (prisma) => {
+      // Paso 1: Encontrar la reserva por su ID
+      const reservation = await prisma.boletos_reservas.findUnique({
+        where: { id },
       });
 
-    return { reservationDeleted, comandaDeleted, clientDeleted };
+      if (!reservation) {
+        throw new NotFoundException(
+          `No fue encontrada la reserva. Número: ${id}`,
+        );
+      }
+
+      // Paso 2: Obtener la comanda vinculada a la reserva
+      const comanda = await prisma.comandas.findFirst({
+        where: { boleto_reserva_id: id },
+      });
+
+      // Paso 3: Desvincular el tecnico_id en la comanda (si existe)
+      if (comanda && comanda.tecnica_id) {
+        await prisma.comandas.update({
+          where: { id: comanda.id },
+          data: {
+            tecnica_id: null,
+            estado: 'pendiente', // Se actualiza el campo para desvincular la técnica
+          },
+        });
+
+        // Paso 4: Borrar el técnico vinculado a la comanda
+        await prisma.tecnica.delete({
+          where: { id: comanda.tecnica_id },
+        });
+      }
+
+      // Paso 5: Borrar la comanda
+      const comandaDeleted = await prisma.comandas.deleteMany({
+        where: {
+          boleto_reserva_id: id,
+        },
+      });
+
+      // **Nuevo Paso**: Borrar el evento del calendario vinculado a la reserva
+      const calendarioDeleted = await prisma.calendario.deleteMany({
+        where: {
+          boleto_reserva_id: id,
+        },
+      });
+
+      // Paso 6: Borrar la reserva
+      const reservationDeleted = await prisma.boletos_reservas.delete({
+        where: {
+          id: id,
+        },
+      });
+
+      // Paso 7: Borrar el cliente vinculado a la reserva
+      const clientDeleted = await prisma.clientes.delete({
+        where: {
+          id: reservation.cliente_id,
+        },
+      });
+
+      return [
+        reservationDeleted,
+        comandaDeleted,
+        clientDeleted,
+        calendarioDeleted,
+      ];
+    });
+
+    return {
+      reservationDeleted,
+      comandaDeleted,
+      clientDeleted,
+      calendarioDeleted,
+    };
   }
 }
