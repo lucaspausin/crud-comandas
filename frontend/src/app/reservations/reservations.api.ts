@@ -87,41 +87,52 @@ export async function getCommand(id: string) {
 }
 
 export async function getReservationSummary() {
-	const session = await getSession();
-
-	if (!session) {
-		throw new Error("No session found. Please log in.");
-	}
-	const { data } = await axios.get(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/summary`,
-		{
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${session.user.token}`,
-			},
+	try {
+		const session = await getSession();
+		if (!session) {
+			throw new Error("No session found. Please log in.");
 		}
-	);
-	return data;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+		const { data } = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/summary`,
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${session.user.token}`,
+				},
+			}
+		);
+
+		return data; // Devuelve los datos obtenidos
+	} catch (error) {
+		console.error("Error fetching reservation summary:", error);
+		throw new Error("There was an error fetching the reservation summary.");
+	}
 }
 
+// Función para obtener el resumen de comandos
 export async function getCommandsSummary() {
-	const session = await getSession();
-	if (!session) {
-		throw new Error(
-			"No se encontró la sesión. Asegúrate de estar autenticado."
-		);
-	}
-	const { data } = await axios.get(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/commands/summary`,
-		{
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${session.user.token}`,
-			},
+	try {
+		const session = await getSession();
+		if (!session) {
+			throw new Error("No session found. Please log in.");
 		}
-	);
-	return data;
+
+		const { data } = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/api/commands/summary`,
+			{
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${session.user.token}`,
+				},
+			}
+		);
+
+		return data; // Devuelve los datos obtenidos
+	} catch (error) {
+		console.error("Error fetching commands summary:", error);
+		throw new Error("There was an error fetching the commands summary.");
+	}
 }
 
 export async function getEventsCalendar() {
