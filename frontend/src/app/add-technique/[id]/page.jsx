@@ -41,8 +41,8 @@ export default function ComandaDetail({ params }) {
 		observaciones_personales: "",
 		observaciones_tecnicas: "",
 	});
-
-	const [checkData, setCheckData] = useState({
+// setCheckData;
+	const [checkData] = useState({
 		perdidas_gas: false,
 		cableado: false,
 		nivel_agua: false,
@@ -214,9 +214,9 @@ export default function ComandaDetail({ params }) {
 		comanda?.valvula_1_numero,
 	].some((campo) => campo === null || campo === undefined || campo === "");
 
-	const bordeClase = camposClaveVacios
-		? "bg-white border border-red-300"
-		: "bg-white border border-green-300";
+	// const bordeClase = camposClaveVacios
+	// 	? "bg-white border border-red-300"
+	// 	: "bg-white border border-green-300";
 
 	return (
 		<div className="flex-1 bg-zinc-50">

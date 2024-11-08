@@ -60,7 +60,7 @@ export default function Calendar() {
 	};
 
 	const [eventsCalendar, setEventsCalendar] = useState([]);
-	const [eventosPorUsuario, setEventosPorUsuario] = useState({});
+	// const [eventosPorUsuario, setEventosPorUsuario] = useState({});
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
