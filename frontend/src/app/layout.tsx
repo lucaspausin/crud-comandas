@@ -1,3 +1,5 @@
+import SessionAuthProvider from "@/context/SessionAuthProvider";
+
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -17,7 +19,9 @@ export default function RootLayout({
 	return (
 		<html lang="es">
 			<link rel="icon" href="/favicon.ico" sizes="any" />
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className} suppressHydrationWarning={true}>
+				<SessionAuthProvider>{children}</SessionAuthProvider>
+			</body>
 		</html>
 	);
 }
