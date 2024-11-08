@@ -377,7 +377,7 @@ export default function ComandaDetail({ params }) {
 											Precio Carga Externa:
 										</dt>
 										<Input
-											className="rounded-full border border-zinc-500"
+											className="rounded-full"
 											value={formData.precio_carga_externa || ""}
 											onChange={(e) =>
 												handleInputChange(
