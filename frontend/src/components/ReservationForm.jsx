@@ -222,15 +222,18 @@ function ReservationForm() {
 		const utcDate = new Date(fechaInstalacion);
 
 		if (!isNaN(utcDate.getTime())) {
-			const localDate = new Date(utcDate.getTime() + 3 * 60 * 60 * 1000);
+			// Configurar la hora en UTC a las 08:30
+			utcDate.setUTCHours(8);
+			utcDate.setUTCMinutes(30);
+			utcDate.setUTCSeconds(0);
+			utcDate.setUTCMilliseconds(0);
 
-			// Establecer la hora a las 08:30
-			localDate.setHours(8);
-			localDate.setMinutes(30);
-			localDate.setSeconds(0);
-			localDate.setMilliseconds(0);
-
-			formattedFechaInstalacion = localDate.toISOString();
+			// Convertir a formato ISO, lo cual será en UTC con la hora 08:30
+			formattedFechaInstalacion = utcDate.toISOString();
+			console.log(
+				"Fecha de instalación ajustada en UTC:",
+				formattedFechaInstalacion
+			);
 		} else {
 			console.error("Fecha de instalación inválida:", fechaInstalacion);
 		}

@@ -67,25 +67,20 @@ export default function Calendar() {
 		const fetchEventsCalendar = async () => {
 			const data = await getEventsCalendar();
 
-			const formattedEvents = data.map((event) => ({
-				id: event.id,
-				title: event.titulo,
-				date: dayjs.utc(event.fecha_inicio).local(),
-				usuario: event.boletos_reservas.usuarios.nombre_usuario,
-				estado: event.estado,
-			}));
+			const formattedEvents = data.map((event) => {
+				let eventDate = dayjs.utc(event.fecha_inicio);
+				eventDate = eventDate.hour(8).minute(30).second(0);
+
+				return {
+					id: event.id,
+					title: event.titulo,
+					date: eventDate.local(), // Convierte a la hora local después de ajustar la hora
+					usuario: event.boletos_reservas.usuarios.nombre_usuario,
+					estado: event.estado,
+				};
+			});
 
 			setEventsCalendar(formattedEvents);
-
-			console.log(formattedEvents);
-
-			// const eventosPorUsuario = formattedEvents.reduce((acc, event) => {
-			// 	const usuario = event.usuario;
-			// 	acc[usuario] = (acc[usuario] || 0) + 1;
-			// 	return acc;
-			// }, {});
-			// setEventosPorUsuario(eventosPorUsuario);
-
 			setLoading(false);
 		};
 
