@@ -192,6 +192,7 @@ export class CommandsService {
             usuarios: true,
           },
         },
+        archivo: true,
       },
     });
 
@@ -201,24 +202,192 @@ export class CommandsService {
     return commandFound;
   }
 
-  async update(id: number, updateCommandDto: UpdateCommandDto) {
-   const updateCommand = await this.prismaService.comandas.update({
-     where: {
-       id: id, // Busca la técnica por ID
-     },
-     data: {
-       ...updateCommandDto, // Actualiza solo los campos que están en el DTO
-     },
-   });
+  async findCsv(id: number) {
+    const csvData = await this.prismaService.comandas.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        id: true,
+        boletos_reservas: {
+          select: {
+            equipo: true,
+            usuarios: {
+              select: {
+                nombre_usuario: true,
+              },
+            },
+          },
+        },
+        tecnica_tecnica_comanda_idTocomandas: {
+          select: {
+            dominio: true,
+          },
+        },
+        carga_externa: true,
+        precio_carga_externa: true,
+        pagos_efectivo_transferencia: true,
+        pagos_tarjeta_1: true,
+        pagos_plan_tarjeta_1: true,
+        pagos_tarjeta_2: true,
+        pagos_plan_tarjeta_2: true,
+        pagos_tarjeta_3: true,
+        pagos_plan_tarjeta_3: true,
+        pagos_tarjeta_4: true,
+        pagos_plan_tarjeta_4: true,
+        pagos_tarjeta_5: true,
+        pagos_plan_tarjeta_5: true,
+        pagos_dolares: true,
+      },
+    });
 
-   if (!updateCommandDto) {
-     throw new NotFoundException(`No se encontró la técnica con el ID: ${id}`);
-   }
+    if (!csvData) {
+      throw new NotFoundException(`No fue encontrada la comanda número ${id}.`);
+    }
 
-   return updateCommand;
+    // Filtrar pagos que tengan algún valor válido
+    const filteredPayments = {};
+    const payments = [
+      'pagos_efectivo_transferencia',
+      'pagos_tarjeta_1',
+      'pagos_plan_tarjeta_1',
+      'pagos_tarjeta_2',
+      'pagos_plan_tarjeta_2',
+      'pagos_tarjeta_3',
+      'pagos_plan_tarjeta_3',
+      'pagos_tarjeta_4',
+      'pagos_plan_tarjeta_4',
+      'pagos_tarjeta_5',
+      'pagos_plan_tarjeta_5',
+      'pagos_dolares',
+    ];
+
+    payments.forEach((payment) => {
+      // Filtrar valores nulos, indefinidos, vacíos o cero
+      if (csvData[payment] && csvData[payment].trim() !== '') {
+        filteredPayments[payment] = csvData[payment];
+      }
+    });
+
+    // Desanidar los objetos y formatear el JSON de forma plana
+    const formattedData = {
+      id: csvData.id,
+      equipo: csvData.boletos_reservas?.equipo ?? 'N/A', // Usar "N/A" si no hay equipo
+      nombre_usuario:
+        csvData.boletos_reservas?.usuarios?.nombre_usuario ?? 'N/A', // Usar "N/A" si no hay nombre_usuario
+      dominio: csvData.tecnica_tecnica_comanda_idTocomandas?.dominio ?? 'N/A', // Usar "N/A" si no hay dominio
+      carga_externa: csvData.carga_externa ? 'Sí' : 'No', // Convertir booleano a "Sí" o "No"
+      precio_carga_externa: csvData.precio_carga_externa ?? 'N/A', // Usar "N/A" si no hay precio
+      ...filteredPayments, // Incluir solo los pagos con valor
+    };
+
+    // Retornamos el JSON de forma plana con los pagos filtrados
+    return formattedData;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} command`;
+  async update(id: number, updateCommandDto: UpdateCommandDto) {
+    const updateCommand = await this.prismaService.comandas.update({
+      where: {
+        id: id, // Busca la técnica por ID
+      },
+      data: {
+        ...updateCommandDto, // Actualiza solo los campos que están en el DTO
+      },
+    });
+
+    if (!updateCommandDto) {
+      throw new NotFoundException(`No se encontró la técnica con el ID: ${id}`);
+    }
+
+    return updateCommand;
+  }
+
+  async remove(id: number) {
+    const [
+      reservationDeleted,
+      comandaDeleted,
+      clientDeleted,
+      calendarioDeleted,
+    ] = await this.prismaService.$transaction(async (prisma) => {
+      // Paso 1: Encontrar la reserva por su ID
+      const comanda = await prisma.comandas.findUnique({
+        where: { id },
+      });
+
+      if (!comanda) {
+        throw new NotFoundException(
+          `No fue encontrada la comanda. Número: ${id}`,
+        );
+      }
+
+      // Paso 2: Buscar la reserva asociada a la comanda
+      const reservation = await prisma.boletos_reservas.findUnique({
+        where: { id: comanda.boleto_reserva_id }, // Buscar la reserva usando boleto_reserva_id
+      });
+
+      if (!reservation) {
+        throw new NotFoundException(
+          `No fue encontrada la reserva asociada a la comanda. Número de comanda: ${id}`,
+        );
+      }
+
+      // Paso 3: Desvincular el tecnico_id en la comanda (si existe)
+      if (comanda.tecnica_id) {
+        await prisma.comandas.update({
+          where: { id: comanda.id },
+          data: {
+            tecnica_id: null,
+            estado: 'pendiente', // Se actualiza el campo para desvincular la técnica
+          },
+        });
+
+        // Borrar el técnico vinculado a la comanda
+        await prisma.tecnica.delete({
+          where: { id: comanda.tecnica_id },
+        });
+      }
+
+      // Paso 4: Borrar el evento del calendario vinculado a la reserva
+      const calendarioDeleted = await prisma.calendario.deleteMany({
+        where: {
+          boleto_reserva_id: reservation.id, // Usamos el id de la reserva para buscar el calendario
+        },
+      });
+
+      // Paso 5: Borrar la comanda
+      const comandaDeleted = await prisma.comandas.delete({
+        where: {
+          id: comanda.id,
+        },
+      });
+
+      // Paso 6: Borrar la reserva
+      const reservationDeleted = await prisma.boletos_reservas.delete({
+        where: {
+          id: reservation.id,
+        },
+      });
+
+      // Paso 7: Borrar el cliente vinculado a la reserva
+      const clientDeleted = await prisma.clientes.delete({
+        where: {
+          id: reservation.cliente_id,
+        },
+      });
+
+      return [
+        reservationDeleted,
+        comandaDeleted,
+        clientDeleted,
+        calendarioDeleted,
+      ];
+    });
+
+    return {
+      reservationDeleted,
+      comandaDeleted,
+      clientDeleted,
+      calendarioDeleted,
+    };
   }
 }

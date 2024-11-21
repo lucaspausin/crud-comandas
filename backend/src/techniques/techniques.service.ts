@@ -49,7 +49,16 @@ export class TechniquesService {
   async findAll() {
     return this.prismaService.tecnica.findMany({
       include: {
-        comandas: true,
+        comandas_tecnica_comanda_idTocomandas: {
+          include: {
+            boletos_reservas: {
+              include: {
+                usuarios: true,
+                clientes: true, // Incluye la información del usuario en cada boleto
+              },
+            },
+          },
+        },
       },
     });
   }
@@ -60,7 +69,16 @@ export class TechniquesService {
         id: id,
       },
       include: {
-        comandas_tecnica_comanda_idTocomandas: true, // Incluye la relación de la comanda
+        comandas_tecnica_comanda_idTocomandas: {
+          include: {
+            boletos_reservas: {
+              include: {
+                usuarios: true,
+                clientes: true, // Incluye la información del usuario en cada boleto
+              },
+            },
+          },
+        },
       },
     });
 

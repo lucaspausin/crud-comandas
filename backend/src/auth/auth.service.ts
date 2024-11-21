@@ -39,4 +39,16 @@ export class AuthService {
     }
     throw new UnauthorizedException('Credenciales incorrectas');
   }
+
+  async refreshToken(user: any) {
+    const payload = {
+      username: user.username,
+      sub: user.userId,
+      role: user.role,
+    };
+
+    return {
+      token: this.jwtService.sign(payload),
+    };
+  }
 }

@@ -178,7 +178,7 @@ export class ClientsService {
         cliente: result.clienteEliminado,
         boletosEliminados: result.boletosEliminados.map((boleto) => ({
           id: boleto.id,
-          modelo_patente: boleto.modelo_patente,
+          patente_vehiculo: boleto.patente_vehiculo,
           equipo: boleto.equipo,
           precio: boleto.precio,
           fecha_instalacion: boleto.fecha_instalacion,

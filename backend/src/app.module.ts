@@ -7,8 +7,9 @@ import { TechniquesModule } from './techniques/techniques.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CalendarModule } from './calendar/calendar.module';
+import { FilesModule } from './files/files.module';
 @Module({
-  imports: [ReservationsModule, ClientsModule, CommandsModule, TechniquesModule, UsersModule, AuthModule, CalendarModule],
+  imports: [ReservationsModule, ClientsModule, CommandsModule, TechniquesModule, UsersModule, AuthModule, CalendarModule, FilesModule],
   controllers: [],
   providers: [PrismaService],
 })

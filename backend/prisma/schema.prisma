@@ -11,7 +11,6 @@ model boletos_reservas {
   id                 Int          @id @default(autoincrement())
   usuario_id         Int
   cliente_id         Int
-  modelo_patente     String       @db.VarChar(100)
   equipo             String       @db.VarChar(100)
   precio             Decimal      @db.Decimal(10, 2)
   reforma_escape     Boolean?     @default(false)
@@ -21,6 +20,9 @@ model boletos_reservas {
   fecha_instalacion  DateTime     @db.Date
   creado_en          DateTime     @default(now()) @db.Timestamp(0)
   actualizado_en     DateTime     @default(now()) @db.Timestamp(0)
+  marca_vehiculo     String?      @db.VarChar(100)
+  modelo_vehiculo    String?      @db.VarChar(100)
+  patente_vehiculo   String?      @db.VarChar(20)
   usuarios           usuarios     @relation(fields: [usuario_id], references: [id], onDelete: Cascade, map: "boletos_reservas_ibfk_1")
   clientes           clientes     @relation(fields: [cliente_id], references: [id], onDelete: Cascade, map: "boletos_reservas_ibfk_2")
   calendario         calendario[]
@@ -49,21 +51,42 @@ model comandas {
   actualizado_en                       DateTime         @default(now()) @db.Timestamp(0)
   estado                               comandas_estado? @default(pendiente)
   reductor_cod                         String?          @db.VarChar(100)
-  reductor_numero                      Int?
+  reductor_numero                      String?          @db.VarChar(100)
   cilindro_1_cod                       String?          @db.VarChar(100)
-  cilindro_1_numero                    Int?
+  cilindro_1_numero                    String?          @db.VarChar(100)
   valvula_1_cod                        String?          @db.VarChar(100)
-  valvula_1_numero                     Int?
+  valvula_1_numero                     String?          @db.VarChar(100)
   reforma_escape_texto                 String?          @db.Text
   carga_externa                        Boolean?         @default(false)
-  precio_carga_externa                 Decimal?         @db.Decimal(10, 2)
+  precio_carga_externa                 String?          @db.VarChar(255)
   cilindro_2_cod                       String?          @db.VarChar(100)
-  cilindro_2_numero                    Int?
+  cilindro_2_numero                    String?          @db.VarChar(100)
   valvula_2_cod                        String?          @db.VarChar(100)
-  valvula_2_numero                     Int?
+  valvula_2_numero                     String?          @db.VarChar(100)
   cuna                                 String?          @db.VarChar(255)
   materiales                           String?          @db.Text
   tecnica_id                           Int?
+  cilindro_3_cod                       String?          @db.VarChar(100)
+  cilindro_3_numero                    String?          @db.VarChar(100)
+  valvula_3_cod                        String?          @db.VarChar(100)
+  valvula_3_numero                     String?          @db.VarChar(100)
+  cilindro_4_cod                       String?          @db.VarChar(100)
+  cilindro_4_numero                    String?          @db.VarChar(100)
+  valvula_4_cod                        String?          @db.VarChar(100)
+  valvula_4_numero                     String?          @db.VarChar(100)
+  pagos_efectivo_transferencia         String?          @db.VarChar(255)
+  pagos_tarjeta_1                      String?          @db.VarChar(255)
+  pagos_plan_tarjeta_1                 String?          @db.VarChar(255)
+  pagos_tarjeta_2                      String?          @db.VarChar(255)
+  pagos_plan_tarjeta_2                 String?          @db.VarChar(255)
+  pagos_tarjeta_3                      String?          @db.VarChar(255)
+  pagos_plan_tarjeta_3                 String?          @db.VarChar(255)
+  pagos_tarjeta_4                      String?          @db.VarChar(255)
+  pagos_plan_tarjeta_4                 String?          @db.VarChar(255)
+  pagos_tarjeta_5                      String?          @db.VarChar(255)
+  pagos_plan_tarjeta_5                 String?          @db.VarChar(255)
+  pagos_dolares                        String?          @db.VarChar(255)
+  archivo                              archivo[]
   boletos_reservas                     boletos_reservas @relation(fields: [boleto_reserva_id], references: [id], onDelete: Cascade, map: "comandas_ibfk_1")
   tecnica                              tecnica?         @relation(fields: [tecnica_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comandas_ibfk_2")
   tecnica_tecnica_comanda_idTocomandas tecnica?         @relation("tecnica_comanda_idTocomandas")
@@ -82,23 +105,19 @@ model roles {
 
 model tecnica {
   id                                    Int             @id @default(autoincrement())
-  dia                                   Decimal         @db.Decimal(2, 0)
-  mes                                   Decimal         @db.Decimal(2, 0)
-  propietario                           String          @db.VarChar(100)
-  dni                                   BigInt
-  marca_vehiculo                        String          @db.VarChar(100)
-  modelo                                String          @db.VarChar(100)
-  anio_fabricacion                      Int
-  patente                               String          @db.VarChar(20)
-  dominio                               String          @db.VarChar(100)
-  color                                 String          @db.VarChar(50)
-  anio                                  Int
-  detalle1                              String?         @db.VarChar(255)
-  detalle2                              String?         @db.VarChar(255)
-  detalle3                              String?         @db.VarChar(255)
-  detalle4                              String?         @db.VarChar(255)
-  observaciones_personales              String          @db.Text
-  observaciones_tecnicas                String          @db.Text
+  dia                                   Decimal?        @db.Decimal(2, 0)
+  mes                                   Decimal?        @db.Decimal(2, 0)
+  propietario                           String?         @db.VarChar(100)
+  dni                                   BigInt?
+  marca_vehiculo                        String?         @db.VarChar(100)
+  modelo                                String?         @db.VarChar(100)
+  anio_fabricacion                      Int?
+  patente                               String?         @db.VarChar(20)
+  dominio                               String?         @db.VarChar(100)
+  color                                 String?         @db.VarChar(50)
+  anio                                  Int?
+  observaciones_personales              String?         @db.Text
+  observaciones_tecnicas                String?         @db.Text
   creado_en                             DateTime        @default(now()) @db.Timestamp(0)
   actualizado_en                        DateTime        @default(now()) @db.Timestamp(0)
   perdidas_gas                          Boolean?        @default(false)
@@ -109,10 +128,32 @@ model tecnica {
   funcionamiento_unidad                 Boolean?        @default(false)
   herramientas                          Boolean?
   otras_observaciones                   String?         @db.Text
-  firma                                 String?         @db.VarChar(255)
+  firma                                 String?         @db.LongText
   usuario_id                            Int?
   comanda_id                            Int             @unique(map: "unique_comanda_id")
   estado                                tecnica_estado?
+  detalle1                              String?         @db.VarChar(255)
+  detalle2                              String?         @db.VarChar(255)
+  detalle3                              String?         @db.VarChar(255)
+  detalle4                              String?         @db.VarChar(255)
+  detalle5                              String?         @db.VarChar(255)
+  detalle6                              String?         @db.VarChar(255)
+  detalle7                              String?         @db.VarChar(255)
+  detalle8                              String?         @db.VarChar(255)
+  detalle9                              String?         @db.VarChar(255)
+  detalle10                             String?         @db.VarChar(255)
+  detalle11                             String?         @db.VarChar(255)
+  detalle12                             String?         @db.VarChar(255)
+  detalle13                             String?         @db.VarChar(255)
+  detalle14                             String?         @db.VarChar(255)
+  detalle15                             String?         @db.VarChar(255)
+  detalle16                             String?         @db.VarChar(255)
+  detalle17                             String?         @db.VarChar(255)
+  detalle18                             String?         @db.VarChar(255)
+  detalle19                             String?         @db.VarChar(255)
+  detalle20                             String?         @db.VarChar(255)
+  kilometros                            String?         @db.VarChar(255)
+  firma_tecnico                         String?         @db.LongText
   comandas                              comandas[]
   comandas_tecnica_comanda_idTocomandas comandas        @relation("tecnica_comanda_idTocomandas", fields: [comanda_id], references: [id], onDelete: Cascade, map: "fk_tecnica_comanda")
   usuarios                              usuarios?       @relation(fields: [usuario_id], references: [id], onDelete: Cascade, map: "tecnica_ibfk_usuario")
@@ -149,6 +190,18 @@ model calendario {
   boletos_reservas  boletos_reservas   @relation(fields: [boleto_reserva_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_boleto_reserva_id")
 
   @@index([boleto_reserva_id], map: "idx_boleto_reserva_id")
+}
+
+model archivo {
+  id         Int      @id @default(autoincrement())
+  url        String   @db.VarChar(255)
+  nombre     String   @db.VarChar(255)
+  tipo       String   @db.VarChar(100)
+  comanda_id Int
+  creado_en  DateTime @default(now()) @db.Timestamp(0)
+  comandas   comandas @relation(fields: [comanda_id], references: [id], onDelete: Cascade, map: "archivo_comanda_fk")
+
+  @@index([comanda_id])
 }
 
 enum comandas_estado {

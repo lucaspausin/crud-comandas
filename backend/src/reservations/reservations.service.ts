@@ -15,13 +15,13 @@ export class ReservationsService {
       domicilio,
       localidad,
       telefono,
-      modelo_patente,
+      patente_vehiculo,
       ...reservationData
     } = createReservationDto;
 
     try {
       // Usamos una transacción para garantizar que ambas operaciones se realicen correctamente
-      const [cliente, reserva, comanda, eventoCalendario] =
+      const [cliente, reserva, comanda, eventoCalendario, tecnica] =
         await this.prismaService.$transaction(async (prisma) => {
           // Verifica si el cliente ya existe
           let cliente = await prisma.clientes.findUnique({
@@ -44,14 +44,14 @@ export class ReservationsService {
           const reservaExistente = await prisma.boletos_reservas.findFirst({
             where: {
               cliente_id: cliente.id,
-              modelo_patente, // Chequea por `modelo_patente` para evitar duplicados
+              patente_vehiculo, // Chequea por `modelo_patente` para evitar duplicados
             },
           });
 
           if (reservaExistente) {
             throw {
               statusCode: 400,
-              message: `Error : El cliente ${dni} ya tiene una reserva para ${modelo_patente}.`,
+              message: `Error : El cliente ${dni} ya tiene una reserva para ${patente_vehiculo}.`,
             };
           }
 
@@ -60,7 +60,7 @@ export class ReservationsService {
             data: {
               ...reservationData,
               cliente_id: cliente.id, // Asegúrate de que 'cliente_id' es el campo correcto en tu tabla 'boletos_reservas'
-              modelo_patente, // Incluye el `modelo_patente` en la creación de la reserva
+              patente_vehiculo, // Incluye el `modelo_patente` en la creación de la reserva
             },
           });
 
@@ -77,19 +77,27 @@ export class ReservationsService {
             },
           });
 
+          // **Nuevo: Crear una técnica vinculada a la comanda dentro de la transacción**
+          const tecnica = await prisma.tecnica.create({
+            data: {
+              comanda_id: comanda.id, // Asigna la ID de la comanda
+              // Puedes agregar otros campos necesarios para la técnica aquí
+            },
+          });
+
           const eventoCalendario = await prisma.calendario.create({
             data: {
               boleto_reserva_id: reserva.id, // Vincula el evento con la ID de la reserva
-              titulo: `${modelo_patente} - ${reservationData.equipo} - ${usuario?.nombre_usuario || 'Usuario Desconocido'}`, // Título del evento
+              titulo: `${reserva.marca_vehiculo} ${reserva.modelo_vehiculo} ${reserva.patente_vehiculo} - ${reservationData.equipo} - ${usuario?.nombre_usuario || 'Usuario Desconocido'}`, // Título del evento
               fecha_inicio: reservationData.fecha_instalacion, // Fecha de inicio del evento
               estado: 'pendiente', // Estado del evento
             },
           });
 
-          return [cliente, reserva, comanda, eventoCalendario]; // Devuelve el cliente, la reserva y la comanda
+          return [cliente, reserva, comanda, eventoCalendario, tecnica]; // Devuelve el cliente, la reserva, la comanda y la técnica
         });
 
-      return { cliente, reserva, comanda, eventoCalendario }; // Devuelve tanto la reserva como la comanda creada
+      return { cliente, reserva, comanda, eventoCalendario, tecnica }; // Devuelve tanto la reserva como la comanda y la técnica creada
     } catch (error) {
       if (error.statusCode && error.message) {
         // Si se trata de un error manejado, responde con el mensaje y el código de estado
@@ -264,7 +272,9 @@ export class ReservationsService {
       localidad,
       telefono,
       fecha_instalacion,
-      modelo_patente,
+      marca_vehiculo, // Asegúrate de agregar la marca
+      modelo_vehiculo,
+      patente_vehiculo,
       equipo,
       ...reservationData
     } = updateReservationDto;
@@ -297,9 +307,13 @@ export class ReservationsService {
           data: {
             ...reservationData,
             fecha_instalacion,
-            modelo_patente:
-              modelo_patente ?? reservationWithClientAndUser.modelo_patente,
+            patente_vehiculo:
+              patente_vehiculo ?? reservationWithClientAndUser.patente_vehiculo,
             equipo: equipo ?? reservationWithClientAndUser.equipo,
+            marca_vehiculo:
+              marca_vehiculo ?? reservationWithClientAndUser.marca_vehiculo,
+            modelo_vehiculo:
+              modelo_vehiculo ?? reservationWithClientAndUser.modelo_vehiculo,
           },
         });
 
@@ -318,7 +332,7 @@ export class ReservationsService {
         }
 
         // Construye el nuevo título para el evento del calendario
-        const nuevoTitulo = `${modelo_patente || reservationWithClientAndUser.modelo_patente} - ${equipo || reservationWithClientAndUser.equipo} - ${nombre_usuario}`;
+        const nuevoTitulo = `${reservation.marca_vehiculo} ${reservation.modelo_vehiculo} ${reservation.patente_vehiculo} - ${equipo || reservationWithClientAndUser.equipo} - ${nombre_usuario}`;
 
         // Actualiza el evento del calendario asociado a la reserva si cambian `fecha_instalacion`, `modelo_patente` o `equipo`
         await prisma.calendario.updateMany({
@@ -340,84 +354,60 @@ export class ReservationsService {
   }
 
   async remove(id: number) {
-    const [
-      reservationDeleted,
-      comandaDeleted,
-      clientDeleted,
-      calendarioDeleted,
-    ] = await this.prismaService.$transaction(async (prisma) => {
-      // Paso 1: Encontrar la reserva por su ID
-      const reservation = await prisma.boletos_reservas.findUnique({
-        where: { id },
-      });
+    const [reservationDeleted, comandaUpdated, calendarioDeleted] =
+      await this.prismaService.$transaction(async (prisma) => {
+        // Paso 1: Encontrar la reserva por su ID
+        const reservation = await prisma.boletos_reservas.findUnique({
+          where: { id },
+        });
 
-      if (!reservation) {
-        throw new NotFoundException(
-          `No fue encontrada la reserva. Número: ${id}`,
-        );
-      }
+        if (!reservation) {
+          throw new NotFoundException(
+            `No fue encontrada la reserva. Número: ${id}`,
+          );
+        }
 
-      // Paso 2: Obtener la comanda vinculada a la reserva
-      const comanda = await prisma.comandas.findFirst({
-        where: { boleto_reserva_id: id },
-      });
+        // Paso 2: Obtener la comanda vinculada a la reserva
+        const comanda = await prisma.comandas.findFirst({
+          where: { boleto_reserva_id: id },
+        });
 
-      // Paso 3: Desvincular el tecnico_id en la comanda (si existe)
-      if (comanda && comanda.tecnica_id) {
-        await prisma.comandas.update({
-          where: { id: comanda.id },
-          data: {
-            tecnica_id: null,
-            estado: 'pendiente', // Se actualiza el campo para desvincular la técnica
+        // Paso 3: Si existe una comanda, desvincularla del boleto
+        if (comanda) {
+          // Desvinculamos el boleto de la comanda (dejamos la comanda, solo eliminamos el vínculo)
+          await prisma.comandas.update({
+            where: { id: comanda.id },
+            data: {
+              boleto_reserva_id: null, // Desvinculamos el boleto
+            },
+          });
+        }
+
+        // **Nuevo Paso**: Borrar el evento del calendario vinculado a la reserva
+        const calendarioDeleted = await prisma.calendario.deleteMany({
+          where: {
+            boleto_reserva_id: id, // Eliminamos el evento del calendario asociado al boleto
           },
         });
 
-        // Paso 4: Borrar el técnico vinculado a la comanda
-        await prisma.tecnica.delete({
-          where: { id: comanda.tecnica_id },
+        // Paso 4: Borrar la reserva (boleto) pero no borramos la comanda ni el cliente
+        const reservationDeleted = await prisma.boletos_reservas.delete({
+          where: {
+            id: id,
+          },
         });
-      }
 
-      // Paso 5: Borrar la comanda
-      const comandaDeleted = await prisma.comandas.deleteMany({
-        where: {
-          boleto_reserva_id: id,
-        },
+        // Retornar los resultados
+        return [
+          reservationDeleted,
+          comanda, // Se retorna la comanda para indicar que no se ha borrado
+          calendarioDeleted,
+        ];
       });
-
-      // **Nuevo Paso**: Borrar el evento del calendario vinculado a la reserva
-      const calendarioDeleted = await prisma.calendario.deleteMany({
-        where: {
-          boleto_reserva_id: id,
-        },
-      });
-
-      // Paso 6: Borrar la reserva
-      const reservationDeleted = await prisma.boletos_reservas.delete({
-        where: {
-          id: id,
-        },
-      });
-
-      // Paso 7: Borrar el cliente vinculado a la reserva
-      const clientDeleted = await prisma.clientes.delete({
-        where: {
-          id: reservation.cliente_id,
-        },
-      });
-
-      return [
-        reservationDeleted,
-        comandaDeleted,
-        clientDeleted,
-        calendarioDeleted,
-      ];
-    });
 
     return {
       reservationDeleted,
-      comandaDeleted,
-      clientDeleted,
+      comandaUpdated: comandaUpdated || null, // Devolvemos la comanda con el vínculo actualizado (si existía)
       calendarioDeleted,
     };
   }

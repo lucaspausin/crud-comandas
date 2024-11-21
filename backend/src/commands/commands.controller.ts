@@ -42,6 +42,11 @@ export class CommandsController {
     return this.commandsService.findOne(+id);
   }
 
+  @Get('csv/:id')
+  async getCsvData(@Param('id') id: string) {
+    return this.commandsService.findCsv(+id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCommandDto: UpdateCommandDto) {
     return this.commandsService.update(+id, updateCommandDto);
