@@ -207,7 +207,7 @@ export default function AllReservationsPage() {
 				<>
 					<Aside />
 					{/* Main Content */}
-					<main className="flex-1 p-6">
+					<main className="flex-1 p-6 overflow-y-auto">
 						<div className="flex items-center justify-between mb-6">
 							<div className="flex items-center gap-2">
 								<HomeIcon label="Volver"></HomeIcon>
@@ -226,8 +226,8 @@ export default function AllReservationsPage() {
 								<div className="flex flex-col justify-between md:flex-row gap-4 mb-6 ">
 									<div className="flex items-center w-full md:w-1/3 relative">
 										<Input
-											placeholder="Buscar reservas..."
-											className="rounded-full"
+											placeholder="Buscar reservas"
+											className="rounded-full focus-visible:ring-0"
 											value={searchTerm}
 											onChange={(e) => setSearchTerm(e.target.value)}
 										/>
@@ -236,7 +236,7 @@ export default function AllReservationsPage() {
 											strokeWidth="1.75"
 										></Search>
 									</div>
-									<div className="flex gap-2 items-center justify-end w-full flex-row">
+									<div className="flex gap-2 items-center justify-center md:justify-end w-full flex-col md:flex-row">
 										{session?.user?.role === 3 && (
 											<Select onValueChange={setUserFilter}>
 												<SelectTrigger className="w-full md:w-1/4 rounded-full">
@@ -323,7 +323,9 @@ export default function AllReservationsPage() {
 														{reservation.clientes.nombre_completo}
 													</TableCell>
 													<TableCell className="text-zinc-800">
-														{reservation.modelo_patente}
+														{`${reservation.marca_vehiculo || ""} ${
+															reservation.modelo_vehiculo || ""
+														}`.trim()}
 													</TableCell>
 													<TableCell className="text-zinc-800">
 														{new Date(reservation.creado_en).toLocaleDateString(

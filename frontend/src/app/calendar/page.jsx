@@ -213,9 +213,7 @@ export default function Calendar() {
 											/>
 										</div>
 									</div>
-									<div>
-										<p>lOREM</p>
-									</div>
+
 									<AntCalendar cellRender={cellRender} />
 								</CardContent>
 							</Card>

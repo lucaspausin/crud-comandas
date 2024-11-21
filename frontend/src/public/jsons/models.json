@@ -1,0 +1,1902 @@
+{
+  "alfa-romeo": {
+    "145": {
+      "nombre": "145",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "146": {
+      "nombre": "146",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "chery": {
+    "face": {
+      "nombre": "Face",
+      "productos": [
+        "5ta-40l"
+      ]
+    },
+    "qq": {
+      "nombre": "QQ",
+      "productos": [
+        "5ta-40l"
+      ]
+    },
+    "tiggo20": {
+      "nombre": "Tiggo 2.0",
+      "productos": [
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    }
+  },
+  "dodge": {
+    "journey-24": {
+      "nombre": "Journey 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ]
+    },
+    "journey-24-7a": {
+      "nombre": "Journey 2.4 (7 asientos)",
+      "productos": [
+        "5ta-30lx2b"
+      ]
+    },
+    "journey-6cil": {
+      "nombre": "Journey 6 cil",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ]
+    },
+    "journey-6cil-7a": {
+      "nombre": "Journey 6 cil (7 asientos)",
+      "productos": [
+        "5ta-30lx2b"
+      ],
+      "6-cilindros": [
+        "5ta-30lx2b"
+      ]
+    }
+  },
+  "seat": {
+    "toledo": {
+      "nombre": "Toledo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "ibiza": {
+      "nombre": "Ibiza",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "suzuki": {
+    "fun": {
+      "nombre": "Fun",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "fun-10": {
+      "nombre": "Fun 1.0",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "fun-14": {
+      "nombre": "Fun 1.4",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "grand-vitara-4cil": {
+      "nombre": "Grand Vitara 4 cil",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "grand-vitara-6cil": {
+      "nombre": "Grand Vitara 6 cil",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "vitara": {
+      "nombre": "Vitara",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "toyota": {
+    "camry": {
+      "nombre": "Camry",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "camry-6v": {
+      "nombre": "Camry V6",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "corolla-18": {
+      "nombre": "Corolla 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "corolla-20": {
+      "nombre": "Corolla 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "etios": {
+      "nombre": "Etios",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "innova": {
+      "nombre": "Innova",
+      "productos": [
+        "5ta-60l"
+      ]
+    },
+    "rav4-24": {
+      "nombre": "RAV4 2.4L",
+      "productos": [
+        "5ta-60l"
+      ]
+    },
+    "yaris": {
+      "nombre": "Yaris",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "fiat": {
+    "argo": {
+      "nombre": "Argo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "cronos": {
+      "nombre": "Cronos",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "cronos-13": {
+      "nombre": "Cronos 1.3",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "doblo": {
+      "nombre": "Doblo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "duna-14": {
+      "nombre": "Duna 1.4/1.6",
+      "productos": [
+        "3ra-40l",
+        "3ra-60l"
+      ]
+    },
+    "duna-fire-13": {
+      "nombre": "Duna Fire 1.3",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "fiorino2010": {
+      "nombre": "Fiorino hasta 2010",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l",
+        "4ta-70l",
+        "4ta-30lx2c"
+      ],
+      "refuerzo": [
+        "4ta-30lx2c"
+      ]
+    },
+    "fiorino2011": {
+      "nombre": "Fiorino desde 2011",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ]
+    },
+    "fiorino-novo": {
+      "nombre": "Fiorino Novo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "grand-siena": {
+      "nombre": "Grand Siena",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "idea-14": {
+      "nombre": "Idea 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "idea-16": {
+      "nombre": "Idea 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "idea-18": {
+      "nombre": "Idea 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "linea": {
+      "nombre": "Linea",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "mobi": {
+      "nombre": "Mobi",
+      "productos": [
+        "5ta-40l"
+      ]
+    },
+    "palio-adventure-18": {
+      "nombre": "Palio Adventure 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "palio2008": {
+      "nombre": "Palio hasta 2008",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "palio2009": {
+      "nombre": "Palio desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "punto-14": {
+      "nombre": "Punto 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "punto-16": {
+      "nombre": "Punto 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "punto-18": {
+      "nombre": "Punto 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "qubo": {
+      "nombre": "Qubo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "siena2008": {
+      "nombre": "Siena hasta 2008",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "siena2009": {
+      "nombre": "Siena desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "strada": {
+      "nombre": "Strada",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "toro": {
+      "nombre": "Toro",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "uno-14": {
+      "nombre": "Uno 1.4/1.6",
+      "productos": [
+        "3ra-40l",
+        "3ra-60l"
+      ]
+    },
+    "uno-fire-13": {
+      "nombre": "Uno Fire 1.3",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "uno-way": {
+      "nombre": "Uno Way",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "ford": {
+    "ecoesport-15": {
+      "nombre": "Ecoesport 1.5 3 cilindros",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "ecoesport-16-2008": {
+      "nombre": "Ecoesport 1.6 hasta 2008",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l",
+        "4ta-30lx2c"
+      ],
+      "refuerzo": [
+        "4ta-30lx2c"
+      ]
+    },
+    "ecoesport-16-2009": {
+      "nombre": "Ecoesport 1.6 desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "ecoesport-20": {
+      "nombre": "Ecoesport 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "ecoesport-20-duratec": {
+      "nombre": "Ecoesport 2.0 Duratec GDI",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l",
+        "6ta-30lx2c"
+      ],
+      "refuerzo": [
+        "6ta-30lx2c"
+      ]
+    },
+    "escort": {
+      "nombre": "Escort",
+      "productos": [
+        "3ra-40l",
+        "3ra-60l"
+      ]
+    },
+    "escort-zetec": {
+      "nombre": "Escort Zetec",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "escort-zetec-rural": {
+      "nombre": "Escort Zetec rural ",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "explorer-v6": {
+      "nombre": "Explorer V6",
+      "productos": [
+        "4ta-60l",
+        "4ta-70l"
+      ]
+    },
+    "fiesta2008": {
+      "nombre": "Fiesta hasta 2008",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "fiesta2009": {
+      "nombre": "Fiesta desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "fiesta-kinetic": {
+      "nombre": "Fiesta Kinetic",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "focus-16-2008": {
+      "nombre": "Focus 1.6 hasta 2008",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "focus-16-2009": {
+      "nombre": "Focus 1.6 desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "focus-20": {
+      "nombre": "Focus 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "focus-duratec-20": {
+      "nombre": "Focus Duratec 2.0 GDI",
+      "productos": [
+        "6ta-60l"
+      ]
+    },
+    "focus-kinetic-duratec-20": {
+      "nombre": "Focus Kinetic Duratec 2.0 GDI",
+      "productos": [
+        "6ta-60l"
+      ]
+    },
+    "focus-zetec-18": {
+      "nombre": "Focus Zetec 1.8",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "ka2008": {
+      "nombre": "KA hasta 2008",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "ka2009": {
+      "nombre": "KA desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "ka-15": {
+      "nombre": "KA 1.5 3 cilindros",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "kuga-25": {
+      "nombre": "Kuga 2.5 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "kuga-20": {
+      "nombre": "Kuga 2.0 TSI",
+      "productos": [
+        "6ta-60l",
+        "6ta-70l"
+      ]
+    },
+    "mondeo-25": {
+      "nombre": "Mondeo 2.5 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "mondeo-zetec": {
+      "nombre": "Mondeo Zetec",
+      "productos": [
+        "4ta-60l",
+        "4ta-70l"
+      ]
+    },
+    "ranger-4-cil-2325": {
+      "nombre": "Ranger 4 cil 2.3/2.5",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    }
+  },
+  "chevrolet": {
+    "agile": {
+      "nombre": "Agile",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "agile-14": {
+      "nombre": "Agile 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "astra": {
+      "nombre": "Astra",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "aveo": {
+      "nombre": "Aveo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "aveo-g3": {
+      "nombre": "Aveo G3",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "blazer": {
+      "nombre": "Blazer",
+      "productos": [
+        "4ta-60l"
+      ]
+    },
+    "captiva": {
+      "nombre": "Captiva",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "celta": {
+      "nombre": "Celta",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "celta-14": {
+      "nombre": "Celta 1.4",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "cobalt": {
+      "nombre": "Cobalt",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "corsa": {
+      "nombre": "Corsa",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "corsa-2": {
+      "nombre": "Corsa 2",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "corsa-classic": {
+      "nombre": "Corsa Classic",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "corsa-wagon": {
+      "nombre": "Corsa Wagon",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "cruze-18": {
+      "nombre": "Cruze 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "cruze-14-turbo": {
+      "nombre": "Cruze TLZ 1.4 Turbo",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "joy": {
+      "nombre": "Joy",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "meriva-18-8v-2008": {
+      "nombre": "Meriva 1.8 8V hasta 2008",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "meriva-18-16v-2008": {
+      "nombre": "Meriva 1.8 16V hasta 2008",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "meriva-18-8v-2009": {
+      "nombre": "Meriva 1.8 8V desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "meriva-18-16v-2009": {
+      "nombre": "Meriva 1.8 16V desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "montana": {
+      "nombre": "Montana",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "onix": {
+      "nombre": "Onix",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "onix-12": {
+      "nombre": "Onix 1.2",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "prisma": {
+      "nombre": "Prisma",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "sonic": {
+      "nombre": "Sonic",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "spin": {
+      "nombre": "Spin",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "spin-7a": {
+      "nombre": "Spin 7 asientos",
+      "productos": [
+        "5ta-30lx2b"
+      ]
+    },
+    "tracker": {
+      "nombre": "Tracker",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "tracker-premium-18": {
+      "nombre": "Tracker Premium 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "vectra-202008": {
+      "nombre": "Vectra 2.0 hasta 2008",
+      "productos": [
+        "4ta-60l",
+        "4ta-70l"
+      ]
+    },
+    "vectra-202009": {
+      "nombre": "Vectra 2.0 desde 2009",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "vectra-24": {
+      "nombre": "Vectra 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "zafira": {
+      "nombre": "Zafira",
+      "productos": [
+        "4ta-60l",
+        "4ta-70l",
+        "4ta-30lx2c"
+      ],
+      "refuerzo": [
+        "4ta-30lx2c"
+      ]
+    }
+  },
+  "chrysler": {
+    "caravan-6c": {
+      "nombre": "Caravan 6 cil",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ]
+    },
+    "caravan-6c-7a": {
+      "nombre": "Caravan 6 cil (7 asientos)",
+      "productos": [
+        "5ta-30lx2b"
+      ],
+      "6-cilindros": [
+        "5ta-30lx2b"
+      ]
+    },
+    "caravan-24": {
+      "nombre": "Caravan 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ]
+    },
+    "caravan-24-7a": {
+      "nombre": "Caravan 2.4 (7 asientos)",
+      "productos": [
+        "5ta-30lx2b"
+      ]
+    },
+    "neon": {
+      "nombre": "Neon",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l",
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "ptcruiser-24": {
+      "nombre": "PT Cruiser 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    }
+  },
+  "citroen": {
+    "aircross-15": {
+      "nombre": "Aircross 1.5",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "aircross-16": {
+      "nombre": "Aircross 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "berlingo": {
+      "nombre": "Berlingo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "cactus-12": {
+      "nombre": "Cactus 1.2 THP",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "c3": {
+      "nombre": "C3",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "c3-picasso": {
+      "nombre": "C3 Picasso",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "c4": {
+      "nombre": "C4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "c4-lounge-16": {
+      "nombre": "C4 Lounge 1.6 THP",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "c-elysee-16": {
+      "nombre": "C Elysee 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "picasso": {
+      "nombre": "Picasso",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "saxo-14": {
+      "nombre": "Saxo 1.4",
+      "productos": [
+        "4ta-40l"
+      ]
+    }
+  },
+  "volkswagen": {
+    "bora-20": {
+      "nombre": "Bora 2.0",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "bora-18t": {
+      "nombre": "Bora 1.8 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "fox": {
+      "nombre": "Fox",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "fox-cross": {
+      "nombre": "Fox Cross",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "gol-country-16": {
+      "nombre": "Gol Country 1.6",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "gol-power-14": {
+      "nombre": "Gol Power 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "gol-power-16": {
+      "nombre": "Gol Power 1.6",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "gol-trend": {
+      "nombre": "Gol Trend",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "golf-14-tsi": {
+      "nombre": "Golf  1.4 TSI",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "golf-16": {
+      "nombre": "Golf  1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "golf-18t": {
+      "nombre": "Golf 1.8 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "golf-18201999": {
+      "nombre": "Golf  1.8/2.0 hasta 1999",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "golf-20": {
+      "nombre": "Golf  2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "passat-18t": {
+      "nombre": "Passat 1.8 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "passat-20tsi": {
+      "nombre": "Passat 2.0 TSI",
+      "productos": [
+        "6ta-60l",
+        "6ta-70l"
+      ]
+    },
+    "pointer": {
+      "nombre": "Pointer",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "polo": {
+      "nombre": "Polo",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "polo-nuevo": {
+      "nombre": "Polo Nuevo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "saveiro2009": {
+      "nombre": "Saveiro hasta 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "saveiro2010": {
+      "nombre": "Saveiro desde 2010",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "sharan-18t": {
+      "nombre": "Sharan 1.8 T",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ],
+      "turbo": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ]
+    },
+    "suran": {
+      "nombre": "Suran",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ]
+    },
+    "t-cross": {
+      "nombre": "T-Cross",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "tiguan-20tsi": {
+      "nombre": "Tiguan 2.0 TSI",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "up-pepper-10tsi": {
+      "nombre": "UP Pepper 1.0 TSI",
+      "productos": [
+        "6ta-40l"
+      ]
+    },
+    "up-10": {
+      "nombre": "UP 1.0",
+      "productos": [
+        "5ta-40l"
+      ]
+    },
+    "vento-25": {
+      "nombre": "Vento 2.5",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "vento-14tsi": {
+      "nombre": "Vento 1.4 TSI",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "vento-20tsi": {
+      "nombre": "Vento 2.0 TSI",
+      "productos": [
+        "6ta-60l",
+        "6ta-70l"
+      ]
+    },
+    "virtus-16": {
+      "nombre": "Virtus 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "voyage-16": {
+      "nombre": "Voyage 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "jeep": {
+    "cherokee-v8-1998": {
+      "nombre": "Cherokee V8 hasta mod 1998",
+      "productos": [
+        "4ta-60l",
+        "4ta-30lx2b"
+      ]
+    },
+    "cherokee-v8-1999": {
+      "nombre": "Cherokee V8 desde mod 1999",
+      "productos": [
+        "5ta-60l",
+        "5ta-30lx2b"
+      ],
+      "8-cilindros": [
+        "5ta-60l",
+        "5ta-30lx2b"
+      ]
+    },
+    "compass": {
+      "nombre": "Compass",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "renegade": {
+      "nombre": "Renegade",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "kia": {
+    "cerato": {
+      "nombre": "Cerato",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "sorento-v6": {
+      "nombre": "Sorento V6",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "soul": {
+      "nombre": "Soul",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "sportage-20": {
+      "nombre": "Sportage 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "rio": {
+      "nombre": "Rio",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "lifan": {
+    "foison-furgon": {
+      "nombre": "Foison Furgon",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ]
+    },
+    "foison-playo": {
+      "nombre": "Foison Playo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ]
+    },
+    "myway-18": {
+      "nombre": "Myway 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "renault": {
+    "19": {
+      "nombre": "19",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "captur": {
+      "nombre": "Captur",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "clio-12": {
+      "nombre": "Clio 1.2",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "clio-16-8v-mono": {
+      "nombre": "Clio 1.6 8V Monopunto",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "clio-16-8v-multi": {
+      "nombre": "Clio 1.6 16V Multipunto",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "clio-16-16v": {
+      "nombre": "Clio 1.6 16V",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "clio-mio-12": {
+      "nombre": "Clio Mio 1.2",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "duster": {
+      "nombre": "Duster",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ]
+    },
+    "duster-16": {
+      "nombre": "Duster 1.6",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ]
+    },
+    "duster-20": {
+      "nombre": "Duster 2.0",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ]
+    },
+    "duster-oroch": {
+      "nombre": "Duster Oroch",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ]
+    },
+    "fluence": {
+      "nombre": "Fluence",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "fluence-16": {
+      "nombre": "Fluence 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "fluence-20": {
+      "nombre": "Fluence 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "kangoo": {
+      "nombre": "Kangoo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    },
+    "koleos": {
+      "nombre": "Koleos",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "kwid-3cilindros": {
+      "nombre": "Kwid 3cilindros",
+      "productos": [
+        "5ta-40l"
+      ]
+    },
+    "logan": {
+      "nombre": "Logan",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "megane": {
+      "nombre": "Megane",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "nueva-kangoo": {
+      "nombre": "Nueva Kangoo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ]
+    },
+    "sandero": {
+      "nombre": "Sandero",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "sandero16": {
+      "nombre": "Sandero 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "sandero-stepway": {
+      "nombre": "Sandero Stepway",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "scenic": {
+      "nombre": "Scenic",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "symbol": {
+      "nombre": "Symbol",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    }
+  },
+  "peugeot": {
+    "106-14": {
+      "nombre": "106 1.4",
+      "productos": [
+        "4ta-40l"
+      ]
+    },
+    "2062001": {
+      "nombre": "206 hasta 2001",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "2062002": {
+      "nombre": "206 desde 2002",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "207": {
+      "nombre": "207",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "207-14": {
+      "nombre": "207 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "207-16": {
+      "nombre": "207 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "207-16-165cv": {
+      "nombre": "207 1.6 THP 165CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "207-compact-14": {
+      "nombre": "207 Compact 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "207-compact-16": {
+      "nombre": "207 Compact 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "207-compact-sw": {
+      "nombre": "207 Compact SW",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "208": {
+      "nombre": "208",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "301": {
+      "nombre": "301",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "306": {
+      "nombre": "306",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "307": {
+      "nombre": "307",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "308": {
+      "nombre": "308",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "308-16": {
+      "nombre": "308 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "308-16-thp-165cv": {
+      "nombre": "308 1.6 THP 165 CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "308-20": {
+      "nombre": "308 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "408-16": {
+      "nombre": "408 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "408-20": {
+      "nombre": "408 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "408-16-thp-165cv": {
+      "nombre": "408 1.6 THP 165 CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "200816THP165CV": {
+      "nombre": "2008 1.6 THP 165 CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "200816115CV": {
+      "nombre": "2008 1.6 115 CV",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "300816165CV": {
+      "nombre": "3008 1.6 THP 165 CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ]
+    },
+    "partner": {
+      "nombre": "PARTNER",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ]
+    }
+  },
+  "nissan": {
+    "pathfinder": {
+      "nombre": "Pathfinder",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ]
+    },
+    "tiida-18": {
+      "nombre": "Tiida 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "versa-18": {
+      "nombre": "Versa 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "xtrail": {
+      "nombre": "Xtrail",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ]
+    }
+  },
+  "hyundai": {
+    "elantra-2004": {
+      "nombre": "Elantra hasta 2004",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ]
+    },
+    "elantra-2005": {
+      "nombre": "Elantra desde 2005",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "i10": {
+      "nombre": "i 10",
+      "productos": [
+        "5ta-40l"
+      ]
+    },
+    "i30": {
+      "nombre": "i 30",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "tucson": {
+      "nombre": "Tucson",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "santafe-24": {
+      "nombre": "Santa Fe 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "santafe-v6": {
+      "nombre": "Santa Fe V6",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    }
+  },
+  "honda": {
+    "accord-v6": {
+      "nombre": "Accord V6",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ]
+    },
+    "city": {
+      "nombre": "City",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "civic": {
+      "nombre": "Civic",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ]
+    },
+    "crv-20": {
+      "nombre": "CRV 2.0",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l",
+        "4ta-30lx2b"
+      ]
+    },
+    "crv-24": {
+      "nombre": "CRV 2.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ]
+    }
+  }
+}

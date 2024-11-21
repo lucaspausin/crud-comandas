@@ -22,7 +22,7 @@ export default function HomeIcon({ label = "Inicio" }) {
 			>
 				<CircleArrowLeft strokeWidth={1.25} className="w-7 h-7" />
 				<motion.span
-					className={`ml-2 whitespace-nowrap text-base font-normal overflow-hidden transition-colors duration-300 ${
+					className={`ml-2 whitespace-nowrap text-md font-normal overflow-hidden transition-colors duration-300 ${
 						hovered ? "" : "opacity-0"
 					}`}
 					initial={{ opacity: 0, width: 0 }} // Comienza oculto

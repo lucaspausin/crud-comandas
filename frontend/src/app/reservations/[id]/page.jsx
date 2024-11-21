@@ -129,12 +129,12 @@ export default function ReservationDetailPage({ params }) {
 										className="rounded-lg object-cover w-20 h-20"
 									/>
 									<div className="text-sm text-gray-600">
-										<p className="font-medium text-sm mb-2">Motorgas GNC</p>
-										<p>De Joaquín González Silvestri</p>
-										<p>CUIT 20-31464354-3</p>
+										<p className="font-medium text-sm mb-2">Motorgas GNC.</p>
+										{/* <p>De Joaquín González Silvestri</p>
+										<p>CUIT 20-31464354-3</p> */}
 										<p>Av. Presidente Perón 3679</p>
 										<p>Morón, Buenos Aires, Argentina</p>
-										<p>Whatsapp: 113869-3053</p>
+										<p>Whatsapp: +54 9 11 2308-4826</p>
 									</div>
 								</div>
 								<div className="grid grid-cols-2 gap-x-8 gap-y-6 mb-8 border-t mt-8 pt-8">
@@ -191,10 +191,26 @@ export default function ReservationDetailPage({ params }) {
 								<div className="grid grid-cols-2 gap-x-8 gap-y-6 mb-8 mt-8 pt-8 border-t">
 									<div>
 										<p className="text-sm font-medium text-gray-500 mb-1">
+											Marca del Vehículo
+										</p>
+										<p className="text-sm text-zinc-800">
+											{reservation.marca_vehiculo}
+										</p>
+									</div>
+									<div>
+										<p className="text-sm font-medium text-gray-500 mb-1">
 											Modelo del Vehículo
 										</p>
 										<p className="text-sm text-zinc-800">
-											{reservation.modelo_patente}
+											{reservation.modelo_vehiculo}
+										</p>
+									</div>
+									<div>
+										<p className="text-sm font-medium text-gray-500 mb-1">
+											Patente
+										</p>
+										<p className="text-sm text-zinc-800">
+											{reservation.patente_vehiculo}
 										</p>
 									</div>
 									<div>

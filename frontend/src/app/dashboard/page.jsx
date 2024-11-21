@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -9,7 +9,6 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Input } from "@/components/ui/input";
 import {
 	Table,
 	TableBody,
@@ -19,13 +18,17 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-// import myImage2 from "@/public/girlgnc.jpeg";
-
-import { ClipboardList, Ticket, Car, Search } from "lucide-react";
+import {
+	ClipboardList,
+	Ticket,
+	Car,
+	ArrowUpRight,
+	ArrowRight,
+} from "lucide-react";
 import Link from "next/link";
 
 import { useSession } from "next-auth/react";
-
+import CommandsTable from "@/components/CommandsTable";
 import { useRouter } from "next/navigation";
 import {
 	getReservations,
@@ -46,8 +49,6 @@ export default function Dashboard() {
 	const userRole = session?.user?.role;
 
 	const [reservations, setReservations] = useState([]);
-	const [searchTerm, setSearchTerm] = useState("");
-	const [filteredReservations, setFilteredReservations] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -63,52 +64,7 @@ export default function Dashboard() {
 		fetchReservations();
 	}, []);
 
-	useEffect(() => {
-		const lowercasedFilter = searchTerm.toLowerCase();
-		let filtered = reservations;
-
-		// Filtrar por usuario (si hay una sesión activa)
-		if (session && session.user) {
-			if (session.user.role === 1) {
-				// Si el rol es 1, filtra por usuario_id para mostrar solo las reservas de ese usuario
-				filtered = filtered.filter(
-					(reservation) => reservation.usuario_id === session.user.id
-				);
-			} else if (session.user.role === 3) {
-				// Si el rol es 3, no se aplica filtro adicional y muestra todas las reservas
-			}
-		}
-
-		// Aplicar filtro de búsqueda
-		if (searchTerm) {
-			filtered = filtered.filter(
-				(reservation) =>
-					reservation.clientes.nombre_completo
-						.toLowerCase()
-						.includes(lowercasedFilter) ||
-					(reservation.clientes.dni != null &&
-						String(reservation.clientes.dni).includes(lowercasedFilter)) ||
-					(reservation.clientes.domicilio &&
-						reservation.clientes.domicilio
-							.toLowerCase()
-							.includes(lowercasedFilter)) ||
-					(reservation.clientes.localidad &&
-						reservation.clientes.localidad
-							.toLowerCase()
-							.includes(lowercasedFilter)) ||
-					(reservation.clientes.telefono != null &&
-						String(reservation.clientes.telefono).includes(lowercasedFilter)) ||
-					reservation.modelo_patente.toLowerCase().includes(lowercasedFilter) ||
-					reservation.equipo.toLowerCase().includes(lowercasedFilter)
-			);
-		}
-
-		setFilteredReservations(filtered);
-	}, [searchTerm, reservations, session]);
-
 	const [commands, setCommands] = useState([]);
-	const [commandsSearchTerm, setCommandsSearchTerm] = useState(""); // Estado para el término de búsqueda de comandos
-	const [filteredCommands, setFilteredCommands] = useState([]);
 
 	useEffect(() => {
 		const fetchCommands = async () => {
@@ -123,82 +79,80 @@ export default function Dashboard() {
 		fetchCommands();
 	}, []);
 
-	useEffect(() => {
-		const lowercasedFilter = commandsSearchTerm.toLowerCase();
-		let filtered = commands;
-
-		// Filtrar por usuario (si hay una sesión activa)
-		if (session && session.user) {
-			if (session.user.role === 1) {
-				// Si el rol es 1, filtra por usuario_id para mostrar solo las reservas de ese usuario
-				filtered = filtered.filter(
-					(reservation) =>
-						reservation.boletos_reservas.usuario_id === session.user.id
-				);
-			} else if (session.user.role === 3) {
-				// Si el rol es 3, no se aplica filtro adicional y muestra todas las reservas
-			}
-		}
-
-		if (commandsSearchTerm) {
-			filtered = filtered.filter(
-				(command) =>
-					command.boletos_reservas.clientes.nombre_completo
-						.toLowerCase()
-						.includes(lowercasedFilter) ||
-					(command.boletos_reservas.clientes.dni != null &&
-						String(command.boletos_reservas.clientes.dni).includes(
-							lowercasedFilter
-						)) ||
-					command.boletos_reservas.clientes.domicilio
-						.toLowerCase()
-						.includes(lowercasedFilter) ||
-					command.boletos_reservas.clientes.localidad
-						.toLowerCase()
-						.includes(lowercasedFilter) ||
-					(command.boletos_reservas.clientes.telefono != null &&
-						String(command.boletos_reservas.clientes.telefono).includes(
-							lowercasedFilter
-						)) ||
-					command.boletos_reservas.modelo_patente
-						.toLowerCase()
-						.includes(lowercasedFilter) ||
-					command.boletos_reservas.equipo
-						.toLowerCase()
-						.includes(lowercasedFilter)
-			);
-		}
-
-		setFilteredCommands(filtered);
-	}, [commandsSearchTerm, commands, session]);
-
 	const [reservationsSummary, setReservationsSummary] = useState([]);
+
 	useEffect(() => {
 		const fetchReservationsSummary = async () => {
-			const data = await getReservationSummary();
-			setReservationsSummary(data);
+			try {
+				const data = await getReservationSummary();
+				setReservationsSummary(data);
+			} catch (error) {
+				console.error("Error fetching reservations summary:", error);
+				// Si el error es de sesión expirada, podríamos redirigir al login
+				if (error.message.includes("Session expired")) {
+					router.push("/login");
+				}
+			}
 		};
 
-		fetchReservationsSummary();
-	}, []);
+		if (session?.user) {
+			fetchReservationsSummary();
+		}
+	}, [session, router]);
 
 	const [commandsSummary, setCommandsSummary] = useState([]);
+
 	useEffect(() => {
 		const fetchCommandsSummary = async () => {
-			const data = await getCommandsSummary();
-			setCommandsSummary(data);
+			try {
+				const data = await getCommandsSummary();
+				setCommandsSummary(data);
+			} catch (error) {
+				console.error("Error fetching commands summary:", error);
+				if (error.message.includes("Session expired")) {
+					router.push("/login");
+				}
+			}
 		};
 
-		fetchCommandsSummary();
-	}, []);
+		if (session?.user) {
+			fetchCommandsSummary();
+		}
+	}, [session, router]);
 
-	const lastFiveReservations = filteredReservations
+	const lastFiveReservations = reservations
+		.filter((reservation) => {
+			// Si es rol 2 o 3 (admin), muestra todas las reservas
+			if (userRole === 2 || userRole === 3) return true;
+			// Para otros roles, filtra solo las reservas del usuario actual
+			return reservation.usuarios.id === session?.user?.id;
+		})
 		.sort((a, b) => new Date(b.creado_en) - new Date(a.creado_en))
 		.slice(0, 5);
 
-	const lastFiveCommands = filteredCommands
+	const lastFiveCommands = commands
+		.filter((command) => {
+			// Si es rol 2 o 3 (admin), muestra todas las comandas
+			if (userRole === 2 || userRole === 3) return true;
+			// Para otros roles, filtra solo las comandas del usuario actual
+			return command.boletos_reservas.usuarios.id === session?.user?.id;
+		})
 		.sort((a, b) => new Date(b.creado_en) - new Date(a.creado_en))
 		.slice(0, 5);
+
+	// Inicializar los estados fuera de vista
+	const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
+	const [cursorPosition, setCursorPosition] = useState({ x: -9999, y: -9999 });
+
+
+	// const [mousePositionAxis, setMousePositionAxis] = useState({
+	// 	x: -100,
+	// 	y: -100,
+	// });
+	// const [cursorPositionAxis, setCursorPositionAxis] = useState({
+	// 	x: -9999,
+	// 	y: -9999,
+	// });
 
 	return (
 		<div className="flex-1 bg-zinc-50">
@@ -234,25 +188,7 @@ export default function Dashboard() {
 						{/* Statistics */}
 						{userRole !== 2 && (
 							<>
-								{/* <div className="grid gap-6 mb-8">
-									<Link href={"/calendar"}>
-										<Card className="relative rounded-t-none rounded-b-xl shadow-lg overflow-hidden pb-2 border-t-4 border-t-blue-950">
-											<div className="relative z-10 text-zinc-900">
-												<CardHeader className="flex flex-row items-center justify-between  space-y-0 pb-2">
-													<CardTitle className="text-xs font-light">
-														Nuevo!
-													</CardTitle>
-												</CardHeader>
-												<CardContent className="flex flex-col gap-2">
-													<p className="text-base font-light">
-														Calendario con acceso en vivo a eventos y reservas.
-													</p>
-												</CardContent>
-											</div>
-										</Card>
-									</Link>
-								</div> */}
-								<div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-3">
+								<div className="grid gap-6 mb-4 md:grid-cols-2 lg:grid-cols-3">
 									<Card className="rounded-xl shadow-lg border-none">
 										<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 											<CardTitle className="text-sm font-normal text-zinc-800">
@@ -309,286 +245,385 @@ export default function Dashboard() {
 							</>
 						)}
 						{/* Reservas */}
-						{userRole !== 2 && (
-							<Card className="mb-6 rounded-xl shadow-lg border-none">
-								<CardHeader>
-									<div className="flex items-center justify-between">
-										<CardTitle className="text-xl font-light  text-zinc-800">
-											Boletos de Reservas
-										</CardTitle>
-										<div className="flex items-center space-x-2 relative">
-											<Input
-												placeholder="Buscar reservas..."
-												className="w-64 rounded-full"
-												value={searchTerm} // Bind search term to input
-												onChange={(e) => setSearchTerm(e.target.value)} // Update search term on change
-											/>
-											<Search
-												className="w-5 h-5 absolute right-2 text-[#71717A]"
-												strokeWidth="1.75"
-											></Search>
+						<div className="grid grid-cols-1 gap-6 mb-0 lg:grid-cols-2 h-full">
+							{userRole !== 2 && (
+								<Card className="rounded-xl shadow-lg border-none pb-10">
+									<CardHeader>
+										<div className="flex flex-row items-center justify-between">
+											<div className="flex flex-col gap-0">
+												<CardTitle className="text-xl font-light text-zinc-800">
+													Boletos de Reservas
+												</CardTitle>
+												<CardDescription className="text-sm">
+													Últimas 5 reservas realizadas
+												</CardDescription>
+											</div>
+											<Link href="/reservations">
+												<div className="relative group">
+													<ArrowUpRight
+														strokeWidth={1.75}
+														className="w-5 h-5 text-zinc-500 hover:text-zinc-400 transition-all"
+													/>
+												</div>
+											</Link>
 										</div>
-									</div>
-									<CardDescription>
-										Últimas 5 reservas realizadas
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="w-full overflow-auto">
-									<Table>
-										<TableHeader>
-											<TableRow>
-												<TableHead className="w-1/5 text-start md:text-center ">
-													Asesor
-												</TableHead>
-												<TableHead className="w-1/5 text-start md:text-center">
-													Cliente
-												</TableHead>
-												<TableHead className="w-1/5 text-start md:text-center">
-													Modelo
-												</TableHead>
-												<TableHead className="w-1/5 text-start md:text-center">
-													Fecha
-												</TableHead>
-												<TableHead className="w-1/5 text-start md:text-center">
-													Precio
-												</TableHead>
-											</TableRow>
-										</TableHeader>
-										<TableBody>
-											{lastFiveReservations.length > 0 ? (
-												lastFiveReservations.map((reservation) => (
-													<TableRow
-														key={reservation.id}
-														className="w-full cursor-pointer"
-														onClick={() =>
-															router.push(`/reservations/${reservation.id}`)
-														}
-													>
-														<TableCell className="w-1/5 text-start md:text-center text-zinc-800">
-															{reservation.usuarios.nombre_usuario}
-														</TableCell>
-														<TableCell className="w-1/5 text-start md:text-center text-zinc-800 truncate">
-															{reservation.clientes.nombre_completo
-																.trim() // Elimina espacios en blanco al inicio y al final
-																.split(" ") // Divide el nombre en un array de palabras
-																.slice(0, 2) // Toma las primeras dos palabras
-																.join(" ")}
-														</TableCell>
-														<TableCell className="w-1/5 text-start md:text-center text-zinc-800">
-															{reservation.modelo_patente}
-														</TableCell>
-														<TableCell className="w-1/5 text-start md:text-center text-zinc-800">
-															{new Date(
-																reservation.creado_en
-															).toLocaleDateString("es-AR", {
-																day: "2-digit",
-																month: "2-digit",
-															})}
-														</TableCell>
-														<TableCell className="w-1/5 text-start md:text-center text-zinc-800">
-															{new Intl.NumberFormat("es-AR", {
-																style: "currency",
-																currency: "ARS",
-															}).format(reservation.precio)}
+									</CardHeader>
+									<CardContent className="w-full overflow-auto">
+										<Table>
+											<TableHeader>
+												<TableRow>
+													<TableHead className="w-1/5 text-start md:text-center ">
+														Asesor
+													</TableHead>
+													<TableHead className="w-1/5 text-start md:text-center">
+														Cliente
+													</TableHead>
+													<TableHead className="w-1/5 hidden md:table-cell text-start md:text-center">
+														Modelo
+													</TableHead>
+													<TableHead className="w-1/5 text-start md:text-center">
+														Fecha
+													</TableHead>
+													<TableHead className="w-1/5 text-start md:text-center">
+														Precio
+													</TableHead>
+												</TableRow>
+											</TableHeader>
+											<TableBody>
+												{lastFiveReservations.length > 0 ? (
+													lastFiveReservations.map((reservation) => (
+														<TableRow
+															key={reservation.id}
+															className="w-full cursor-pointer hover:bg-zinc-100 transition-all duration-300 ease-in-out"
+															onClick={() =>
+																router.push(`/reservations/${reservation.id}`)
+															}
+														>
+															<TableCell className="w-1/5 text-start md:text-center text-zinc-800">
+																{reservation.usuarios.nombre_usuario}
+															</TableCell>
+															<TableCell className="w-1/5 text-start md:text-center text-zinc-800 truncate">
+																{reservation.clientes.nombre_completo
+																	.trim() // Elimina espacios en blanco al inicio y al final
+																	.split(" ") // Divide el nombre en un array de palabras
+																	.slice(0, 2) // Toma las primeras dos palabras
+																	.join(" ")}
+															</TableCell>
+															<TableCell className="text-zinc-800 truncate">
+																{`${reservation.marca_vehiculo || ""} ${
+																	reservation.modelo_vehiculo || ""
+																}`.trim()}
+															</TableCell>
+															<TableCell className="w-1/5 text-start md:text-center text-zinc-800">
+																{new Date(
+																	reservation.creado_en
+																).toLocaleDateString("es-AR", {
+																	day: "2-digit",
+																	month: "2-digit",
+																})}
+															</TableCell>
+															<TableCell className="w-1/5 text-start md:text-center text-zinc-800">
+																{new Intl.NumberFormat("es-AR", {
+																	style: "currency",
+																	currency: "ARS",
+																}).format(reservation.precio)}
+															</TableCell>
+														</TableRow>
+													))
+												) : (
+													<TableRow>
+														<TableCell
+															colSpan={5}
+															className="text-center text-zinc-600"
+														>
+															Todavía no hiciste ninguna reserva.
 														</TableCell>
 													</TableRow>
-												))
-											) : (
-												<TableRow>
-													<TableCell
-														colSpan={5}
-														className="text-center text-zinc-600"
-													>
-														Todavía no hiciste ninguna reserva.
-													</TableCell>
-												</TableRow>
-											)}
-										</TableBody>
-									</Table>
-
-									<div className="flex justify-center mt-4">
-										<Link href="/reservations">
-											<Button variant="outline" size="sm" className="my-4">
-												Ver todas las reservas
-											</Button>
-										</Link>
-									</div>
-								</CardContent>
-							</Card>
-						)}
-
-						<Card
-							className={`rounded-xl shadow-lg border-none ${
-								userRole === 1 ? "" : ""
-							}`}
-						>
-							<CardHeader className="relative">
-								<div className="flex items-center justify-between">
-									<CardTitle className="text-xl font-light text-zinc-800 inline-flex items-center gap-2">
-										Comandas
-										{userRole === 1 && (
-											<div className="flex items-center gap-2">
-												<span>(solo búsqueda)</span>
-												{/* <FolderLock
-														className="w-5 h-5  text-red-500"
-														strokeWidth="1.75"
-													/> */}
+												)}
+											</TableBody>
+										</Table>
+									</CardContent>
+								</Card>
+							)}
+							{userRole !== 2 && (
+								<Card
+									className={`rounded-xl shadow-lg border-none pb-10 ${
+										userRole === 1 ? "" : ""
+									}`}
+								>
+									<CardHeader>
+										<div className="flex flex-row items-center justify-between">
+											<div className="flex flex-col gap-1">
+												<CardTitle className="text-xl font-light text-zinc-800 inline-flex items-center gap-2">
+													Comandas
+													{userRole === 1 && (
+														<div className="flex items-center gap-2">
+															<span className="text-sm">(solo búsqueda)</span>
+														</div>
+													)}
+												</CardTitle>
+												<CardDescription className="text-sm">
+													Últimas 5 comandas registradas
+												</CardDescription>
 											</div>
-										)}
-									</CardTitle>
-
-									<div className="flex items-center space-x-2 relative">
-										<Input
-											placeholder="Buscar comandos..."
-											className="w-64 rounded-full"
-											value={commandsSearchTerm}
-											onChange={(e) => setCommandsSearchTerm(e.target.value)}
-										/>
-										<Search
-											className="w-5 h-5 absolute right-2 text-[#71717A]"
-											strokeWidth="1.75"
-										/>
-									</div>
-								</div>
-								<CardDescription>
-									Últimas 5 comandas registradas
-								</CardDescription>
-							</CardHeader>
-							<CardContent className="w-full overflow-auto">
-								<Table>
-									<TableHeader>
-										<TableRow className="w-full">
-											<TableHead className="text-start md:text-center w-1/5">
-												Asesor
-											</TableHead>
-											<TableHead className="w-1/5 text-start md:text-center">
-												Cliente
-											</TableHead>
-											<TableHead className="text-start md:text-center w-1/5">
-												Modelo
-											</TableHead>
-											<TableHead className="text-start md:text-center w-1/5 ">
-												Fecha
-											</TableHead>
-											<TableHead className="text-start md:text-center w-1/5">
-												Estado
-											</TableHead>
-										</TableRow>
-									</TableHeader>
-									<TableBody>
-										{lastFiveCommands.length > 0 ? (
-											lastFiveCommands.map((command) => (
-												<TableRow
-													className={`w-full cursor-pointer ${
-														userRole === 1 ? "cursor-not-allowed" : ""
-													}`}
-													key={command.id}
-													style={{ textDecoration: "none", color: "inherit" }}
-													onClick={() => {
-														if (userRole === 2) {
-															router.push(`/add-technique/${command.id}/`);
-														} else if (userRole === 3) {
-															router.push(`/commands/${command.id}`);
-														}
-													}}
-												>
-													<TableCell className="text-start md:text-center w-1/5 text-zinc-800">
-														{command.boletos_reservas.usuarios.nombre_usuario}
-													</TableCell>
-													<TableCell className="text-start md:text-center w-1/5 text-zinc-800 truncate ">
-														{command.boletos_reservas.clientes.nombre_completo
-															.trim() // Elimina espacios en blanco al inicio y al final
-															.split(" ") // Divide el nombre en un array de palabras
-															.slice(0, 2) // Toma las primeras dos palabras
-															.join(" ")}
-													</TableCell>
-													<TableCell className="text-start md:text-center w-1/5 text-zinc-800">
-														{command.boletos_reservas.modelo_patente}
-													</TableCell>
-													<TableCell className="text-start md:text-center w-1/5 text-zinc-800 ">
-														{new Date(
-															command.boletos_reservas.fecha_instalacion
-														).toLocaleDateString("es-AR", {
-															day: "2-digit",
-															month: "2-digit",
-														})}
-													</TableCell>
-													<TableCell className="text-start md:text-center w-1/5 truncate">
-														<span
-															className={`px-2 py-1 text-xs font-normal rounded-full ${
-																command.estado === "en_proceso"
-																	? "bg-blue-100 text-blue-700"
-																	: command.estado === "completado"
-																	? "bg-green-100 text-green-700"
-																	: "bg-yellow-100 text-yellow-700"
-															}`}
-														>
-															{command.estado === "en_proceso"
-																? "En Proceso"
-																: command.estado === "completado"
-																? "Completada"
-																: "Pendiente"}
-														</span>
-													</TableCell>
+											{userRole !== 1 && (
+												<Link href="/commands">
+													<div className="relative group">
+														<ArrowUpRight
+															strokeWidth={1.75}
+															className="w-5 h-5 text-zinc-500 hover:text-zinc-400 transition-all"
+														/>
+													</div>
+												</Link>
+											)}
+										</div>
+									</CardHeader>
+									<CardContent className="w-full overflow-auto">
+										<Table>
+											<TableHeader>
+												<TableRow className="w-full">
+													<TableHead className="text-start md:text-center w-1/5">
+														Asesor
+													</TableHead>
+													<TableHead className="w-1/5 text-start md:text-center">
+														Cliente
+													</TableHead>
+													<TableHead className="w-1/5 hidden md:table-cell text-start md:text-center">
+														Modelo
+													</TableHead>
+													<TableHead className="text-start md:text-center w-1/5 ">
+														Fecha
+													</TableHead>
+													<TableHead className="text-start md:text-center w-1/5">
+														Estado
+													</TableHead>
 												</TableRow>
-											))
-										) : (
-											<TableRow>
-												<TableCell
-													colSpan={5}
-													className="text-center  text-zinc-600"
-												>
-													Todavía no hay ningúna comanda.
-												</TableCell>
-											</TableRow>
-										)}
-									</TableBody>
-								</Table>
-								{userRole !== 1 ? (
-									<div className="flex justify-center mt-4">
-										<Link href="/commands">
-											<Button variant="outline" size="sm" className="my-4">
-												Ver todas las comandas
-											</Button>
+											</TableHeader>
+											<TableBody>
+												{lastFiveCommands.length > 0 ? (
+													lastFiveCommands.map((command) => (
+														<TableRow
+															className={`w-full cursor-pointer hover:bg-zinc-100 transition-all duration-300 ease-in-out ${
+																userRole === 1 ? "cursor-not-allowed" : ""
+															}`}
+															key={command.id}
+															style={{
+																textDecoration: "none",
+																color: "inherit",
+															}}
+															onClick={() => {
+																if (userRole === 2) {
+																	router.push(`/add-technique/${command.id}/`);
+																} else if (userRole === 3) {
+																	router.push(`/commands/${command.id}`);
+																}
+															}}
+														>
+															<TableCell className="text-start md:text-center w-1/5 text-zinc-800">
+																{
+																	command.boletos_reservas.usuarios
+																		.nombre_usuario
+																}
+															</TableCell>
+															<TableCell className="text-start md:text-center w-1/5 text-zinc-800 truncate ">
+																{command.boletos_reservas.clientes.nombre_completo
+																	.trim() // Elimina espacios en blanco al inicio y al final
+																	.split(" ") // Divide el nombre en un array de palabras
+																	.slice(0, 2) // Toma las primeras dos palabras
+																	.join(" ")}
+															</TableCell>
+															<TableCell className="text-zinc-800 truncate">
+																{`${
+																	command.boletos_reservas.marca_vehiculo || ""
+																} ${
+																	command.boletos_reservas.modelo_vehiculo || ""
+																}`.trim()}
+															</TableCell>
+															<TableCell className="text-start md:text-center w-1/5 text-zinc-800 ">
+																{new Date(
+																	command.boletos_reservas.fecha_instalacion
+																).toLocaleDateString("es-AR", {
+																	day: "2-digit",
+																	month: "2-digit",
+																})}
+															</TableCell>
+															<TableCell className="text-start md:text-center w-1/5 truncate">
+																<span
+																	className={`px-2 py-1 text-xs font-normal rounded-full ${
+																		command.estado === "en_proceso"
+																			? "bg-blue-100 text-blue-700"
+																			: command.estado === "completado"
+																			? "bg-green-100 text-green-700"
+																			: "bg-yellow-100 text-yellow-700"
+																	}`}
+																>
+																	{command.estado === "en_proceso"
+																		? "En Proceso"
+																		: command.estado === "completado"
+																		? "Completada"
+																		: "Pendiente"}
+																</span>
+															</TableCell>
+														</TableRow>
+													))
+												) : (
+													<TableRow>
+														<TableCell
+															colSpan={5}
+															className="text-center  text-zinc-600"
+														>
+															Todavía no hay ningúna comanda.
+														</TableCell>
+													</TableRow>
+												)}
+											</TableBody>
+										</Table>
+									</CardContent>
+								</Card>
+							)}
+							{userRole === 2 && <CommandsTable />}
+							{userRole !== 2 && (
+								<>
+									<Card
+										className="relative rounded-xl shadow-lg overflow-hidden col-span-1 h-[350px] bg-black group border-none cursor-none"
+										onMouseMove={(e) => {
+											const rect = e.currentTarget.getBoundingClientRect();
+											const x = ((e.clientX - rect.left) / rect.width) * 100;
+											const y = ((e.clientY - rect.top) / rect.height) * 100;
+											setMousePosition({ x, y });
+											setCursorPosition({
+												x: e.clientX - rect.left,
+												y: e.clientY - rect.top,
+											});
+										}}
+										onMouseLeave={() => {
+											setMousePosition({ x: -100, y: -100 });
+											setCursorPosition({ x: -9999, y: -9999 });
+										}}
+									>
+										<div className="absolute inset-0 bg-gradient-to-br from-violet-600 to-indigo-900 opacity-80" />
+										<div
+											className="absolute inset-0 opacity-0 group-hover:opacity-75 transition-all duration-300"
+											style={{
+												backgroundImage: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgb(139 92 246 / 0.75), transparent 70%)`,
+											}}
+										/>
+										<div
+											className="pointer-events-none absolute w-8 h-8 rounded-full mix-blend-difference transition-opacity duration-150 ease-out z-50"
+											style={{
+												background:
+													"radial-gradient(circle, rgb(139 92 246), rgb(67 56 202))",
+												transform: `translate(${cursorPosition.x - 16}px, ${
+													cursorPosition.y - 16
+												}px)`,
+												opacity: cursorPosition.x === -9999 ? 0 : 1,
+												visibility:
+													cursorPosition.x === -9999 ? "hidden" : "visible",
+											}}
+										/>
+										<div className="absolute inset-0 opacity-20">
+											<div
+												className="absolute blur-3xl w-40 h-40 rounded-full transition-all duration-500 ease-out"
+												style={{
+													background:
+														"linear-gradient(to right, rgb(139 92 246 / 0.8), rgb(67 56 202 / 0.8))",
+													transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`,
+													left: "-20%",
+													top: "-20%",
+												}}
+											/>
+										</div>
+										<Link
+											href={"/calendar"}
+											className="relative h-full p-8 flex flex-col justify-between cursor-none"
+										>
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<div className="flex items-center gap-2">
+													<span className="px-3 py-1 text-xs font-medium bg-white/20 text-white rounded-full backdrop-blur-sm">
+														¡Nuevo!
+													</span>
+													<div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+												</div>
+												<h3 className="text-2xl font-light text-white">
+													Calendario
+												</h3>
+												<p className="text-zinc-200 text-sm font-light leading-relaxed">
+													Accede en tiempo real a todos tus eventos y reservas
+													en una vista unificada y elegante.
+												</p>
+											</div>
+											<div className="flex items-center text-white transition-all duration-300 ease-in-out">
+												<span>Explorar</span>
+												<ArrowRight className="w-5 h-5 ml-2" />
+											</div>
 										</Link>
-									</div>
-								) : (
-									<div
-										className="flex justify-center mt-4"
-										style={{ height: "75px" }}
-									/> // Ajusta la altura según el botón
-								)}
-							</CardContent>
-						</Card>
-						{/* 
-							<Card className="p-6 relative rounded-xl shadow-xl overflow-hidden pb-2 border border-black bg-white text-white h-full hover">
-								<Image
-									src={myImage2}
-									alt="Descripción de la imagen"
-									className="absolute inset-0 w-full h-full object-cover pointer-events-none brightness-[.25] opacity-100"
-									loading="eager"
-									priority
-								/>
-								<div className="absolute inset-0 bg-gradient-to-bl group-hover:opacity-0 from-black to-transparent opacity-100 pointer-events-none" />
-								<Link href={"/calendar"} className="flex flex-col gap-2">
-									<div className="relative z-10 text-zinc-900 w-fit rounded-xl bg-zinc-50 hover:bg-zinc-800 transition-all ease-in-out">
+									</Card>
+									{/* <Card
+										className="relative rounded-xl overflow-hidden col-span-1 h-[350px] bg-white shadow-lg group border-none cursor-none"
+										onMouseMove={(e) => {
+											const rect = e.currentTarget.getBoundingClientRect();
+											const x = ((e.clientX - rect.left) / rect.width) * 100;
+											const y = ((e.clientY - rect.top) / rect.height) * 100;
+											setMousePositionAxis({ x, y });
+											setCursorPositionAxis({
+												x: e.clientX - rect.left,
+												y: e.clientY - rect.top,
+											});
+										}}
+										onMouseLeave={() => {
+											setMousePositionAxis({ x: -100, y: -100 });
+											setCursorPositionAxis({ x: -9999, y: -9999 });
+										}}
+									>
 									
-										<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-											<CardTitle className="text-xs font-light text-black">
-												Nuevo!
-											</CardTitle>
-										</CardHeader>
-										<CardContent className="flex flex-col gap-2 text-black">
-											<p className="text-lg font-light">
-												📅 Calendario con acceso en vivo a eventos y reservas.
-											</p>
-										</CardContent>
-									</div>
-									<div className="relative z-10 text-zinc-900 w-fit rounded-xl">
-										<CardContent className="p-0 flex flex-col gap-2 text-white"></CardContent>
-									</div>
-								</Link>
-							</Card> */}
+										<div
+											className="absolute inset-0 opacity-0 group-hover:opacity-75 transition-all duration-300"
+											style={{
+												backgroundImage: `radial-gradient(circle at ${mousePositionAxis.x}% ${mousePositionAxis.y}%, rgb(251 146 60 / 0.75), transparent 70%)`,
+											}}
+										/>
+										<div
+											className="pointer-events-none absolute w-8 h-8 rounded-full mix-blend-difference transition-opacity duration-150 ease-out z-50"
+											style={{
+												background:
+													"radial-gradient(circle, rgb(251 146 60), rgb(239 68 68))",
+												transform: `translate(${cursorPositionAxis.x - 16}px, ${
+													cursorPositionAxis.y - 16
+												}px)`,
+												opacity: cursorPositionAxis.x === -9999 ? 0 : 1,
+												visibility:
+													cursorPositionAxis.x === -9999 ? "hidden" : "visible",
+											}}
+										/>
+
+										<Link
+											href={"/axis"}
+											className="relative h-full p-8 flex flex-col justify-between cursor-none"
+										>
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<div className="flex items-center gap-2">
+													<span className="px-3 py-1 text-xs font-medium bg-zinc-100 text-zinc-900 rounded-full backdrop-blur-sm">
+														¡Nuevo!
+													</span>
+													<div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
+												</div>
+												<h4 className="text-2xl font-light text-zinc-900">
+													Catálogo de Equipos
+												</h4>
+												<p className="text-zinc-500 text-sm font-normal leading-relaxed">
+													Explora nuestro catálogo y encuentra el equipo
+													perfecto para el auto.
+												</p>
+											</div>
+											<div className="flex items-center text-zinc-900 transition-all duration-300 ease-in-out">
+												<span>Descubrir</span>
+												<ArrowRight className="w-5 h-5 ml-2" />
+											</div>
+										</Link>
+									</Card> */}
+								</>
+							)}
+						</div>
 					</main>
 				</>
 			)}

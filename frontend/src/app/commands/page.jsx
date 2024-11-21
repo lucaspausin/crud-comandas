@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
 	Table,
 	TableBody,
@@ -18,16 +19,21 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Pencil, Trash } from "lucide-react";
-import Link from "next/link";
+import { Trash, Download, Search } from "lucide-react";
 
 import HomeIcon from "@/components/HomeIcon";
 
-import { getCommands, getUsers } from "../reservations/reservations.api";
+import {
+	getCommands,
+	getUsers,
+	deleteCommand,
+	getCommandCSV,
+} from "../reservations/reservations.api";
 
 import Aside from "@/components/Aside";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { saveAs } from "file-saver";
 
 export default function AllOrdersPage() {
 	const [commands, setCommands] = useState([]);
@@ -36,15 +42,17 @@ export default function AllOrdersPage() {
 	const [filterModel, setFilterModel] = useState("all");
 	const [userFilter, setUserFilter] = useState("all");
 	const [sortOrder, setSortOrder] = useState("date-desc");
+	const [selectedCommands, setSelectedCommands] = useState([]);
 
 	const { data: session } = useSession();
+
 	const userRole = session?.user?.role;
 	const router = useRouter();
 
 	useEffect(() => {
 		const fetchCommands = async () => {
 			const data = await getCommands();
-			setCommands(data); // Actualizar el estado con las reservas
+			setCommands(data);
 		};
 
 		fetchCommands();
@@ -53,8 +61,8 @@ export default function AllOrdersPage() {
 	useEffect(() => {
 		const fetchUsers = async () => {
 			const data = await getUsers();
-			const filteredUsers = data.filter((user) => user.role_id === 1); // Filtrar usuarios con rol = 1
-			setUsers(filteredUsers); // Actualizar el estado con los usuarios filtrados
+			const filteredUsers = data.filter((user) => user.role_id === 1);
+			setUsers(filteredUsers);
 		};
 
 		fetchUsers();
@@ -69,10 +77,10 @@ export default function AllOrdersPage() {
 					command.boletos_reservas.clientes.nombre_completo
 						.toLowerCase()
 						.includes(searchTerm.toLowerCase()) ||
-					(command.boletos_reservas.clientes.dni != null && // Asegurarse de que no sea null o undefined
+					(command.boletos_reservas.clientes.dni != null &&
 						String(command.boletos_reservas.clientes.dni).includes(
 							searchTerm
-						)) || // Convertir DNI a string para la búsqueda
+						)) ||
 					command.boletos_reservas.clientes.domicilio
 						.toLowerCase()
 						.includes(searchTerm.toLowerCase()) ||
@@ -82,7 +90,7 @@ export default function AllOrdersPage() {
 					command.boletos_reservas.clientes.localidad
 						.toLowerCase()
 						.includes(searchTerm.toLowerCase()) ||
-					(command.boletos_reservas.clientes.telefono != null && // Asegurarse de que no sea null o undefined
+					(command.boletos_reservas.clientes.telefono != null &&
 						String(command.boletos_reservas.clientes.telefono).includes(
 							searchTerm
 						)) ||
@@ -103,16 +111,13 @@ export default function AllOrdersPage() {
 
 		if (userFilter !== "all") {
 			filtered = filtered.filter(
-				(command) => command.boletos_reservas.usuario_id === userFilter // Asegúrate de que esto sea correcto según tu estructura de datos
+				(command) => command.boletos_reservas.usuario_id === userFilter
 			);
 		}
-		// Ordenar reservas
-		const currentDate = new Date();
 
-		// Calcular fechas para los filtros
+		const currentDate = new Date();
 		const sevenDaysAgo = new Date();
 		sevenDaysAgo.setDate(currentDate.getDate() - 7);
-
 		const fifteenDaysAgo = new Date();
 		fifteenDaysAgo.setDate(currentDate.getDate() - 15);
 
@@ -144,11 +149,107 @@ export default function AllOrdersPage() {
 		return filtered;
 	};
 
+	const handleDeleteCommand = async (id) => {
+		const confirmDelete = window.confirm(
+			"¿Está seguro de que desea eliminar esta comanda?"
+		);
+
+		if (confirmDelete) {
+			try {
+				await deleteCommand(id);
+				setCommands((prevCommands) =>
+					prevCommands.filter((command) => command.id !== id)
+				);
+			} catch (error) {
+				console.error("Error al eliminar la reserva:", error);
+			}
+		}
+	};
+
+	const handleCommandSelection = (commandId) => {
+		setSelectedCommands((prev) => {
+			if (prev.includes(commandId)) {
+				return prev.filter((id) => id !== commandId);
+			} else {
+				return [...prev, commandId];
+			}
+		});
+	};
+
+	const downloadSelectedCsv = async () => {
+		try {
+			const selectedData = await Promise.all(
+				selectedCommands.map(async (id) => {
+					const response = await getCommandCSV(id);
+					return response;
+				})
+			);
+
+			if (selectedData.length > 0) {
+				generateCSV(selectedData);
+			}
+		} catch (error) {
+			console.error("Error al descargar CSV:", error.message);
+		}
+	};
+
+	const downloadCsv = async (id) => {
+		try {
+			const response = await getCommandCSV(id);
+			if (!response || !response.id) {
+				throw new Error("Datos de la comanda no son válidos.");
+			}
+			generateCSV([response]);
+		} catch (error) {
+			console.error("Error al descargar CSV:", error.message);
+		}
+	};
+
+	const generateCSV = (data) => {
+		if (!Array.isArray(data)) {
+			data = [data];
+		}
+
+		// Obtener todas las claves únicas de los objetos
+		const allKeys = new Set();
+		data.forEach((item) => {
+			Object.keys(item).forEach((key) => allKeys.add(key));
+		});
+
+		// Convertir Set a Array y ordenar las columnas principales primero
+		const mainColumns = [
+			"id",
+			"equipo",
+			"nombre_usuario",
+			"dominio",
+			"carga_externa",
+			"precio_carga_externa",
+		];
+		const paymentColumns = Array.from(allKeys)
+			.filter((key) => !mainColumns.includes(key))
+			.sort();
+
+		const orderedHeaders = [...mainColumns, ...paymentColumns];
+
+		const rows = data.map((item) => {
+			return orderedHeaders.map((header) => {
+				const value = item[header] || "";
+				return value.toString();
+			});
+		});
+
+		const csvContent = [
+			orderedHeaders.join(","),
+			...rows.map((row) => row.join(",")),
+		].join("\n");
+
+		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+		saveAs(blob, "comandas.csv");
+	};
+
 	return (
 		<div className="flex bg-zinc-50">
-			{/* Sidebar */}
 			<Aside />
-			{/* Main Content */}
 			<main className="flex-1 p-6 overflow-y-auto">
 				<div className="flex items-center justify-between mb-6">
 					<div className="flex items-center gap-2">
@@ -159,18 +260,38 @@ export default function AllOrdersPage() {
 
 				<Card className="rounded-xl shadow-lg border-none">
 					<CardHeader>
-						<CardTitle className="text-xl font-light text-zinc-800">
-							Lista de Comandas
-						</CardTitle>
+						<div className="flex justify-between items-center relative">
+							<CardTitle className="text-xl font-light text-zinc-800">
+								Lista de Comandas
+							</CardTitle>
+							{selectedCommands.length > 0 && (
+								<Button
+									variant="outline"
+									size="sm"
+									className="absolute top-0 right-0 rounded-full text-blue-600 hover:text-blue-600 font-normal bg-blue-100 hover:bg-blue-50 border-none"
+									onClick={downloadSelectedCsv}
+								>
+									<Download className="h-4 w-4 text-blue-600 mr-2" />
+									Descargar {selectedCommands.length} seleccionadas
+								</Button>
+							)}
+						</div>
 					</CardHeader>
 					<CardContent>
 						<div className="flex flex-col md:flex-row gap-4 mb-6">
-							<Input
-								placeholder="Buscar reservas..."
-								className="rounded-full"
-								value={searchTerm}
-								onChange={(e) => setSearchTerm(e.target.value)}
-							/>
+							<div className="flex items-center w-full md:w-1/3 relative">
+								<Input
+									placeholder="Buscar comandas"
+									className="rounded-full focus-visible:ring-0"
+									value={searchTerm}
+									onChange={(e) => setSearchTerm(e.target.value)}
+								/>
+								<Search
+									className="w-5 h-5 absolute right-2 text-[#71717A]"
+									strokeWidth="1.75"
+								></Search>
+							</div>
+
 							<Select onValueChange={setUserFilter}>
 								<SelectTrigger className="w-full md:w-1/4 rounded-full">
 									<SelectValue placeholder="Filtrar por usuario" />
@@ -179,8 +300,7 @@ export default function AllOrdersPage() {
 									<SelectItem value="all">Todos</SelectItem>
 									{users.map((user) => (
 										<SelectItem key={user.id} value={user.id}>
-											{user.nombre_usuario}{" "}
-											{/* Cambia esto según el campo que quieras mostrar */}
+											{user.nombre_usuario}
 										</SelectItem>
 									))}
 								</SelectContent>
@@ -223,13 +343,15 @@ export default function AllOrdersPage() {
 						<Table>
 							<TableHeader>
 								<TableRow>
+									{userRole === 3 && (
+										<TableHead className="w-[50px]">Seleccionar</TableHead>
+									)}
 									<TableHead>Asesor</TableHead>
 									<TableHead>Cliente</TableHead>
 									<TableHead>Modelo</TableHead>
-
 									<TableHead>Fecha</TableHead>
 									<TableHead>Estado</TableHead>
-									<TableHead>Acciones</TableHead>
+									{userRole !== 2 && <TableHead>Acciones</TableHead>}
 								</TableRow>
 							</TableHeader>
 							<TableBody>
@@ -238,14 +360,33 @@ export default function AllOrdersPage() {
 										<TableRow
 											key={command.id}
 											className="cursor-pointer"
-											onClick={() => {
-												if (userRole === 2) {
-													router.push(`/add-technique/${command.id}/`);
-												} else if (userRole === 3) {
-													router.push(`/commands/${command.id}`);
+											onClick={(e) => {
+												// Solo navegar si no se hace clic en el checkbox o botones
+												if (
+													!e.target.closest("button") &&
+													!e.target.closest(".checkbox-cell")
+												) {
+													if (userRole === 2) {
+														router.push(`/add-technique/${command.id}/`);
+													} else if (userRole === 3) {
+														router.push(`/commands/${command.id}`);
+													}
 												}
 											}}
 										>
+											{userRole === 3 && (
+												<>
+													<TableCell className="checkbox-cell">
+														<Checkbox
+															checked={selectedCommands.includes(command.id)}
+															onCheckedChange={() =>
+																handleCommandSelection(command.id)
+															}
+															onClick={(e) => e.stopPropagation()}
+														/>
+													</TableCell>
+												</>
+											)}
 											<TableCell className="text-zinc-800">
 												{command.boletos_reservas.usuarios.nombre_usuario}
 											</TableCell>
@@ -253,7 +394,9 @@ export default function AllOrdersPage() {
 												{command.boletos_reservas.clientes.nombre_completo}
 											</TableCell>
 											<TableCell className="text-zinc-800">
-												{command.boletos_reservas.modelo_patente}
+												{`${command.boletos_reservas.marca_vehiculo || ""} ${
+													command.boletos_reservas.modelo_vehiculo || ""
+												}`.trim()}
 											</TableCell>
 											<TableCell className="text-zinc-800">
 												{new Date(
@@ -265,7 +408,7 @@ export default function AllOrdersPage() {
 											</TableCell>
 											<TableCell>
 												<span
-													className={`px-2 py-1 text-xs font-normal rounded-full ${
+													className={`px-2 truncate py-1 text-xs font-normal rounded-full ${
 														command.estado === "en_proceso"
 															? "bg-blue-100 text-blue-700"
 															: command.estado === "completado"
@@ -280,39 +423,40 @@ export default function AllOrdersPage() {
 														: "Pendiente"}
 												</span>
 											</TableCell>
-											<TableCell>
-												<div className="flex flex-row items-center gap-2">
-													<Link href={`/commands/edit/${command.id}`}>
+											{userRole !== 2 && (
+												<TableCell>
+													<div className="flex flex-row items-start gap-2">
 														<Button
 															variant="ghost"
 															size="sm"
-															className="rounded-full z-50 px-[0.5rem] bg-orange-100 hover:bg-orange-50"
+															className="rounded-full z-50 px-[0.5rem] bg-blue-100 hover:bg-blue-50"
 															onClick={(e) => {
-																e.stopPropagation(); // Previene que el clic se propague al TableRow
+																e.stopPropagation();
+																downloadCsv(command.id);
 															}}
 														>
-															<Pencil className="h-4 w-4 text-orange-600" />
+															<Download className="h-4 w-4 text-blue-600" />
 														</Button>
-													</Link>
-													<Button
-														variant="ghost"
-														size="sm"
-														className="rounded-full z-50 px-[0.5rem] bg-red-100 hover:bg-red-50"
-														onClick={(e) => {
-															e.stopPropagation(); // Previene que el clic se propague al TableRow
-															handleDeleteReservation(command.id); // Llama a la función de eliminación
-														}}
-													>
-														<Trash className="h-4 w-4 text-red-600" />
-													</Button>
-												</div>
-											</TableCell>
+														<Button
+															variant="ghost"
+															size="sm"
+															className="rounded-full z-50 px-[0.5rem] bg-red-100 hover:bg-red-50"
+															onClick={(e) => {
+																e.stopPropagation();
+																handleDeleteCommand(command.id);
+															}}
+														>
+															<Trash className="h-4 w-4 text-red-600" />
+														</Button>
+													</div>
+												</TableCell>
+											)}
 										</TableRow>
 									))
 								) : (
 									<TableRow>
 										<TableCell
-											colSpan={6}
+											colSpan={7}
 											className="text-center text-gray-600"
 										>
 											No se encontraron resultados para los filtros aplicados.
@@ -321,21 +465,6 @@ export default function AllOrdersPage() {
 								)}
 							</TableBody>
 						</Table>
-						{/* <div className="flex items-center justify-between mt-4">
-							<p className="text-sm text-muted-foreground">
-								Mostrando 1-10 de 100 resultados
-							</p>
-							<div className="flex items-center space-x-2">
-								<Button variant="outline" size="sm" className="rounded-full">
-									<ChevronLeft className="w-4 h-4 mr-2" />
-									Anterior
-								</Button>
-								<Button variant="outline" size="sm" className="rounded-full">
-									Siguiente
-									<ChevronRight className="w-4 h-4 ml-2" />
-								</Button>
-							</div>
-						</div> */}
 					</CardContent>
 				</Card>
 			</main>

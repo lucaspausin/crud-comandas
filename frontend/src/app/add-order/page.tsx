@@ -13,7 +13,7 @@ export default function AddOrderPage() {
 			<Aside />
 
 			{/* Main Content */}
-			<main className="flex-1 p-6 z-50">
+			<main className="flex-1 p-6 z-[40]">
 				<div className="flex items-center justify-between mb-6">
 					<div className="flex items-center gap-2">
 						<HomeIcon label="Volver"></HomeIcon>

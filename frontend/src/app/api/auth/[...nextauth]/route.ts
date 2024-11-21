@@ -45,13 +45,30 @@ const handler = NextAuth({
 	],
 	callbacks: {
 		async jwt({ token, user }) {
-			return { ...token, ...user };
+			if (user) {
+				return {
+					...token,
+					...user,
+					exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30, // 30 días
+				};
+			}
+			return token;
 		},
 		async session({ session, token }) {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			session.user = token as any;
+			session.user = {
+				...token,
+				email: token.email as string,
+				role: token.role as string,
+				token: token.token as string,
+				exp: token.exp as number,
+			};
 			return session;
 		},
+	},
+	session: {
+		strategy: "jwt",
+		maxAge: 30 * 24 * 60 * 60, // 30 días
 	},
 	pages: {
 		signIn: "/login",

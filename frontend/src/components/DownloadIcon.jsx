@@ -20,7 +20,7 @@ const DownloadIcon = ({ label = "Descargar", onClick }) => {
 			>
 				<ArrowDownToLine strokeWidth={2} className="w-4 h-4" />
 				<motion.span
-					className={`ml-2 whitespace-nowrap text-sm overflow-hidden font-normal transition-colors duration-300 ${
+					className={`ml-2 whitespace-nowrap overflow-hidden text-sm font-normal transition-colors duration-300 ${
 						hovered ? "" : "opacity-0"
 					}`}
 					initial={{ opacity: 0, width: 0 }} // Comienza oculto

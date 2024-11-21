@@ -29,7 +29,9 @@ function ReservationForm() {
 	});
 
 	const [vehicle, setVehicle] = useState({
-		modelo_patente: "",
+		marca_vehiculo: "",
+		modelo_vehiculo: "",
+		patente_vehiculo: "",
 		equipo: "",
 		precio: "",
 		reforma_escape: false,
@@ -270,7 +272,9 @@ function ReservationForm() {
 				telefono: "",
 			});
 			setVehicle({
-				modelo_patente: "",
+				marca_vehiculo: "",
+				modelo_vehiculo: "",
+				patente_vehiculo: "",
 				equipo: "",
 				precio: "",
 				reforma_escape: false,
@@ -324,7 +328,7 @@ function ReservationForm() {
 						</h3>
 						{warningMessage && (
 							<div
-								className={` text-sm z-50 m-0 ${
+								className={` text-sm z-[40] m-0 ${
 									eventCount >= 5
 										? "text-pink-900"
 										: eventCount === 4
@@ -341,7 +345,7 @@ function ReservationForm() {
 						<div className="space-y-2">
 							<Label
 								htmlFor="nombre_completo"
-								className="font-normal text-zinc-800"
+								className="font-normal text-zinc-600"
 							>
 								Nombre completo
 							</Label>
@@ -356,7 +360,7 @@ function ReservationForm() {
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="dni" className="font-normal text-zinc-800">
+							<Label htmlFor="dni" className="font-normal text-zinc-600">
 								DNI
 							</Label>
 							<Input
@@ -371,7 +375,7 @@ function ReservationForm() {
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="domicilio" className="font-normal text-zinc-800">
+							<Label htmlFor="domicilio" className="font-normal text-zinc-600">
 								Domicilio
 							</Label>
 							<Input
@@ -417,7 +421,7 @@ function ReservationForm() {
 							</div>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="telefono" className="font-normal text-zinc-800">
+							<Label htmlFor="telefono" className="font-normal text-zinc-600">
 								Teléfono (Ej: 1124033487, sin +549)
 							</Label>
 							<Input
@@ -440,23 +444,57 @@ function ReservationForm() {
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 						<div className="space-y-2">
 							<Label
-								htmlFor="modelo_patente"
+								htmlFor="marca_vehiculo"
 								className="text-zinc-800 font-normal"
 							>
-								Modelo patente
+								Marca
 							</Label>
 							<Input
-								name="modelo_patente"
-								id="modelo_patente"
-								placeholder="Modelo y patente"
-								value={vehicle.modelo_patente}
+								name="marca_vehiculo"
+								id="marca_vehiculo"
+								placeholder="Marca del vehículo"
+								value={vehicle.marca_vehiculo}
 								onChange={handleVehicleChange}
 								className="rounded-full"
 								required
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="equipo" className="font-normal text-zinc-800">
+							<Label
+								htmlFor="modelo_vehiculo"
+								className="text-zinc-800 font-normal"
+							>
+								Modelo
+							</Label>
+							<Input
+								name="modelo_vehiculo"
+								id="modelo_vehiculo"
+								placeholder="Model del vehículo"
+								value={vehicle.modelo_vehiculo}
+								onChange={handleVehicleChange}
+								className="rounded-full"
+								required
+							/>
+						</div>
+						<div className="space-y-2">
+							<Label
+								htmlFor="patente_vehiculo"
+								className="text-zinc-800 font-normal"
+							>
+								Patente
+							</Label>
+							<Input
+								name="patente_vehiculo"
+								id="patente_vehiculo"
+								placeholder="Patente"
+								value={vehicle.patente_vehiculo}
+								onChange={handleVehicleChange}
+								className="rounded-full"
+								required
+							/>
+						</div>
+						<div className="space-y-2">
+							<Label htmlFor="equipo" className="font-normal text-zinc-600">
 								Equipo
 							</Label>
 							<Input
@@ -471,7 +509,7 @@ function ReservationForm() {
 						</div>
 
 						<div className="space-y-2">
-							<Label htmlFor="precio" className="font-normal text-zinc-800">
+							<Label htmlFor="precio" className="font-normal text-zinc-600">
 								Precio
 							</Label>
 							<Input
@@ -494,7 +532,7 @@ function ReservationForm() {
 								/>
 								<Label
 									htmlFor="reforma_escape"
-									className="font-normal text-zinc-800"
+									className="font-normal text-zinc-600"
 								>
 									Reforma de escape
 								</Label>
@@ -507,14 +545,14 @@ function ReservationForm() {
 								/>
 								<Label
 									htmlFor="carga_externa"
-									className="font-normal text-zinc-800"
+									className="font-normal text-zinc-600"
 								>
 									Carga externa
 								</Label>
 							</div>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="sena" className="font-normal text-zinc-800">
+							<Label htmlFor="sena" className="font-normal text-zinc-600">
 								Seña
 							</Label>
 							<Input
@@ -530,7 +568,7 @@ function ReservationForm() {
 						<div className="space-y-2">
 							<Label
 								htmlFor="monto_final_abonar"
-								className="font-normal text-zinc-800"
+								className="font-normal text-zinc-600"
 							>
 								Monto final a abonar
 							</Label>
@@ -549,7 +587,7 @@ function ReservationForm() {
 						<div className="space-y-2">
 							<Label
 								htmlFor="fecha_instalacion"
-								className="font-normal text-zinc-800"
+								className="font-normal text-zinc-600"
 							>
 								Fecha de instalación
 							</Label>

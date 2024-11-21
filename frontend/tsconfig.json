@@ -34,6 +34,6 @@
 		"src/app/add-technique/[id]/page.jsx",
 		"src/app/login/page.jsx",
 		"src/components/ToastNotification.jsx"
-	],
+, "src/components/commands/FilesSlider.jsx"	],
 	"exclude": ["node_modules"]
 }
