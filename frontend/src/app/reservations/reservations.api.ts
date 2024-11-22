@@ -281,3 +281,30 @@ export async function getTechnique(id: string) {
 	);
 	return data;
 }
+
+// Crear una función que agrupe todas las llamadas necesarias
+export async function getDashboardData() {
+  try {
+    const [
+      reservationsData,
+      commandsData,
+      reservationsSummaryData,
+      commandsSummaryData
+    ] = await Promise.all([
+      getReservations(),
+      getCommands(),
+      getReservationSummary(),
+      getCommandsSummary()
+    ]);
+
+    return {
+      reservations: reservationsData,
+      commands: commandsData,
+      reservationsSummary: reservationsSummaryData,
+      commandsSummary: commandsSummaryData
+    };
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    throw error;
+  }
+}

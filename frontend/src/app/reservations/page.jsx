@@ -42,45 +42,41 @@ export default function AllReservationsPage() {
 	const router = useRouter();
 	const { data: session } = useSession();
 	const [reservations, setReservations] = useState([]);
+	const [users, setUsers] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [sortOrder, setSortOrder] = useState("date-desc");
-
-	const [users, setUsers] = useState([]);
 	const [userFilter, setUserFilter] = useState("all");
+	const [dataFetched, setDataFetched] = useState(false);
 
 	useEffect(() => {
-		const fetchReservations = async () => {
-			setLoading(true);
-			try {
-				const data = await getReservations();
-				setReservations(data);
-				await new Promise((resolve) => setTimeout(resolve, 150));
-			} finally {
-				setLoading(false);
+		const fetchData = async () => {
+			if (dataFetched && reservations.length > 0) {
+				return;
 			}
-		};
 
-		fetchReservations();
-	}, []);
+			if (!session?.user) return;
 
-	useEffect(() => {
-		const fetchUsers = async () => {
 			setLoading(true);
 			try {
-				const data = await getUsers();
-				const filteredUsers = data.filter((user) => user.role_id === 1);
+				const [reservationsData, usersData] = await Promise.all([
+					getReservations(),
+					getUsers()
+				]);
+				
+				setReservations(reservationsData);
+				const filteredUsers = usersData.filter((user) => user.role_id === 1);
 				setUsers(filteredUsers);
-				await new Promise((resolve) => setTimeout(resolve, 150));
+				setDataFetched(true);
+			} catch (error) {
+				console.error("Error loading data:", error);
 			} finally {
 				setLoading(false);
 			}
-			// Filtrar usuarios con rol = 1
-			// Actualizar el estado con los usuarios filtrados
 		};
 
-		fetchUsers();
-	}, []);
+		fetchData();
+	}, [session, dataFetched, reservations.length]);
 
 	const filteredReservations = () => {
 		let filtered = reservations;
@@ -181,7 +177,7 @@ export default function AllReservationsPage() {
 	return (
 		<div className="flex bg-zinc-50">
 			{loading ? ( // Condicional para mostrar un loader
-				<div className="flex flex-col items-center justify-center h-[80vh] mx-auto">
+				<div className="flex flex-col items-center justify-center h-[80vh] mx-auto w-full">
 					<motion.div
 						initial={{ opacity: 0 }} // Inicia como invisible
 						animate={{

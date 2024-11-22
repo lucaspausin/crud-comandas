@@ -30,12 +30,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import CommandsTable from "@/components/CommandsTable";
 import { useRouter } from "next/navigation";
-import {
-	getReservations,
-	getCommands,
-	getReservationSummary,
-	getCommandsSummary,
-} from "../reservations/reservations.api";
+import { getDashboardData } from "../reservations/reservations.api";
 
 import Aside from "@/components/Aside";
 import Image from "next/image";
@@ -45,96 +40,54 @@ import myImage from "@/public/motorgas2.svg";
 export default function Dashboard() {
 	const router = useRouter();
 	const { data: session } = useSession();
-
 	const userRole = session?.user?.role;
 
-	const [reservations, setReservations] = useState([]);
+	const [dashboardData, setDashboardData] = useState({
+		reservations: [],
+		commands: [],
+		reservationsSummary: {},
+		commandsSummary: {},
+	});
 	const [loading, setLoading] = useState(true);
+	const [dataFetched, setDataFetched] = useState(false);
 
 	useEffect(() => {
-		const fetchReservations = async () => {
-			const data = await getReservations();
-			setReservations(data);
+		const fetchDashboardData = async () => {
+			if (dataFetched && dashboardData.reservations.length > 0) {
+				return;
+			}
+
+			if (!session?.user) return;
+
 			setLoading(true);
-			setTimeout(() => {
-				setLoading(false);
-			}, 750);
-		};
-
-		fetchReservations();
-	}, []);
-
-	const [commands, setCommands] = useState([]);
-
-	useEffect(() => {
-		const fetchCommands = async () => {
-			const data = await getCommands();
-			setCommands(data);
-			setLoading(true);
-			setTimeout(() => {
-				setLoading(false);
-			}, 750); // Terminar carga
-		};
-
-		fetchCommands();
-	}, []);
-
-	const [reservationsSummary, setReservationsSummary] = useState([]);
-
-	useEffect(() => {
-		const fetchReservationsSummary = async () => {
 			try {
-				const data = await getReservationSummary();
-				setReservationsSummary(data);
+				const data = await getDashboardData();
+				setDashboardData(data);
+				setDataFetched(true);
 			} catch (error) {
-				console.error("Error fetching reservations summary:", error);
-				// Si el error es de sesión expirada, podríamos redirigir al login
+				console.error("Error loading dashboard:", error);
 				if (error.message.includes("Session expired")) {
-					router.push("/login");
+						router.push("/login");
 				}
+			} finally {
+				setLoading(false);
 			}
 		};
 
-		if (session?.user) {
-			fetchReservationsSummary();
-		}
-	}, [session, router]);
+		fetchDashboardData();
+	}, [session, router, dataFetched, dashboardData.reservations.length]);
 
-	const [commandsSummary, setCommandsSummary] = useState([]);
-
-	useEffect(() => {
-		const fetchCommandsSummary = async () => {
-			try {
-				const data = await getCommandsSummary();
-				setCommandsSummary(data);
-			} catch (error) {
-				console.error("Error fetching commands summary:", error);
-				if (error.message.includes("Session expired")) {
-					router.push("/login");
-				}
-			}
-		};
-
-		if (session?.user) {
-			fetchCommandsSummary();
-		}
-	}, [session, router]);
-
-	const lastFiveReservations = reservations
+	const lastFiveReservations = dashboardData.reservations
 		.filter((reservation) => {
-			// Si es rol 2 o 3 (admin), muestra todas las reservas
 			if (userRole === 2 || userRole === 3) return true;
-			// Para otros roles, filtra solo las reservas del usuario actual
 			return reservation.usuarios.id === session?.user?.id;
 		})
 		.sort((a, b) => new Date(b.creado_en) - new Date(a.creado_en))
 		.slice(0, 5);
 
-	const lastFiveCommands = commands
+	const lastFiveCommands = dashboardData.commands
 		.filter((command) => {
-			// Si es rol 2 o 3 (admin), muestra todas las comandas
 			if (userRole === 2 || userRole === 3) return true;
-			// Para otros roles, filtra solo las comandas del usuario actual
 			return command.boletos_reservas.usuarios.id === session?.user?.id;
 		})
 		.sort((a, b) => new Date(b.creado_en) - new Date(a.creado_en))
@@ -143,7 +96,6 @@ export default function Dashboard() {
 	// Inicializar los estados fuera de vista
 	const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
 	const [cursorPosition, setCursorPosition] = useState({ x: -9999, y: -9999 });
-
 
 	// const [mousePositionAxis, setMousePositionAxis] = useState({
 	// 	x: -100,
@@ -199,10 +151,11 @@ export default function Dashboard() {
 										</CardHeader>
 										<CardContent>
 											<div className="text-2xl font-light">
-												{commandsSummary.totalCompleted}
+												{dashboardData.commandsSummary.totalCompleted}
 											</div>
 											<p className="text-xs text-muted-foreground">
-												{commandsSummary.percentageChange} desde el último mes.
+												{dashboardData.commandsSummary.percentageChange} desde
+												el último mes.
 											</p>
 										</CardContent>
 									</Card>
@@ -216,10 +169,11 @@ export default function Dashboard() {
 										</CardHeader>
 										<CardContent>
 											<div className="text-2xl font-light">
-												{commandsSummary.totalCompleted}
+												{dashboardData.commandsSummary.totalCompleted}
 											</div>
 											<p className="text-xs text-muted-foreground">
-												{commandsSummary.percentageChange} desde el último mes.
+												{dashboardData.commandsSummary.percentageChange} desde
+												el último mes.
 											</p>
 										</CardContent>
 									</Card>
@@ -233,11 +187,11 @@ export default function Dashboard() {
 
 										<CardContent>
 											<div className="text-2xl font-light">
-												{reservationsSummary.totalReservations}
+												{dashboardData.reservationsSummary.totalReservations}
 											</div>
 											<p className="text-xs text-muted-foreground">
-												{reservationsSummary.percentageChange} comparado con el
-												mes.
+												{dashboardData.reservationsSummary.percentageChange}{" "}
+												comparado con el mes.
 											</p>
 										</CardContent>
 									</Card>
