@@ -28,7 +28,7 @@
   },
   "build": {
     "env": {
-      "DATABASE_URL": "mysql://root:16kkarter@localhost:3306/motorgas"
+      "DATABASE_URL": "mysql://root:xlpulXnCMHqVCFTgxVGFlgnJXpPVrqCR@autorack.proxy.rlwy.net:27851/railway"
     },
     "commands": [
       "npx prisma generate"
