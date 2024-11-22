@@ -2,14 +2,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useRef, useEffect } from "react";
-// import Image from "next/image";
-// import Link from "next/link";
+import { useState, useRef, useEffect, lazy } from "react";
 import { Button } from "@/components/ui/button";
 import ToastNotification from "@/components/ToastNotification";
-import Vehicle3DViewer from "../3D/VehicleViewer.jsx";
 import SignaturePad from "react-signature-canvas";
 import LegalText from "@/components/LegalText";
+
+// Lazy load the Vehicle3DViewer component
+const Vehicle3DViewer = lazy(() => import("../3D/VehicleViewer.jsx"));
 
 export default function VehicleDetailsForm({
 	formData,
@@ -18,22 +18,21 @@ export default function VehicleDetailsForm({
 	showToast,
 	setShowToast,
 }) {
-	// comanda
 	const [selectedPoint, setSelectedPoint] = useState(null);
 	const [showSuggestions, setShowSuggestions] = useState(false);
 	const sigPad = useRef(null);
 	const suggestionsRef = useRef(null);
+	const [isVisible, setIsVisible] = useState(false); // State to track visibility
 
 	useEffect(() => {
 		if (formData.firma && sigPad.current) {
 			try {
-				// Construir el data URL completo
 				const dataUrl = `data:image/png;base64,${formData.firma}`;
 				const img = new Image();
 				img.onload = () => {
 					const canvas = sigPad.current.getCanvas();
 					const ctx = canvas.getContext("2d");
-					ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar canvas primero
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
 					ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 				};
 				img.src = dataUrl;
@@ -43,22 +42,19 @@ export default function VehicleDetailsForm({
 		}
 	}, [formData.firma]);
 
-	// Agregar un useEffect para ajustar el tamaño del canvas
 	useEffect(() => {
 		if (sigPad.current) {
 			const canvas = sigPad.current.getCanvas();
-			// const ratio = Math.max(window.devicePixelRatio || 1, 1);
-			canvas.width = canvas.offsetWidth; // No escalar el ancho
-			canvas.height = canvas.offsetHeight; // No escalar la altura
-			canvas.getContext("2d").scale(1, 1); // No escalar el contexto
+			canvas.width = canvas.offsetWidth;
+			canvas.height = canvas.offsetHeight;
+			canvas.getContext("2d").scale(1, 1);
 		}
 	}, []);
 
-	// Agregar un useEffect para manejar clics fuera de las sugerencias
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
-				setShowSuggestions(false); // Cerrar las sugerencias si se hace clic fuera
+				setShowSuggestions(false);
 			}
 		};
 
@@ -84,7 +80,7 @@ export default function VehicleDetailsForm({
 	const handleClearSignature = () => {
 		if (sigPad.current) {
 			sigPad.current.clear();
-			handleInputChange("firma", ""); // Limpiar también el valor en formData
+			handleInputChange("firma", "");
 		}
 	};
 
@@ -92,13 +88,40 @@ export default function VehicleDetailsForm({
 		if (sigPad.current && !sigPad.current.isEmpty()) {
 			try {
 				const canvas = sigPad.current.getCanvas();
-				const firmaBase64 = canvas.toDataURL("image/png").split(",")[1]; // No escalar la firma
+				const firmaBase64 = canvas.toDataURL("image/png").split(",")[1];
 				handleInputChange("firma", firmaBase64);
 			} catch (error) {
 				console.error("Error al guardar la firma:", error);
 			}
 		}
 	};
+
+	// Intersection Observer to track visibility of Vehicle3DViewer
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						setIsVisible(true); // Set to true when visible
+					} else {
+						setIsVisible(false); // Set to false when not visible
+					}
+				});
+			},
+			{ threshold: 0.1 } // Trigger when 10% of the component is visible
+		);
+
+		const target = document.getElementById("vehicle-3d-viewer");
+		if (target) {
+			observer.observe(target);
+		}
+
+		return () => {
+			if (target) {
+				observer.unobserve(target);
+			}
+		};
+	}, []);
 
 	return (
 		<Card className="rounded-xl shadow-lg border-none">
@@ -252,17 +275,19 @@ export default function VehicleDetailsForm({
 				</CardHeader>
 				<CardContent>
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 border rounded-lg">
-						<div className="col-span-1">
-							<Vehicle3DViewer
-								onPointSelect={handlePointSelect}
-								pointsWithData={Object.keys(formData).reduce((acc, key) => {
-									if (key.startsWith("detalle") && formData[key]) {
-										const pointId = parseInt(key.replace("detalle", ""));
-										acc[pointId] = true;
-									}
-									return acc;
-								}, {})}
-							/>
+						<div className="col-span-1" id="vehicle-3d-viewer">
+							{isVisible && ( // Load Vehicle3DViewer only when visible
+								<Vehicle3DViewer
+									onPointSelect={handlePointSelect}
+									pointsWithData={Object.keys(formData).reduce((acc, key) => {
+										if (key.startsWith("detalle") && formData[key]) {
+											const pointId = parseInt(key.replace("detalle", ""));
+											acc[pointId] = true;
+										}
+										return acc;
+									}, {})}
+								/>
+							)}
 						</div>
 						<div className="col-span-1 bg-zinc-50 p-4 rounded-lg">
 							{selectedPoint ? (

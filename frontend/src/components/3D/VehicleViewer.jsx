@@ -10,8 +10,8 @@ import { Suspense, useState, useRef, useEffect } from "react";
 import { Vector3 } from "three";
 import { gsap } from "gsap";
 
-// 1. Importa el modelo directamente
-import modeloCoche from "@/public/compressed_1731961304333_2022__peugeot_308.glb";
+// 1. Asegúrate de que el modelo esté optimizado y comprimido
+import modeloCoche from "@/public/1731961304333_2022__peugeot_308.glb";
 
 function Car() {
 	// 2. Usa la URL del modelo importado
@@ -94,16 +94,28 @@ function VehicleModel({ onPointSelect, cameraRef, pointsWithData }) {
 		});
 	};
 
+	useEffect(() => {
+		// Limpiar recursos al desmontar el componente
+		return () => {
+			// Aquí puedes liberar recursos si es necesario
+		};
+	}, []);
+
 	return (
 		<group>
 			<Car />
 			{inspectionPoints.map((point) => (
-				<Html key={point.id} position={point.position} style={{ pointerEvents: 'none' }}>
+				<Html
+					key={point.id}
+					position={point.position}
+					style={{ pointerEvents: "none" }}
+				>
 					<div
 						className={`relative cursor-pointer w-8 h-8 rounded-full flex items-center justify-center
-							${activePoint === point.id
-								? "bg-blue-800 text-white scale-125"
-								: pointsWithData?.[point.id]
+							${
+								activePoint === point.id
+									? "bg-blue-800 text-white scale-125"
+									: pointsWithData?.[point.id]
 									? "bg-red-600 border-zinc-200 text-zinc-200 font-medium bg-opacity-40"
 									: "bg-zinc-800 border-zinc-200 text-zinc-200 font-medium bg-opacity-70"
 							} 
@@ -112,7 +124,7 @@ function VehicleModel({ onPointSelect, cameraRef, pointsWithData }) {
 						onClick={() => handlePointClick(point)}
 						onMouseEnter={() => setHoveredPoint(point.id)}
 						onMouseLeave={() => setHoveredPoint(null)}
-						style={{ pointerEvents: 'auto' }}
+						style={{ pointerEvents: "auto" }}
 					>
 						<span className="text-xs">{point.id}</span>
 						{(hoveredPoint === point.id || activePoint === point.id) && (
@@ -136,13 +148,16 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 	const cameraRef = useRef();
 
 	return (
-		<div className="w-full h-[600px] bg-gradient-to-b from-zinc-100 to-zinc-300 rounded-tl-lg rounded-bl-lg relative" style={{ zIndex: 0 }}>
+		<div
+			className="w-full h-[600px] bg-gradient-to-b from-zinc-100 to-zinc-300 rounded-tl-lg rounded-bl-lg relative"
+			style={{ zIndex: 0 }}
+		>
 			<Canvas shadows>
 				<Suspense
 					fallback={
 						<Html center>
 							<div className="line-clamp-1 text-sm text-gray-400">
-								Cargando modelo 3D...
+								Cargando...
 							</div>
 						</Html>
 					}
@@ -153,39 +168,22 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 						position={[24, 12, 24]}
 						fov={50}
 					/>
-					<ambientLight intensity={1.5} />
+					<ambientLight intensity={0.5} />
 					<directionalLight
 						position={[0, 5, 0]}
-						intensity={2}
+						intensity={1}
 						castShadow
-						shadow-mapSize-width={2048}
-						shadow-mapSize-height={2048}
-						shadow-camera-far={50}
-						shadow-camera-left={-5}
-						shadow-camera-right={5}
-						shadow-camera-top={5}
-						shadow-camera-bottom={-5}
+						shadow-mapSize-width={512}
+						shadow-mapSize-height={512}
+						shadow-camera-far={15}
+						shadow-camera-left={-1.5}
+						shadow-camera-right={1.5}
+						shadow-camera-top={1.5}
+						shadow-camera-bottom={-1.5}
 						shadow-color="black"
 					/>
-					<pointLight position={[0, 4, 15]} intensity={1.2} />
-					<pointLight position={[0, 4, -15]} intensity={1.2} />
-					<pointLight position={[15, 4, 0]} intensity={1.2} />
-					<pointLight position={[-15, 4, 0]} intensity={1.2} />
-					<directionalLight
-						position={[0, -5, 0]} // Nueva luz para contraste de abajo hacia arriba
-						intensity={5}
-						castShadow
-						shadow-mapSize-width={2048}
-						shadow-mapSize-height={2048}
-						shadow-camera-far={50}
-						shadow-camera-left={-5}
-						shadow-camera-right={5}
-						shadow-camera-top={5}
-						shadow-camera-bottom={-5}
-						shadow-color="black"
-					/>
-					<VehicleModel 
-						onPointSelect={onPointSelect} 
+					<VehicleModel
+						onPointSelect={onPointSelect}
 						cameraRef={cameraRef}
 						pointsWithData={pointsWithData}
 					/>
@@ -201,9 +199,9 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 					<ContactShadows
 						position={[0, 0, 0]}
 						opacity={1}
-						scale={100}
-						blur={2}
-						far={50}
+						scale={50}
+						blur={1}
+						far={30}
 						color="black"
 					/>
 				</Suspense>
