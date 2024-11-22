@@ -22,7 +22,7 @@ export default function TechnicalDetailsCard({ comanda }) {
 
 	if (hasEmptyValues) {
 		return (
-			<Card className="border-none shadow-lg rounded-lg h-full col-span-2 lg:col-span-1">
+			<Card className="border-none shadow-lg rounded-lg h-full col-span-2">
 				<CardHeader>
 					<CardTitle className="text-xl font-light">
 						Detalles Técnicos
