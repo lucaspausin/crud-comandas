@@ -166,21 +166,21 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 					<PerspectiveCamera
 						ref={cameraRef}
 						makeDefault
-						position={[24, 12, 24]} 
+						position={[24, 12, 24]}
 						fov={45} // Reduced FOV for better performance
 					/>
 					<ambientLight intensity={0.4} /> {/* Reduced light intensity */}
 					<directionalLight
 						position={[0, 5, 0]}
-						intensity={0.8} // Reduced intensity
+						intensity={0.6} // Further reduced intensity
 						castShadow
-						shadow-mapSize-width={256} // Reduced shadow map size
-						shadow-mapSize-height={256}
-						shadow-camera-far={10} // Reduced shadow camera bounds
-						shadow-camera-left={-1}
-						shadow-camera-right={1}
-						shadow-camera-top={1}
-						shadow-camera-bottom={-1}
+						shadow-mapSize-width={128} // Reduced shadow resolution
+						shadow-mapSize-height={128}
+						shadow-camera-far={8} // Reduced shadow distance
+						shadow-camera-left={-0.5}
+						shadow-camera-right={0.5}
+						shadow-camera-top={0.5}
+						shadow-camera-bottom={-0.5}
 						shadow-color="black"
 					/>
 					<VehicleModel
@@ -190,19 +190,20 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 					/>
 					<OrbitControls
 						minPolarAngle={Math.PI / 4}
-						maxPolarAngle={Math.PI / 1.8}
+						maxPolarAngle={Math.PI / 1.4}
 						enableZoom={true}
-						enablePan={false} // Disabled panning for simpler controls
-						dampingFactor={0.03} // Reduced damping
+						enablePan={false}
+						dampingFactor={0.03}
 						minDistance={25}
-						maxDistance={45} // Reduced camera distance range
+						maxDistance={35}
 					/>
 					<ContactShadows
 						position={[0, 0, 0]}
-						opacity={0.8} // Reduced opacity
-						scale={40} // Reduced scale
-						blur={2} // Increased blur for better performance
-						far={20} // Reduced far distance
+						opacity={0.6} // Reduced opacity
+						scale={50} // Reduced scale
+						blur={3} // Increased blur
+						far={55} // Reduced far distance
+						resolution={256} // Lower resolution
 						color="black"
 					/>
 				</Suspense>
