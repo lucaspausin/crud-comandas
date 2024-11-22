@@ -68,8 +68,7 @@ export default function TechnicalDetailsCard({ comanda }) {
 					format: "letter",
 					orientation: "portrait",
 				},
-			};
-			html2pdf().from(slidesRef.current).set(opt).save();
+			};			html2pdf().from(slidesRef.current).set(opt).save();
 		}
 	};
 
