@@ -28,8 +28,9 @@ function Car() {
 					child.castShadow = true;
 					child.receiveShadow = true;
 					if (child.material) {
-						child.material.metalness = 0.4;
-						child.material.roughness = 0.5;
+						child.material.metalness = 0.2; // Reduced metalness for better optimization
+						child.material.roughness = 0.7; // Increased roughness for better optimization
+						child.material.envMapIntensity = 0.5; // Reduced environment map intensity
 					}
 				}
 			});
@@ -85,7 +86,7 @@ function VehicleModel({ onPointSelect, cameraRef, pointsWithData }) {
 			x: targetPosition.x + 0.05,
 			y: targetPosition.y + 0.01,
 			z: targetPosition.z + 0.05,
-			duration: 1,
+			duration: 0.5,
 			ease: "power2.inOut",
 			onComplete: () => {
 				setActivePoint(point.id);
@@ -165,21 +166,21 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 					<PerspectiveCamera
 						ref={cameraRef}
 						makeDefault
-						position={[24, 12, 24]}
-						fov={50}
+						position={[24, 12, 24]} 
+						fov={45} // Reduced FOV for better performance
 					/>
-					<ambientLight intensity={0.5} />
+					<ambientLight intensity={0.4} /> {/* Reduced light intensity */}
 					<directionalLight
 						position={[0, 5, 0]}
-						intensity={1}
+						intensity={0.8} // Reduced intensity
 						castShadow
-						shadow-mapSize-width={512}
-						shadow-mapSize-height={512}
-						shadow-camera-far={15}
-						shadow-camera-left={-1.5}
-						shadow-camera-right={1.5}
-						shadow-camera-top={1.5}
-						shadow-camera-bottom={-1.5}
+						shadow-mapSize-width={256} // Reduced shadow map size
+						shadow-mapSize-height={256}
+						shadow-camera-far={10} // Reduced shadow camera bounds
+						shadow-camera-left={-1}
+						shadow-camera-right={1}
+						shadow-camera-top={1}
+						shadow-camera-bottom={-1}
 						shadow-color="black"
 					/>
 					<VehicleModel
@@ -188,20 +189,20 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 						pointsWithData={pointsWithData}
 					/>
 					<OrbitControls
-						minPolarAngle={Math.PI / 5}
-						maxPolarAngle={Math.PI / 1.5}
+						minPolarAngle={Math.PI / 4}
+						maxPolarAngle={Math.PI / 1.8}
 						enableZoom={true}
-						enablePan={true}
-						dampingFactor={0.05}
-						minDistance={20}
-						maxDistance={60}
+						enablePan={false} // Disabled panning for simpler controls
+						dampingFactor={0.03} // Reduced damping
+						minDistance={25}
+						maxDistance={45} // Reduced camera distance range
 					/>
 					<ContactShadows
 						position={[0, 0, 0]}
-						opacity={1}
-						scale={50}
-						blur={1}
-						far={30}
+						opacity={0.8} // Reduced opacity
+						scale={40} // Reduced scale
+						blur={2} // Increased blur for better performance
+						far={20} // Reduced far distance
 						color="black"
 					/>
 				</Suspense>
