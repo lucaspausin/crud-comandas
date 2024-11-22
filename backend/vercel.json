@@ -25,5 +25,13 @@
   ],
   "env": {
     "NODE_ENV": "production"
+  },
+  "build": {
+    "env": {
+      "DATABASE_URL": "mysql://root:16kkarter@localhost:3306/motorgas"
+    },
+    "commands": [
+      "npx prisma generate"
+    ]
   }
 }
