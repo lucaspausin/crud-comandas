@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -21,7 +22,7 @@ import {
 import VehicleDetailsForm from "@/components/forms/VehicleDetailsForm";
 
 export default function ComandaDetail({ params }) {
-	const [showToast, setShowToast] = useState("");
+	const router = useRouter();
 	const { data: session } = useSession();
 	const loggedUserId = session?.user?.id;
 
@@ -199,8 +200,7 @@ export default function ComandaDetail({ params }) {
 			await updateCommand(commandId, { estado: "en_proceso" });
 
 			setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
-			const successMessage = "Edición de los detalles exitosa.";
-			setShowToast(successMessage);
+			router.push("/dashboard");
 		} catch (error) {
 			console.error("Error al actualizar la técnica:", error);
 			setShowToast("Error al actualizar la técnica");
@@ -338,8 +338,6 @@ export default function ComandaDetail({ params }) {
 						formData={formData}
 						handleInputChange={handleInputChange}
 						handleSubmit={handleSubmitDetails}
-						showToast={showToast}
-						setShowToast={setShowToast}
 					/>
 				</div>
 			</main>

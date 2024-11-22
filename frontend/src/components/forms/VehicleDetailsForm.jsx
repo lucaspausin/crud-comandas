@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect, lazy } from "react";
 import { Button } from "@/components/ui/button";
-import ToastNotification from "@/components/ToastNotification";
 import SignaturePad from "react-signature-canvas";
 import LegalText from "@/components/LegalText";
 
@@ -15,8 +14,6 @@ export default function VehicleDetailsForm({
 	formData,
 	handleInputChange,
 	handleSubmit,
-	showToast,
-	setShowToast,
 }) {
 	const [selectedPoint, setSelectedPoint] = useState(null);
 	const [showSuggestions, setShowSuggestions] = useState(false);
@@ -414,12 +411,6 @@ export default function VehicleDetailsForm({
 						</Button>
 					</div>
 				</CardContent>
-				<ToastNotification
-					message={showToast}
-					show={!!showToast}
-					onClose={() => setShowToast("")}
-					type={showToast.includes("Error") ? "error" : "success"}
-				/>
 			</form>
 		</Card>
 	);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -22,6 +23,8 @@ import {
 
 import ChecklistForm2 from "@/components/forms/CheckListForm2";
 export default function ComandaDetail({ params }) {
+	const router = useRouter();
+
 	// const [showToast, setShowToast] = useState("");
 	const { data: session } = useSession();
 	const loggedUserId = session?.user?.id;
@@ -116,6 +119,8 @@ export default function ComandaDetail({ params }) {
 			setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
 			// const successMessage = "Edición de los detalles exitosa.";
 			// setShowToast(successMessage);
+
+			router.push('/dashboard');
 		} catch (error) {
 			console.error("Error al actualizar la técnica:", error);
 			// setShowToast("Error al actualizar la técnica");
