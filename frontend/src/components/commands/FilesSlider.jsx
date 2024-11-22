@@ -111,7 +111,7 @@ const FilesSlider = ({ file, index, handleDeleteArchive }) => {
 					onClick={handleOutsideClick}
 				>
 					<div
-						className="bg-white shadow-2xl rounded-lg max-w-3xl w-full p-4 relative flex flex-col items-center justify-center transform transition-transform"
+						className="bg-white shadow-2xl rounded-lg max-w-3xl w-full max-h-[90vh] p-4 relative flex flex-col items-center justify-center transform transition-transform"
 						style={{
 							animation: "scaleUp 0.2s ease-out forwards",
 						}}

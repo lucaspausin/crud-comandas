@@ -1,10 +1,14 @@
-import { useState } from "react";
-import VehicleViewerReadOnly from "@/components/3D/VehicleViewerReadOnly";
+import { useState, lazy, useEffect, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 
+// Lazy load the VehicleViewerReadOnly component
+const VehicleViewerReadOnly = lazy(() => import("@/components/3D/VehicleViewerReadOnly"));
+
 export default function TechnicalDetailsCard({ comanda }) {
 	const [selectedPoint, setSelectedPoint] = useState(null);
+	const [isViewerVisible, setIsViewerVisible] = useState(false); // State to track visibility
+	const viewerRef = useRef(null);
 
 	// Extraemos los detalles técnicos de la comanda
 	const detallesTecnicos = comanda?.tecnica_tecnica_comanda_idTocomandas || {};
@@ -19,6 +23,33 @@ export default function TechnicalDetailsCard({ comanda }) {
 		!detallesTecnicos.modelo &&
 		!detallesTecnicos.anio_fabricacion &&
 		!detallesTecnicos.patente;
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						setIsViewerVisible(true); // Set to true when visible
+					} else {
+						setIsViewerVisible(false); // Set to false when not visible
+					}
+				});
+			},
+			{ threshold: 0.1 } // Trigger when 10% of the component is visible
+		);
+
+		const currentViewerRef = viewerRef.current; // Store the current ref value
+
+		if (currentViewerRef) {
+			observer.observe(currentViewerRef);
+		}
+
+		return () => {
+			if (currentViewerRef) {
+				observer.unobserve(currentViewerRef);
+			}
+		};
+	}, []);
 
 	if (hasEmptyValues) {
 		return (
@@ -93,12 +124,15 @@ export default function TechnicalDetailsCard({ comanda }) {
 					</dl>
 				</CardContent>
 				<CardContent className="col-span-2 border-none rounded-lg p-6">
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 col-span-2 rounded-lg border">
-						<div className="col-span-1">
-							<VehicleViewerReadOnly
-								onPointSelect={handlePointSelect}
-								pointsData={detallesTecnicos}
-							/>
+					<div className="grid grid-cols-1 lg:grid-cols-2 col-span-2 rounded-lg border">
+						<div className="col-span-1" ref={viewerRef}>
+							{/* Cargar VehicleViewerReadOnly solo cuando sea visible */}
+							{isViewerVisible && (
+								<VehicleViewerReadOnly
+									onPointSelect={handlePointSelect}
+									pointsData={detallesTecnicos}
+								/>
+							)}
 						</div>
 						<div className="col-span-1 bg-zinc-50 p-4 rounded-lg">
 							{selectedPoint ? (

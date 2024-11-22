@@ -9,7 +9,7 @@ import {
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Vector3 } from "three";
 import { gsap } from "gsap";
-import modeloCoche from "@/public/compressed_1731961304333_2022__peugeot_308.glb";
+import modeloCoche from "@/public/1731961304333_2022__peugeot_308.glb";
 
 function Car() {
 	const { scene } = useGLTF(modeloCoche.src || modeloCoche, true);
@@ -156,8 +156,16 @@ export default function VehicleViewerReadOnly({ onPointSelect, pointsData }) {
 						position={[24, 12, 24]}
 						fov={50}
 					/>
-					<ambientLight intensity={1.5} />
-					<directionalLight position={[0, 5, 0]} intensity={2} castShadow />
+					<ambientLight intensity={0.5} />
+					<directionalLight position={[0, 5, 0]} intensity={1} castShadow
+						shadow-mapSize-width={512}
+						shadow-mapSize-height={512}
+						shadow-camera-far={15}
+						shadow-camera-left={-1.5}
+						shadow-camera-right={1.5}
+						shadow-camera-top={1.5}
+						shadow-camera-bottom={-1.5}
+						shadow-color="black" />
 					<pointLight position={[0, 4, 15]} intensity={1.2} />
 					<pointLight position={[0, 4, -15]} intensity={1.2} />
 					<VehicleModelReadOnly

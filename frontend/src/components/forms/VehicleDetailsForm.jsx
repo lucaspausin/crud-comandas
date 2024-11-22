@@ -274,7 +274,7 @@ export default function VehicleDetailsForm({
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 border rounded-lg">
+					<div className="grid grid-cols-1 lg:grid-cols-2 border rounded-lg">
 						<div className="col-span-1" id="vehicle-3d-viewer">
 							{isVisible && ( // Load Vehicle3DViewer only when visible
 								<Vehicle3DViewer
