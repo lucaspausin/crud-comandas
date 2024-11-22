@@ -3,7 +3,13 @@
   "builds": [
     {
       "src": "src/main.ts",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["prisma/schema.prisma"],
+        "env": {
+          "DATABASE_URL": "mysql://root:xlpulXnCMHqVCFTgxVGFlgnJXpPVrqCR@autorack.proxy.rlwy.net:27851/railway"
+        }
+      }
     }
   ],
   "routes": [
@@ -25,13 +31,5 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  },
-  "build": {
-    "env": {
-      "DATABASE_URL": "mysql://root:xlpulXnCMHqVCFTgxVGFlgnJXpPVrqCR@autorack.proxy.rlwy.net:27851/railway"
-    },
-    "commands": [
-      "npx prisma generate"
-    ]
   }
 }
