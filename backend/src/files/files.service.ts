@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import * as AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid'; // Para generar un nombre único para los archivos
 import { extname } from 'path';
