@@ -11,7 +11,7 @@ import { Vector3 } from "three";
 import { gsap } from "gsap";
 
 // 1. Asegúrate de que el modelo esté optimizado y comprimido
-import modeloCoche from "@/public/1731961304333_2022__peugeot_308.glb";
+import modeloCoche from "@/public/compressed_1732332462102_scene.glb";
 
 function Car() {
 	// 2. Usa la URL del modelo importado
