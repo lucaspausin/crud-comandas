@@ -4,7 +4,7 @@ import {
 	Html,
 	useGLTF,
 	PerspectiveCamera,
-	ContactShadows,
+	
 } from "@react-three/drei";
 import { Suspense, useState, useRef, useEffect } from "react";
 import { Vector3 } from "three";
@@ -19,22 +19,44 @@ function Car() {
 
 	useEffect(() => {
 		if (scene) {
-			scene.scale.set(625, 625, 625);
+			scene.scale.set(400, 400, 400);
 			scene.position.set(0, 0.2, 0);
 			scene.rotation.set(0, Math.PI, 0);
 
 			scene.traverse((child) => {
 				if (child.isMesh) {
-					child.castShadow = true;
-					child.receiveShadow = true;
+					child.castShadow = false;
+					child.receiveShadow = false;
 					if (child.material) {
-						child.material.metalness = 0.2; // Reduced metalness for better optimization
-						child.material.roughness = 0.7; // Increased roughness for better optimization
-						child.material.envMapIntensity = 0.5; // Reduced environment map intensity
+						child.material.metalness = 0.1;
+						child.material.roughness = 0.8;
+						child.material.envMapIntensity = 0.3;
+						child.material.flatShading = true;
+						child.material.needsUpdate = true;
 					}
 				}
 			});
 		}
+
+		// Limpieza de recursos
+		return () => {
+			if (scene) {
+				scene.traverse((child) => {
+					if (child.isMesh) {
+						if (child.geometry) {
+							child.geometry.dispose();
+						}
+						if (child.material) {
+							if (Array.isArray(child.material)) {
+								child.material.forEach(material => material.dispose());
+							} else {
+								child.material.dispose();
+							}
+						}
+					}
+				});
+			}
+		};
 	}, [scene]);
 
 	return <primitive object={scene} />;
@@ -96,9 +118,12 @@ function VehicleModel({ onPointSelect, cameraRef, pointsWithData }) {
 	};
 
 	useEffect(() => {
-		// Limpiar recursos al desmontar el componente
+		const gsapContext = gsap.context(() => {});
+		
 		return () => {
-			// Aquí puedes liberar recursos si es necesario
+			gsapContext.revert(); // Limpia las animaciones de GSAP
+			setActivePoint(null);
+			setHoveredPoint(null);
 		};
 	}, []);
 
@@ -153,7 +178,11 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 			className="w-full h-[600px] bg-gradient-to-b from-zinc-100 to-zinc-300 rounded-tl-lg rounded-bl-lg relative"
 			style={{ zIndex: 0 }}
 		>
-			<Canvas shadows>
+			<Canvas
+				shadows={false}
+				dpr={[1, 1.5]}
+				performance={{ min: 0.5 }}
+			>
 				<Suspense
 					fallback={
 						<Html center>
@@ -167,21 +196,13 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 						ref={cameraRef}
 						makeDefault
 						position={[24, 12, 24]}
-						fov={45} // Reduced FOV for better performance
+						fov={40}
 					/>
-					<ambientLight intensity={0.4} /> {/* Reduced light intensity */}
+					<ambientLight intensity={0.3} />
 					<directionalLight
 						position={[0, 5, 0]}
-						intensity={0.6} // Further reduced intensity
-						castShadow
-						shadow-mapSize-width={128} // Reduced shadow resolution
-						shadow-mapSize-height={128}
-						shadow-camera-far={8} // Reduced shadow distance
-						shadow-camera-left={-0.5}
-						shadow-camera-right={0.5}
-						shadow-camera-top={0.5}
-						shadow-camera-bottom={-0.5}
-						shadow-color="black"
+						intensity={0.4}
+						castShadow={false}
 					/>
 					<VehicleModel
 						onPointSelect={onPointSelect}
@@ -193,18 +214,10 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 						maxPolarAngle={Math.PI / 1.4}
 						enableZoom={true}
 						enablePan={false}
-						dampingFactor={0.03}
-						minDistance={25}
-						maxDistance={35}
-					/>
-					<ContactShadows
-						position={[0, 0, 0]}
-						opacity={0.6} // Reduced opacity
-						scale={50} // Reduced scale
-						blur={3} // Increased blur
-						far={55} // Reduced far distance
-						resolution={256} // Lower resolution
-						color="black"
+						dampingFactor={0.05}
+						minDistance={20}
+						maxDistance={30}
+						enableDamping={false}
 					/>
 				</Suspense>
 			</Canvas>
