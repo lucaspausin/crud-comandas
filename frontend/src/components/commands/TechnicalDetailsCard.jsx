@@ -68,7 +68,8 @@ export default function TechnicalDetailsCard({ comanda }) {
 					format: "letter",
 					orientation: "portrait",
 				},
-			};			html2pdf().from(slidesRef.current).set(opt).save();
+			};
+			html2pdf().from(slidesRef.current).set(opt).save();
 		}
 	};
 
@@ -77,7 +78,7 @@ export default function TechnicalDetailsCard({ comanda }) {
 			<Card className="border-none shadow-lg rounded-lg h-full col-span-2">
 				<CardHeader>
 					<CardTitle className="text-xl font-light">
-						Detalles Técnicos
+						Inspección del Vehículo
 					</CardTitle>
 				</CardHeader>
 				<CardContent>

@@ -4,14 +4,13 @@ import {
 	Html,
 	useGLTF,
 	PerspectiveCamera,
-	
 } from "@react-three/drei";
 import { Suspense, useState, useRef, useEffect } from "react";
 import { Vector3 } from "three";
 import { gsap } from "gsap";
 
 // 1. Asegúrate de que el modelo esté optimizado y comprimido
-import modeloCoche from "@/public/comprescene2.glb";
+import modeloCoche from "@/public/compressed_1732381182488_3.glb";
 
 function Car() {
 	// 2. Usa la URL del modelo importado
@@ -19,7 +18,7 @@ function Car() {
 
 	useEffect(() => {
 		if (scene) {
-			scene.scale.set(400, 400, 400);
+			scene.scale.set(625, 625, 625);
 			scene.position.set(0, 0.2, 0);
 			scene.rotation.set(0, Math.PI, 0);
 
@@ -28,10 +27,10 @@ function Car() {
 					child.castShadow = false;
 					child.receiveShadow = false;
 					if (child.material) {
-						child.material.metalness = 0.1;
-						child.material.roughness = 0.8;
-						child.material.envMapIntensity = 0.3;
-						child.material.flatShading = true;
+						child.material.metalness = 0.05; // Reduced for better performance on tablet
+						child.material.roughness = 0.6; // Adjusted for smoother appearance
+						child.material.envMapIntensity = 0.2; // Lowered for less resource usage
+						child.material.flatShading = false; // Disabled for better performance
 						child.material.needsUpdate = true;
 					}
 				}
@@ -48,7 +47,7 @@ function Car() {
 						}
 						if (child.material) {
 							if (Array.isArray(child.material)) {
-								child.material.forEach(material => material.dispose());
+								child.material.forEach((material) => material.dispose());
 							} else {
 								child.material.dispose();
 							}
@@ -119,7 +118,7 @@ function VehicleModel({ onPointSelect, cameraRef, pointsWithData }) {
 
 	useEffect(() => {
 		const gsapContext = gsap.context(() => {});
-		
+
 		return () => {
 			gsapContext.revert(); // Limpia las animaciones de GSAP
 			setActivePoint(null);
@@ -178,11 +177,7 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 			className="w-full h-[600px] bg-gradient-to-b from-zinc-100 to-zinc-300 rounded-tl-lg rounded-bl-lg relative"
 			style={{ zIndex: 0 }}
 		>
-			<Canvas
-				shadows={false}
-				dpr={[1, 1.5]}
-				performance={{ min: 0.5 }}
-			>
+			<Canvas shadows={false} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
 				<Suspense
 					fallback={
 						<Html center>
@@ -198,7 +193,7 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 						position={[24, 12, 24]}
 						fov={40}
 					/>
-					<ambientLight intensity={0.3} />
+					<ambientLight intensity={0.5} />
 					<directionalLight
 						position={[0, 5, 0]}
 						intensity={0.4}
@@ -215,9 +210,9 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 						enableZoom={true}
 						enablePan={false}
 						dampingFactor={0.05}
-						minDistance={20}
-						maxDistance={30}
-						enableDamping={false}
+						minDistance={25}
+						maxDistance={35}
+						enableDamping={true}
 					/>
 				</Suspense>
 			</Canvas>
