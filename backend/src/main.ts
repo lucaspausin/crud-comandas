@@ -20,7 +20,7 @@ async function bootstrap() {
   });
 
   // Inicia el servidor en el puerto especificado en el entorno o en el puerto 4000
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 4000);
   // 4000local
 }
 dotenv.config();

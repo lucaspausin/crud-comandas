@@ -111,11 +111,7 @@ model tecnica {
   dni                                   BigInt?
   marca_vehiculo                        String?         @db.VarChar(100)
   modelo                                String?         @db.VarChar(100)
-  anio_fabricacion                      Int?
   patente                               String?         @db.VarChar(20)
-  dominio                               String?         @db.VarChar(100)
-  color                                 String?         @db.VarChar(50)
-  anio                                  Int?
   observaciones_personales              String?         @db.Text
   observaciones_tecnicas                String?         @db.Text
   creado_en                             DateTime        @default(now()) @db.Timestamp(0)
@@ -154,6 +150,17 @@ model tecnica {
   detalle20                             String?         @db.VarChar(255)
   kilometros                            String?         @db.VarChar(255)
   firma_tecnico                         String?         @db.LongText
+  perdidas_gas_adicional                String?         @db.VarChar(255)
+  cableado_adicional                    String?         @db.VarChar(255)
+  nivel_agua_adicional                  String?         @db.VarChar(255)
+  nivel_aceite_adicional                String?         @db.VarChar(255)
+  inspeccion_instalacion_adicional      String?         @db.VarChar(255)
+  funcionamiento_unidad_adicional       String?         @db.VarChar(255)
+  herramientas_adicional                String?         @db.VarChar(255)
+  falla_encendido                       Boolean?        @default(false)
+  luz_check                             Boolean?        @default(false)
+  vehiculo_fuera_punto                  Boolean?        @default(false)
+  arreglo_reciente                      Boolean?        @default(false)
   comandas                              comandas[]
   comandas_tecnica_comanda_idTocomandas comandas        @relation("tecnica_comanda_idTocomandas", fields: [comanda_id], references: [id], onDelete: Cascade, map: "fk_tecnica_comanda")
   usuarios                              usuarios?       @relation(fields: [usuario_id], references: [id], onDelete: Cascade, map: "tecnica_ibfk_usuario")

@@ -221,7 +221,7 @@ export class CommandsService {
         },
         tecnica_tecnica_comanda_idTocomandas: {
           select: {
-            dominio: true,
+            patente: true,
           },
         },
         carga_externa: true,
@@ -275,7 +275,7 @@ export class CommandsService {
       equipo: csvData.boletos_reservas?.equipo ?? 'N/A', // Usar "N/A" si no hay equipo
       nombre_usuario:
         csvData.boletos_reservas?.usuarios?.nombre_usuario ?? 'N/A', // Usar "N/A" si no hay nombre_usuario
-      dominio: csvData.tecnica_tecnica_comanda_idTocomandas?.dominio ?? 'N/A', // Usar "N/A" si no hay dominio
+      dominio: csvData.tecnica_tecnica_comanda_idTocomandas?.patente ?? 'N/A', // Usar "N/A" si no hay dominio
       carga_externa: csvData.carga_externa ? 'Sí' : 'No', // Convertir booleano a "Sí" o "No"
       precio_carga_externa: csvData.precio_carga_externa ?? 'N/A', // Usar "N/A" si no hay precio
       ...filteredPayments, // Incluir solo los pagos con valor
