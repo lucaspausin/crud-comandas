@@ -42,6 +42,17 @@ export default function ComandaDetail({ params }) {
 		kilometros: "",
 		firma_tecnico: "",
 		estado: "",
+		perdidas_gas_adicional: "",
+		cableado_adicional: "",
+		nivel_agua_adicional: "",
+		nivel_aceite_adicional: "",
+		inspeccion_instalacion_adicional: "",
+		funcionamiento_unidad_adicional: "",
+		herramientas_adicional: "",
+		falla_encendido: false,
+		luz_check: false,
+		vehiculo_fuera_punto: false,
+		arreglo_reciente: false,
 	});
 
 	const [error, setError] = useState(null);
@@ -63,6 +74,17 @@ export default function ComandaDetail({ params }) {
 					otras_observaciones: data.otras_observaciones || "",
 					kilometros: data.kilometros || "",
 					firma_tecnico: data.firma_tecnico || "",
+					perdidas_gas_adicional: data.perdidas_gas_adicional || "",
+					cableado_adicional: data.cableado_adicional || "",
+					nivel_agua_adicional: data.nivel_agua_adicional || "",
+					nivel_aceite_adicional: data.nivel_aceite_adicional || "",
+					inspeccion_instalacion_adicional: data.inspeccion_instalacion_adicional || "",
+					funcionamiento_unidad_adicional: data.funcionamiento_unidad_adicional || "",
+					herramientas_adicional: data.herramientas_adicional || "",
+					falla_encendido: data.falla_encendido || false,
+					luz_check: data.luz_check || false,
+					vehiculo_fuera_punto: data.vehiculo_fuera_punto || false,
+					arreglo_reciente: data.arreglo_reciente || false,
 				});
 			} catch (err) {
 				setError(err.message);
@@ -90,20 +112,21 @@ export default function ComandaDetail({ params }) {
 		const month = today.getMonth() + 1;
 
 		try {
+			const { firma_tecnico, ...restCheckData } = checkData;
+			
 			const dataToUpdate = {
 				dia: day,
 				mes: month,
 				usuario_id: loggedUserId ? Number(loggedUserId) : null,
-				...checkData,
+				...restCheckData,
+				firma_tecnico: firma_tecnico || "",
 				estado: "completo",
 			};
 
-			console.log("Enviando datos a la API...");
+			console.log("Enviando datos a la API...", dataToUpdate);
 
 			const response = await axios.patch(
-				`${process.env.NEXT_PUBLIC_API_URL}/api/techniques/${Number(
-					params.id
-				)}`,
+				`${process.env.NEXT_PUBLIC_API_URL}/api/techniques/${Number(params.id)}`,
 				dataToUpdate,
 				{
 					headers: {
@@ -117,13 +140,9 @@ export default function ComandaDetail({ params }) {
 			await updateCommand(commandId, { estado: "completado" });
 
 			setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
-			// const successMessage = "Edición de los detalles exitosa.";
-			// setShowToast(successMessage);
-
-			router.push('/dashboard');
+			router.push("/dashboard");
 		} catch (error) {
 			console.error("Error al actualizar la técnica:", error);
-			// setShowToast("Error al actualizar la técnica");
 		}
 	};
 

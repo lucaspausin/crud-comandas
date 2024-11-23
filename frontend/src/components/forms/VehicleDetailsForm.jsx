@@ -4,7 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect, lazy } from "react";
 import { Button } from "@/components/ui/button";
-import SignaturePad from "react-signature-canvas";
+// import SignaturePad from "react-signature-canvas";
+import SignaturePad from "signature_pad";
 import LegalText from "@/components/LegalText";
 
 // Lazy load the Vehicle3DViewer component
@@ -17,40 +18,55 @@ export default function VehicleDetailsForm({
 }) {
 	const [selectedPoint, setSelectedPoint] = useState(null);
 	const [showSuggestions, setShowSuggestions] = useState(false);
-	const sigPad = useRef(null);
 	const suggestionsRef = useRef(null);
 	const [isVisible, setIsVisible] = useState(false); // State to track visibility
 
-	useEffect(() => {
-		if (formData.firma && sigPad.current) {
-			try {
-				const dataUrl = `data:image/png;base64,${formData.firma}`;
-				const img = new Image();
-				img.onload = () => {
-					const canvas = sigPad.current.getCanvas();
-					const ctx = canvas.getContext("2d");
-					ctx.clearRect(0, 0, canvas.width, canvas.height);
-					ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-				};
-				img.src = dataUrl;
-			} catch (error) {
-				console.error("Error al cargar la firma:", error);
-			}
-		}
-	}, [formData.firma]);
+	const canvasRef = useRef(null);
+	const signaturePadRef = useRef(null);
 
 	useEffect(() => {
-		if (sigPad.current) {
-			const canvas = sigPad.current.getCanvas();
-			canvas.width = canvas.offsetWidth;
-			canvas.height = canvas.offsetHeight;
-			canvas.getContext("2d").scale(1, 1);
+		if (canvasRef.current && !signaturePadRef.current) {
+			const canvas = canvasRef.current;
+			const ratio = Math.max(window.devicePixelRatio || 1, 1);
+			canvas.width = canvas.offsetWidth * ratio;
+			canvas.height = canvas.offsetHeight * ratio;
+			canvas.getContext("2d").scale(ratio, ratio);
+
+			signaturePadRef.current = new SignaturePad(canvas, {
+				minWidth: 1,
+				maxWidth: 2,
+				penColor: "black",
+				backgroundColor: "rgb(255, 255, 255)",
+			});
 		}
 	}, []);
 
+	const handleClearSignature = () => {
+		if (signaturePadRef.current) {
+			signaturePadRef.current.clear();
+			handleInputChange("firma", "");
+		}
+	};
+
+	const handleEndStroke = () => {
+		if (signaturePadRef.current) {
+			try {
+				const firmaBase64 = signaturePadRef.current
+					.toDataURL("image/png")
+					.split(",")[1];
+				handleInputChange("firma", firmaBase64);
+			} catch (error) {
+				console.error("Error al guardar la firma:", error);
+			}
+		}
+	};
+
 	useEffect(() => {
 		const handleClickOutside = (event) => {
-			if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
+			if (
+				suggestionsRef.current &&
+				!suggestionsRef.current.contains(event.target)
+			) {
 				setShowSuggestions(false);
 			}
 		};
@@ -72,25 +88,6 @@ export default function VehicleDetailsForm({
 
 	const handlePointSelect = (point) => {
 		setSelectedPoint(point);
-	};
-
-	const handleClearSignature = () => {
-		if (sigPad.current) {
-			sigPad.current.clear();
-			handleInputChange("firma", "");
-		}
-	};
-
-	const handleEndStroke = () => {
-		if (sigPad.current && !sigPad.current.isEmpty()) {
-			try {
-				const canvas = sigPad.current.getCanvas();
-				const firmaBase64 = canvas.toDataURL("image/png").split(",")[1];
-				handleInputChange("firma", firmaBase64);
-			} catch (error) {
-				console.error("Error al guardar la firma:", error);
-			}
-		}
 	};
 
 	// Intersection Observer to track visibility of Vehicle3DViewer
@@ -155,16 +152,6 @@ export default function VehicleDetailsForm({
 							/>
 						</div>
 						<div className="flex flex-col items-start gap-2">
-							<dt className="font-normal text-zinc-500">Año de Fabricación:</dt>
-							<Input
-								className="rounded-full bg-white focus-visible:ring-0"
-								type="text"
-								required
-								value={formData.anio || ""}
-								onChange={(e) => handleInputChange("anio", e.target.value)}
-							/>
-						</div>
-						<div className="flex flex-col items-start gap-2">
 							<dt className="font-normal text-zinc-500">
 								Patente del Vehículo:
 							</dt>
@@ -174,28 +161,6 @@ export default function VehicleDetailsForm({
 								required
 								value={formData.patente || ""}
 								onChange={(e) => handleInputChange("patente", e.target.value)}
-							/>
-						</div>
-						<div className="flex flex-col items-start gap-2">
-							<dt className="font-normal text-zinc-500">
-								Dominio del Vehículo:
-							</dt>
-							<Input
-								className="rounded-full bg-white focus-visible:ring-0"
-								type="text"
-								required
-								value={formData.dominio || ""}
-								onChange={(e) => handleInputChange("dominio", e.target.value)}
-							/>
-						</div>
-						<div className="flex flex-col items-start gap-2">
-							<dt className="font-normal text-zinc-500">Color del Vehículo:</dt>
-							<Input
-								className="rounded-full bg-white focus-visible:ring-0"
-								type="text"
-								required
-								value={formData.color || ""}
-								onChange={(e) => handleInputChange("color", e.target.value)}
 							/>
 						</div>
 						<div className="mb-4 flex flex-col gap-4 col-span-full">
@@ -232,24 +197,16 @@ export default function VehicleDetailsForm({
 						<Label htmlFor="firma" className="font-normal text-zinc-500">
 							Firma del Cliente
 						</Label>
-						<div className="border-none rounded-lg bg-white">
-							<SignaturePad
-								ref={sigPad}
-								onEnd={handleEndStroke}
-								canvasProps={{
-									className: "w-full h-40 border rounded-lg",
-									style: {
-										width: "100%",
-										height: "160px",
-										maxWidth: "500px",
-										touchAction: "none",
-									},
-								}}
-								options={{
-									minWidth: 1,
-									maxWidth: 2,
-									penColor: "black",
-									backgroundColor: "rgb(255, 255, 255)",
+						<div className="border-none rounded-lg bg-white w-[275px] h-[160px]">
+							<canvas
+								ref={canvasRef}
+								onMouseUp={handleEndStroke}
+								onTouchEnd={handleEndStroke}
+								className="border rounded-lg"
+								style={{
+									width: "100%",
+									height: "160px",
+									touchAction: "none",
 								}}
 							/>
 							<div className="flex gap-2 mt-4">
@@ -301,10 +258,10 @@ export default function VehicleDetailsForm({
 													type="text"
 													value={formData[`detalle${selectedPoint.id}`] || ""}
 													onChange={(e) =>
-															handleInputChange(
-																	`detalle${selectedPoint.id}`,
-																	e.target.value
-															)
+														handleInputChange(
+															`detalle${selectedPoint.id}`,
+															e.target.value
+														)
 													}
 													onFocus={() => setShowSuggestions(true)}
 													placeholder="Selecciona la condición..."

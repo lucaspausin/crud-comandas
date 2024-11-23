@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import SignaturePad from "react-signature-canvas";
+import SignaturePad from "signature_pad";
 import { motion } from "framer-motion";
 
 export default function CheckListForm({
@@ -12,48 +12,40 @@ export default function CheckListForm({
 	handleInputChange,
 	handleSubmit,
 }) {
-	const sigPad = useRef(null);
+	const canvasRef = useRef(null);
+	const signaturePadRef = useRef(null);
 	const [expandedTextareas, setExpandedTextareas] = useState({});
 
 	useEffect(() => {
-		if (checkData.firma_tecnico && sigPad.current) {
-			try {
-				const dataUrl = `data:image/png;base64,${checkData.firma_tecnico}`;
-				const img = new Image();
-				img.onload = () => {
-					const canvas = sigPad.current.getCanvas();
-					const ctx = canvas.getContext("2d");
-					ctx.clearRect(0, 0, canvas.width, canvas.height);
-					ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-				};
-				img.src = dataUrl;
-			} catch (error) {
-				console.error("Error al cargar la firma:", error);
-			}
-		}
-	}, [checkData.firma_tecnico]);
+		if (canvasRef.current && !signaturePadRef.current) {
+			const canvas = canvasRef.current;
+			const ratio = Math.max(window.devicePixelRatio || 1, 1);
+			canvas.width = canvas.offsetWidth * ratio;
+			canvas.height = canvas.offsetHeight * ratio;
+			canvas.getContext("2d").scale(ratio, ratio);
 
-	useEffect(() => {
-		if (sigPad.current) {
-			const canvas = sigPad.current.getCanvas();
-			canvas.width = canvas.offsetWidth;
-			canvas.height = canvas.offsetHeight;
-			canvas.getContext("2d").scale(1, 1);
+			signaturePadRef.current = new SignaturePad(canvas, {
+				minWidth: 1,
+				maxWidth: 2,
+				penColor: "black",
+				backgroundColor: "rgb(255, 255, 255)",
+			});
 		}
 	}, []);
 
 	const handleClearSignature = () => {
-		if (sigPad.current) {
-			sigPad.current.clear();
+		if (signaturePadRef.current) {
+			signaturePadRef.current.clear();
 			handleInputChange("firma_tecnico", "");
 		}
 	};
 
 	const handleEndStroke = () => {
-		if (sigPad.current && !sigPad.current.isEmpty()) {
+		if (signaturePadRef.current) {
 			try {
-				const canvas = sigPad.current.getCanvas();
-				const firmaBase64 = canvas.toDataURL("image/png").split(",")[1];
+				const firmaBase64 = signaturePadRef.current
+					.toDataURL("image/png")
+					.split(",")[1];
 				handleInputChange("firma_tecnico", firmaBase64);
 			} catch (error) {
 				console.error("Error al guardar la firma:", error);
@@ -78,7 +70,7 @@ export default function CheckListForm({
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="pb-0">
-					<dl className="grid grid-cols-2 gap-6 text-sm">
+					<dl className="grid grid-cols-1 lg:grid-cols-2 gap-6 text-sm">
 						<div className="flex flex-col items-start gap-2">
 							<div className="flex flex-row items-center gap-2">
 								<label
@@ -457,24 +449,16 @@ export default function CheckListForm({
 						>
 							Firma del Técnico
 						</Label>
-						<div className="border-none rounded-lg bg-white">
-							<SignaturePad
-								ref={sigPad}
-								onEnd={handleEndStroke}
-								canvasProps={{
-									className: "w-full h-40 border rounded-lg",
-									style: {
-										width: "100%",
-										height: "160px",
-										maxWidth: "500px",
-										touchAction: "none",
-									},
-								}}
-								options={{
-									minWidth: 1,
-									maxWidth: 2,
-									penColor: "black",
-									backgroundColor: "rgb(255, 255, 255)",
+						<div className="border-none rounded-lg bg-white w-[275px] h-[160px]">
+							<canvas
+								ref={canvasRef}
+								onMouseUp={handleEndStroke}
+								onTouchEnd={handleEndStroke}
+								className="border rounded-lg"
+								style={{
+									width: "100%",
+									height: "160px",
+									touchAction: "none",
 								}}
 							/>
 							<div className="flex gap-2 mt-4">

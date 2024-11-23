@@ -121,16 +121,6 @@ export default function TechnicalDetailsCard({ comanda }) {
 						<dd className="text-zinc-800">
 							{detallesTecnicos.patente || "N/A"}
 						</dd>
-						<dt className="font-normal text-zinc-600 mb-1">Dominio:</dt>
-						<dd className="text-zinc-800">
-							{detallesTecnicos.dominio || "N/A"}
-						</dd>
-						<dt className="font-normal text-zinc-600 mb-1">Color:</dt>
-						<dd className="text-zinc-800">{detallesTecnicos.color || "N/A"}</dd>
-						<dt className="font-normal text-zinc-600 mb-1">Año:</dt>
-						<dd className="text-zinc-800">
-							{detallesTecnicos.anio_fabricacion || "N/A"}
-						</dd>
 						<dt className="font-normal text-zinc-600 mb-1">
 							Observaciones Personales:
 						</dt>
@@ -161,7 +151,7 @@ export default function TechnicalDetailsCard({ comanda }) {
 									<dt className="text-zinc-600 font-normal">
 										Detalle {key.slice(7)}:
 									</dt>
-									<dd>{detallesTecnicos[key]}</dd>
+									<dd className="text-zinc-900">{detallesTecnicos[key]}</dd>
 								</div>
 							))}
 						<dt className="font-normal text-zinc-600 mb-2">

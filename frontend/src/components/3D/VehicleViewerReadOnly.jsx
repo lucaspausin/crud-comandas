@@ -9,7 +9,7 @@ import {
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Vector3 } from "three";
 import { gsap } from "gsap";
-import modeloCoche from "@/public/1731961304333_2022__peugeot_308.glb";
+import modeloCoche from "@/public/compressed_1732381182488_3.glb";
 
 function Car() {
 	const { scene } = useGLTF(modeloCoche.src || modeloCoche, true);
@@ -22,15 +22,37 @@ function Car() {
 
 			scene.traverse((child) => {
 				if (child.isMesh) {
-					child.castShadow = true;
-					child.receiveShadow = true;
+					child.castShadow = false;
+					child.receiveShadow = false;
 					if (child.material) {
-						child.material.metalness = 0.4;
-						child.material.roughness = 0.5;
+						child.material.metalness = 0.05;
+						child.material.roughness = 0.6;
+						child.material.envMapIntensity = 0.2;
+						child.material.flatShading = false;
+						child.material.needsUpdate = true;
 					}
 				}
 			});
 		}
+
+		return () => {
+			if (scene) {
+				scene.traverse((child) => {
+					if (child.isMesh) {
+						if (child.geometry) {
+							child.geometry.dispose();
+						}
+						if (child.material) {
+							if (Array.isArray(child.material)) {
+								child.material.forEach((material) => material.dispose());
+							} else {
+								child.material.dispose();
+							}
+						}
+					}
+				});
+			}
+		};
 	}, [scene]);
 
 	return <primitive object={scene} />;
@@ -100,12 +122,13 @@ function VehicleModelReadOnly({ onPointSelect, cameraRef, pointsData = {} }) {
 				>
 					<div
 						className={`relative cursor-pointer w-8 h-8 rounded-full flex items-center justify-center
-                            ${activePoint === point.id
-								? "bg-blue-800 text-white scale-125"
-								: pointsData && pointsData[`detalle${point.id}`]
-									? "bg-red-600 border-zinc-200 text-zinc-200 font-medium bg-opacity-40"
-									: "bg-zinc-800 border-zinc-200 text-zinc-200 font-medium bg-opacity-70"
-							} 
+                            ${
+															activePoint === point.id
+																? "bg-blue-800 text-white scale-125"
+																: pointsData && pointsData[`detalle${point.id}`]
+																? "bg-red-600 border-zinc-200 text-zinc-200 font-medium bg-opacity-40"
+																: "bg-zinc-800 border-zinc-200 text-zinc-200 font-medium bg-opacity-70"
+														} 
                             border-2 border-zinc-200 text-sm transition-all duration-300
                             hover:bg-blue-800 bg-opacity-70 hover:scale-110 `}
 						onClick={() => handlePointClick(point)}
@@ -137,16 +160,15 @@ export default function VehicleViewerReadOnly({ onPointSelect, pointsData }) {
 	return (
 		<div
 			className="w-full h-[600px] bg-gradient-to-b from-zinc-100 to-zinc-300 rounded-tl-lg rounded-bl-lg relative"
-			style={{
-				zIndex: 0,
-				isolation: "isolate",
-			}}
+			style={{ zIndex: 0 }}
 		>
-			<Canvas shadows>
+			<Canvas shadows={false} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
 				<Suspense
 					fallback={
 						<Html center>
-							<div className="text-sm text-gray-400">Cargando modelo 3D...</div>
+							<div className="line-clamp-1 text-sm text-gray-400">
+								Cargando...
+							</div>
 						</Html>
 					}
 				>
@@ -154,40 +176,36 @@ export default function VehicleViewerReadOnly({ onPointSelect, pointsData }) {
 						ref={cameraRef}
 						makeDefault
 						position={[24, 12, 24]}
-						fov={50}
+						fov={40}
 					/>
 					<ambientLight intensity={0.5} />
-					<directionalLight position={[0, 5, 0]} intensity={1} castShadow
-						shadow-mapSize-width={512}
-						shadow-mapSize-height={512}
-						shadow-camera-far={15}
-						shadow-camera-left={-1.5}
-						shadow-camera-right={1.5}
-						shadow-camera-top={1.5}
-						shadow-camera-bottom={-1.5}
-						shadow-color="black" />
-					<pointLight position={[0, 4, 15]} intensity={1.2} />
-					<pointLight position={[0, 4, -15]} intensity={1.2} />
+					<directionalLight
+						position={[0, 5, 0]}
+						intensity={0.4}
+						castShadow={false}
+					/>
 					<VehicleModelReadOnly
 						onPointSelect={onPointSelect}
 						cameraRef={cameraRef}
 						pointsData={pointsData}
 					/>
-					<OrbitControls
-						minPolarAngle={Math.PI / 5}
-						maxPolarAngle={Math.PI / 1.5}
-						enableZoom={true}
-						enablePan={true}
-						dampingFactor={0.05}
-						minDistance={20}
-						maxDistance={60}
-					/>
 					<ContactShadows
-						position={[0, 0, 0]}
-						opacity={1}
-						scale={100}
+						opacity={0.3}
+						scale={40}
 						blur={2}
-						far={50}
+						far={4}
+						resolution={256}
+						color="#000000"
+					/>
+					<OrbitControls
+						minPolarAngle={Math.PI / 4}
+						maxPolarAngle={Math.PI / 1.4}
+						enableZoom={true}
+						enablePan={false}
+						dampingFactor={0.05}
+						minDistance={25}
+						maxDistance={35}
+						enableDamping={true}
 					/>
 				</Suspense>
 			</Canvas>

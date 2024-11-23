@@ -30,11 +30,7 @@ export default function ComandaDetail({ params }) {
 	const [formData, setFormData] = useState({
 		marca_vehiculo: "",
 		modelo: "",
-		anio: "",
-		anio_fabricacion: "",
 		patente: "",
-		dominio: "",
-		color: "",
 		propietario: "",
 		dni: "",
 		observaciones_personales: "",
@@ -79,8 +75,7 @@ export default function ComandaDetail({ params }) {
 						data.modelo ||
 						data.comandas_tecnica_comanda_idTocomandas.boletos_reservas
 							.modelo_vehiculo,
-					anio: data.anio,
-					anio_fabricacion: data.anio_anio,
+
 					dni: data.comandas_tecnica_comanda_idTocomandas.boletos_reservas
 						.clientes.dni,
 					propietario:
@@ -89,8 +84,7 @@ export default function ComandaDetail({ params }) {
 					patente:
 						data.comandas_tecnica_comanda_idTocomandas.boletos_reservas
 							.patente_vehiculo,
-					dominio: data.dominio,
-					color: data.color,
+
 					observaciones_personales: data.observaciones_personales,
 					observaciones_tecnicas: data.observaciones_tecnicas,
 					firma: data.firma,
@@ -148,11 +142,7 @@ export default function ComandaDetail({ params }) {
 				propietario: formData.propietario,
 				dni: formData.dni,
 				modelo: formData.modelo,
-				anio: formData.anio ? parseInt(formData.anio, 10) : null,
-				anio_fabricacion: formData.anio ? parseInt(formData.anio, 10) : null,
 				patente: formData.patente,
-				dominio: formData.dominio,
-				color: formData.color,
 				// comanda_id: Number(params.id),
 				usuario_id: loggedUserId ? Number(loggedUserId) : null,
 				observaciones_personales: formData.observaciones_personales,
