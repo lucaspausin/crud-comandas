@@ -1,5 +1,5 @@
 # Usa una imagen base de Node.js
-FROM node:18-alpine
+FROM node:18
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /usr/src/app
@@ -7,8 +7,8 @@ WORKDIR /usr/src/app
 # Copia el package.json y el package-lock.json (si está presente)
 COPY package*.json ./
 
-# Instala las dependencias, excluyendo los scripts postinstall
-RUN npm install --ignore-scripts
+# Instala las dependencias
+RUN npm install
 
 # Copia todos los archivos de la aplicación al contenedor
 COPY . .
@@ -16,12 +16,11 @@ COPY . .
 # Genera el esquema de Prisma después de copiar todos los archivos
 RUN npx prisma generate
 
-# Compila el código de la aplicación con más memoria asignada
-RUN npm cache clean --force && \
-    NODE_OPTIONS="--max-old-space-size=4096" npm run build
+# Compila el código de la aplicación
+RUN npm run build
 
 # Exponer el puerto que tu app NestJS usará
 EXPOSE 4000
 
 # Ejecuta la aplicación en modo de producción
-CMD ["npm", "run", "start:prod"]
+CMD ["node", "dist/main"]
