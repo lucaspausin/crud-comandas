@@ -13,6 +13,9 @@ RUN npm install
 # Copia todos los archivos de la aplicación al contenedor
 COPY . .
 
+# Genera el esquema de Prisma (esto ejecutará prisma generate)
+RUN npx prisma generate
+
 # Compila el código de la aplicación
 RUN npm run build
 
