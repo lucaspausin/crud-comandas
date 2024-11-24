@@ -7,13 +7,13 @@ WORKDIR /usr/src/app
 # Copia el package.json y el package-lock.json (si está presente)
 COPY package*.json ./
 
-# Instala las dependencias
-RUN npm install
+# Instala las dependencias, excluyendo los scripts postinstall
+RUN npm install --ignore-scripts
 
 # Copia todos los archivos de la aplicación al contenedor
 COPY . .
 
-# Genera el esquema de Prisma (esto ejecutará prisma generate)
+# Genera el esquema de Prisma después de copiar todos los archivos
 RUN npx prisma generate
 
 # Compila el código de la aplicación
