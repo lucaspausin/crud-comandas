@@ -16,8 +16,9 @@ COPY . .
 # Genera el esquema de Prisma después de copiar todos los archivos
 RUN npx prisma generate
 
-# Compila el código de la aplicación
-RUN npm run build
+# Compila el código de la aplicación con más memoria asignada
+RUN npm cache clean --force && \
+    NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 # Exponer el puerto que tu app NestJS usará
 EXPOSE 4000
