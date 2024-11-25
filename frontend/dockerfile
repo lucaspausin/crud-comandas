@@ -1,0 +1,17 @@
+# Archivo Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copiamos el proyecto y el archivo .env
+COPY . .
+
+# Instalamos dependencias
+RUN npm install
+
+
+# Compilamos el proyecto (esto toma las variables .env si existen)
+RUN npm run build
+
+# Especificamos el comando de inicio
+CMD ["sh", "-c", "npm run build && npm start"]

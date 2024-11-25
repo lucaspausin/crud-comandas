@@ -55,10 +55,10 @@ const CheckListDetails = ({ comanda }) => {
 						</dd>
 						{detallesCheckList?.perdidas_gas_adicional && (
 							<>
-								<dt className="font-normal text-zinc-600e">
-									Detalle Pérdidas:
+								<dt className="font-normal text-zinc-600">
+									Detalle de las Pérdidas:
 								</dt>
-								<dd className="text-zinc-600">
+								<dd className="text-zinc-950">
 									{detallesCheckList.perdidas_gas_adicional}
 								</dd>
 							</>
@@ -76,10 +76,10 @@ const CheckListDetails = ({ comanda }) => {
 						</dd>
 						{detallesCheckList?.cableado_adicional && (
 							<>
-								<dt className="font-normal text-zinc-600e">
-									Detalle Cableado:
+								<dt className="font-normal text-zinc-600">
+									Detalle de las Cableado:
 								</dt>
-								<dd className="text-zinc-600">
+								<dd className="text-zinc-950">
 									{detallesCheckList.cableado_adicional}
 								</dd>
 							</>
@@ -97,10 +97,10 @@ const CheckListDetails = ({ comanda }) => {
 						</dd>
 						{detallesCheckList?.nivel_agua_adicional && (
 							<>
-								<dt className="font-normal text-zinc-600e">
-									Detalle Nivel Agua:
+								<dt className="font-normal text-zinc-600">
+									Detalle del Nivel de Agua:
 								</dt>
-								<dd className="text-zinc-600">
+								<dd className="text-zinc-950">
 									{detallesCheckList.nivel_agua_adicional}
 								</dd>
 							</>
@@ -118,10 +118,10 @@ const CheckListDetails = ({ comanda }) => {
 						</dd>
 						{detallesCheckList?.nivel_aceite_adicional && (
 							<>
-								<dt className="font-normal text-zinc-600e">
-									Detalle Nivel Aceite:
+								<dt className="font-normal text-zinc-600">
+									Detalle del Nivel de Aceite:
 								</dt>
-								<dd className="text-zinc-600">
+								<dd className="text-zinc-950">
 									{detallesCheckList.nivel_aceite_adicional}
 								</dd>
 							</>
@@ -141,10 +141,10 @@ const CheckListDetails = ({ comanda }) => {
 						</dd>
 						{detallesCheckList?.inspeccion_instalacion_adicional && (
 							<>
-								<dt className="font-normal text-zinc-600e">
-									Detalle Inspección Instalación:
+								<dt className="font-normal text-zinc-600">
+									Detalle de la Inspección de Instalación:
 								</dt>
-								<dd className="text-zinc-600">
+								<dd className="text-zinc-950">
 									{detallesCheckList.inspeccion_instalacion_adicional}
 								</dd>
 							</>
@@ -164,10 +164,10 @@ const CheckListDetails = ({ comanda }) => {
 						</dd>
 						{detallesCheckList?.funcionamiento_unidad_adicional && (
 							<>
-								<dt className="font-normal text-zinc-600e">
-									Detalle Funcionamiento Unidad:
+								<dt className="font-normal text-zinc-600">
+									Detalle del Funcionamiento de la Unidad:
 								</dt>
-								<dd className="text-zinc-600">
+								<dd className="text-zinc-950">
 									{detallesCheckList.funcionamiento_unidad_adicional}
 								</dd>
 							</>
@@ -185,10 +185,10 @@ const CheckListDetails = ({ comanda }) => {
 						</dd>
 						{detallesCheckList?.herramientas_adicional && (
 							<>
-								<dt className="font-normal text-zinc-600e">
-									Detalle Herramientas:
+								<dt className="font-normal text-zinc-600">
+									Detalle de las Herramientas:
 								</dt>
-								<dd className="text-zinc-600">
+								<dd className="text-zinc-950">
 									{detallesCheckList.herramientas_adicional}
 								</dd>
 							</>
@@ -200,19 +200,11 @@ const CheckListDetails = ({ comanda }) => {
 								? detallesCheckList.otras_observaciones ?? "No"
 								: "N/A"}
 						</dd>
-						{detallesCheckList?.otras_observaciones_adicional && (
-							<>
-								<dt className="font-normal text-zinc-600e">
-									Detalle Otras Observaciones:
-								</dt>
-								<dd className="text-zinc-600">
-									{detallesCheckList.otras_observaciones_adicional}
-								</dd>
-							</>
-						)}
 						<dt className="font-normal text-zinc-600">Kilometros:</dt>
 						<dd>
-							{detallesCheckList.kilometros ? detallesCheckList.kilometros : "No"}
+							{detallesCheckList.kilometros
+								? detallesCheckList.kilometros
+								: "No"}
 						</dd>
 						<dt className="font-normal text-zinc-600 mb-2">
 							Firma del Técnico:

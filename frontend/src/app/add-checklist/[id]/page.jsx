@@ -78,8 +78,10 @@ export default function ComandaDetail({ params }) {
 					cableado_adicional: data.cableado_adicional || "",
 					nivel_agua_adicional: data.nivel_agua_adicional || "",
 					nivel_aceite_adicional: data.nivel_aceite_adicional || "",
-					inspeccion_instalacion_adicional: data.inspeccion_instalacion_adicional || "",
-					funcionamiento_unidad_adicional: data.funcionamiento_unidad_adicional || "",
+					inspeccion_instalacion_adicional:
+						data.inspeccion_instalacion_adicional || "",
+					funcionamiento_unidad_adicional:
+						data.funcionamiento_unidad_adicional || "",
 					herramientas_adicional: data.herramientas_adicional || "",
 					falla_encendido: data.falla_encendido || false,
 					luz_check: data.luz_check || false,
@@ -113,7 +115,7 @@ export default function ComandaDetail({ params }) {
 
 		try {
 			const { firma_tecnico, ...restCheckData } = checkData;
-			
+
 			const dataToUpdate = {
 				dia: day,
 				mes: month,
@@ -121,6 +123,9 @@ export default function ComandaDetail({ params }) {
 				...restCheckData,
 				firma_tecnico: firma_tecnico || "",
 				estado: "completo",
+				actualizado_en: new Date(
+					new Date().setHours(new Date().getHours() - 3)
+				),
 			};
 
 			console.log("Enviando datos a la API...", dataToUpdate);
@@ -200,18 +205,18 @@ export default function ComandaDetail({ params }) {
 										"en_proceso"
 											? "bg-blue-100 text-blue-700"
 											: comanda.comandas_tecnica_comanda_idTocomandas.estado ===
-											  "completado"
-											? "bg-green-100 text-green-700"
-											: "bg-yellow-100 text-yellow-700"
+												  "completado"
+												? "bg-green-100 text-green-700"
+												: "bg-yellow-100 text-yellow-700"
 									}`}
 								>
 									{comanda.comandas_tecnica_comanda_idTocomandas.estado ===
 									"en_proceso"
 										? "En Proceso"
 										: comanda.comandas_tecnica_comanda_idTocomandas.estado ===
-										  "completado"
-										? "Completada"
-										: "Pendiente"}
+											  "completado"
+											? "Completada"
+											: "Pendiente"}
 								</span>
 							</CardHeader>
 							<CardContent>

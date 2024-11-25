@@ -1,10 +1,10 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
 // import { signOut } from "next-auth/react";
-
+export const dynamic = "force-dynamic";
 export async function getReservations() {
 	const { data } = await axios.get(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/`,
+		`${process.env.NEXT_PUBLIC_API_URL}/api/reservations/`, // Note los backticks
 		{
 			headers: {
 				"Content-Type": "application/json",
@@ -119,38 +119,41 @@ async function getAuthHeaders() {
 	// Verificar si el token está próximo a expirar (por ejemplo, en 1 hora)
 	const tokenExp = session.user.exp;
 	const now = Math.floor(Date.now() / 1000);
-	
+
 	if (tokenExp && tokenExp - now < 3600) {
 		// Si el token está próximo a expirar, intentar renovarlo
 		try {
-			const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`, {
-				method: 'POST',
-				headers: {
-					'Authorization': `Bearer ${session.user.token}`,
-				},
-			});
-			
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`,
+				{
+					method: "POST",
+					headers: {
+						Authorization: `Bearer ${session.user.token}`,
+					},
+				}
+			);
+
 			if (response.ok) {
 				const newToken = await response.json();
 				// Actualizar el token en la sesión
-				await fetch('/api/auth/session', {
-					method: 'POST',
+				await fetch("/api/auth/session", {
+					method: "POST",
 					body: JSON.stringify({ token: newToken }),
 				});
-				
+
 				return {
-					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${newToken.token}`,
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${newToken.token}`,
 				};
 			}
 		} catch (error) {
-			console.error('Error refreshing token:', error);
+			console.error("Error refreshing token:", error);
 		}
 	}
 
 	return {
-		'Content-Type': 'application/json',
-		'Authorization': `Bearer ${session.user.token}`,
+		"Content-Type": "application/json",
+		Authorization: `Bearer ${session.user.token}`,
 	};
 }
 
@@ -209,15 +212,21 @@ export async function getCommandsSummary() {
 }
 
 export async function getEventsCalendar() {
-	const { data } = await axios.get(
-		`${process.env.NEXT_PUBLIC_API_URL}/api/calendar/`,
-		{
-			headers: {
-				"Content-Type": "application/json",
-			},
-		}
-	);
-	return data;
+	try {
+		const { data } = await axios.get(
+			`${process.env.NEXT_PUBLIC_API_URL}/api/calendar/`, // URL completa de la API
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+		console.log("API URL:", process.env.NEXT_PUBLIC_API_URL); // Para debug
+		return data;
+	} catch (error) {
+		console.error("Error fetching calendar events:", error);
+		throw error;
+	}
 }
 
 interface CommandData {
@@ -284,27 +293,27 @@ export async function getTechnique(id: string) {
 
 // Crear una función que agrupe todas las llamadas necesarias
 export async function getDashboardData() {
-  try {
-    const [
-      reservationsData,
-      commandsData,
-      reservationsSummaryData,
-      commandsSummaryData
-    ] = await Promise.all([
-      getReservations(),
-      getCommands(),
-      getReservationSummary(),
-      getCommandsSummary()
-    ]);
+	try {
+		const [
+			reservationsData,
+			commandsData,
+			reservationsSummaryData,
+			commandsSummaryData,
+		] = await Promise.all([
+			getReservations(),
+			getCommands(),
+			getReservationSummary(),
+			getCommandsSummary(),
+		]);
 
-    return {
-      reservations: reservationsData,
-      commands: commandsData,
-      reservationsSummary: reservationsSummaryData,
-      commandsSummary: commandsSummaryData
-    };
-  } catch (error) {
-    console.error("Error fetching dashboard data:", error);
-    throw error;
-  }
+		return {
+			reservations: reservationsData,
+			commands: commandsData,
+			reservationsSummary: reservationsSummaryData,
+			commandsSummary: commandsSummaryData,
+		};
+	} catch (error) {
+		console.error("Error fetching dashboard data:", error);
+		throw error;
+	}
 }

@@ -18,6 +18,8 @@ import Aside from "@/components/Aside";
 dayjs.locale("es"); // Configura dayjs para usar español
 dayjs.extend(utc);
 
+export const dynamic = "force-dynamic";
+
 export default function Calendar() {
 	const [tooltipVisible, setTooltipVisible] = useState(false);
 	const [tooltipContent, setTooltipContent] = useState([]);

@@ -25,6 +25,7 @@ import { useRouter } from "next/navigation";
 export default function TechniquesTable() {
 	const [techniques, setTechniques] = useState([]);
 	const [searchTermPending, setSearchTermPending] = useState("");
+	const [searchTermComplete, setSearchTermComplete] = useState("");
 	const [sortOrderPending, setSortOrderPending] = useState("date-desc");
 	const [error, setError] = useState(null);
 
@@ -70,12 +71,24 @@ export default function TechniquesTable() {
 		});
 	};
 
+	const filteredCompleteTechniques = () => {
+		return techniques.filter((technique) => technique.estado === "completo");
+	};
+
+	const filteredCompleteTechniquesBySearch = () => {
+		return filteredCompleteTechniques().filter((technique) =>
+			technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.clientes?.nombre_completo
+				.toLowerCase()
+				.includes(searchTermComplete.toLowerCase())
+		);
+	};
+
 	return (
 		<div className="flex flex-col gap-6 col-span-2">
 			<Card className="rounded-xl shadow-lg border-none col-span-2">
 				<CardHeader className="pb-2">
 					<CardTitle className="text-xl font-light text-zinc-800">
-						Técnicas para hoy
+						Ingresos para hoy
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
@@ -104,8 +117,12 @@ export default function TechniquesTable() {
 										<SelectValue placeholder="Ordenar por" />
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem value="date-desc">Fecha (Más reciente)</SelectItem>
-										<SelectItem value="date-asc">Fecha (Más antigua)</SelectItem>
+										<SelectItem value="date-desc">
+											Fecha (Más reciente)
+										</SelectItem>
+										<SelectItem value="date-asc">
+											Fecha (Más antigua)
+										</SelectItem>
 									</SelectContent>
 								</Select>
 							</div>
@@ -113,13 +130,25 @@ export default function TechniquesTable() {
 								<Table>
 									<TableHeader>
 										<TableRow>
-											<TableHead className="text-zinc-700 font-medium text-center">Asesor</TableHead>
-											<TableHead className="text-zinc-700 font-medium text-center">Cliente</TableHead>
-											<TableHead className="text-zinc-700 font-medium text-center">Modelo</TableHead>
-											<TableHead className="text-zinc-700 font-medium text-center">Fecha de Instalación</TableHead>
-											<TableHead className="text-zinc-700 font-medium text-center">Estado</TableHead>
+											<TableHead className="text-zinc-700 font-medium text-center">
+												Asesor
+											</TableHead>
+											<TableHead className="text-zinc-700 font-medium text-center">
+												Cliente
+											</TableHead>
+											<TableHead className="text-zinc-700 font-medium text-center">
+												Modelo
+											</TableHead>
+											<TableHead className="text-zinc-700 font-medium text-center">
+												Fecha de Instalación
+											</TableHead>
+											<TableHead className="text-zinc-700 font-medium text-center">
+												Estado
+											</TableHead>
 											{userRole !== 2 && (
-												<TableHead className="text-zinc-700 font-medium text-center">Acciones</TableHead>
+												<TableHead className="text-zinc-700 font-medium text-center">
+													Acciones
+												</TableHead>
 											)}
 										</TableRow>
 									</TableHeader>
@@ -128,7 +157,7 @@ export default function TechniquesTable() {
 											filteredTodayTechniques().map((technique) => (
 												<TableRow
 													key={technique.id}
-													className="cursor-pointer hover:bg-gray-50 transition-colors duration-150"
+													className="cursor-pointer hover:bg-gray-100 transition-colors duration-150"
 													onClick={(e) => {
 														if (
 															!e.target.closest("button") &&
@@ -143,38 +172,65 @@ export default function TechniquesTable() {
 													}}
 												>
 													<TableCell className="text-zinc-700 font-medium text-center">
-														{technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.usuarios?.nombre_usuario}
+														{
+															technique.comandas_tecnica_comanda_idTocomandas
+																?.boletos_reservas?.usuarios?.nombre_usuario
+														}
 													</TableCell>
 													<TableCell className="text-zinc-700 text-center">
-														{technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.clientes?.nombre_completo}
+														{
+															technique.comandas_tecnica_comanda_idTocomandas
+																?.boletos_reservas?.clientes?.nombre_completo
+														}
 													</TableCell>
 													<TableCell className="text-zinc-700 text-center">
-														{`${technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.marca_vehiculo || ""} ${technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.modelo_vehiculo || ""}`.trim()}
+														{`${
+															technique.comandas_tecnica_comanda_idTocomandas
+																?.boletos_reservas?.marca_vehiculo || ""
+														} ${
+															technique.comandas_tecnica_comanda_idTocomandas
+																?.boletos_reservas?.modelo_vehiculo || ""
+														}`.trim()}
 													</TableCell>
 													<TableCell className="text-zinc-700 text-center">
-														{technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion && (
-															`${new Date(technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion).getUTCDate().toString().padStart(2, '0')}/${(new Date(technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion).getUTCMonth() + 1).toString().padStart(2, '0')}`
-														)}
+														{technique.comandas_tecnica_comanda_idTocomandas
+															?.boletos_reservas?.fecha_instalacion &&
+															`${new Date(
+																technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+															)
+																.getUTCDate()
+																.toString()
+																.padStart(2, "0")}/${(
+																new Date(
+																	technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+																).getUTCMonth() + 1
+															)
+																.toString()
+																.padStart(2, "0")}`}
 													</TableCell>
 													<TableCell className="text-center">
-														<span className={`px-3 py-1.5 text-xs font-medium rounded-full inline-flex items-center gap-1 justify-center ${
-															technique.estado === "pendiente" 
-																? "bg-red-50 text-red-600 border border-red-100"
-																: "bg-gray-100 text-gray-600 border border-gray-100"
-														}`}>
+														<span
+															className={`px-3 py-1.5 text-xs font-medium rounded-full inline-flex items-center gap-1 justify-center ${
+																technique.estado === "pendiente"
+																	? "bg-red-50 text-red-600 border border-red-100"
+																	: "bg-gray-100 text-gray-600 border border-gray-100"
+															}`}
+														>
 															{technique.estado === null
 																? "Pendiente"
 																: technique.estado === "pendiente"
-																	? "Checklist Faltante"
-																	: ""}
+																? "Checklist Faltante"
+																: ""}
 														</span>
 													</TableCell>
-												
 												</TableRow>
 											))
 										) : (
 											<TableRow>
-												<TableCell colSpan={5} className="text-center text-gray-500 py-8">
+												<TableCell
+													colSpan={5}
+													className="text-center text-gray-600 py-8"
+												>
 													<div className="flex flex-row justify-center items-center gap-2">
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
@@ -186,14 +242,21 @@ export default function TechniquesTable() {
 															strokeWidth="2"
 															strokeLinecap="round"
 															strokeLinejoin="round"
-															className="text-zinc-500 h-4 w-4"
+															className="text-zinc-600 h-4 w-4"
 														>
-															<rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+															<rect
+																width="18"
+																height="18"
+																x="3"
+																y="4"
+																rx="2"
+																ry="2"
+															/>
 															<line x1="16" x2="16" y1="2" y2="6" />
 															<line x1="8" x2="8" y1="2" y2="6" />
 															<line x1="3" x2="21" y1="10" y2="10" />
 														</svg>
-														<span>No hay técnicas programadas para hoy.</span>
+														<span>No hay ingresos programados para hoy.</span>
 													</div>
 												</TableCell>
 											</TableRow>
@@ -203,6 +266,135 @@ export default function TechniquesTable() {
 							</div>
 						</>
 					)}
+				</CardContent>
+			</Card>
+			<Card className="rounded-xl shadow-lg border-none col-span-2">
+				<CardHeader className="pb-2">
+					<CardTitle className="text-xl font-light text-zinc-800">
+						Técnicas Completas
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
+						<div className="flex items-center w-full md:w-1/2 relative">
+							<Input
+								placeholder="Buscar técnica completa"
+								className="rounded-full focus-visible:ring-0"
+								value={searchTermComplete}
+								onChange={(e) => setSearchTermComplete(e.target.value)}
+							/>
+							<Search
+								className="w-5 h-5 absolute right-2 text-[#71717A]"
+								strokeWidth="1.75"
+							/>
+						</div>
+					</div>
+					<div className="overflow-x-auto">
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead className="text-zinc-700 font-medium text-center">
+										Asesor
+									</TableHead>
+									<TableHead className="text-zinc-700 font-medium text-center">
+										Cliente
+									</TableHead>
+									<TableHead className="text-zinc-700 font-medium text-center">
+										Modelo
+									</TableHead>
+									<TableHead className="text-zinc-700 font-medium text-center">
+										Fecha de Instalación
+									</TableHead>
+									<TableHead className="text-zinc-700 font-medium text-center">
+										Estado
+									</TableHead>
+									{userRole !== 2 && (
+										<TableHead className="text-zinc-700 font-medium text-center">
+											Acciones
+										</TableHead>
+									)}
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{filteredCompleteTechniquesBySearch().length > 0 ? (
+									filteredCompleteTechniquesBySearch().map((technique) => (
+										<TableRow
+											key={technique.id}
+											className="cursor-pointer hover:bg-gray-100 transition-colors duration-150"
+											onClick={(e) => {
+												if (
+													!e.target.closest("button") &&
+													!e.target.closest(".checkbox-cell")
+												) {
+													router.push(`/checklist/${technique.id}/`);
+												}
+											}}
+										>
+											<TableCell className="text-zinc-700 font-medium text-center">
+												{
+													technique.comandas_tecnica_comanda_idTocomandas
+														?.boletos_reservas?.usuarios?.nombre_usuario
+												}
+											</TableCell>
+											<TableCell className="text-zinc-700 text-center">
+												{
+													technique.comandas_tecnica_comanda_idTocomandas
+														?.boletos_reservas?.clientes?.nombre_completo
+												}
+											</TableCell>
+											<TableCell className="text-zinc-700 text-center">
+												{`${
+													technique.comandas_tecnica_comanda_idTocomandas
+														?.boletos_reservas?.marca_vehiculo || ""
+												} ${
+													technique.comandas_tecnica_comanda_idTocomandas
+														?.boletos_reservas?.modelo_vehiculo || ""
+												}`.trim()}
+											</TableCell>
+											<TableCell className="text-zinc-700 text-center">
+												{technique.comandas_tecnica_comanda_idTocomandas
+													?.boletos_reservas?.fecha_instalacion &&
+													`${new Date(
+														technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+													)
+														.getUTCDate()
+														.toString()
+														.padStart(2, "0")}/${(
+														new Date(
+															technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+														).getUTCMonth() + 1
+													)
+														.toString()
+														.padStart(2, "0")}`}
+											</TableCell>
+											<TableCell className="text-center">
+												<span
+													className={`px-3 py-1.5 text-xs font-medium rounded-full inline-flex items-center gap-1 justify-center ${
+														technique.estado === "completo"
+															? "bg-green-100 text-green-600 border border-green-100"
+															: ""
+													}`}
+												>
+													Completo
+												</span>
+											</TableCell>
+										</TableRow>
+									))
+								) : (
+									<TableRow>
+										<TableCell
+											colSpan={5}
+											className="text-center text-gray-500 py-8"
+										>
+											<div className="flex flex-row justify-center items-center gap-2">
+												<span>No hay ingresos completos registrados.</span>
+											</div>
+										</TableCell>
+									</TableRow>
+								)}
+							</TableBody>
+						</Table>
+					</div>
 				</CardContent>
 			</Card>
 		</div>

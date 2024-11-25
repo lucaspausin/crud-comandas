@@ -4,13 +4,14 @@ import {
 	Html,
 	useGLTF,
 	PerspectiveCamera,
+	ContactShadows,
 } from "@react-three/drei";
 import { Suspense, useState, useRef, useEffect } from "react";
 import { Vector3 } from "three";
 import { gsap } from "gsap";
 
 // 1. Asegúrate de que el modelo esté optimizado y comprimido
-import modeloCoche from "@/public/compressed_1732381182488_3.glb";
+import modeloCoche from "@/public/1732396231688_scene4.glb";
 
 function Car() {
 	// 2. Usa la URL del modelo importado
@@ -203,6 +204,14 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 						onPointSelect={onPointSelect}
 						cameraRef={cameraRef}
 						pointsWithData={pointsWithData}
+					/>
+					<ContactShadows
+						opacity={0.3}
+						scale={40}
+						blur={2}
+						far={4}
+						resolution={256}
+						color="#000000"
 					/>
 					<OrbitControls
 						minPolarAngle={Math.PI / 4}

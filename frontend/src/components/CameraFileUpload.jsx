@@ -22,7 +22,7 @@ function CameraFileUpload({ comandaId, setComanda }) {
 		}));
 
 		// Incrementar el contador de archivos subidos
-		setUploadedCount(prev => prev + 1);
+		setUploadedCount((prev) => prev + 1);
 	};
 
 	// Nuevo efecto para limpiar los archivos cuando todos se hayan subido

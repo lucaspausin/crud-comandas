@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	output: "standalone",
 	images: {
 		domains: [
 			"upload.wikimedia.org",
@@ -16,6 +17,9 @@ const nextConfig = {
 			},
 		});
 		return config;
+	},
+	publicRuntimeConfig: {
+		NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
 	},
 };
 

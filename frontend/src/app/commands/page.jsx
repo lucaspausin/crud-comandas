@@ -38,6 +38,8 @@ import Image from "next/image";
 import myImage from "@/public/motorgas2.svg";
 import { motion } from "framer-motion";
 
+export const dynamic = "force-dynamic";
+
 export default function AllOrdersPage() {
 	const [commands, setCommands] = useState([]);
 	const [users, setUsers] = useState([]);

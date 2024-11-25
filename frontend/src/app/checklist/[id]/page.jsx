@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -12,50 +12,46 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import myImage from "@/public/motorgas2.svg";
 
-import { useSession } from "next-auth/react";
-import axios from "axios";
+// import { useSession } from "next-auth/react";
+// import axios from "axios";
 
-import {
-	getTechnique,
-	updateCommand,
-} from "../../reservations/reservations.api";
-import VehicleDetailsForm from "@/components/forms/VehicleDetailsForm";
+import CheckListReadOnly from "@/components/CheckListReadOnly";
+import { getTechnique } from "../../reservations/reservations.api";
+// import VehicleDetailsForm from "@/components/forms/VehicleDetailsForm";
 
+// import ChecklistForm2 from "@/components/forms/CheckListForm2";
 export default function ComandaDetail({ params }) {
-	const router = useRouter();
-	const { data: session } = useSession();
-	const loggedUserId = session?.user?.id;
+	// const router = useRouter();
+
+	// const [showToast, setShowToast] = useState("");
+	// const { data: session } = useSession();
+	// const loggedUserId = session?.user?.id;
 
 	const [comanda, setComanda] = useState(null);
-	const [formData, setFormData] = useState({
-		marca_vehiculo: "",
-		modelo: "",
-		patente: "",
-		propietario: "",
-		dni: "",
-		observaciones_personales: "",
-		observaciones_tecnicas: "",
-		firma: "",
-		detalle1: "",
-		detalle2: "",
-		detalle3: "",
-		detalle4: "",
-		detalle5: "",
-		detalle6: "",
-		detalle7: "",
-		detalle8: "",
-		detalle9: "",
-		detalle10: "",
-		detalle11: "",
-		detalle12: "",
-		detalle13: "",
-		detalle14: "",
-		detalle15: "",
-		detalle16: "",
-		detalle17: "",
-		detalle18: "",
-		detalle19: "",
-		detalle20: "",
+	const [checkData, setCheckData] = useState({
+		perdidas_gas: false,
+		cableado: false,
+		nivel_agua: false,
+		nivel_aceite: false,
+		inspeccion_instalacion: false,
+		funcionamiento_unidad: false,
+		herramientas: false,
+		otras_observaciones: "",
+		kilometros: "",
+		firma_tecnico: "",
+		estado: "",
+		perdidas_gas_adicional: "",
+		cableado_adicional: "",
+		nivel_agua_adicional: "",
+		nivel_aceite_adicional: "",
+		inspeccion_instalacion_adicional: "",
+		funcionamiento_unidad_adicional: "",
+		herramientas_adicional: "",
+		falla_encendido: false,
+		luz_check: false,
+		vehiculo_fuera_punto: false,
+		arreglo_reciente: false,
+		actualizado_en: null,
 	});
 
 	const [error, setError] = useState(null);
@@ -66,48 +62,31 @@ export default function ComandaDetail({ params }) {
 				const data = await getTechnique(params.id);
 				setComanda(data);
 
-				setFormData({
-					marca_vehiculo:
-						data.marca_vehiculo ||
-						data.comandas_tecnica_comanda_idTocomandas.boletos_reservas
-							.marca_vehiculo,
-					modelo:
-						data.modelo ||
-						data.comandas_tecnica_comanda_idTocomandas.boletos_reservas
-							.modelo_vehiculo,
-
-					dni: data.comandas_tecnica_comanda_idTocomandas.boletos_reservas
-						.clientes.dni,
-					propietario:
-						data.comandas_tecnica_comanda_idTocomandas.boletos_reservas.clientes
-							.nombre_completo,
-					patente:
-						data.comandas_tecnica_comanda_idTocomandas.boletos_reservas
-							.patente_vehiculo,
-
-					observaciones_personales: data.observaciones_personales,
-					observaciones_tecnicas: data.observaciones_tecnicas,
-					firma: data.firma,
-					detalle1: data.detalle1 || "",
-					detalle2: data.detalle2 || "",
-					detalle3: data.detalle3 || "",
-					detalle4: data.detalle4 || "",
-					detalle5: data.detalle5 || "",
-					detalle6: data.detalle6 || "",
-					detalle7: data.detalle7 || "",
-					detalle8: data.detalle8 || "",
-					detalle9: data.detalle9 || "",
-					detalle10: data.detalle10 || "",
-					detalle11: data.detalle11 || "",
-					detalle12: data.detalle12 || "",
-					detalle13: data.detalle13 || "",
-					detalle14: data.detalle14 || "",
-					detalle15: data.detalle15 || "",
-					detalle16: data.detalle16 || "",
-					detalle17: data.detalle17 || "",
-					detalle18: data.detalle18 || "",
-					detalle19: data.detalle19 || "",
-					detalle20: data.detalle20 || "",
+				setCheckData({
+					perdidas_gas: data.perdidas_gas || false,
+					cableado: data.cableado || false,
+					nivel_agua: data.nivel_agua || false,
+					nivel_aceite: data.nivel_aceite || false,
+					inspeccion_instalacion: data.inspeccion_instalacion || false,
+					funcionamiento_unidad: data.funcionamiento_unidad || false,
+					herramientas: data.herramientas || false,
+					otras_observaciones: data.otras_observaciones || "",
+					kilometros: data.kilometros || "",
+					firma_tecnico: data.firma_tecnico || "",
+					perdidas_gas_adicional: data.perdidas_gas_adicional || "",
+					cableado_adicional: data.cableado_adicional || "",
+					nivel_agua_adicional: data.nivel_agua_adicional || "",
+					nivel_aceite_adicional: data.nivel_aceite_adicional || "",
+					inspeccion_instalacion_adicional:
+						data.inspeccion_instalacion_adicional || "",
+					funcionamiento_unidad_adicional:
+						data.funcionamiento_unidad_adicional || "",
+					herramientas_adicional: data.herramientas_adicional || "",
+					falla_encendido: data.falla_encendido || false,
+					luz_check: data.luz_check || false,
+					vehiculo_fuera_punto: data.vehiculo_fuera_punto || false,
+					arreglo_reciente: data.arreglo_reciente || false,
+					actualizado_en: data.actualizado_en || null,
 				});
 			} catch (err) {
 				setError(err.message);
@@ -117,83 +96,59 @@ export default function ComandaDetail({ params }) {
 		fetchTechnique();
 	}, [params.id]);
 
-	const handleInputChange = (field, value) => {
-		let processedValue = value;
-		if (typeof value === "string" && field !== "firma") {
-			processedValue = value.toUpperCase();
-		}
-		setFormData((prevFormData) => ({
-			...prevFormData,
-			[field]: processedValue,
-		}));
-	};
+	// const handleInputChange = (field, value) => {
+	// 	let processedValue = value;
+	// 	if (typeof value === "string" && field !== "firma_tecnico") {
+	// 		processedValue = value.toUpperCase();
+	// 	}
+	// 	setCheckData((prevCheckData) => ({
+	// 		...prevCheckData,
+	// 		[field]: processedValue,
+	// 	}));
+	// };
 
-	const handleSubmitDetails = async (e) => {
-		e.preventDefault();
-		const today = new Date();
-		const day = today.getDate();
-		const month = today.getMonth() + 1;
+	// const handleSubmitDetails = async (e) => {
+	// 	e.preventDefault();
+	// 	const today = new Date();
+	// 	const day = today.getDate();
+	// 	const month = today.getMonth() + 1;
 
-		try {
-			const dataToUpdate = {
-				dia: day,
-				mes: month,
-				marca_vehiculo: formData.marca_vehiculo,
-				propietario: formData.propietario,
-				dni: formData.dni,
-				modelo: formData.modelo,
-				patente: formData.patente,
-				// comanda_id: Number(params.id),
-				usuario_id: loggedUserId ? Number(loggedUserId) : null,
-				observaciones_personales: formData.observaciones_personales,
-				observaciones_tecnicas: formData.observaciones_tecnicas,
-				estado: "pendiente",
-				firma: formData.firma,
-				detalle1: formData.detalle1,
-				detalle2: formData.detalle2,
-				detalle3: formData.detalle3,
-				detalle4: formData.detalle4,
-				detalle5: formData.detalle5,
-				detalle6: formData.detalle6,
-				detalle7: formData.detalle7,
-				detalle8: formData.detalle8,
-				detalle9: formData.detalle9,
-				detalle10: formData.detalle10,
-				detalle11: formData.detalle11,
-				detalle12: formData.detalle12,
-				detalle13: formData.detalle13,
-				detalle14: formData.detalle14,
-				detalle15: formData.detalle15,
-				detalle16: formData.detalle16,
-				detalle17: formData.detalle17,
-				detalle18: formData.detalle18,
-				detalle19: formData.detalle19,
-				detalle20: formData.detalle20,
-			};
+	// 	try {
+	// 		const { firma_tecnico, ...restCheckData } = checkData;
 
-			console.log("Enviando datos a la API...");
+	// 		const dataToUpdate = {
+	// 			dia: day,
+	// 			mes: month,
+	// 			usuario_id: loggedUserId ? Number(loggedUserId) : null,
+	// 			...restCheckData,
+	// 			firma_tecnico: firma_tecnico || "",
+	// 			estado: "completo",
+	// 		};
 
-			const response = await axios.patch(
-				`${process.env.NEXT_PUBLIC_API_URL}/api/techniques/${Number(params.id)}`,
-				dataToUpdate,
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
-			console.log("Respuesta de la API:", response.data);
+	// 		console.log("Enviando datos a la API...", dataToUpdate);
 
-			const commandId = comanda.comandas_tecnica_comanda_idTocomandas.id;
-			await updateCommand(commandId, { estado: "en_proceso" });
+	// 		const response = await axios.patch(
+	// 			`${process.env.NEXT_PUBLIC_API_URL}/api/techniques/${Number(
+	// 				params.id
+	// 			)}`,
+	// 			dataToUpdate,
+	// 			{
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 				},
+	// 			}
+	// 		);
+	// 		console.log("Respuesta de la API:", response.data);
 
-			setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
-			router.push("/dashboard");
-		} catch (error) {
-			console.error("Error al actualizar la técnica:", error);
-			setShowToast("Error al actualizar la técnica");
-		}
-	};
+	// 		const commandId = comanda.comandas_tecnica_comanda_idTocomandas.id;
+	// 		await updateCommand(commandId, { estado: "completado" });
+
+	// 		setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
+	// 		router.push("/dashboard");
+	// 	} catch (error) {
+	// 		console.error("Error al actualizar la técnica:", error);
+	// 	}
+	// };
 
 	if (error) {
 		return <div>Error: {error}</div>;
@@ -322,11 +277,12 @@ export default function ComandaDetail({ params }) {
 							</CardContent>
 						</Card>
 					</div>
-					<VehicleDetailsForm
-						formData={formData}
+					<CheckListReadOnly checkData={checkData} />
+					{/* <ChecklistForm2
+						checkData={checkData}
 						handleInputChange={handleInputChange}
 						handleSubmit={handleSubmitDetails}
-					/>
+					/> */}
 				</div>
 			</main>
 		</div>

@@ -200,8 +200,8 @@ export default function UserDetailPage({ params }) {
 											{user.role_id === 1
 												? "Vendedor"
 												: user.role_id === 2
-												? "Técnico"
-												: "Administrador"}
+													? "Técnico"
+													: "Administrador"}
 										</p>
 									</div>
 									<div className="space-y-4">

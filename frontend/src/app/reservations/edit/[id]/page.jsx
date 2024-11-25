@@ -397,8 +397,8 @@ export default function AddOrderPage({ params }) {
 											? eventCount >= 5
 												? "border border-pink-900"
 												: eventCount === 4
-												? "border border-red-500"
-												: ""
+													? "border border-red-500"
+													: ""
 											: ""
 									}`}
 									onSubmit={handleSubmit}
@@ -415,8 +415,8 @@ export default function AddOrderPage({ params }) {
 														eventCount >= 5
 															? "text-pink-900"
 															: eventCount === 4
-															? "text-red-500"
-															: ""
+																? "text-red-500"
+																: ""
 													}`}
 												>
 													{warningMessage} ({eventCount} reservas)

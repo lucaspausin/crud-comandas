@@ -9,7 +9,7 @@ import {
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Vector3 } from "three";
 import { gsap } from "gsap";
-import modeloCoche from "@/public/compressed_1732381182488_3.glb";
+import modeloCoche from "@/public/1732396231688_scene4.glb";
 
 function Car() {
 	const { scene } = useGLTF(modeloCoche.src || modeloCoche, true);
