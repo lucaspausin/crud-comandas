@@ -74,7 +74,8 @@ export class TechniquesService {
             boletos_reservas: {
               include: {
                 usuarios: true,
-                clientes: true, // Incluye la información del usuario en cada boleto
+                clientes: true,
+                calendario: true, // Incluye la información del usuario en cada boleto
               },
             },
           },

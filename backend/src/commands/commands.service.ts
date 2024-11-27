@@ -185,6 +185,7 @@ export class CommandsService {
           include: {
             usuarios: true,
             clientes: true, // Incluye la información del usuario en cada boleto
+            calendario: true,
           },
         },
         tecnica_tecnica_comanda_idTocomandas: {
