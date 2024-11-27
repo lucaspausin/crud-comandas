@@ -9,7 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect } from "react";
 import myImage from "@/public/motorgas2.svg";
+
 // import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
@@ -20,7 +22,9 @@ export default function RegisterPage() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const router = useRouter();
 	// const router = useRouter();
-
+	useEffect(() => {
+		document.title = "Motorgas - Registrarse";
+	}, []);
 	const handleUsernameChange = (e) => {
 		const formattedUsername = e.target.value.toLowerCase().replace(/\s+/g, "");
 		setUsername(formattedUsername);

@@ -26,6 +26,10 @@ export default function ReservationDetailPage({ params }) {
 	const [reservation, setReservation] = useState(null);
 
 	useEffect(() => {
+		document.title = `Motorgas - Boleto de Reserva #${params.id}`;
+	}, [params.id]);
+
+	useEffect(() => {
 		const fetchReservation = async () => {
 			setLoading(true);
 			try {

@@ -26,7 +26,7 @@ export default function TechniquesTable() {
 	const [techniques, setTechniques] = useState([]);
 	const [searchTermPending, setSearchTermPending] = useState("");
 	const [searchTermComplete, setSearchTermComplete] = useState("");
-	const [sortOrderPending, setSortOrderPending] = useState("date-desc");
+	const [sortOrderPending, setSortOrderPending] = useState("today");
 	const [error, setError] = useState(null);
 
 	const { data: session } = useSession();
@@ -48,27 +48,50 @@ export default function TechniquesTable() {
 		fetchTechniques();
 	}, [router]);
 
-	const filteredTodayTechniques = () => {
-		const todayUTC = new Date();
-		todayUTC.setHours(todayUTC.getHours() - 3);
-		const todayString = todayUTC.toISOString().split("T")[0];
+	const filteredPendingTechniques = () => {
+		const pendingTechniques = techniques.filter(
+			(technique) => technique.estado !== "completo"
+		);
 
-		console.log("Fecha ajustada a UTC-3:", todayUTC.toUTCString());
+		switch (sortOrderPending) {
+			case "today": {
+				const todayUTC = new Date();
+				todayUTC.setHours(todayUTC.getHours() - 3);
+				const todayString = todayUTC.toISOString().split("T")[0];
 
-		return techniques.filter((technique) => {
-			if (technique.estado === "completo") return false;
+				return pendingTechniques.filter((technique) => {
+					const installationDate =
+						technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+							?.fecha_instalacion;
+					if (!installationDate) return false;
 
-			const installationDate =
-				technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
-					?.fecha_instalacion;
-			if (!installationDate) return false;
+					const installationUTC = new Date(installationDate);
+					const installationString = installationUTC.toISOString().split("T")[0];
 
-			const installationUTC = new Date(installationDate);
-			const installationString = installationUTC.toISOString().split("T")[0];
+					return installationString === todayString;
+				});
+			}
+			case "last-week": {
+				const today = new Date();
+				today.setHours(today.getHours() - 3);
+				const lastWeek = new Date(today);
+				lastWeek.setDate(lastWeek.getDate() - 7);
 
-			console.log("Fecha de instalación:", installationString);
-			return installationString === todayString;
-		});
+				return pendingTechniques.filter((technique) => {
+					const installationDateStr =
+						technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+							?.fecha_instalacion;
+					if (!installationDateStr) return false;
+
+					const installationDate = new Date(installationDateStr);
+					return installationDate >= lastWeek && installationDate <= today;
+				});
+			}
+			case "all":
+				return pendingTechniques;
+			default:
+				return pendingTechniques;
+		}
 	};
 
 	const filteredCompleteTechniques = () => {
@@ -117,12 +140,9 @@ export default function TechniquesTable() {
 										<SelectValue placeholder="Ordenar por" />
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem value="date-desc">
-											Fecha (Más reciente)
-										</SelectItem>
-										<SelectItem value="date-asc">
-											Fecha (Más antigua)
-										</SelectItem>
+										<SelectItem value="today">Hoy</SelectItem>
+										<SelectItem value="last-week">Última semana</SelectItem>
+										<SelectItem value="all">Todas</SelectItem>
 									</SelectContent>
 								</Select>
 							</div>
@@ -153,8 +173,8 @@ export default function TechniquesTable() {
 										</TableRow>
 									</TableHeader>
 									<TableBody>
-										{filteredTodayTechniques().length > 0 ? (
-											filteredTodayTechniques().map((technique) => (
+										{filteredPendingTechniques().length > 0 ? (
+											filteredPendingTechniques().map((technique) => (
 												<TableRow
 													key={technique.id}
 													className="cursor-pointer hover:bg-gray-100 transition-colors duration-150"

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import ToastNotification from "@/components/ToastNotification";
 import { motion } from "framer-motion";
+
 // import { useRouter } from "next/navigation";
 import { getReservation } from "../../reservations.api";
 import axios from "axios";
@@ -14,13 +15,14 @@ import myImage from "@/public/motorgas2.svg";
 import { Card, CardContent } from "@/components/ui/card";
 
 import HomeIcon from "@/components/HomeIcon";
-
 import Aside from "@/components/Aside";
 
 export default function AddOrderPage({ params }) {
 	// const router = useRouter();
 	const reservationId = params.id;
-
+	useEffect(() => {
+		document.title = `Motorgas - Editar Reserva #${params.id}`;
+	}, [params.id]);
 	const [loading, setLoading] = useState(true);
 	const [initialReservation, setInitialReservation] = useState(null);
 
@@ -711,7 +713,7 @@ export default function AddOrderPage({ params }) {
 									</div>
 									<Button
 										type="submit"
-										className={`w-full rounded-full ${
+										className={`w-full rounded-sm ${
 											eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""
 										}`}
 										disabled={eventCount >= 5} // Deshabilita el botón si el eventCount es 5 o más

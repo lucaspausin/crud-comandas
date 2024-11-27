@@ -1,11 +1,17 @@
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import ReservationForm from "@/components/ReservationForm";
+import { useEffect } from "react";
 
 import HomeIcon from "@/components/HomeIcon";
 
 import Aside from "@/components/Aside";
 
 export default function AddOrderPage() {
+	useEffect(() => {
+		document.title = "Motorgas - Añadir Reserva";
+	}, []);
+
 	return (
 		<div className="flex bg-zinc-50">
 			{/* Sidebar */}

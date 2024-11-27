@@ -30,7 +30,9 @@ import DownloadIcon from "@/components/DownloadIcon";
 
 export default function ComandaDetail({ params }) {
 	const [showToast, setShowToast] = useState("");
-
+	useEffect(() => {
+		document.title = `Motorgas - Comanda ${params.id}`;
+	}, [params.id]); // Added params.id as a dependency
 	const [comanda, setComanda] = useState(null);
 	const [formData, setFormData] = useState({
 		reductor_cod: "",

@@ -26,7 +26,9 @@ export default function ComandaDetail({ params }) {
 	// const [showToast, setShowToast] = useState("");
 	// const { data: session } = useSession();
 	// const loggedUserId = session?.user?.id;
-
+	useEffect(() => {
+		document.title = `Motorgas - Checklist ${params.id}`;
+	}, [params.id]);
 	const [comanda, setComanda] = useState(null);
 	const [checkData, setCheckData] = useState({
 		perdidas_gas: false,

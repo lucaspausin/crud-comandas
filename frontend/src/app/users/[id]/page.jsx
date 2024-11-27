@@ -12,6 +12,7 @@ import Aside from "@/components/Aside";
 import ToastNotification from "@/components/ToastNotification";
 import { motion } from "framer-motion";
 import myImage2 from "@/public/motorgas2.svg";
+
 // import userDefault from "@/public/userdefault.webp";
 import { useRouter } from "next/navigation";
 import { getUser } from "../../reservations/reservations.api";
@@ -33,6 +34,9 @@ export default function UserDetailPage({ params }) {
 	const [showToast, setShowToast] = useState("");
 	const [loading, setLoading] = useState(true);
 
+	useEffect(() => {
+		document.title = `Motorgas - Perfil`;
+	}, [params.id]);
 	// Cargar datos del usuario con una solicitud GET
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -222,6 +226,7 @@ export default function UserDetailPage({ params }) {
 											/>
 										</div>
 
+										{/* 
 										<div>
 											<Label
 												htmlFor="email"
@@ -277,9 +282,10 @@ export default function UserDetailPage({ params }) {
 												autoComplete="new-password" // Añadido atributo autocomplete
 											/>
 										</div>
+										*/}
 									</div>
 
-									<Button type="submit" className="w-full rounded-full">
+									<Button type="submit" className="w-full rounded-sm">
 										Guardar Cambios
 									</Button>
 								</form>

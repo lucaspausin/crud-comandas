@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { getSession } from "next-auth/react";
 // import { signOut } from "next-auth/react";
@@ -249,6 +250,14 @@ interface CommandData {
 
 export async function updateCommand(id: string, data: CommandData) {
 	return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/commands/${id}`, {
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data),
+	});
+}
+
+export async function updateCalendar(id: string, data: any) {
+	return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/calendar/${id}`, {
 		method: "PATCH",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(data),

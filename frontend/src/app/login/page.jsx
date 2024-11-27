@@ -1,25 +1,40 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
+// import Link from "next/link";
 import Image from "next/image";
 import myImage from "@/public/motorgas2.svg";
+import { Loader2 } from "lucide-react";
+
+export function ButtonLoading() {
+	return (
+		<Button disabled className="w-full rounded-sm flex items-center gap-2">
+			<Loader2 className="animate-spin w-4 h-4" />
+			Por favor, espera
+		</Button>
+	);
+}
 
 export default function LoginPage() {
 	const [errors, setErrors] = useState([]);
 	const [email, setEmail] = useState("");
 	const [contrase_a, setPassword] = useState("");
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
+	useEffect(() => {
+		document.title = "Motorgas - Iniciar Sesión";
+	}, []);
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		setErrors([]);
+		setLoading(true);
 
 		const responseNextAuth = await signIn("credentials", {
 			email,
@@ -33,11 +48,13 @@ export default function LoginPage() {
 			} else {
 				setErrors([responseNextAuth.error]);
 			}
+			setLoading(false);
 			return;
 		}
 
 		router.push("/dashboard");
 		router.refresh();
+		setLoading(false);
 	};
 
 	return (
@@ -90,9 +107,12 @@ export default function LoginPage() {
 								/>
 							</div>
 						</div>
-
-						<Button type="submit" className="w-full rounded-full">
-							Iniciar Sesión
+						<Button
+							type="submit"
+							className="w-full rounded-sm"
+							disabled={loading}
+						>
+							{loading ? <ButtonLoading /> : "Iniciar Sesión"}
 						</Button>
 					</form>
 					{errors.length > 0 && (
@@ -104,12 +124,12 @@ export default function LoginPage() {
 							</ul>
 						</div>
 					)}
-					<div className="mt-6 text-center text-sm text-zinc-600">
+					{/* <div className="mt-6 text-center text-sm text-zinc-600">
 						¿No tienes una cuenta?{" "}
 						<Link href="/register" className="text-blue-600 hover:underline">
 							Regístrate
 						</Link>
-					</div>
+					</div> */}
 				</CardContent>
 			</Card>
 		</div>

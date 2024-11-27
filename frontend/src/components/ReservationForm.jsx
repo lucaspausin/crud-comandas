@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
+
 import ToastNotification from "@/components/ToastNotification";
 import { useSession } from "next-auth/react";
 // import { getEventsCalendar } from "../app/reservations/reservations.api";
@@ -605,7 +606,7 @@ function ReservationForm() {
 				</div>
 				<Button
 					type="submit"
-					className={`w-full rounded-full ${
+					className={`w-full rounded-sm ${
 						eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""
 					}`}
 					disabled={eventCount >= 5} // Deshabilita el botón si el eventCount es 5 o más

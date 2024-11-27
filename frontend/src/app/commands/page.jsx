@@ -52,7 +52,9 @@ export default function AllOrdersPage() {
 	const [dataFetched, setDataFetched] = useState(false);
 
 	const { data: session } = useSession();
-
+	useEffect(() => {
+		document.title = "Motorgas - Comandas";
+	}, []);
 	const userRole = session?.user?.role;
 	const router = useRouter();
 
@@ -68,9 +70,9 @@ export default function AllOrdersPage() {
 			try {
 				const [commandsData, usersData] = await Promise.all([
 					getCommands(),
-					getUsers()
+					getUsers(),
 				]);
-				
+
 				setCommands(commandsData);
 				const filteredUsers = usersData.filter((user) => user.role_id === 1);
 				setUsers(filteredUsers);
@@ -372,7 +374,9 @@ export default function AllOrdersPage() {
 											<SelectItem value="last-15-days">
 												Fecha (Última quincena)
 											</SelectItem>
-											<SelectItem value="date-asc">Fecha (Más antigua)</SelectItem>
+											<SelectItem value="date-asc">
+												Fecha (Más antigua)
+											</SelectItem>
 											<SelectItem value="price-desc">
 												Precio (Mayor a menor)
 											</SelectItem>
@@ -420,7 +424,9 @@ export default function AllOrdersPage() {
 														<>
 															<TableCell className="checkbox-cell">
 																<Checkbox
-																	checked={selectedCommands.includes(command.id)}
+																	checked={selectedCommands.includes(
+																		command.id
+																	)}
 																	onCheckedChange={() =>
 																		handleCommandSelection(command.id)
 																	}
@@ -454,15 +460,15 @@ export default function AllOrdersPage() {
 																command.estado === "en_proceso"
 																	? "bg-blue-100 text-blue-700"
 																	: command.estado === "completado"
-																	? "bg-green-100 text-green-700"
-																	: "bg-yellow-100 text-yellow-700"
+																		? "bg-green-100 text-green-700"
+																		: "bg-yellow-100 text-yellow-700"
 															}`}
 														>
 															{command.estado === "en_proceso"
 																? "En Proceso"
 																: command.estado === "completado"
-																? "Completada"
-																: "Pendiente"}
+																	? "Completada"
+																	: "Pendiente"}
 														</span>
 													</TableCell>
 													{userRole !== 2 && (
@@ -501,7 +507,8 @@ export default function AllOrdersPage() {
 													colSpan={7}
 													className="text-center text-gray-600"
 												>
-													No se encontraron resultados para los filtros aplicados.
+													No se encontraron resultados para los filtros
+													aplicados.
 												</TableCell>
 											</TableRow>
 										)}

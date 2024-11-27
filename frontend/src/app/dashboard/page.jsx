@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 // import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -18,13 +18,7 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import {
-	ClipboardList,
-	Ticket,
-	Car,
-	ArrowUpRight,
-	ArrowRight,
-} from "lucide-react";
+import { ClipboardList, ArrowUpRight, ArrowRight, Car } from "lucide-react";
 import Link from "next/link";
 
 import { useSession } from "next-auth/react";
@@ -35,7 +29,31 @@ import { getDashboardData } from "../reservations/reservations.api";
 import Aside from "@/components/Aside";
 import Image from "next/image";
 import myImage from "@/public/motorgas2.svg";
-// import ButtonAuth from "@/components/ButtonAuth";
+
+const OptimizedCard = memo(function OptimizedCard({
+	title,
+	value,
+	description,
+	icon,
+}) {
+	useEffect(() => {
+		document.title = "Motorgas - Dashboard";
+	}, []);
+	return (
+		<Card className="rounded-xl shadow-lg border-none">
+			<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+				<CardTitle className="text-sm font-normal text-zinc-800">
+					{title}
+				</CardTitle>
+				{icon}
+			</CardHeader>
+			<CardContent>
+				<div className="text-2xl font-light">{value}</div>
+				<p className="text-xs text-muted-foreground">{description}</p>
+			</CardContent>
+		</Card>
+	);
+});
 
 export default function Dashboard() {
 	const router = useRouter();
@@ -67,7 +85,7 @@ export default function Dashboard() {
 			} catch (error) {
 				console.error("Error loading dashboard:", error);
 				if (error.message.includes("Session expired")) {
-						router.push("/login");
+					router.push("/login");
 				}
 			} finally {
 				setLoading(false);
@@ -96,15 +114,6 @@ export default function Dashboard() {
 	// Inicializar los estados fuera de vista
 	const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
 	const [cursorPosition, setCursorPosition] = useState({ x: -9999, y: -9999 });
-
-	// const [mousePositionAxis, setMousePositionAxis] = useState({
-	// 	x: -100,
-	// 	y: -100,
-	// });
-	// const [cursorPositionAxis, setCursorPositionAxis] = useState({
-	// 	x: -9999,
-	// 	y: -9999,
-	// });
 
 	return (
 		<div className="flex-1 bg-zinc-50">
@@ -141,60 +150,28 @@ export default function Dashboard() {
 						{userRole !== 2 && (
 							<>
 								<div className="grid gap-6 mb-4 md:grid-cols-2 lg:grid-cols-3">
-									<Card className="rounded-xl shadow-lg border-none">
-										<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-											<CardTitle className="text-sm font-normal text-zinc-800">
-												Total de Comandas
-											</CardTitle>
-
+									<OptimizedCard
+										title="Total de Comandas"
+										value={dashboardData.commandsSummary.totalCompleted}
+										description={`${dashboardData.commandsSummary.percentageChange} desde el último mes.`}
+										icon={
 											<ClipboardList className="w-4 h-4 text-muted-foreground" />
-										</CardHeader>
-										<CardContent>
-											<div className="text-2xl font-light">
-												{dashboardData.commandsSummary.totalCompleted}
-											</div>
-											<p className="text-xs text-muted-foreground">
-												{dashboardData.commandsSummary.percentageChange} desde
-												el último mes.
-											</p>
-										</CardContent>
-									</Card>
-
-									<Card className="rounded-xl shadow-lg border-none">
-										<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-											<CardTitle className="text-sm font-normal  text-zinc-800">
-												Vehículos Vendidos
-											</CardTitle>
-											<Car className="w-4 h-4 text-muted-foreground" />
-										</CardHeader>
-										<CardContent>
-											<div className="text-2xl font-light">
-												{dashboardData.commandsSummary.totalCompleted}
-											</div>
-											<p className="text-xs text-muted-foreground">
-												{dashboardData.commandsSummary.percentageChange} desde
-												el último mes.
-											</p>
-										</CardContent>
-									</Card>
-									<Card className="rounded-xl shadow-lg border-none">
-										<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-											<CardTitle className="text-sm font-normal  text-zinc-800">
-												Reservas del Mes
-											</CardTitle>
-											<Ticket className="w-4 h-4 text-muted-foreground " />
-										</CardHeader>
-
-										<CardContent>
-											<div className="text-2xl font-light">
-												{dashboardData.reservationsSummary.totalReservations}
-											</div>
-											<p className="text-xs text-muted-foreground">
-												{dashboardData.reservationsSummary.percentageChange}{" "}
-												comparado con el mes.
-											</p>
-										</CardContent>
-									</Card>
+										}
+									/>
+									<OptimizedCard
+										title="Vehículos Vendidos"
+										value={dashboardData.commandsSummary.totalCompleted}
+										description={`${dashboardData.commandsSummary.percentageChange} desde el último mes.`}
+										icon={<Car className="w-4 h-4 text-muted-foreground" />}
+									/>
+									<OptimizedCard
+										title="Reservas del Mes"
+										value={dashboardData.reservationsSummary.totalReservations}
+										description={`${dashboardData.reservationsSummary.percentageChange} comparado con el mes.`}
+										icon={
+											<ClipboardList className="w-4 h-4 text-muted-foreground" />
+										}
+									/>
 								</div>
 							</>
 						)}
@@ -407,15 +384,15 @@ export default function Dashboard() {
 																		command.estado === "en_proceso"
 																			? "bg-blue-100 text-blue-700"
 																			: command.estado === "completado"
-																			? "bg-green-100 text-green-700"
-																			: "bg-yellow-100 text-yellow-700"
+																				? "bg-green-100 text-green-700"
+																				: "bg-yellow-100 text-yellow-700"
 																	}`}
 																>
 																	{command.estado === "en_proceso"
 																		? "En Proceso"
 																		: command.estado === "completado"
-																		? "Completada"
-																		: "Pendiente"}
+																			? "Completada"
+																			: "Pendiente"}
 																</span>
 															</TableCell>
 														</TableRow>
@@ -512,69 +489,6 @@ export default function Dashboard() {
 											</div>
 										</Link>
 									</Card>
-									{/* <Card
-										className="relative rounded-xl overflow-hidden col-span-1 h-[350px] bg-white shadow-lg group border-none cursor-none"
-										onMouseMove={(e) => {
-											const rect = e.currentTarget.getBoundingClientRect();
-											const x = ((e.clientX - rect.left) / rect.width) * 100;
-											const y = ((e.clientY - rect.top) / rect.height) * 100;
-											setMousePositionAxis({ x, y });
-											setCursorPositionAxis({
-												x: e.clientX - rect.left,
-												y: e.clientY - rect.top,
-											});
-										}}
-										onMouseLeave={() => {
-											setMousePositionAxis({ x: -100, y: -100 });
-											setCursorPositionAxis({ x: -9999, y: -9999 });
-										}}
-									>
-									
-										<div
-											className="absolute inset-0 opacity-0 group-hover:opacity-75 transition-all duration-300"
-											style={{
-												backgroundImage: `radial-gradient(circle at ${mousePositionAxis.x}% ${mousePositionAxis.y}%, rgb(251 146 60 / 0.75), transparent 70%)`,
-											}}
-										/>
-										<div
-											className="pointer-events-none absolute w-8 h-8 rounded-full mix-blend-difference transition-opacity duration-150 ease-out z-50"
-											style={{
-												background:
-													"radial-gradient(circle, rgb(251 146 60), rgb(239 68 68))",
-												transform: `translate(${cursorPositionAxis.x - 16}px, ${
-													cursorPositionAxis.y - 16
-												}px)`,
-												opacity: cursorPositionAxis.x === -9999 ? 0 : 1,
-												visibility:
-													cursorPositionAxis.x === -9999 ? "hidden" : "visible",
-											}}
-										/>
-
-										<Link
-											href={"/axis"}
-											className="relative h-full p-8 flex flex-col justify-between cursor-none"
-										>
-											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												<div className="flex items-center gap-2">
-													<span className="px-3 py-1 text-xs font-medium bg-zinc-100 text-zinc-900 rounded-full backdrop-blur-sm">
-														¡Nuevo!
-													</span>
-													<div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse" />
-												</div>
-												<h4 className="text-2xl font-light text-zinc-900">
-													Catálogo de Equipos
-												</h4>
-												<p className="text-zinc-500 text-sm font-normal leading-relaxed">
-													Explora nuestro catálogo y encuentra el equipo
-													perfecto para el auto.
-												</p>
-											</div>
-											<div className="flex items-center text-zinc-900 transition-all duration-300 ease-in-out">
-												<span>Descubrir</span>
-												<ArrowRight className="w-5 h-5 ml-2" />
-											</div>
-										</Link>
-									</Card> */}
 								</>
 							)}
 						</div>

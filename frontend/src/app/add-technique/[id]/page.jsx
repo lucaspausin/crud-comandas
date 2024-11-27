@@ -18,6 +18,7 @@ import axios from "axios";
 import {
 	getTechnique,
 	updateCommand,
+	updateCalendar,
 } from "../../reservations/reservations.api";
 import VehicleDetailsForm from "@/components/forms/VehicleDetailsForm";
 
@@ -25,7 +26,9 @@ export default function ComandaDetail({ params }) {
 	const router = useRouter();
 	const { data: session } = useSession();
 	const loggedUserId = session?.user?.id;
-
+	useEffect(() => {
+		document.title = `Motorgas - Técnica ${params.id}`;
+	}, [params.id]);
 	const [comanda, setComanda] = useState(null);
 	const [formData, setFormData] = useState({
 		marca_vehiculo: "",
@@ -186,6 +189,11 @@ export default function ComandaDetail({ params }) {
 
 			const commandId = comanda.comandas_tecnica_comanda_idTocomandas.id;
 			await updateCommand(commandId, { estado: "en_proceso" });
+			const calendarId =
+				comanda.comandas_tecnica_comanda_idTocomandas.boletos_reservas
+					.calendario[0].id;
+			await updateCommand(commandId, { estado: "completado" });
+			await updateCalendar(calendarId, { estado: "completado" });
 
 			setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
 			router.push("/dashboard");

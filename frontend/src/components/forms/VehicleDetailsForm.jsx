@@ -355,16 +355,16 @@ export default function VehicleDetailsForm({
 						/>
 					</div>
 
-					<div className="flex items-center gap-4 col-start-2 mt-12 col-end-3 justify-self-end self-end w-fit ">
+					<div className="flex items-center gap-4 col-start-2 mt-12 col-end-3 justify-self-end self-end w-full">
 						<Button
 							variant="default"
 							size="sm"
-							className="rounded-full text-sm font-normal py-[1.15rem] px-[1.25rem] inline-flex gap-2"
+							className="w-full rounded-sm text-sm font-normal py-[1.15rem] px-[1.25rem] inline-flex gap-2"
 							onClick={(e) => {
 								e.stopPropagation();
 							}}
 						>
-							Agregar
+							Guardar Cambios
 						</Button>
 					</div>
 				</CardContent>

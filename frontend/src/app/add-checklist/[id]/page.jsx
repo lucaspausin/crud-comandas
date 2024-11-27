@@ -18,13 +18,16 @@ import axios from "axios";
 import {
 	getTechnique,
 	updateCommand,
+	updateCalendar,
 } from "../../reservations/reservations.api";
 // import VehicleDetailsForm from "@/components/forms/VehicleDetailsForm";
 
 import ChecklistForm2 from "@/components/forms/CheckListForm2";
 export default function ComandaDetail({ params }) {
 	const router = useRouter();
-
+	useEffect(() => {
+		document.title = `Motorgas - Checklist ${params.id}`;
+	}, [params.id]);
 	// const [showToast, setShowToast] = useState("");
 	const { data: session } = useSession();
 	const loggedUserId = session?.user?.id;
@@ -142,7 +145,11 @@ export default function ComandaDetail({ params }) {
 			console.log("Respuesta de la API:", response.data);
 
 			const commandId = comanda.comandas_tecnica_comanda_idTocomandas.id;
+			const calendarId =
+				comanda.comandas_tecnica_comanda_idTocomandas.boletos_reservas
+					.calendario[0].id;
 			await updateCommand(commandId, { estado: "completado" });
+			await updateCalendar(calendarId, { estado: "confirmado" });
 
 			setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
 			router.push("/dashboard");

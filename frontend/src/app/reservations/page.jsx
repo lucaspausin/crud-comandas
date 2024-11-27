@@ -50,6 +50,10 @@ export default function AllReservationsPage() {
 	const [dataFetched, setDataFetched] = useState(false);
 
 	useEffect(() => {
+		document.title = "Motorgas - Reservas";
+	}, []);
+
+	useEffect(() => {
 		const fetchData = async () => {
 			if (dataFetched && reservations.length > 0) {
 				return;
@@ -61,9 +65,9 @@ export default function AllReservationsPage() {
 			try {
 				const [reservationsData, usersData] = await Promise.all([
 					getReservations(),
-					getUsers()
+					getUsers(),
 				]);
-				
+
 				setReservations(reservationsData);
 				const filteredUsers = usersData.filter((user) => user.role_id === 1);
 				setUsers(filteredUsers);

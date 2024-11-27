@@ -1,6 +1,5 @@
 "use client";
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Calendar as AntCalendar, Badge, Card, ConfigProvider } from "antd";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -15,7 +14,7 @@ import { CardContent } from "@/components/ui/card";
 
 import Aside from "@/components/Aside";
 
-dayjs.locale("es"); // Configura dayjs para usar español
+dayjs.locale("es");
 dayjs.extend(utc);
 
 export const dynamic = "force-dynamic";
@@ -25,45 +24,13 @@ export default function Calendar() {
 	const [tooltipContent, setTooltipContent] = useState([]);
 	const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
 
-	const handleMouseEnter = (event, date) => {
-		const eventsForDate = eventsCalendar.filter((event) =>
-			event.date.isSame(date, "day")
-		);
-
-		if (eventsForDate.length > 0) {
-			setTooltipContent(eventsForDate);
-
-			// Agregar lógica para el mensaje de advertencia
-			let warningMessage = "";
-			if (eventsForDate.length >= 5) {
-				warningMessage = "¡Ya no hay lugares!";
-			} else if (eventsForDate.length === 4) {
-				warningMessage = "¡Lugares llenos, preguntar por un lugar extra!";
-			}
-
-			setTooltipContent((prev) => ({
-				events: prev, // Mantener los eventos existentes
-				warningMessage: warningMessage, // Agregar mensaje de advertencia
-			}));
-
-			setTooltipVisible(true);
-		}
-	};
-
-	const handleMouseLeave = () => {
-		setTooltipVisible(false);
-	};
-
-	const handleMouseMove = (event) => {
-		setTooltipPosition({
-			top: event.clientY - 75, // Ajustar para que esté arriba
-			left: event.clientX + 55, // Ajustar para que esté a la derecha
-		});
-	};
-
 	const [eventsCalendar, setEventsCalendar] = useState([]);
 	// const [eventosPorUsuario, setEventosPorUsuario] = useState({});
 	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		document.title = "Motorgas - Calendario";
+	}, []);
 
 	useEffect(() => {
 		const fetchEventsCalendar = async () => {
@@ -105,49 +72,70 @@ export default function Calendar() {
 				return "default"; // Por defecto si no se encuentra
 		}
 	};
+
+	const handleClickOutside = useCallback(() => {
+		if (tooltipVisible) {
+			setTooltipVisible(false);
+		}
+	}, [tooltipVisible]);
+
+	// useEffect para agregar y limpiar el evento de clic fuera
+	useEffect(() => {
+		document.addEventListener("click", handleClickOutside);
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, [handleClickOutside]);
+
+	const handleClick = (event, date) => {
+		const eventsForDate = eventsCalendar.filter((event) =>
+			event.date.isSame(date, "day")
+		);
+
+		if (eventsForDate.length > 0) {
+			setTooltipContent(eventsForDate);
+
+			let warningMessage = "";
+			if (eventsForDate.length >= 5) {
+				warningMessage = "¡Ya no hay lugares!";
+			} else if (eventsForDate.length === 4) {
+				warningMessage = "¡Lugares llenos, preguntar por un lugar extra!";
+			}
+
+			setTooltipContent((prev) => ({
+				events: prev,
+				warningMessage: warningMessage,
+			}));
+
+			// Obtener la posición del clic
+			const { clientX, clientY } = event;
+
+			// Establecer la posición del tooltip
+			const tooltipTop = clientY < 100 ? clientY + 20 : clientY - 100; // Ajustar para que aparezca arriba del clic o un poco más abajo si está cerca de la parte superior
+			setTooltipPosition({
+				top: tooltipTop,
+				left: clientX - 10, // Un poco a la derecha del clic
+			});
+
+			setTooltipVisible(true);
+		}
+	};
+
 	// Función para mostrar eventos en las fechas específicas
 	const cellRender = (value) => {
 		const events = eventsCalendar.filter((event) =>
 			event.date.isSame(value, "day")
 		);
 
-		let warningMessage = "";
-		if (events.length >= 5) {
-			warningMessage = "¡Ya no hay lugares!";
-		} else if (events.length === 4) {
-			warningMessage = "¡Lugares llenos, preguntar por un lugar extra!";
-		}
-
-		// const capitalizeFirstLetter = (str) => {
-		// 	if (!str) return ""; // Retorna vacío si el string está vacío
-		// 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-		// };
-
 		return (
 			<ul
-				onMouseEnter={(e) => handleMouseEnter(e, value)} // Pasar el evento y la fecha
-				onMouseLeave={handleMouseLeave}
-				onMouseMove={handleMouseMove}
+				onClick={(e) => handleClick(e, value)} // Cambiado a onClick
 				className="list-none p-0 m-0 w-full h-full"
 			>
-				{warningMessage && (
-					<div className="flex items-center gap-1 line-clamp-1">
-						<span className="text-red-500 text-sm font-normal  line-clamp-1">
-							{warningMessage}
-						</span>
-					</div>
-				)}
 				{events.map((event) => (
-					<li
-						onMouseEnter={(e) => handleMouseEnter(e, value)} // Pasar el evento y la fecha
-						onMouseLeave={handleMouseLeave}
-						key={event.id}
-					>
+					<li key={event.id}>
 						<div className="flex items-center">
-							<Badge
-								status={getBadgeStatus(event.estado)}
-								className="mr-2" // Añade un margen derecho para separación
-							/>
+							<Badge status={getBadgeStatus(event.estado)} className="mr-2" />
 							<span className="line-clamp-1">{event.title}</span>
 						</div>
 					</li>
@@ -223,8 +211,9 @@ export default function Calendar() {
 								<div
 									className="absolute flex flex-col gap-2 bg-white shadow-xl p-4 z-10 text-sm rounded-lg w-60"
 									style={{
-										top: tooltipPosition.top,
+										top: tooltipPosition.top + 20,
 										left: tooltipPosition.left,
+										transform: "translateX(-60%)",
 									}}
 								>
 									{/* Mostrar mensaje de advertencia si existe */}
