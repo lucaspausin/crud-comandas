@@ -1,30 +1,24 @@
-# Usa una imagen base de Node.js
-FROM node:alpine
+
+FROM node:18
 
 # Establece el directorio de trabajo dentro del contenedor
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Copia el package.json y el package-lock.json (si está presente)
 COPY package*.json ./
 
-# Instala las dependencias
+
 RUN npm install
 
 # Copia todos los archivos de la aplicación al contenedor
 COPY . .
 
-# Asegúrate de que las variables de entorno estén disponibles durante el build Y runtime
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-
 # Genera el esquema de Prisma después de copiar todos los archivos
 RUN npx prisma generate
 
-# Compila el código de la aplicación
 RUN npm run build
 
 # Exponer el puerto que tu app NestJS usará
-EXPOSE 3000
+EXPOSE 4000
 
-# Ejecuta la aplicación en modo de producción
-CMD ["sh", "-c", "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL npm start"]
+CMD ["node", "dist/main"]
