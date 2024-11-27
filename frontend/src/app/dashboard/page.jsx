@@ -92,7 +92,9 @@ export default function Dashboard() {
 			}
 		};
 
-		fetchDashboardData();
+		if (session) {
+			fetchDashboardData();
+		}
 	}, [session, router, dataFetched, dashboardData.reservations.length]);
 
 	const lastFiveReservations = dashboardData.reservations

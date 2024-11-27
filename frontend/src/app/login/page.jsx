@@ -12,7 +12,7 @@ import Image from "next/image";
 import myImage from "@/public/motorgas2.svg";
 import { Loader2 } from "lucide-react";
 
-export function ButtonLoading() {
+function ButtonLoading() {
 	return (
 		<Button disabled className="w-full rounded-sm flex items-center gap-2">
 			<Loader2 className="animate-spin w-4 h-4" />
