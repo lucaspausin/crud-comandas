@@ -326,3 +326,11 @@ export async function getDashboardData() {
 		throw error;
 	}
 }
+export async function updateFileVerification(id: string) {
+	const data = { verificado: true }; // Set verificado to true
+	return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/files/${id}`, {
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data),
+	});
+}

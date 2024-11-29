@@ -201,7 +201,7 @@ const CheckListDetails = ({ comanda }) => {
 					</CardTitle>
 				</CardHeader>
 				<CardContent ref={slidesRef}>
-					<div className="flex flex-col items-start justify-start">
+					<div className="flex flex-col items-start justify-start pb-24">
 						<p className="text-sm text-zinc-600">
 							No hay información del checklist disponible.
 						</p>

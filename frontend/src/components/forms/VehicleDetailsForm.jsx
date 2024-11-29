@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useRef, useEffect, lazy } from "react";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 // import SignaturePad from "react-signature-canvas";
 import SignaturePad from "signature_pad";
 import LegalText from "@/components/LegalText";
@@ -15,6 +16,7 @@ export default function VehicleDetailsForm({
 	formData,
 	handleInputChange,
 	handleSubmit,
+	loading,
 }) {
 	const [selectedPoint, setSelectedPoint] = useState(null);
 	const [showSuggestions, setShowSuggestions] = useState(false);
@@ -354,17 +356,22 @@ export default function VehicleDetailsForm({
 							}}
 						/>
 					</div>
-
 					<div className="flex items-center gap-4 col-start-2 mt-12 col-end-3 justify-self-end self-end w-full">
 						<Button
 							variant="default"
 							size="sm"
 							className="w-full rounded-sm text-sm font-normal py-[1.15rem] px-[1.25rem] inline-flex gap-2"
-							onClick={(e) => {
-								e.stopPropagation();
-							}}
+							type="submit"
+							disabled={loading} // Deshabilitar si está cargando
 						>
-							Guardar Cambios
+							{loading ? ( // Mostrar estado de carga
+								<div className="flex items-center gap-2">
+									<Loader2 className="animate-spin w-4 h-4" />
+									Por favor, espera
+								</div>
+							) : (
+								"Guardar Cambios"
+							)}
 						</Button>
 					</div>
 				</CardContent>

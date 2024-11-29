@@ -59,6 +59,7 @@ export default function ComandaDetail({ params }) {
 	});
 
 	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const fetchTechnique = async () => {
@@ -112,6 +113,7 @@ export default function ComandaDetail({ params }) {
 
 	const handleSubmitDetails = async (e) => {
 		e.preventDefault();
+		setLoading(true); // Iniciar carga
 		const today = new Date();
 		const day = today.getDate();
 		const month = today.getMonth() + 1;
@@ -155,6 +157,8 @@ export default function ComandaDetail({ params }) {
 			router.push("/dashboard");
 		} catch (error) {
 			console.error("Error al actualizar la técnica:", error);
+		} finally {
+			setLoading(false); // Detener carga al finalizar
 		}
 	};
 
@@ -294,6 +298,7 @@ export default function ComandaDetail({ params }) {
 						checkData={checkData}
 						handleInputChange={handleInputChange}
 						handleSubmit={handleSubmitDetails}
+						loading={loading}
 					/>
 				</div>
 			</main>

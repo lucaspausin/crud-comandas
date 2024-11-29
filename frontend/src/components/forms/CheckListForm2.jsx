@@ -5,12 +5,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { useRef, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import SignaturePad from "signature_pad";
+import { Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function CheckListForm({
 	checkData,
 	handleInputChange,
 	handleSubmit,
+	loading,
 }) {
 	const canvasRef = useRef(null);
 	const signaturePadRef = useRef(null);
@@ -477,12 +479,18 @@ export default function CheckListForm({
 						<Button
 							variant="default"
 							size="sm"
-							className="rounded-sm w-full text-sm font-normal py-[1.15rem] px-[1.25rem] inline-flex gap-2"
-							onClick={(e) => {
-								e.stopPropagation();
-							}}
+							className="w-full rounded-sm text-sm font-normal py-[1.15rem] px-[1.25rem] inline-flex gap-2"
+							type="submit"
+							disabled={loading} // Deshabilitar si está cargando
 						>
-							Guardar Cambios
+							{loading ? ( // Mostrar estado de carga
+								<div className="flex items-center gap-2">
+									<Loader2 className="animate-spin w-4 h-4" />
+									Por favor, espera
+								</div>
+							) : (
+								"Guardar Cambios"
+							)}
 						</Button>
 					</div>
 				</CardContent>

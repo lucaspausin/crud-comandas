@@ -26,9 +26,12 @@ import TechnicalDetailsCard from "@/components/commands/TechnicalDetailsCard";
 import ReservationDetailsCard from "@/components/commands/ReservationDetailsCard";
 import CheckListDetails from "@/components/commands/CheckListDetails";
 import DownloadIcon from "@/components/DownloadIcon";
+import { useSession } from "next-auth/react";
 // import VehicleDetailsCard from "@/components/commands/VehicleDetailsCard";
 
 export default function ComandaDetail({ params }) {
+	const { data: session, status } = useSession();
+	const [loggedUserId, setLoggedUserId] = useState(null);
 	const [showToast, setShowToast] = useState("");
 	useEffect(() => {
 		document.title = `Motorgas - Comanda ${params.id}`;
@@ -76,6 +79,17 @@ export default function ComandaDetail({ params }) {
 	const [debounceTimeout, setDebounceTimeout] = useState(null);
 
 	useEffect(() => {
+		if (status === "authenticated" && session?.user?.id) {
+			const userId = parseInt(session.user.id);
+			if (!isNaN(userId)) {
+				setLoggedUserId(userId);
+			}
+		}
+	}, [session, status]);
+
+	const currentUserId = loggedUserId;
+
+	useEffect(() => {
 		const fetchComanda = async () => {
 			try {
 				const data = await getCommand(params.id);
@@ -86,6 +100,16 @@ export default function ComandaDetail({ params }) {
 		};
 		fetchComanda();
 	}, [params.id]);
+
+	useEffect(() => {
+		if (comanda) {
+			// Verificar si todos los archivos están verificados después de una actualización
+			const allVerified = comanda.archivo.every((file) => file.verificado);
+			if (allVerified) {
+				setShowToast(""); // O cualquier otra lógica que necesites
+			}
+		}
+	}, [comanda]); // Dependencia en el objeto comanda
 
 	useEffect(() => {
 		if (comanda) {
@@ -274,6 +298,18 @@ export default function ComandaDetail({ params }) {
 		saveAs(blob, "comanda.csv"); // Usamos la función saveAs de file-saver para descargar el archivo
 	};
 
+	const allFilesVerified = comanda?.archivo.every((file) => file.verificado); // Verifica si todos los archivos están verificados
+
+	const handleVerifyFile = () => {
+		// Actualiza el estado de comanda para reflejar que el archivo ha sido verificado
+		setComanda((prevComanda) => ({
+			...prevComanda,
+			archivo: prevComanda.archivo.map((file) =>
+				file.verificado ? file : { ...file, verificado: true }
+			),
+		}));
+	};
+
 	return (
 		<div className="flex-1 bg-zinc-50">
 			<Aside />
@@ -289,7 +325,7 @@ export default function ComandaDetail({ params }) {
 					/>
 				</div>
 				<div className="grid gap-6 w-full">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 						{/* //TODO: INFORMACION GENERAL DE LA COMANDA. */}
 						<GeneralInfoCard comanda={comanda} />
 						{/* //TODO: INFORMCACION GENERAL DEL CLIENTE. */}
@@ -324,14 +360,33 @@ export default function ComandaDetail({ params }) {
 						{/* ARCHIVOS */}
 						{comanda.archivo.length > 0 && (
 							<Card className="col-span-2 border-none rounded-lg shadow-lg">
-								<CardContent className="flex flex-col items-stretch h-full overflow-hidden p-4">
-									<div className="flex overflow-x-auto gap-4 px-0 py-6 text-sm rounded-lg h-full">
+								{/* <CardHeader>
+									<CardTitle className="text-xl font-light text-zinc-800">
+										Previsualización de Archivos
+									</CardTitle>
+								</CardHeader> */}
+								<CardContent className="flex flex-col items-stretch h-full overflow-hidden p-6 pt-6 relative">
+									{!allFilesVerified &&
+										comanda.archivo.some(
+											(file) =>
+												file.usuario_id !== null &&
+												file.usuario_id !== currentUserId &&
+												!file.verificado
+										) && (
+											<div className="pt-6 absolute -top-2 left-6 w-full">
+												<p className="text-sm text-red-500">
+													Verificar la documentacion adjuntada por el usuario.
+												</p>
+											</div>
+										)}
+									<div className="flex overflow-x-auto gap-4 px-0 py-6 text-sm rounded-lg h-full w-full">
 										{comanda.archivo.map((file, index) => (
 											<FilesSlider
 												key={file.id}
 												file={file}
 												index={index}
 												handleDeleteArchive={handleDeleteArchive}
+												onVerify={handleVerifyFile}
 											/>
 										))}
 									</div>

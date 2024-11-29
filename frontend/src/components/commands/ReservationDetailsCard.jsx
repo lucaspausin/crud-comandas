@@ -10,7 +10,7 @@ const ReservationDetailsCard = ({ comanda }) => {
 	const detallesReserva = comanda.boletos_reservas || {};
 
 	return (
-		<Card className="border-none shadow-lg rounded-lg col-span-2">
+		<Card className="border-none shadow-lg rounded-lg col-span-1 lg:col-span-2">
 			<CardHeader>
 				<CardTitle className="text-xl font-light text-zinc-800">
 					Detalles de la Reserva
@@ -53,16 +53,10 @@ const ReservationDetailsCard = ({ comanda }) => {
 						{detallesReserva.fecha_instalacion
 							? (() => {
 									const fecha = new Date(detallesReserva.fecha_instalacion);
-									fecha.setHours(8, 30); // Establece la hora a 8:30
-									return fecha.toLocaleString("es-AR", {
-										day: "2-digit",
-										month: "2-digit",
-										year: "numeric",
-										hour: "2-digit",
-										minute: "2-digit",
-										hour12: false,
-									});
-							  })()
+									const dia = String(fecha.getUTCDate()).padStart(2, "0");
+									const mes = String(fecha.getUTCMonth() + 1).padStart(2, "0"); // Los meses son 0-indexed
+									return `${dia}/${mes} 08:30`; // Hora hardcodeada a 08:30
+								})()
 							: "N/A"}
 					</dd>
 				</dl>

@@ -4,26 +4,42 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import ToastNotification from "@/components/ToastNotification";
-import { motion } from "framer-motion";
-
+// import ToastNotification from "@/components/ToastNotification";
+import { Loader2 } from "lucide-react";
 // import { useRouter } from "next/navigation";
 import { getReservation } from "../../reservations.api";
 import axios from "axios";
-import Image from "next/image";
-import myImage from "@/public/motorgas2.svg";
 import { Card, CardContent } from "@/components/ui/card";
 
 import HomeIcon from "@/components/HomeIcon";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Aside from "@/components/Aside";
 
+import { FilePond, registerPlugin } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+
 export default function AddOrderPage({ params }) {
+	const router = useRouter();
+
+	const { data: session, status } = useSession();
+
+	const [loggedUserId, setLoggedUserId] = useState(null);
+
+	const [files, setFiles] = useState([]); // State para almacenar los archivos seleccionados
+	const [comandaId, setComandaId] = useState(null);
 	// const router = useRouter();
 	const reservationId = params.id;
 	useEffect(() => {
 		document.title = `Motorgas - Editar Reserva #${params.id}`;
 	}, [params.id]);
-	const [loading, setLoading] = useState(true);
+
 	const [initialReservation, setInitialReservation] = useState(null);
 
 	const [client, setClient] = useState({
@@ -83,6 +99,17 @@ export default function AddOrderPage({ params }) {
 	};
 
 	useEffect(() => {
+		if (status === "authenticated" && session?.user?.id) {
+			const userId = parseInt(session.user.id);
+			if (!isNaN(userId)) {
+				setLoggedUserId(userId);
+			}
+		}
+	}, [session, status]);
+
+	const currentUserId = loggedUserId;
+
+	useEffect(() => {
 		fetchEventCount(); // Llamar a la función al montar el componente
 	}, []);
 
@@ -92,6 +119,9 @@ export default function AddOrderPage({ params }) {
 			try {
 				const data = await getReservation(reservationId);
 				setInitialReservation(data);
+
+				const fetchedComandaId = data.comandas[0]?.id; // Accede al id de la primera comanda
+				setComandaId(fetchedComandaId);
 
 				setClient({
 					nombre_completo: data.clientes.nombre_completo || "",
@@ -250,13 +280,17 @@ export default function AddOrderPage({ params }) {
 		};
 	}, []);
 
-	const [showToast, setShowToast] = useState("");
+	// const [showToast, setShowToast] = useState("");
+	const [loading, setLoading] = useState(false); // Agregar estado de carga
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true); // Iniciar carga
+
 		// Compara los datos actuales con los iniciales y crea un objeto con solo los campos modificados
 		const updatedClient = {};
 		const updatedVehicle = {};
+		const updatedFiles = files.length > 0; // Verifica si hay archivos nuevos
 
 		// Compara los datos del cliente
 		Object.keys(client).forEach((key) => {
@@ -322,10 +356,11 @@ export default function AddOrderPage({ params }) {
 			}
 		});
 
-		// Solo envía si hay campos modificados
+		// Solo envía si hay campos modificados o archivos nuevos
 		if (
 			Object.keys(updatedClient).length > 0 ||
-			Object.keys(updatedVehicle).length > 0
+			Object.keys(updatedVehicle).length > 0 ||
+			updatedFiles // Agregado para verificar archivos
 		) {
 			try {
 				const response = await axios.patch(
@@ -341,397 +376,414 @@ export default function AddOrderPage({ params }) {
 					...updatedClient,
 					...updatedVehicle,
 				});
-				const successMessage = "Reserva añadida exitosamente.";
-				// router.push(`/reservations/${reservationId}`);
-				setShowToast(successMessage);
-				// router.push(`/reservations/${reservationId}`);
+
+				await new Promise((resolve) => setTimeout(resolve, 1000));
+
+				await Promise.all(
+					files.map(async (file) => {
+						const formData = new FormData();
+						formData.append("file", file.file);
+						formData.append("usuarioId", String(currentUserId));
+						console.log(formData);
+
+						await axios.post(
+							`${process.env.NEXT_PUBLIC_API_URL}/api/files/${comandaId}`, // Usa el comandaId aquí
+							formData,
+							{
+								headers: {
+									"Content-Type": "multipart/form-data",
+								},
+							}
+						);
+					})
+				);
+
+				router.push(`/reservations/${reservationId}`);
 			} catch (error) {
-				setShowToast("Error al actualizar la reserva");
 				console.error("Error al actualizar la reserva:", error);
 			}
 		} else {
-			setShowToast("Error. No hay cambios");
 			console.log("No se han realizado cambios.");
 		}
+
+		setLoading(false); // Detener carga al finalizar
 	};
 	return (
 		<div className="flex bg-zinc-50">
-			{loading ? (
-				<div className="flex flex-col items-center justify-center h-[80vh] mx-auto">
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{
-							opacity: [0, 1, 1, 0],
-							scale: [1, 1.05, 1],
-						}}
-						transition={{
-							duration: 0.75,
-							ease: "easeInOut",
-							repeat: Infinity,
-						}}
-					>
-						<Image
-							src={myImage}
-							alt="Descripción de la imagen"
-							className="w-16 h-16 object-contain opacity-90"
-							loading="eager"
-							priority
-						/>
-					</motion.div>
+			<Aside />
+			<main className="flex-1 p-6 z-50">
+				<div className="flex items-center justify-between mb-6">
+					<div className="flex items-center gap-2">
+						<HomeIcon href="/reservations" label="Volver"></HomeIcon>
+						<h2 className="text-base font-normal text-zinc-700">
+							Editar Reserva
+						</h2>
+					</div>
 				</div>
-			) : (
-				<>
-					<Aside />
-					<main className="flex-1 p-6 z-50">
-						<div className="flex items-center justify-between mb-6">
-							<div className="flex items-center gap-2">
-								<HomeIcon href="/reservations" label="Volver"></HomeIcon>
-								<h2 className="text-base font-normal text-zinc-700">
-									Editar Reserva
-								</h2>
-							</div>
-						</div>
-						<Card className="border-none shadow-lg">
-							<CardContent className="pt-6">
-								<form
-									className={`space-y-6 p-6 border rounded-lg  relative ${
-										warningMessage
-											? eventCount >= 5
-												? "border border-pink-900"
-												: eventCount === 4
-													? "border border-red-500"
-													: ""
+				<Card className="border-none shadow-lg">
+					<CardContent className="pt-6">
+						<form
+							className={`space-y-6 p-6 border rounded-lg  relative ${
+								warningMessage
+									? eventCount >= 5
+										? "border border-pink-900"
+										: eventCount === 4
+											? "border border-red-500"
 											: ""
-									}`}
-									onSubmit={handleSubmit}
-									ref={form}
-								>
-									<div className="space-y-4">
-										<div className="flex flex-row items-center justify-between w-full">
-											<h3 className="text-xl font-light text-zinc-700">
-												Datos del cliente
-											</h3>
-											{warningMessage && (
-												<div
-													className={` text-sm z-50 m-0 ${
-														eventCount >= 5
-															? "text-pink-900"
-															: eventCount === 4
-																? "text-red-500"
-																: ""
-													}`}
-												>
-													{warningMessage} ({eventCount} reservas)
-												</div>
+									: ""
+							}`}
+							onSubmit={handleSubmit}
+							ref={form}
+						>
+							<div className="space-y-4">
+								<div className="flex flex-row items-center justify-between w-full">
+									<h3 className="text-xl font-light text-zinc-700">
+										Datos del cliente
+									</h3>
+									{warningMessage && (
+										<div
+											className={` text-sm z-50 m-0 ${
+												eventCount >= 5
+													? "text-pink-900"
+													: eventCount === 4
+														? "text-red-500"
+														: ""
+											}`}
+										>
+											{warningMessage} ({eventCount} reservas)
+										</div>
+									)}
+								</div>
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+									<div className="space-y-2">
+										<Label
+											htmlFor="nombre_completo"
+											className="font-normal text-zinc-600"
+										>
+											Nombre completo
+										</Label>
+										<Input
+											name="nombre_completo"
+											id="nombre_completo"
+											placeholder="Nombre completo"
+											className="rounded-full"
+											value={client.nombre_completo}
+											onChange={handleClientChange}
+											required
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label htmlFor="dni" className="font-normal text-zinc-600">
+											DNI
+										</Label>
+										<Input
+											name="dni"
+											id="dni"
+											type="number"
+											placeholder="Número de DNI"
+											className="rounded-full"
+											value={client.dni}
+											onChange={handleClientChange}
+											required
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label
+											htmlFor="domicilio"
+											className="font-normal text-zinc-600"
+										>
+											Domicilio
+										</Label>
+										<Input
+											name="domicilio"
+											id="domicilio"
+											placeholder="Dirección"
+											value={client.domicilio}
+											className="rounded-full"
+											onChange={handleClientChange}
+										/>
+									</div>
+									<div className="space-y-2 flex flex-col justify-center text-sm">
+										<Label
+											htmlFor="localidad"
+											className="font-normal mt-2 text-zinc-800"
+										>
+											Localidad
+										</Label>
+										<div className="relative w-full" ref={inputRef}>
+											<Input
+												type="text"
+												name="localidad"
+												id="localidad"
+												value={client.localidad}
+												onChange={handleLocalidadChange}
+												onFocus={handleInputFocus} // Mostrar todas las localidades al enfocar
+												placeholder="Buscar localidad..."
+												className="w-full rounded-full px-4 py-[0.5rem] border-[#E4E4E7] border focus:outline placeholder:font-normal placeholder:text-zinc-500"
+											/>
+											{showSuggestions && (
+												<ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md max-h-60 overflow-auto">
+													{filteredLocalidades.map((localidad) => (
+														<li
+															key={localidad.id}
+															onClick={() => handleSuggestionClick(localidad)}
+															className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+														>
+															{localidad.nombre.toUpperCase()}
+														</li>
+													))}
+												</ul>
 											)}
 										</div>
-										<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-											<div className="space-y-2">
-												<Label
-													htmlFor="nombre_completo"
-													className="font-normal text-zinc-600"
-												>
-													Nombre completo
-												</Label>
-												<Input
-													name="nombre_completo"
-													id="nombre_completo"
-													placeholder="Nombre completo"
-													className="rounded-full"
-													value={client.nombre_completo}
-													onChange={handleClientChange}
-													required
-												/>
-											</div>
-											<div className="space-y-2">
-												<Label
-													htmlFor="dni"
-													className="font-normal text-zinc-600"
-												>
-													DNI
-												</Label>
-												<Input
-													name="dni"
-													id="dni"
-													type="number"
-													placeholder="Número de DNI"
-													className="rounded-full"
-													value={client.dni}
-													onChange={handleClientChange}
-													required
-												/>
-											</div>
-											<div className="space-y-2">
-												<Label
-													htmlFor="domicilio"
-													className="font-normal text-zinc-600"
-												>
-													Domicilio
-												</Label>
-												<Input
-													name="domicilio"
-													id="domicilio"
-													placeholder="Dirección"
-													value={client.domicilio}
-													className="rounded-full"
-													onChange={handleClientChange}
-												/>
-											</div>
-											<div className="space-y-2 flex flex-col justify-center text-sm">
-												<Label
-													htmlFor="localidad"
-													className="font-normal mt-2 text-zinc-800"
-												>
-													Localidad
-												</Label>
-												<div className="relative w-full" ref={inputRef}>
-													<Input
-														type="text"
-														name="localidad"
-														id="localidad"
-														value={client.localidad}
-														onChange={handleLocalidadChange}
-														onFocus={handleInputFocus} // Mostrar todas las localidades al enfocar
-														placeholder="Buscar localidad..."
-														className="w-full rounded-full px-4 py-[0.5rem] border-[#E4E4E7] border focus:outline placeholder:font-normal placeholder:text-zinc-500"
-													/>
-													{showSuggestions && (
-														<ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md max-h-60 overflow-auto">
-															{filteredLocalidades.map((localidad) => (
-																<li
-																	key={localidad.id}
-																	onClick={() =>
-																		handleSuggestionClick(localidad)
-																	}
-																	className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-																>
-																	{localidad.nombre.toUpperCase()}
-																</li>
-															))}
-														</ul>
-													)}
-												</div>
-											</div>
-											<div className="space-y-2">
-												<Label
-													htmlFor="telefono"
-													className="font-normal text-zinc-600"
-												>
-													Teléfono (Ej: 1124033487, sin +549)
-												</Label>
-												<Input
-													name="telefono"
-													id="telefono"
-													type="number"
-													placeholder="Número de teléfono"
-													value={client.telefono}
-													onChange={handleClientChange}
-													className="rounded-full"
-													required
-												/>
-											</div>
+									</div>
+									<div className="space-y-2">
+										<Label
+											htmlFor="telefono"
+											className="font-normal text-zinc-600"
+										>
+											Teléfono (Ej: 1124033487, sin +549)
+										</Label>
+										<Input
+											name="telefono"
+											id="telefono"
+											type="number"
+											placeholder="Número de teléfono"
+											value={client.telefono}
+											onChange={handleClientChange}
+											className="rounded-full"
+											required
+										/>
+									</div>
+								</div>
+							</div>
+							<div className="space-y-4">
+								<h3 className="text-xl font-light text-zinc-700">
+									Datos del vehículo
+								</h3>
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+									<div className="space-y-2">
+										<Label
+											htmlFor="marca_vehiculo"
+											className="text-zinc-800 font-normal"
+										>
+											Marca
+										</Label>
+										<Input
+											name="marca_vehiculo"
+											id="marca_vehiculo"
+											placeholder="Marca del vehículo"
+											value={vehicle.marca_vehiculo}
+											onChange={handleVehicleChange}
+											className="rounded-full"
+											required
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label
+											htmlFor="modelo_vehiculo"
+											className="text-zinc-800 font-normal"
+										>
+											Modelo
+										</Label>
+										<Input
+											name="modelo_vehiculo"
+											id="modelo_vehiculo"
+											placeholder="Modelo del vehículo"
+											value={vehicle.modelo_vehiculo}
+											onChange={handleVehicleChange}
+											className="rounded-full"
+											required
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label
+											htmlFor="patente_vehiculo"
+											className="text-zinc-800 font-normal"
+										>
+											Patente
+										</Label>
+										<Input
+											name="patente_vehiculo"
+											id="patente_vehiculo"
+											placeholder="Patente"
+											value={vehicle.patente_vehiculo}
+											onChange={handleVehicleChange}
+											className="rounded-full"
+											required
+										/>
+									</div>
+									<div className="space-y-2">
+										<Label
+											htmlFor="equipo"
+											className="font-normal text-zinc-600"
+										>
+											Equipo
+										</Label>
+										<Input
+											name="equipo"
+											id="equipo"
+											placeholder="Equipo"
+											value={vehicle.equipo}
+											onChange={handleVehicleChange}
+											className="rounded-full"
+											required
+										/>
+									</div>
+
+									<div className="space-y-2">
+										<Label
+											htmlFor="precio"
+											className="font-normal text-zinc-600"
+										>
+											Precio
+										</Label>
+										<Input
+											name="precio"
+											id="precio"
+											type="text" // Cambiado a text
+											placeholder="Precio"
+											value={vehicle.precio}
+											onChange={handleVehicleChange}
+											className="rounded-full"
+											required
+										/>
+									</div>
+									<div className="flex flex-col justify-between mt-4 gap-4 md:gap-0">
+										<div className="flex items-center space-x-2 font-normal ">
+											<Checkbox
+												id="reforma_escape"
+												checked={vehicle.reforma_escape}
+												onCheckedChange={handleCheckboxChange("reforma_escape")}
+											/>
+											<Label
+												htmlFor="reforma_escape"
+												className="font-normal text-zinc-600"
+											>
+												Reforma de escape
+											</Label>
+										</div>
+										<div className="flex items-center space-x-2 ">
+											<Checkbox
+												id="carga_externa"
+												checked={vehicle.carga_externa}
+												onCheckedChange={handleCheckboxChange("carga_externa")}
+											/>
+											<Label
+												htmlFor="carga_externa"
+												className="font-normal text-zinc-600"
+											>
+												Carga externa
+											</Label>
 										</div>
 									</div>
-									<div className="space-y-4">
-										<h3 className="text-xl font-light text-zinc-700">
-											Datos del vehículo
-										</h3>
-										<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-											<div className="space-y-2">
-												<Label
-													htmlFor="marca_vehiculo"
-													className="text-zinc-800 font-normal"
-												>
-													Marca
-												</Label>
-												<Input
-													name="marca_vehiculo"
-													id="marca_vehiculo"
-													placeholder="Marca del vehículo"
-													value={vehicle.marca_vehiculo}
-													onChange={handleVehicleChange}
-													className="rounded-full"
-													required
-												/>
-											</div>
-											<div className="space-y-2">
-												<Label
-													htmlFor="modelo_vehiculo"
-													className="text-zinc-800 font-normal"
-												>
-													Modelo
-												</Label>
-												<Input
-													name="modelo_vehiculo"
-													id="modelo_vehiculo"
-													placeholder="Modelo del vehículo"
-													value={vehicle.modelo_vehiculo}
-													onChange={handleVehicleChange}
-													className="rounded-full"
-													required
-												/>
-											</div>
-											<div className="space-y-2">
-												<Label
-													htmlFor="patente_vehiculo"
-													className="text-zinc-800 font-normal"
-												>
-													Patente
-												</Label>
-												<Input
-													name="patente_vehiculo"
-													id="patente_vehiculo"
-													placeholder="Patente"
-													value={vehicle.patente_vehiculo}
-													onChange={handleVehicleChange}
-													className="rounded-full"
-													required
-												/>
-											</div>
-											<div className="space-y-2">
-												<Label
-													htmlFor="equipo"
-													className="font-normal text-zinc-600"
-												>
-													Equipo
-												</Label>
-												<Input
-													name="equipo"
-													id="equipo"
-													placeholder="Equipo"
-													value={vehicle.equipo}
-													onChange={handleVehicleChange}
-													className="rounded-full"
-													required
-												/>
-											</div>
-
-											<div className="space-y-2">
-												<Label
-													htmlFor="precio"
-													className="font-normal text-zinc-600"
-												>
-													Precio
-												</Label>
-												<Input
-													name="precio"
-													id="precio"
-													type="text" // Cambiado a text
-													placeholder="Precio"
-													value={vehicle.precio}
-													onChange={handleVehicleChange}
-													className="rounded-full"
-													required
-												/>
-											</div>
-											<div className="flex flex-col justify-between mt-4 gap-4 md:gap-0">
-												<div className="flex items-center space-x-2 font-normal ">
-													<Checkbox
-														id="reforma_escape"
-														checked={vehicle.reforma_escape}
-														onCheckedChange={handleCheckboxChange(
-															"reforma_escape"
-														)}
-													/>
-													<Label
-														htmlFor="reforma_escape"
-														className="font-normal text-zinc-600"
-													>
-														Reforma de escape
-													</Label>
-												</div>
-												<div className="flex items-center space-x-2 ">
-													<Checkbox
-														id="carga_externa"
-														checked={vehicle.carga_externa}
-														onCheckedChange={handleCheckboxChange(
-															"carga_externa"
-														)}
-													/>
-													<Label
-														htmlFor="carga_externa"
-														className="font-normal text-zinc-600"
-													>
-														Carga externa
-													</Label>
-												</div>
-											</div>
-											<div className="space-y-2">
-												<Label
-													htmlFor="sena"
-													className="font-normal text-zinc-600"
-												>
-													Seña
-												</Label>
-												<Input
-													name="sena"
-													id="sena"
-													type="text" // Cambiado a text
-													placeholder="Monto de seña"
-													value={vehicle.sena}
-													onChange={handleVehicleChange}
-													className="rounded-full"
-												/>
-											</div>
-											<div className="space-y-2">
-												<Label
-													htmlFor="monto_final_abonar"
-													className="font-normal text-zinc-600"
-												>
-													Monto final a abonar
-												</Label>
-												<Input
-													name="monto_final_abonar"
-													id="monto_final_abonar"
-													type="text" // Cambiado a text
-													placeholder="Monto final"
-													value={vehicle.monto_final_abonar}
-													onChange={handleVehicleChange}
-													className="rounded-full"
-													required
-												/>
-											</div>
-
-											<div className="space-y-2">
-												<Label
-													htmlFor="fecha_instalacion"
-													className="font-normal text-zinc-600"
-												>
-													Fecha de instalación
-												</Label>
-												<Input
-													name="fecha_instalacion"
-													id="fecha_instalacion"
-													type="date"
-													value={vehicle.fecha_instalacion} // Este campo se mantiene en formato YYYY-MM-DD
-													onChange={handleVehicleChange}
-													required
-													className="rounded-full"
-												/>
-											</div>
-										</div>
+									<div className="space-y-2">
+										<Label htmlFor="sena" className="font-normal text-zinc-600">
+											Seña
+										</Label>
+										<Input
+											name="sena"
+											id="sena"
+											type="text" // Cambiado a text
+											placeholder="Monto de seña"
+											value={vehicle.sena}
+											onChange={handleVehicleChange}
+											className="rounded-full"
+										/>
 									</div>
-									<Button
-										type="submit"
-										className={`w-full rounded-sm ${
-											eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""
-										}`}
-										disabled={eventCount >= 5} // Deshabilita el botón si el eventCount es 5 o más
-									>
-										Editar Reserva
-									</Button>
-								</form>
-								<ToastNotification
-									message={showToast}
-									show={!!showToast}
-									onClose={() => setShowToast("")}
-									type={showToast.includes("Error") ? "error" : "success"} // Determina el tipo basado en el mensaje
+									<div className="space-y-2">
+										<Label
+											htmlFor="monto_final_abonar"
+											className="font-normal text-zinc-600"
+										>
+											Monto final a abonar
+										</Label>
+										<Input
+											name="monto_final_abonar"
+											id="monto_final_abonar"
+											type="text" // Cambiado a text
+											placeholder="Monto final"
+											value={vehicle.monto_final_abonar}
+											onChange={handleVehicleChange}
+											className="rounded-full"
+											required
+										/>
+									</div>
+
+									<div className="space-y-2">
+										<Label
+											htmlFor="fecha_instalacion"
+											className="font-normal text-zinc-600"
+										>
+											Fecha de instalación
+										</Label>
+										<Input
+											name="fecha_instalacion"
+											id="fecha_instalacion"
+											type="date"
+											value={vehicle.fecha_instalacion} // Este campo se mantiene en formato YYYY-MM-DD
+											onChange={handleVehicleChange}
+											required
+											className="rounded-full"
+										/>
+									</div>
+								</div>
+							</div>
+							<div className="space-y-4">
+								<h3 className="text-xl font-light text-zinc-700 flex items-center">
+									Adjuntar Documentación
+									{/* <span className="px-2 py-1 text-xs font-normal rounded-full inline-flex items-center gap-1 justify-center bg-green-100 text-green-600 border border-green-100 ml-2">
+							¡Nuevo!
+						</span> */}
+								</h3>
+								<FilePond
+									files={files}
+									onupdatefiles={setFiles} // Actualiza el estado de los archivos
+									allowReorder={true}
+									allowMultiple={true} // Permitir múltiples archivos
+									maxFiles={5} // Limitar a 5 archivos
+									name="files" // Nombre del input
+									labelIdle='Arrastra y suelta tus archivos o <span class="filepond--label-action">Selecciona un archivo.</span>'
+									acceptedFileTypes={["image/*", "application/pdf"]} // Tipos de archivos aceptados
+									onprocessfile={(error, file) => {
+										if (error) {
+											console.error("Error al subir el archivo:", error);
+										} else {
+											console.log("Archivo subido:", file);
+										}
+									}}
+									onprocessfileprogress={(file, progress) => {
+										console.log(
+											`Progreso de carga para ${file.filename}: ${progress}%`
+										);
+									}}
 								/>
-							</CardContent>
-						</Card>
-					</main>
-				</>
-			)}
+							</div>
+							<Button
+								type="submit"
+								className={`w-full rounded-sm ${
+									eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""
+								}`}
+								disabled={eventCount >= 5 || loading} // Deshabilitar si hay carga o si hay demasiados eventos
+							>
+								{loading ? (
+									<div className="flex items-center gap-2">
+										<Loader2 className="animate-spin w-4 h-4" />
+										Por favor, espera
+									</div>
+								) : (
+									"Editar Reserva"
+								)}
+							</Button>
+						</form>
+						{/* <ToastNotification
+							message={showToast}
+							show={!!showToast}
+							onClose={() => setShowToast("")}
+							type={showToast.includes("Error") ? "error" : "success"} // Determina el tipo basado en el mensaje
+						/> */}
+					</CardContent>
+				</Card>
+			</main>
 		</div>
 	);
 }

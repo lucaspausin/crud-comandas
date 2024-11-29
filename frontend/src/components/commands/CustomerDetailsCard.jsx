@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const CustomerDetailsCard = ({ cliente }) => {
 	return (
-		<Card className="rounded-xl shadow-lg border-none">
+		<Card className="rounded-xl shadow-lg border-none ">
 			<CardHeader>
 				<CardTitle className="text-xl font-light text-zinc-800">
 					Detalles del Cliente

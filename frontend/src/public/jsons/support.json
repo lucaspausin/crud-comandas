@@ -1,162 +1,122 @@
 {
     "3ra-30lx2c": {
         "nombre": "3RA Generación con 2 tubos de 30L instalados bajo chasis",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1376000,
-        "precio-cuotas": 154800
+        "equivalente-km": 150
     },
     "3ra-30lx2b": {
         "nombre": "3RA Generación con 2 tubos de 30L instalados en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1376000,
-        "precio-cuotas": 154800
+        "equivalente-km": 150
     },
     "3ra-40l": {
         "nombre": "3RA Generación con 1 tubo de 40L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-10M3-40LTS-850X273.png",
         "autonomia": "10 Litros de Nafta",
-        "precio-contado": 967000,
-        "precio-cuotas": 108788
+        "equivalente-km": 100
     },
     "3ra-60l": {
         "nombre": "3RA Generación con 1 tubo de 60L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-15M3-60LTS-930X323.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1131000,
-        "precio-cuotas": 127238
+        "equivalente-km": 150
     },
     "3ra-70l": {
         "nombre": "3RA Generación con 1 tubo de 70L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-17.5M3-70LTS-900X355.png",
         "autonomia": "17,5 Litros de Nafta",
-        "precio-contado": 1206000,
-        "precio-cuotas": 135675
+        "equivalente-km": 175
     },
     "4ta-30lx2c": {
         "nombre": "4TA Generación con 2 tubos de 30L instalados bajo chasis",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1376000,
-        "precio-cuotas": 154800
+        "equivalente-km": 150
     },
     "4ta-30lx2b": {
         "nombre": "4TA Generación con 2 tubos de 30L instalados en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1376000,
-        "precio-cuotas": 154800
+        "equivalente-km": 150
     },
     "4ta-40l": {
         "nombre": "4TA Generación con 1 tubo de 40L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-10M3-40LTS-850X273.png",
         "autonomia": "10 Litros de Nafta",
-        "precio-contado": 967000,
-        "precio-cuotas": 108788
+        "equivalente-km": 100
     },
     "4ta-60l": {
         "nombre": "4TA Generación con 1 tubo de 60L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-15M3-60LTS-930X323.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1131000,
-        "precio-cuotas": 127238
+        "equivalente-km": 150
     },
     "4ta-70l": {
         "nombre": "4TA Generación con 1 tubo de 70L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-17.5M3-70LTS-900X355.png",
         "autonomia": "17,5 Litros de Nafta",
-        "precio-contado": 1206000,
-        "precio-cuotas": 135675
+        "equivalente-km": 175
     },
     "5ta-30lx2c": {
         "nombre": "5TA Generación con 2 tubos de 30L instalados bajo chasis",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1499000,
-        "precio-cuotas": 168638
+        "equivalente-km": 150
     },
     "5ta-30lx2b": {
         "nombre": "5TA Generación con 2 tubos de 30L instalados en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1499000,
-        "precio-cuotas": 168638
+        "equivalente-km": 150
     },
     "5ta-40l": {
         "nombre": "5TA Generación con 1 tubo de 40L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-10M3-40LTS-850X273.png",
         "autonomia": "10 Litros de Nafta",
-        "precio-contado": 1086000,
-        "precio-cuotas": 122175
+        "equivalente-km": 100
     },
     "5ta-60l": {
         "nombre": "5TA Generación con 1 tubo de 60L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-15M3-60LTS-930X323.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1251000,
-        "precio-cuotas": 140738
+        "equivalente-km": 150
     },
     "5ta-70l": {
         "nombre": "5TA Generación con 1 tubo de 70L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-17.5M3-70LTS-900X355.png",
         "autonomia": "17,5 Litros de Nafta",
-        "precio-contado": 1328000,
-        "precio-cuotas": 149400
+        "equivalente-km": 175
     },
     "6ta-30lx2c": {
         "nombre": "6TA Generación con 2 tubos de 30L instalados bajo chasis",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 2160000,
-        "precio-cuotas": 243000
+        "equivalente-km": 150
     },
     "6ta-30lx2b": {
         "nombre": "6TA Generación con 2 tubos de 30L instalados en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 2160000,
-        "precio-cuotas": 243000
+        "equivalente-km": 150
     },
     "6ta-40l": {
         "nombre": "6TA Generación con 1 tubo de 40L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-10M3-40LTS-850X273.png",
         "autonomia": "10 Litros de Nafta",
-        "precio-contado": 1564000,
-        "precio-cuotas": 175950
+        "equivalente-km": 100
     },
     "6ta-60l": {
         "nombre": "6TA Generación con 1 tubo de 60L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-15M3-60LTS-930X323.png",
         "autonomia": "15 Litros de Nafta",
-        "precio-contado": 1802000,
-        "precio-cuotas": 202725
+        "equivalente-km": 150
     },
     "6ta-70l": {
         "nombre": "6TA Generación con 1 tubo de 70L instalado en el baúl",
-        "link": "",
         "imagen-principal": "images/equipos/TUBOGNC-17.5M3-70LTS-900X355.png",
         "autonomia": "17,5 Litros de Nafta",
-        "precio-contado": 1915000,
-        "precio-cuotas": 215438
+        "equivalente-km": 175
     }
 }

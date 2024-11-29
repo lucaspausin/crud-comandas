@@ -72,7 +72,7 @@ function CameraFileUpload({ comandaId, setComanda }) {
 						},
 					}}
 					name="file" // Nombre del campo en el formulario
-					labelIdle='Arrastra tus archivos o <span class="filepond--label-action">Selecciona</span>'
+					labelIdle='Arrastra y suelta tus archivos o <span class="filepond--label-action">Selecciona un archivo.</span>'
 					allowReorder={true}
 					instantUpload={true} // Cambiado a true para subida automática
 				/>

@@ -142,8 +142,8 @@ function VehicleModel({ onPointSelect, cameraRef, pointsWithData }) {
 								activePoint === point.id
 									? "bg-blue-800 text-white scale-125"
 									: pointsWithData?.[point.id]
-									? "bg-red-600 border-zinc-200 text-zinc-200 font-medium bg-opacity-40"
-									: "bg-zinc-800 border-zinc-200 text-zinc-200 font-medium bg-opacity-70"
+										? "bg-red-600 border-zinc-200 text-zinc-200 font-medium bg-opacity-40"
+										: "bg-zinc-800 border-zinc-200 text-zinc-200 font-medium bg-opacity-70"
 							} 
 							border-2 border-zinc-200 text-sm transition-all duration-300
 							hover:bg-blue-800 bg-opacity-70 hover:scale-110`}
@@ -214,8 +214,8 @@ export default function Vehicle3DViewer({ onPointSelect, pointsWithData }) {
 						color="#000000"
 					/>
 					<OrbitControls
-						minPolarAngle={Math.PI / 4}
-						maxPolarAngle={Math.PI / 1.4}
+						minPolarAngle={Math.PI / 2.5}
+						maxPolarAngle={Math.PI / 2.5}
 						enableZoom={true}
 						enablePan={false}
 						dampingFactor={0.05}

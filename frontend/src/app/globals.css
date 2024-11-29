@@ -96,7 +96,7 @@
 }
 
 ::-webkit-scrollbar {
-	height: 0.45em; /* Esto controla la altura de la barra de desplazamiento */
+	height: 0.65em; /* Esto controla la altura de la barra de desplazamiento */
 	width: 0.35em; /* Si también deseas ajustar el ancho del scroll vertical */
 }
 .cursor-none:hover {

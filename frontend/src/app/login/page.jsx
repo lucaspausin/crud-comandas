@@ -12,15 +12,6 @@ import Image from "next/image";
 import myImage from "@/public/motorgas2.svg";
 import { Loader2 } from "lucide-react";
 
-function ButtonLoading() {
-	return (
-		<Button disabled className="w-full rounded-sm flex items-center gap-2">
-			<Loader2 className="animate-spin w-4 h-4" />
-			Por favor, espera
-		</Button>
-	);
-}
-
 export default function LoginPage() {
 	const [errors, setErrors] = useState([]);
 	const [email, setEmail] = useState("");
@@ -112,11 +103,18 @@ export default function LoginPage() {
 							className="w-full rounded-sm"
 							disabled={loading}
 						>
-							{loading ? <ButtonLoading /> : "Iniciar Sesión"}
+							{loading ? (
+								<div className="flex items-center gap-2">
+									<Loader2 className="animate-spin w-4 h-4" />
+									Por favor, espera
+								</div>
+							) : (
+								"Iniciar Sesión"
+							)}
 						</Button>
 					</form>
 					{errors.length > 0 && (
-						<div className="my-4 px-2 py-2 text-center text-sm bg-red-200 text-red-600 rounded-full">
+						<div className="my-4 px-2 py-2 text-center text-sm bg-red-100 text-red-500 rounded-sm">
 							<ul className="mb-0">
 								{errors.map((error) => (
 									<li key={error}>{error}</li>

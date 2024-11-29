@@ -14,7 +14,8 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import { Search, Pencil, Trash } from "lucide-react";
+import { Search, Pencil } from "lucide-react";
+// Trash;
 import {
 	Select,
 	SelectContent,
@@ -29,7 +30,7 @@ import myImage from "@/public/motorgas2.svg";
 import {
 	getReservations,
 	getUsers,
-	deleteReservation,
+	// deleteReservation,
 } from "../reservations/reservations.api";
 
 import Aside from "@/components/Aside";
@@ -158,26 +159,26 @@ export default function AllReservationsPage() {
 		return filtered;
 	};
 
-	const handleDeleteReservation = async (id) => {
-		const confirmDelete = window.confirm(
-			"¿Está seguro de que desea eliminar esta reserva?"
-		);
+	// const handleDeleteReservation = async (id) => {
+	// 	const confirmDelete = window.confirm(
+	// 		"¿Está seguro de que desea eliminar esta reserva?"
+	// 	);
 
-		if (confirmDelete) {
-			try {
-				await deleteReservation(id);
-				// Actualizar el estado de reservas
-				setReservations((prevReservations) =>
-					prevReservations.filter((reservation) => reservation.id !== id)
-				);
-				// Opcionalmente, redirigir a la página de reservas
-				// router.push(`/reservations`);
-				// router.refresh();
-			} catch (error) {
-				console.error("Error al eliminar la reserva:", error);
-			}
-		}
-	};
+	// 	if (confirmDelete) {
+	// 		try {
+	// 			await deleteReservation(id);
+	// 			// Actualizar el estado de reservas
+	// 			setReservations((prevReservations) =>
+	// 				prevReservations.filter((reservation) => reservation.id !== id)
+	// 			);
+	// 			// Opcionalmente, redirigir a la página de reservas
+	// 			// router.push(`/reservations`);
+	// 			// router.refresh();
+	// 		} catch (error) {
+	// 			console.error("Error al eliminar la reserva:", error);
+	// 		}
+	// 	}
+	// };
 	return (
 		<div className="flex bg-zinc-50">
 			{loading ? ( // Condicional para mostrar un loader
@@ -370,7 +371,7 @@ export default function AllReservationsPage() {
 																	<Pencil className="h-4 w-4 text-orange-600" />
 																</Button>
 															</Link>
-															<Button
+															{/* <Button
 																variant="ghost"
 																size="sm"
 																className="rounded-full z-50 px-[0.5rem] bg-red-100 hover:bg-red-50"
@@ -380,7 +381,7 @@ export default function AllReservationsPage() {
 																}}
 															>
 																<Trash className="h-4 w-4 text-red-600" />
-															</Button>
+															</Button> */}
 														</div>
 													</TableCell>
 												</TableRow>
