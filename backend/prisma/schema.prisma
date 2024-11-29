@@ -177,6 +177,7 @@ model usuarios {
   role_id          Int
   creado_en        DateTime           @default(now()) @db.Timestamp(0)
   actualizado_en   DateTime           @default(now()) @db.Timestamp(0)
+  archivo          archivo[]
   boletos_reservas boletos_reservas[]
   tecnica          tecnica[]
   roles            roles              @relation(fields: [role_id], references: [id], map: "usuarios_ibfk_1")
@@ -200,15 +201,19 @@ model calendario {
 }
 
 model archivo {
-  id         Int      @id @default(autoincrement())
-  url        String   @db.VarChar(255)
-  nombre     String   @db.VarChar(255)
-  tipo       String   @db.VarChar(100)
+  id         Int       @id @default(autoincrement())
+  url        String    @db.VarChar(255)
+  nombre     String    @db.VarChar(255)
+  tipo       String    @db.VarChar(100)
   comanda_id Int
-  creado_en  DateTime @default(now()) @db.Timestamp(0)
-  comandas   comandas @relation(fields: [comanda_id], references: [id], onDelete: Cascade, map: "archivo_comanda_fk")
+  creado_en  DateTime  @default(now()) @db.Timestamp(0)
+  usuario_id Int?
+  verificado Boolean?  @default(false)
+  comandas   comandas  @relation(fields: [comanda_id], references: [id], onDelete: Cascade, map: "archivo_comanda_fk")
+  usuarios   usuarios? @relation(fields: [usuario_id], references: [id], onUpdate: Restrict, map: "fk_usuario_id")
 
   @@index([comanda_id])
+  @@index([usuario_id], map: "fk_usuario_id")
 }
 
 enum comandas_estado {

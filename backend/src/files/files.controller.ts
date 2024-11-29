@@ -9,10 +9,15 @@ import {
   ParseIntPipe,
   NotFoundException,
   BadRequestException,
+  Body,
+  DefaultValuePipe,
+  Patch,
 } from '@nestjs/common';
 import * as multer from 'multer'; // Asegúrate de importar multer
 import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { OptionalParseIntPipe } from '../pipes/optional-parse-int.pipe'; // Asegúrate de importar el pipe
+import { UpdateFileDto } from './dto/update-file.dto';
 // import { diskStorage } from 'multer';
 // import { extname } from 'path';
 
@@ -29,6 +34,7 @@ export class FilesController {
   async uploadFile(
     @UploadedFile() file: Express.Multer.File,
     @Param('comandaId', ParseIntPipe) comandaId: number,
+    @Body('usuarioId', OptionalParseIntPipe) usuarioId?: number, // Usar el pipe personalizado
   ) {
     if (!file || !file.buffer) {
       throw new Error('No file received or file is empty');
@@ -48,6 +54,7 @@ export class FilesController {
       comandaId,
       file.mimetype,
       file.originalname,
+      usuarioId, // Esto ahora puede ser null si no se proporciona
     );
   }
 
@@ -85,5 +92,17 @@ export class FilesController {
         'Error al eliminar el archivo: ' + error.message,
       );
     }
+  }
+
+  @Patch(':id')
+  async verifyFile(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateFileDto,
+  ) {
+    const updatedFile = await this.filesService.update(id, body);
+    return {
+      message: 'Archivo verificado correctamente',
+      file: updatedFile, // Devuelve el objeto actualizado
+    };
   }
 }

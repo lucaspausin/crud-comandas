@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { UpdateFileDto } from './dto/update-file.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import * as AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid'; // Para generar un nombre único para los archivos
@@ -53,6 +54,7 @@ export class FilesService {
     comandaId: number,
     mimetype: string,
     originalName: string,
+    usuarioId: number,
   ) {
     return this.prismaService.archivo.create({
       data: {
@@ -60,6 +62,7 @@ export class FilesService {
         tipo: mimetype, // Guardar el tipo MIME real en la base de datos
         comanda_id: comandaId,
         nombre: originalName, // Almacenar el nombre original del archivo
+        usuario_id: usuarioId,
       },
     });
   }
@@ -155,5 +158,12 @@ export class FilesService {
       await this.updateFileMetadata(fileKey); // Actualizar metadatos
     }
     return { message: 'Metadatos actualizados correctamente.' };
+  }
+
+  async update(id: number, updateFileDto: UpdateFileDto) {
+    return this.prismaService.archivo.update({
+      where: { id },
+      data: updateFileDto,
+    });
   }
 }

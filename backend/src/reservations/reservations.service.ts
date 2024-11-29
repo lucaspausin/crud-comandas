@@ -253,6 +253,7 @@ export class ReservationsService {
         include: {
           clientes: true,
           usuarios: true,
+          comandas: true,
         },
       });
 
@@ -354,7 +355,7 @@ export class ReservationsService {
   }
 
   async remove(id: number) {
-    const [reservationDeleted, comandaUpdated, calendarioDeleted] =
+    const [reservationDeleted, calendarioDeleted] =
       await this.prismaService.$transaction(async (prisma) => {
         // Paso 1: Encontrar la reserva por su ID
         const reservation = await prisma.boletos_reservas.findUnique({
@@ -367,30 +368,14 @@ export class ReservationsService {
           );
         }
 
-        // Paso 2: Obtener la comanda vinculada a la reserva
-        const comanda = await prisma.comandas.findFirst({
-          where: { boleto_reserva_id: id },
-        });
-
-        // Paso 3: Si existe una comanda, desvincularla del boleto
-        if (comanda) {
-          // Desvinculamos el boleto de la comanda (dejamos la comanda, solo eliminamos el vínculo)
-          await prisma.comandas.update({
-            where: { id: comanda.id },
-            data: {
-              boleto_reserva_id: null, // Desvinculamos el boleto
-            },
-          });
-        }
-
-        // **Nuevo Paso**: Borrar el evento del calendario vinculado a la reserva
+        // Paso 3: Borrar el evento del calendario vinculado a la reserva
         const calendarioDeleted = await prisma.calendario.deleteMany({
           where: {
-            boleto_reserva_id: id, // Eliminamos el evento del calendario asociado al boleto
+            boleto_reserva_id: id, // Eliminamos el evento del calendario asociado a la reserva
           },
         });
 
-        // Paso 4: Borrar la reserva (boleto) pero no borramos la comanda ni el cliente
+        // Paso 4: Borrar la reserva (boleto)
         const reservationDeleted = await prisma.boletos_reservas.delete({
           where: {
             id: id,
@@ -398,16 +383,11 @@ export class ReservationsService {
         });
 
         // Retornar los resultados
-        return [
-          reservationDeleted,
-          comanda, // Se retorna la comanda para indicar que no se ha borrado
-          calendarioDeleted,
-        ];
+        return [reservationDeleted, calendarioDeleted];
       });
 
     return {
       reservationDeleted,
-      comandaUpdated: comandaUpdated || null, // Devolvemos la comanda con el vínculo actualizado (si existía)
       calendarioDeleted,
     };
   }

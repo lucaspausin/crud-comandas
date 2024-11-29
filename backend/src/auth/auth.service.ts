@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { AuthDto } from './dto/auth.dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
@@ -23,18 +24,18 @@ export class AuthService {
     });
 
     if (user && (await bcrypt.compare(authDto.contrase_a, user.contrase_a))) {
-      const payload = {
-        username: user.nombre_usuario,
+      const payload: JwtPayload = {
         sub: user.id,
+        username: user.nombre_usuario,
         role: user.role_id,
       };
+
       return {
         id: user.id,
         nombre_usuario: user.nombre_usuario,
         email: user.email,
         role: user.role_id,
         token: this.jwtService.sign(payload),
-        cover_image: user.cover_image,
       };
     }
     throw new UnauthorizedException('Credenciales incorrectas');
