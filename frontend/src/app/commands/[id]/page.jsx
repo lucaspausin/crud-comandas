@@ -113,44 +113,47 @@ export default function ComandaDetail({ params }) {
 
 	useEffect(() => {
 		if (comanda) {
-			setFormData({
-				reductor_cod: comanda.reductor_cod || "",
-				reductor_numero: comanda.reductor_numero || "",
-				cilindro_1_cod: comanda.cilindro_1_cod || "",
-				cilindro_1_numero: comanda.cilindro_1_numero || "",
-				valvula_1_cod: comanda.valvula_1_cod || "",
-				valvula_1_numero: comanda.valvula_1_numero || "",
-				cilindro_2_cod: comanda.cilindro_2_cod || "",
-				cilindro_2_numero: comanda.cilindro_2_numero || "",
-				valvula_2_cod: comanda.valvula_2_cod || "",
-				valvula_2_numero: comanda.valvula_2_numero || "",
-				cilindro_3_cod: comanda.cilindro_3_cod || "",
-				cilindro_3_numero: comanda.cilindro_3_numero || "",
-				valvula_3_cod: comanda.valvula_3_cod || "",
-				valvula_3_numero: comanda.valvula_3_numero || "",
-				cilindro_4_cod: comanda.cilindro_4_cod || "",
-				cilindro_4_numero: comanda.cilindro_4_numero || "",
-				valvula_4_cod: comanda.valvula_4_cod || "",
-				valvula_4_numero: comanda.valvula_4_numero || "",
-				reforma_escape_texto: comanda.reforma_escape_texto || "",
-				carga_externa: comanda.carga_externa,
-				precio_carga_externa: comanda.precio_carga_externa || "",
-				cuna: comanda.cuna || "",
-				materiales: comanda.materiales || "",
-				pagos_efectivo_transferencia:
-					comanda.pagos_efectivo_transferencia || "",
-				pagos_tarjeta_1: comanda.pagos_tarjeta_1 || "",
-				pagos_plan_tarjeta_1: comanda.pagos_plan_tarjeta_1 || "",
-				pagos_tarjeta_2: comanda.pagos_tarjeta_2 || "",
-				pagos_plan_tarjeta_2: comanda.pagos_plan_tarjeta_2 || "",
-				pagos_tarjeta_3: comanda.pagos_tarjeta_3 || "",
-				pagos_plan_tarjeta_3: comanda.pagos_plan_tarjeta_3 || "",
-				pagos_tarjeta_4: comanda.pagos_tarjeta_4 || "",
-				pagos_plan_tarjeta_4: comanda.pagos_plan_tarjeta_4 || "",
-				pagos_tarjeta_5: comanda.pagos_tarjeta_5 || "",
-				pagos_plan_tarjeta_5: comanda.pagos_plan_tarjeta_5 || "",
-				pagos_dolares: comanda.pagos_dolares || "",
-			});
+			setFormData((prevFormData) => ({
+				...prevFormData,
+				...{
+					reductor_cod: comanda.reductor_cod || "",
+					reductor_numero: comanda.reductor_numero || "",
+					cilindro_1_cod: comanda.cilindro_1_cod || "",
+					cilindro_1_numero: comanda.cilindro_1_numero || "",
+					valvula_1_cod: comanda.valvula_1_cod || "",
+					valvula_1_numero: comanda.valvula_1_numero || "",
+					cilindro_2_cod: comanda.cilindro_2_cod || "",
+					cilindro_2_numero: comanda.cilindro_2_numero || "",
+					valvula_2_cod: comanda.valvula_2_cod || "",
+					valvula_2_numero: comanda.valvula_2_numero || "",
+					cilindro_3_cod: comanda.cilindro_3_cod || "",
+					cilindro_3_numero: comanda.cilindro_3_numero || "",
+					valvula_3_cod: comanda.valvula_3_cod || "",
+					valvula_3_numero: comanda.valvula_3_numero || "",
+					cilindro_4_cod: comanda.cilindro_4_cod || "",
+					cilindro_4_numero: comanda.cilindro_4_numero || "",
+					valvula_4_cod: comanda.valvula_4_cod || "",
+					valvula_4_numero: comanda.valvula_4_numero || "",
+					reforma_escape_texto: comanda.reforma_escape_texto || "",
+					carga_externa: comanda.carga_externa,
+					precio_carga_externa: comanda.precio_carga_externa || "",
+					cuna: comanda.cuna || "",
+					materiales: comanda.materiales || "",
+					pagos_efectivo_transferencia:
+						comanda.pagos_efectivo_transferencia || "",
+					pagos_tarjeta_1: comanda.pagos_tarjeta_1 || "",
+					pagos_plan_tarjeta_1: comanda.pagos_plan_tarjeta_1 || "",
+					pagos_tarjeta_2: comanda.pagos_tarjeta_2 || "",
+					pagos_plan_tarjeta_2: comanda.pagos_plan_tarjeta_2 || "",
+					pagos_tarjeta_3: comanda.pagos_tarjeta_3 || "",
+					pagos_plan_tarjeta_3: comanda.pagos_plan_tarjeta_3 || "",
+					pagos_tarjeta_4: comanda.pagos_tarjeta_4 || "",
+					pagos_plan_tarjeta_4: comanda.pagos_plan_tarjeta_4 || "",
+					pagos_tarjeta_5: comanda.pagos_tarjeta_5 || "",
+					pagos_plan_tarjeta_5: comanda.pagos_plan_tarjeta_5 || "",
+					pagos_dolares: comanda.pagos_dolares || "",
+				},
+			}));
 		}
 	}, [comanda]);
 
@@ -159,29 +162,26 @@ export default function ComandaDetail({ params }) {
 	}
 
 	const handleInputChange = (field, value) => {
-		let processedValue = value;
-		if (typeof value === "string") {
-			processedValue = value.toUpperCase();
-		}
+		// Convertir el valor a mayúsculas
+		const processedValue =
+			typeof value === "string" ? value.toUpperCase() : value;
 
-		// Limpiar el timeout anterior
-		if (debounceTimeout) {
-			clearTimeout(debounceTimeout);
-		}
-
-		// Establecer un nuevo timeout para la actualización de la API
-		const timeout = setTimeout(() => {
-			// Realizar la actualización en la base de datos
-			updateCommandData(field, processedValue);
-		}, 500); // 500ms de espera para el debounce
-
-		setDebounceTimeout(timeout);
-
-		// Actualiza el estado local con el cambio
+		// Actualiza solo el estado local del input
 		setFormData((prevFormData) => ({
 			...prevFormData,
 			[field]: processedValue,
 		}));
+
+		// Inicia debounce para actualizar la API
+		if (debounceTimeout) {
+			clearTimeout(debounceTimeout);
+		}
+
+		const timeout = setTimeout(() => {
+			updateCommandData(field, processedValue);
+		}, 500);
+
+		setDebounceTimeout(timeout);
 	};
 
 	const updateCommandData = async (field, value) => {
