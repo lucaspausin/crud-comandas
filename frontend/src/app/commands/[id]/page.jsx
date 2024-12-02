@@ -33,6 +33,7 @@ export default function ComandaDetail({ params }) {
 	const { data: session, status } = useSession();
 	const [loggedUserId, setLoggedUserId] = useState(null);
 	const [showToast, setShowToast] = useState("");
+	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		document.title = `Motorgas - Comanda ${params.id}`;
 	}, [params.id]); // Added params.id as a dependency
@@ -76,7 +77,7 @@ export default function ComandaDetail({ params }) {
 	});
 
 	const [error, setError] = useState(null);
-	const [debounceTimeout, setDebounceTimeout] = useState(null);
+	// const [debounceTimeout, setDebounceTimeout] = useState(null);
 
 	useEffect(() => {
 		if (status === "authenticated" && session?.user?.id) {
@@ -162,40 +163,78 @@ export default function ComandaDetail({ params }) {
 	}
 
 	const handleInputChange = (field, value) => {
-		// Convertir el valor a mayúsculas
+		// Convertir el valor a mayúsculas si es un string
 		const processedValue =
 			typeof value === "string" ? value.toUpperCase() : value;
 
-		// Actualiza solo el estado local del input
+		// Actualizar únicamente el campo modificado en el estado local
 		setFormData((prevFormData) => ({
 			...prevFormData,
 			[field]: processedValue,
 		}));
-
-		// Inicia debounce para actualizar la API
-		if (debounceTimeout) {
-			clearTimeout(debounceTimeout);
-		}
-
-		const timeout = setTimeout(() => {
-			updateCommandData(field, processedValue);
-		}, 500);
-
-		setDebounceTimeout(timeout);
 	};
 
-	const updateCommandData = async (field, value) => {
+	// // Inicia debounce para actualizar la API
+	// if (debounceTimeout) {
+	// 	clearTimeout(debounceTimeout);
+	// }
+
+	// const timeout = setTimeout(() => {
+	// 	updateCommandData(field, processedValue);
+	// }, 500);
+
+	// setDebounceTimeout(timeout);
+	// const updateCommandData = async (field, value) => {
+	// 	setLoading(true); // Iniciar carga
+	// 	try {
+	// 		const dataToUpdate = {
+	// 			...formData,
+	// 			[field]: value,
+	// 		};
+	// 		await updateCommand(comanda.id, dataToUpdate);
+	// 		setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
+	// 		setShowToast("Actualización exitosa.");
+	// 	} catch (error) {
+	// 		console.error("Error al actualizar", error);
+	// 		setShowToast("Error al actualizar la comanda.");
+	// 	} finally {
+	// 		setLoading(false); // Detener carga al finalizar
+	// 	}
+	// };
+
+	const handleSubmitDetails = async (event) => {
+		event.preventDefault();
+		setLoading(true); // Iniciar carga
+
+		// Filtrar solo los campos modificados
+		const changes = Object.keys(formData).reduce((acc, key) => {
+			// Si el valor ha cambiado, lo agregamos al objeto de cambios
+			if (formData[key] !== comanda[key]) {
+				acc[key] = formData[key];
+			}
+			return acc;
+		}, {});
+
+		// Si no hay cambios, no hacer nada
+		if (Object.keys(changes).length === 0) {
+			setShowToast("Error. No se han realizado cambios.");
+			setLoading(false);
+			return;
+		}
+
 		try {
-			const dataToUpdate = {
-				...formData,
-				[field]: value,
-			};
-			await updateCommand(comanda.id, dataToUpdate);
-			setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
+			// Actualizar solo los campos modificados
+			await updateCommand(comanda.id, changes);
+
+			// Actualizar comanda local con los cambios
+			setComanda((prevComanda) => ({ ...prevComanda, ...changes }));
+
 			setShowToast("Actualización exitosa.");
 		} catch (error) {
 			console.error("Error al actualizar", error);
 			setShowToast("Error al actualizar la comanda.");
+		} finally {
+			setLoading(false); // Detener carga al finalizar
 		}
 	};
 
@@ -336,11 +375,13 @@ export default function ComandaDetail({ params }) {
 
 					<EquipmentDetailsCard
 						formData={formData}
+						handleSubmit={handleSubmitDetails}
 						handleInputChange={handleInputChange}
 						comanda={comanda}
 						showToast={showToast}
 						setShowToast={setShowToast}
 						camposClaveVacios={camposClaveVacios}
+						loading={loading}
 					/>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-full">

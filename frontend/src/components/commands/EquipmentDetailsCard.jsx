@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Loader2 } from "lucide-react";
 import ToastNotification from "@/components/ToastNotification";
 
 export default function EquipmentDetailsCard({
@@ -17,6 +18,7 @@ export default function EquipmentDetailsCard({
 	showToast,
 	setShowToast,
 	camposClaveVacios,
+	loading,
 }) {
 	const [numTarjetas, setNumTarjetas] = useState(1);
 	const [numCilindros, setNumCilindros] = useState(1);
@@ -53,7 +55,7 @@ export default function EquipmentDetailsCard({
 			</CardHeader>
 			<CardContent className="px-6 pt-6 pb-6">
 				<form
-					onSubmit={(e) => handleSubmit(e, comanda.id)}
+					onSubmit={(e) => handleSubmitDetails(e, comanda.id)}
 					className="grid grid-cols-2 gap-6 text-sm"
 				>
 					<div className="flex flex-col items-start gap-2">
@@ -392,6 +394,20 @@ export default function EquipmentDetailsCard({
 							</div>
 						</>
 					)}
+					<Button
+						type="submit"
+						disabled={loading} // Deshabilitar si hay carga o si hay demasiados eventos
+						className="col-span-2"
+					>
+						{loading ? (
+							<div className="flex items-center gap-2 w-full">
+								<Loader2 className="animate-spin w-4 h-4" />
+								Por favor, espera
+							</div>
+						) : (
+							"Guardar Cambios"
+						)}
+					</Button>
 				</form>
 				<ToastNotification
 					message={showToast}
