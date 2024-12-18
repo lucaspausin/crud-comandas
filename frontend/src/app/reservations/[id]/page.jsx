@@ -307,7 +307,7 @@ export default function ReservationDetailPage({ params }) {
 											{new Intl.NumberFormat("es-AR", {
 												style: "currency",
 												currency: "ARS",
-											}).format(reservation.precio)}
+											}).format(reservation.monto_final_abonar)}
 										</p>
 									</div>
 								</div>

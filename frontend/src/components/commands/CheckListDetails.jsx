@@ -1,16 +1,19 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import DownloadIcon from "@/components/DownloadIcon";
+// import DownloadIcon from "@/components/DownloadIcon";
 import { motion } from "framer-motion";
 import myImage from "@/public/motorgas2.svg";
-import { jsPDF } from "jspdf";
-import html2canvas from "html2canvas";
+// import { jsPDF } from "jspdf";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
 
 const CheckListDetails = ({ comanda }) => {
 	const detallesCheckList = comanda.tecnica_tecnica_comanda_idTocomandas || {};
 	const slidesRef = useRef(null);
-	const [loading, setLoading] = useState(false);
+	const [loading] = useState(false);
+	// const [isPdf, setIsPdf] = useState(false);
 
 	const hasEmptyValues =
 		!detallesCheckList.perdidas_gas &&
@@ -22,148 +25,26 @@ const CheckListDetails = ({ comanda }) => {
 		!detallesCheckList.herramientas &&
 		!detallesCheckList.otras_observaciones;
 
-	const handleGeneratePdf = async () => {
-		setLoading(true);
-		if (typeof window !== "undefined") {
-			const element = slidesRef.current;
-
-			html2canvas(element, {
-				useCORS: true,
-				scale: 3,
-				backgroundColor: "#ffffff",
-				width: 850,
-				height: 1500,
-				logging: false,
-				onclone: function (clonedDoc) {
-					const clonedElement = clonedDoc.body.querySelector(".pdf-content");
-					if (clonedElement) {
-						const downloadButton = clonedElement.querySelector(
-							"[data-download-button]"
-						);
-						if (downloadButton) {
-							downloadButton.remove();
-						}
-
-						const headerLogo =
-							clonedElement.querySelector("[data-header-logo]");
-						if (headerLogo) {
-							headerLogo.style.display = "block";
-							headerLogo.style.width = "64px";
-							headerLogo.style.height = "64px";
-							headerLogo.style.objectFit = "contain";
-							headerLogo.style.opacity = "0.9";
-							headerLogo.classList.remove("hidden");
-							headerLogo.style.visibility = "visible";
-							headerLogo.style.position = "static";
-						}
-
-						const headerTitle = clonedElement.querySelector(".text-xl");
-						if (headerTitle) {
-							headerTitle.style.textAlign = "left";
-							headerTitle.style.width = "100%";
-							headerTitle.style.marginBottom = "20px";
-							headerTitle.style.fontSize = "24px";
-							headerTitle.style.paddingLeft = "0px";
-						}
-
-						clonedElement.style.display = "block";
-						clonedElement.style.padding = "30px";
-						clonedElement.style.boxSizing = "border-box";
-						clonedElement.style.margin = "0";
-
-						const dlElement = clonedElement.querySelector("dl");
-						if (dlElement) {
-							dlElement.style.display = "grid";
-							dlElement.style.gridTemplateColumns = "1fr";
-							dlElement.style.width = "100%";
-							dlElement.style.maxWidth = "none";
-							dlElement.style.margin = "0";
-							dlElement.style.gap = "1rem";
-						}
-
-						// Primero, encontrar y eliminar todos los detalles
-						const dtElements = clonedElement.querySelectorAll("dt");
-						dtElements.forEach((dt) => {
-							// Usar toLowerCase() para hacer la búsqueda insensible a mayúsculas/minúsculas
-							if (dt.textContent.toLowerCase().includes("detalle")) {
-								// Encontrar el siguiente dd y eliminarlo
-								let nextElement = dt.nextElementSibling;
-								while (nextElement && nextElement.tagName !== "DD") {
-									nextElement = nextElement.nextElementSibling;
-								}
-								if (nextElement && nextElement.tagName === "DD") {
-									nextElement.remove();
-								}
-								dt.remove();
-							}
-						});
-
-						// Aplicar estilos a los elementos restantes
-						const remainingDt = clonedElement.querySelectorAll("dt");
-						const remainingDd = clonedElement.querySelectorAll("dd");
-
-						remainingDt.forEach((dt) => {
-							dt.style.textAlign = "left";
-							dt.style.width = "100%";
-							dt.style.marginBottom = "4px";
-						});
-
-						remainingDd.forEach((dd) => {
-							dd.style.textAlign = "left";
-							dd.style.width = "100%";
-							dd.style.marginBottom = "12px";
-						});
-
-						// Asegurarse de que la imagen de la firma sea visible
-						const imageContainer =
-							clonedElement.querySelector(".firma-tecnico");
-						if (imageContainer) {
-							imageContainer.style.margin = "10px 0";
-							imageContainer.style.display = "block";
-							imageContainer.style.maxWidth = "300px";
-						}
-
-						// Ensure kilometers and signature are visible
-						const kilometrosElement =
-							clonedElement.querySelector("dd:last-of-type");
-						if (kilometrosElement) {
-							kilometrosElement.style.marginBottom = "20px";
-						}
-
-						const firmaContainer =
-							clonedElement.querySelector(".firma-tecnico");
-						if (firmaContainer) {
-							firmaContainer.style.display = "block";
-							firmaContainer.style.maxWidth = "300px";
-							firmaContainer.style.height = "auto";
-							firmaContainer.style.marginTop = "20px";
-							firmaContainer.style.visibility = "visible";
-							firmaContainer.style.opacity = "1";
-						}
-					}
-				},
-			})
-				.then((canvas) => {
-					const imgData = canvas.toDataURL("image/jpeg", 1.0);
-					const pdf = new jsPDF({
-						orientation: "portrait",
-						unit: "mm",
-						format: "a4",
-					});
-					const pdfWidth = pdf.internal.pageSize.getWidth();
-					const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-					pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
-					pdf.save(
-						`Checklist de Salida - ${detallesCheckList.kilometros || "N/A"}.pdf`
-					);
-					setLoading(false);
-				})
-				.catch((err) => {
-					console.error("Error en la generación del PDF:", err);
-					setLoading(false);
-				});
-		}
-	};
+	// const handleGeneratePdf = async () => {
+	// 	setIsPdf(true); // Activar el estado para el PDF
+	// 	if (typeof window !== "undefined") {
+	// 		const html2pdf = (await import("html2pdf.js")).default;
+	// 		const opt = {
+	// 			margin: 0.5,
+	// 			filename: `Motorgas - Boleto de Reserva.pdf`,
+	// 			image: { type: "jpeg", quality: 1 },
+	// 			html2canvas: { scale: 2 },
+	// 			jsPDF: { unit: "in", format: "A4", orientation: "portrait" },
+	// 		};
+	// 		html2pdf()
+	// 			.from(slidesRef.current)
+	// 			.set(opt)
+	// 			.save()
+	// 			.then(() => {
+	// 				setIsPdf(false); // Restablecer el estado después de generar el PDF
+	// 			});
+	// 	}
+	// };
 
 	if (loading) {
 		return (
@@ -212,214 +93,228 @@ const CheckListDetails = ({ comanda }) => {
 	}
 
 	return (
-		<Card
-			className="border-none shadow-lg rounded-lg h-full col-span-2 lg:col-span-2 pdf-content"
-			ref={slidesRef}
-		>
-			<CardHeader className="p-6 flex flex-row items-center justify-between relative">
-				<div className="flex items-center gap-4">
-					<CardTitle className="text-xl font-light text-zinc-800">
-						Checklist de Salida
-					</CardTitle>
-				</div>
-				<Image
-					src={myImage}
-					alt="Logo MotorGas"
-					className="w-16 h-16 object-contain opacity-90 absolute top-0 right-0 hidden"
-					loading="eager"
-					priority
-					data-header-logo
-				/>
-				<DownloadIcon
-					onClick={handleGeneratePdf}
-					label="Descargar"
-					data-download-button
-				/>
-			</CardHeader>
-			<CardContent>
-				<dl className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
-					<div className="contents">
-						<dt className="font-normal text-zinc-600">Pérdidas de Gas:</dt>
-						<dd>
-							{detallesCheckList
-								? detallesCheckList.perdidas_gas === true
-									? "Sí"
-									: detallesCheckList.perdidas_gas === null
-										? "No"
-										: "No"
-								: "N/A"}
-						</dd>
-						{detallesCheckList?.perdidas_gas_adicional && (
-							<>
-								<dt className="font-normal text-zinc-600">
-									Detalle de las Pérdidas:
-								</dt>
-								<dd className="text-zinc-950">
-									{detallesCheckList.perdidas_gas_adicional}
-								</dd>
-							</>
-						)}
-
-						<dt className="font-normal text-zinc-600">Cableado:</dt>
-						<dd>
-							{detallesCheckList
-								? detallesCheckList.cableado === true
-									? "Sí"
-									: detallesCheckList.cableado === null
-										? "No"
-										: "No"
-								: "N/A"}
-						</dd>
-						{detallesCheckList?.cableado_adicional && (
-							<>
-								<dt className="font-normal text-zinc-600">
-									Detalle de las Cableado:
-								</dt>
-								<dd className="text-zinc-950">
-									{detallesCheckList.cableado_adicional}
-								</dd>
-							</>
-						)}
-
-						<dt className="font-normal text-zinc-600">Nivel de Agua:</dt>
-						<dd>
-							{detallesCheckList
-								? detallesCheckList.nivel_agua === true
-									? "Sí"
-									: detallesCheckList.nivel_agua === null
-										? "No"
-										: "No"
-								: "N/A"}
-						</dd>
-						{detallesCheckList?.nivel_agua_adicional && (
-							<>
-								<dt className="font-normal text-zinc-600">
-									Detalle del Nivel de Agua:
-								</dt>
-								<dd className="text-zinc-950">
-									{detallesCheckList.nivel_agua_adicional}
-								</dd>
-							</>
-						)}
-
-						<dt className="font-normal text-zinc-600">Nivel de Aceite:</dt>
-						<dd>
-							{detallesCheckList
-								? detallesCheckList.nivel_aceite === true
-									? "Sí"
-									: detallesCheckList.nivel_aceite === null
-										? "No"
-										: "No"
-								: "N/A"}
-						</dd>
-						{detallesCheckList?.nivel_aceite_adicional && (
-							<>
-								<dt className="font-normal text-zinc-600">
-									Detalle del Nivel de Aceite:
-								</dt>
-								<dd className="text-zinc-950">
-									{detallesCheckList.nivel_aceite_adicional}
-								</dd>
-							</>
-						)}
-
-						<dt className="font-normal text-zinc-600">
-							Inspección Instalación:
-						</dt>
-						<dd>
-							{detallesCheckList
-								? detallesCheckList.inspeccion_instalacion === true
-									? "Sí"
-									: detallesCheckList.inspeccion_instalacion === null
-										? "No"
-										: "No"
-								: "N/A"}
-						</dd>
-						{detallesCheckList?.inspeccion_instalacion_adicional && (
-							<>
-								<dt className="font-normal text-zinc-600">
-									Detalle de la Inspección de Instalación:
-								</dt>
-								<dd className="text-zinc-950">
-									{detallesCheckList.inspeccion_instalacion_adicional}
-								</dd>
-							</>
-						)}
-
-						<dt className="font-normal text-zinc-600">
-							Funcionamiento Unidad:
-						</dt>
-						<dd>
-							{detallesCheckList
-								? detallesCheckList.funcionamiento_unidad === true
-									? "Sí"
-									: detallesCheckList.funcionamiento_unidad === null
-										? "No"
-										: "No"
-								: "N/A"}
-						</dd>
-						{detallesCheckList?.funcionamiento_unidad_adicional && (
-							<>
-								<dt className="font-normal text-zinc-600">
-									Detalle del Funcionamiento de la Unidad:
-								</dt>
-								<dd className="text-zinc-950">
-									{detallesCheckList.funcionamiento_unidad_adicional}
-								</dd>
-							</>
-						)}
-
-						<dt className="font-normal text-zinc-600">Herramientas:</dt>
-						<dd>
-							{detallesCheckList
-								? detallesCheckList.herramientas === true
-									? "Sí"
-									: detallesCheckList.herramientas === null
-										? "No"
-										: "No"
-								: "N/A"}
-						</dd>
-						{detallesCheckList?.herramientas_adicional && (
-							<>
-								<dt className="font-normal text-zinc-600">
-									Detalle de las Herramientas:
-								</dt>
-								<dd className="text-zinc-950">
-									{detallesCheckList.herramientas_adicional}
-								</dd>
-							</>
-						)}
-
-						<dt className="font-normal text-zinc-600">Otras Observaciones:</dt>
-						<dd>
-							{detallesCheckList
-								? (detallesCheckList.otras_observaciones ?? "No")
-								: "N/A"}
-						</dd>
-						<dt className="font-normal text-zinc-600">Kilometros:</dt>
-						<dd>
-							{detallesCheckList.kilometros
-								? detallesCheckList.kilometros
-								: "No"}
-						</dd>
-						<dt className="font-normal text-zinc-600 mb-2">
-							Firma del Técnico:
-						</dt>
-						{detallesCheckList.firma_tecnico && (
-							<Image
-								src={`data:image/png;base64,${detallesCheckList.firma_tecnico}`}
-								alt="Firma"
-								width={300}
-								height={100}
-								className="border-none rounded-lg firma-tecnico"
-								priority
-								unoptimized
-							/>
-						)}
+		<>
+			<Card className="border-none shadow-lg rounded-lg h-full col-span-2 lg:col-span-2 pdf-content">
+				<CardHeader className="p-6 flex flex-row items-center justify-between relative card-header">
+					<Image
+						src={myImage}
+						alt="Logo MotorGas"
+						className="w-14 h-14 object-contain opacity-90 hidden"
+						loading="eager"
+						priority
+						data-header-logo
+					/>
+					<div className="flex justify-between items-center gap-4">
+						<CardTitle className="text-xl font-light text-zinc-800">
+							Checklist de Salida
+						</CardTitle>
 					</div>
-				</dl>
-			</CardContent>
-		</Card>
+
+					<div className="flex items-center gap-4">
+						<Link href={`/checklist/edit/${detallesCheckList.id}`}>
+							<Button
+								variant="ghost"
+								size="sm"
+								className="rounded-full z-50 py-5 px-[0.75rem] bg-orange-100 hover:bg-orange-50"
+								onClick={(e) => {
+									e.stopPropagation(); // Previene que el clic se propague al TableRow
+								}}
+							>
+								<Pencil className="h-4 w-4 text-orange-600" />
+							</Button>
+						</Link>
+						{/* <DownloadIcon onClick={handleGeneratePdf} label="Descargar" /> */}
+					</div>
+				</CardHeader>
+				<CardContent ref={slidesRef}>
+					<dl className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+						<div className="contents">
+							<dt className="font-normal text-zinc-600">Pérdidas de Gas:</dt>
+							<dd>
+								{detallesCheckList
+									? detallesCheckList.perdidas_gas === true
+										? "Sí"
+										: detallesCheckList.perdidas_gas === null
+											? "No"
+											: "No"
+									: "N/A"}
+							</dd>
+							{detallesCheckList?.perdidas_gas_adicional && (
+								<>
+									<dt className="font-normal text-zinc-600">
+										Detalle de las Pérdidas:
+									</dt>
+									<dd className="text-zinc-950">
+										{detallesCheckList.perdidas_gas_adicional}
+									</dd>
+								</>
+							)}
+
+							<dt className="font-normal text-zinc-600">Cableado:</dt>
+							<dd>
+								{detallesCheckList
+									? detallesCheckList.cableado === true
+										? "Sí"
+										: detallesCheckList.cableado === null
+											? "No"
+											: "No"
+									: "N/A"}
+							</dd>
+							{detallesCheckList?.cableado_adicional && (
+								<>
+									<dt className="font-normal text-zinc-600">
+										Detalle de las Cableado:
+									</dt>
+									<dd className="text-zinc-950">
+										{detallesCheckList.cableado_adicional}
+									</dd>
+								</>
+							)}
+
+							<dt className="font-normal text-zinc-600">Nivel de Agua:</dt>
+							<dd>
+								{detallesCheckList
+									? detallesCheckList.nivel_agua === true
+										? "Sí"
+										: detallesCheckList.nivel_agua === null
+											? "No"
+											: "No"
+									: "N/A"}
+							</dd>
+							{detallesCheckList?.nivel_agua_adicional && (
+								<>
+									<dt className="font-normal text-zinc-950">
+										Detalle del Nivel de Agua:
+									</dt>
+									<dd className="text-zinc-600">
+										{detallesCheckList.nivel_agua_adicional}
+									</dd>
+								</>
+							)}
+
+							<dt className="font-normal text-zinc-600">Nivel de Aceite:</dt>
+							<dd>
+								{detallesCheckList
+									? detallesCheckList.nivel_aceite === true
+										? "Sí"
+										: detallesCheckList.nivel_aceite === null
+											? "No"
+											: "No"
+									: "N/A"}
+							</dd>
+							{detallesCheckList?.nivel_aceite_adicional && (
+								<>
+									<dt className="font-normal text-zinc-600">
+										Detalle del Nivel de Aceite:
+									</dt>
+									<dd className="text-zinc-950">
+										{detallesCheckList.nivel_aceite_adicional}
+									</dd>
+								</>
+							)}
+
+							<dt className="font-normal text-zinc-600">
+								Inspección Instalación:
+							</dt>
+							<dd>
+								{detallesCheckList
+									? detallesCheckList.inspeccion_instalacion === true
+										? "Sí"
+										: detallesCheckList.inspeccion_instalacion === null
+											? "No"
+											: "No"
+									: "N/A"}
+							</dd>
+							{detallesCheckList?.inspeccion_instalacion_adicional && (
+								<>
+									<dt className="font-normal text-zinc-600">
+										Detalle de la Inspección de Instalación:
+									</dt>
+									<dd className="text-zinc-950">
+										{detallesCheckList.inspeccion_instalacion_adicional}
+									</dd>
+								</>
+							)}
+
+							<dt className="font-normal text-zinc-600">
+								Funcionamiento Unidad:
+							</dt>
+							<dd>
+								{detallesCheckList
+									? detallesCheckList.funcionamiento_unidad === true
+										? "Sí"
+										: detallesCheckList.funcionamiento_unidad === null
+											? "No"
+											: "No"
+									: "N/A"}
+							</dd>
+							{detallesCheckList?.funcionamiento_unidad_adicional && (
+								<>
+									<dt className="font-normal text-zinc-600">
+										Detalle del Funcionamiento de la Unidad:
+									</dt>
+									<dd className="text-zinc-950">
+										{detallesCheckList.funcionamiento_unidad_adicional}
+									</dd>
+								</>
+							)}
+
+							<dt className="font-normal text-zinc-600">Herramientas:</dt>
+							<dd>
+								{detallesCheckList
+									? detallesCheckList.herramientas === true
+										? "Sí"
+										: detallesCheckList.herramientas === null
+											? "No"
+											: "No"
+									: "N/A"}
+							</dd>
+							{detallesCheckList?.herramientas_adicional && (
+								<>
+									<dt className="font-normal text-zinc-600">
+										Detalle de las Herramientas:
+									</dt>
+									<dd className="text-zinc-950">
+										{detallesCheckList.herramientas_adicional}
+									</dd>
+								</>
+							)}
+
+							<dt className="font-normal text-zinc-600">Kilometros:</dt>
+							<dd>
+								{detallesCheckList.kilometros
+									? detallesCheckList.kilometros
+									: "No"}
+							</dd>
+
+							<dt className="font-normal text-zinc-600">
+								Otras Observaciones del Vehículo:
+							</dt>
+							<dd>
+								{detallesCheckList
+									? (detallesCheckList.otras_observaciones ?? "No")
+									: "N/A"}
+							</dd>
+
+							<dt className="font-normal text-zinc-600 mb-2">
+								Firma del Técnico:
+							</dt>
+							{detallesCheckList.firma_tecnico && (
+								<Image
+									src={`data:image/png;base64,${detallesCheckList.firma_tecnico}`}
+									alt="Firma"
+									width={300}
+									height={100}
+									className="border-none rounded-lg firma-tecnico"
+									priority
+									unoptimized
+								/>
+							)}
+						</div>
+					</dl>
+				</CardContent>
+			</Card>
+		</>
 	);
 };
 

@@ -13,6 +13,7 @@ export default function CheckListForm({
 	handleInputChange,
 	handleSubmit,
 	loading,
+	showSignature = true,
 }) {
 	const canvasRef = useRef(null);
 	const signaturePadRef = useRef(null);
@@ -356,7 +357,7 @@ export default function CheckListForm({
 					</dl>
 				</CardContent>
 
-				<CardContent className="mt-6">
+				<CardContent className="mt-6 pb-2">
 					<dl className="grid grid-cols-2 gap-6 text-sm">
 						<div className="flex flex-row items-start gap-2">
 							<label
@@ -443,39 +444,41 @@ export default function CheckListForm({
 					</dl>
 				</CardContent>
 
-				<CardContent className="mt-6">
-					<div className="mb-4 flex flex-col gap-4 col-span-full border-none">
-						<Label
-							htmlFor="firma_tecnico"
-							className="font-normal text-zinc-500"
-						>
-							Firma del Técnico
-						</Label>
-						<div className="border-none rounded-lg bg-white w-[275px] h-[160px]">
-							<canvas
-								ref={canvasRef}
-								onMouseUp={handleEndStroke}
-								onTouchEnd={handleEndStroke}
-								className="border rounded-lg"
-								style={{
-									width: "100%",
-									height: "160px",
-									touchAction: "none",
-								}}
-							/>
-							<div className="flex gap-2 mt-4">
-								<Button
-									type="button"
-									variant="outline"
-									size="sm"
-									onClick={handleClearSignature}
-								>
-									Limpiar
-								</Button>
+				<CardContent className="mt-0">
+					{showSignature && (
+						<div className="mb-20 flex flex-col gap-4 col-span-full border-none">
+							<Label
+								htmlFor="firma_tecnico"
+								className="font-normal text-zinc-500"
+							>
+								Firma del Técnico
+							</Label>
+							<div className="border-none rounded-lg bg-white w-[275px] h-[160px]">
+								<canvas
+									ref={canvasRef}
+									onMouseUp={handleEndStroke}
+									onTouchEnd={handleEndStroke}
+									className="border rounded-lg"
+									style={{
+										width: "100%",
+										height: "160px",
+										touchAction: "none",
+									}}
+								/>
+								<div className="flex gap-2 mt-4">
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={handleClearSignature}
+									>
+										Limpiar
+									</Button>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div className="flex items-center gap-4 col-start-2 mt-20 col-end-3 justify-self-end self-end w-full">
+					)}
+					<div className="flex items-center gap-4 col-start-2 mt-2 col-end-3 justify-self-end self-end w-full">
 						<Button
 							variant="default"
 							size="sm"

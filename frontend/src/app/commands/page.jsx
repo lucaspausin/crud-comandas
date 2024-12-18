@@ -113,9 +113,10 @@ export default function AllOrdersPage() {
 						String(command.boletos_reservas.clientes.telefono).includes(
 							searchTerm
 						)) ||
-					command.boletos_reservas.modelo_patente
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase()) ||
+					(command.boletos_reservas.modelo_patente && 
+						command.boletos_reservas.modelo_patente
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())) ||
 					command.boletos_reservas.equipo
 						.toLowerCase()
 						.includes(searchTerm.toLowerCase())
@@ -395,6 +396,7 @@ export default function AllOrdersPage() {
 											<TableHead>Asesor</TableHead>
 											<TableHead>Cliente</TableHead>
 											<TableHead>Modelo</TableHead>
+											<TableHead>Patente</TableHead>
 											<TableHead>Fecha</TableHead>
 											<TableHead>Estado</TableHead>
 											{userRole !== 2 && <TableHead>Acciones</TableHead>}
@@ -421,19 +423,15 @@ export default function AllOrdersPage() {
 													}}
 												>
 													{userRole === 3 && (
-														<>
-															<TableCell className="checkbox-cell">
-																<Checkbox
-																	checked={selectedCommands.includes(
-																		command.id
-																	)}
-																	onCheckedChange={() =>
-																		handleCommandSelection(command.id)
-																	}
-																	onClick={(e) => e.stopPropagation()}
-																/>
-															</TableCell>
-														</>
+														<TableCell className="checkbox-cell">
+															<Checkbox
+																checked={selectedCommands.includes(command.id)}
+																onCheckedChange={() =>
+																	handleCommandSelection(command.id)
+																}
+																onClick={(e) => e.stopPropagation()}
+															/>
+														</TableCell>
 													)}
 													<TableCell className="text-zinc-800">
 														{command.boletos_reservas.usuarios.nombre_usuario}
@@ -445,6 +443,9 @@ export default function AllOrdersPage() {
 														{`${command.boletos_reservas.marca_vehiculo || ""} ${
 															command.boletos_reservas.modelo_vehiculo || ""
 														}`.trim()}
+													</TableCell>
+													<TableCell className="text-zinc-800">
+														{command.boletos_reservas.patente_vehiculo}
 													</TableCell>
 													<TableCell className="text-zinc-800">
 														{new Date(

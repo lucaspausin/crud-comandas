@@ -29,6 +29,7 @@ export default function Calendar() {
 	const [eventsCalendar, setEventsCalendar] = useState([]);
 	// const [eventosPorUsuario, setEventosPorUsuario] = useState({});
 	const [loading, setLoading] = useState(true);
+	// const [userEventCounts, setUserEventCounts] = useState({});
 
 	useEffect(() => {
 		document.title = "Motorgas - Calendario";
@@ -57,6 +58,32 @@ export default function Calendar() {
 
 		fetchEventsCalendar();
 	}, []);
+
+	// useEffect(() => {
+	// 	if (eventsCalendar.length > 0) {
+	// 		const currentMonth = dayjs().startOf("month");
+	// 		const nextMonth = dayjs().endOf("month");
+
+	// 		// Filter events for current month
+	// 		const currentMonthEvents = eventsCalendar.filter((event) => {
+	// 			const eventDate = dayjs(event.date);
+	// 			return (
+	// 				(eventDate.isAfter(currentMonth) && eventDate.isBefore(nextMonth)) ||
+	// 				eventDate.isSame(currentMonth, "day") ||
+	// 				eventDate.isSame(nextMonth, "day")
+	// 			);
+	// 		});
+
+	// 		// Count events per user
+	// 		const counts = currentMonthEvents.reduce((acc, event) => {
+	// 			const userName = event.usuario;
+	// 			acc[userName] = (acc[userName] || 0) + 1;
+	// 			return acc;
+	// 		}, {});
+
+	// 		setUserEventCounts(counts);
+	// 	}
+	// }, [eventsCalendar]);
 
 	const getBadgeStatus = (estado) => {
 		switch (estado) {
@@ -202,6 +229,30 @@ export default function Calendar() {
 									<AntCalendar cellRender={cellRender} />
 								</CardContent>
 							</Card>
+							{/* <Card className="rounded-xl bg-white border-none shadow-lg p-0">
+								<CardContent>
+									<h3 className="text-lg font-normal mb-4 text-zinc-700">
+										Autos Reservados por Usuario
+									</h3>
+									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+										{Object.entries(userEventCounts)
+											.sort(([, a], [, b]) => b - a)
+											.map(([userName, count]) => (
+												<div
+													key={userName}
+													className="flex items-center justify-between p-3 bg-zinc-50 rounded-lg"
+												>
+													<span className="text-zinc-700 font-normal capitalize">
+														{userName}
+													</span>
+													<span className="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full text-sm font-normal">
+														{count} {count === 1 ? "auto" : "autos"}
+													</span>
+												</div>
+											))}
+									</div>
+								</CardContent>
+							</Card> */}
 						</main>
 					</>
 				)}

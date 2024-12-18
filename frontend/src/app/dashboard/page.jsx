@@ -373,12 +373,19 @@ export default function Dashboard() {
 																}`.trim()}
 															</TableCell>
 															<TableCell className="text-start md:text-center w-1/5 text-zinc-800 ">
-																{new Date(
-																	command.boletos_reservas.fecha_instalacion
-																).toLocaleDateString("es-AR", {
-																	day: "2-digit",
-																	month: "2-digit",
-																})}
+																{(() => {
+																	const utcDate = new Date(
+																		command.boletos_reservas.fecha_instalacion
+																	);
+																	const localDate = new Date(
+																		utcDate.getTime() + 3 * 60 * 60 * 1000
+																	);
+
+																	return localDate.toLocaleDateString("es-ES", {
+																		day: "2-digit",
+																		month: "2-digit",
+																	});
+																})()}
 															</TableCell>
 															<TableCell className="text-start md:text-center w-1/5 truncate">
 																<span
