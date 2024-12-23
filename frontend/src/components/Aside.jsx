@@ -9,9 +9,9 @@ import {
 	DoorOpen,
 	Ticket,
 	CalendarDays,
-	User,
 	LogIn,
 } from "lucide-react";
+// User,
 // MessageCircleQuestion;
 import { motion } from "framer-motion";
 import { usePathname, useParams } from "next/navigation";
@@ -24,7 +24,7 @@ function Aside() {
 	const [hoveredIndex, setHoveredIndex] = useState(null);
 
 	const reservationId = pathname.startsWith("/reservations") ? params.id : null;
-	const userId = pathname.startsWith("/users") ? session?.user?.id : null;
+	// const userId = pathname.startsWith("/users") ? session?.user?.id : null;
 	const commandId = pathname.startsWith("/commands") ? params.id : null;
 
 	// Determinar el rol del usuario
@@ -58,43 +58,50 @@ function Aside() {
 				icon: <CalendarDays className="w-5 h-5" />,
 				label: "Calendario",
 				showOnMobile: true,
-			},
+			}
 			// {
 			// 	href: "/axis",
 			// 	icon: <MessageCircleQuestion className="w-5 h-5" />,
 			// 	label: "Catalogo",
 			// 	showOnMobile: true,
 			// },
-			{
-				href: userId
-					? `/users/${session?.user?.id}`
-					: `/users/${session?.user?.id}`,
-				icon: <User className="w-5 h-5" />,
-				label: "Perfil",
-				showOnMobile: false,
-			}
+			// {
+			// 	href: userId
+			// 		? `/users/${session?.user?.id}`
+			// 		: `/users/${session?.user?.id}`,
+			// 	icon: <User className="w-5 h-5" />,
+			// 	label: "Perfil",
+			// 	showOnMobile: false,
+			// }
 		);
 	} else if (userRole === 2) {
 		// Técnico
-		menuItems.push(
+		menuItems
+			.push
 			// {
 			// 	href: "/commands",
 			// 	icon: <ClipboardList className="w-5 h-5" />,
 			// 	label: "Comandas",
 			// 	showOnMobile: true,
 			// },
-			{
-				href: userId
-					? `/users/${session?.user?.id}`
-					: `/users/${session?.user?.id}`,
-				icon: <User className="w-5 h-5" />,
-				label: "Perfil",
-				showOnMobile: true,
-			}
-		);
+			// {
+			// 	href: userId
+			// 		? `/users/${session?.user?.id}`
+			// 		: `/users/${session?.user?.id}`,
+			// 	icon: <User className="w-5 h-5" />,
+			// 	label: "Perfil",
+			// 	showOnMobile: true,
+			// }
+			();
 	} else if (userRole === 3) {
 		// Charly (Admin)
 		menuItems.push(
+			{
+				href: "/add-order",
+				icon: <PlusCircle className="w-5 h-5" />,
+				label: "Añadir Reserva",
+				showOnMobile: true,
+			},
 			{
 				href: reservationId ? "/reservations" : "/reservations",
 				icon: <Ticket className="w-5 h-5" />,
@@ -112,14 +119,6 @@ function Aside() {
 				icon: <CalendarDays className="w-5 h-5" />,
 				label: "Calendario",
 				showOnMobile: true,
-			},
-			{
-				href: userId
-					? `/users/${session?.user?.id}`
-					: `/users/${session?.user?.id}`,
-				icon: <User className="w-5 h-5" />,
-				label: "Perfil",
-				showOnMobile: true,
 			}
 		);
 	}
@@ -131,6 +130,15 @@ function Aside() {
 			showOnMobile: true,
 		});
 	}
+
+	// 	{
+	// 	href: userId
+	// 		? `/users/${session?.user?.id}`
+	// 		: `/users/${session?.user?.id}`,
+	// 	icon: <User className="w-5 h-5" />,
+	// 	label: "Perfil",
+	// 	showOnMobile: true,
+	// }
 
 	return (
 		<aside className="flex gap-2 sm:gap-4 items-center w-fit rounded-full bg-white shadow-lg z-[99] fixed top-4 mx-auto left-0 right-0 py-2 px-2 sm:px-4">

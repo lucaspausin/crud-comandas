@@ -49,10 +49,27 @@ export default function TechniquesTable() {
 	}, [router]);
 
 	const filteredPendingTechniques = () => {
-		const pendingTechniques = techniques.filter(
-			(technique) => technique.estado !== "completo"
-		);
+		const pendingTechniques = techniques
+			.filter((technique) => technique.estado !== "completo")
+			.filter((technique) => {
+				if (!searchTermPending) return true;
+				
+				const searchLower = searchTermPending.toLowerCase();
+				const fields = [
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.clientes?.nombre_completo,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.clientes?.dni,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.marca_vehiculo,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.modelo_vehiculo,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.patente_vehiculo,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.usuarios?.nombre_usuario
+				];
 
+				return fields.some(field => 
+					field?.toString().toLowerCase().includes(searchLower)
+				);
+			});
+
+		// Aplicar filtro de fecha después de la búsqueda
 		switch (sortOrderPending) {
 			case "today": {
 				const todayUTC = new Date();
@@ -60,9 +77,7 @@ export default function TechniquesTable() {
 				const todayString = todayUTC.toISOString().split("T")[0];
 
 				return pendingTechniques.filter((technique) => {
-					const installationDate =
-						technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
-							?.fecha_instalacion;
+					const installationDate = technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion;
 					if (!installationDate) return false;
 
 					const installationUTC = new Date(installationDate);
@@ -99,15 +114,33 @@ export default function TechniquesTable() {
 	};
 
 	const filteredCompleteTechniquesBySearch = () => {
-		return filteredCompleteTechniques().filter((technique) =>
-			technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.clientes?.nombre_completo
-				.toLowerCase()
-				.includes(searchTermComplete.toLowerCase())
-		);
+		return filteredCompleteTechniques().filter((technique) => {
+			if (!searchTermComplete) return true;
+
+			const searchLower = searchTermComplete.toLowerCase();
+			const fields = [
+				technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+					?.clientes?.nombre_completo,
+				technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+					?.clientes?.dni,
+				technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+					?.marca_vehiculo,
+				technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+					?.modelo_vehiculo,
+				technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+					?.patente_vehiculo,
+				technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+					?.usuarios?.nombre_usuario,
+			];
+
+			return fields.some((field) =>
+				field?.toString().toLowerCase().includes(searchLower)
+			);
+		});
 	};
 
 	return (
-		<div className="flex flex-col gap-6 col-span-2">
+		<div className="flex flex-col gap-6 col-span-3">
 			<Card className="rounded-xl shadow-lg border-none col-span-2">
 				<CardHeader className="pb-2">
 					<CardTitle className="text-xl font-light text-zinc-800">
@@ -239,8 +272,8 @@ export default function TechniquesTable() {
 															{technique.estado === null
 																? "Pendiente"
 																: technique.estado === "pendiente"
-																? "Checklist Faltante"
-																: ""}
+																	? "Checklist Faltante"
+																	: ""}
 														</span>
 													</TableCell>
 												</TableRow>

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Aside from "@/components/Aside";
 import HomeIcon from "@/components/HomeIcon";
 import brands from "@/public/jsons/brands.json";
-import models from "@/public/jsons/models.json";
+import models from "@/public/jsons/modificaciones.json";
 import support from "@/public/jsons/support.json";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -12,8 +12,6 @@ export default function Axis() {
 	const [selectedMarca, setSelectedMarca] = useState("");
 	const [selectedModelo, setSelectedModelo] = useState("");
 	const [productInfo, setProductInfo] = useState([]);
-	const [mousePositions, setMousePositions] = useState({});
-	const [cursorPositions, setCursorPositions] = useState({});
 
 	const handleMarcaChange = (event) => {
 		setSelectedMarca(event.target.value);
@@ -122,77 +120,54 @@ export default function Axis() {
 										<h3 className="text-sm text-zinc-600 mb-4">
 											Información de Productos
 										</h3>
-										<div className="grid gap-4 md:grid-cols-2">
+										<div className="grid gap-4 md:grid-cols-2 ">
 											{productInfo.map((producto, index) => (
 												<motion.div
 													initial={{ opacity: 0 }}
 													animate={{ opacity: 1 }}
 													transition={{ delay: index * 0.1 }}
 													key={index}
-													className="relative bg-zinc-50/50 p-4 rounded-md space-y-2 border cursor-none overflow-hidden"
-													onMouseMove={(e) => {
-														const rect =
-															e.currentTarget.getBoundingClientRect();
-														const x =
-															((e.clientX - rect.left) / rect.width) * 100;
-														const y =
-															((e.clientY - rect.top) / rect.height) * 100;
-														setMousePositions((prev) => ({
-															...prev,
-															[index]: { x, y },
-														}));
-														setCursorPositions((prev) => ({
-															...prev,
-															[index]: {
-																x: e.clientX - rect.left,
-																y: e.clientY - rect.top,
-															},
-														}));
-													}}
-													onMouseLeave={() => {
-														setMousePositions((prev) => ({
-															...prev,
-															[index]: { x: -100, y: -100 },
-														}));
-														setCursorPositions((prev) => ({
-															...prev,
-															[index]: { x: -9999, y: -9999 },
-														}));
-													}}
+													className="relative bg-zinc-50/50 p-4 rounded-md space-y-2 border"
 												>
-													<div
-														className="absolute inset-0 transition-opacity duration-300 ease-out"
-														style={{
-															backgroundImage: `radial-gradient(circle at ${
-																mousePositions[index]?.x ?? -100
-															}% ${
-																mousePositions[index]?.y ?? -100
-															}%, rgb(251 146 60 / 0.75), transparent 70%)`,
-															opacity:
-																mousePositions[index]?.x === -100 ? 0 : 0.75,
-														}}
-													/>
-													<div
-														className="pointer-events-none absolute w-8 h-8 rounded-full mix-blend-difference z-50"
-														style={{
-															background:
-																"radial-gradient(circle, rgb(251 146 60), rgb(239 68 68))",
-															transform: `translate(${
-																(cursorPositions[index]?.x ?? -9999) - 16
-															}px, ${
-																(cursorPositions[index]?.y ?? -9999) - 16
-															}px)`,
-															opacity:
-																cursorPositions[index]?.x === -9999 ? 0 : 1,
-															transition: "opacity 150ms ease-out",
-														}}
-													/>
-
 													<h4 className="relative text-zinc-800">
 														{producto.nombre}
 													</h4>
 													<div className="relative space-y-1 text-sm text-zinc-600">
-														<p>Autonomía equivalente a {producto.autonomia} </p>
+														<p>Autonomía equivalente a {producto.autonomia}</p>
+														{models[selectedMarca][selectedModelo]
+															.observaciones && (
+															<p>
+																Observaciones:{" "}
+																{
+																	models[selectedMarca][selectedModelo]
+																		.observaciones
+																}
+															</p>
+														)}
+														{models[selectedMarca][selectedModelo][
+															"sugerencias-ventas"
+														] && (
+															<p>
+																Sugerencias de venta:{" "}
+																{
+																	models[selectedMarca][selectedModelo][
+																		"sugerencias-ventas"
+																	]
+																}
+															</p>
+														)}
+														{models[selectedMarca][selectedModelo][
+															"tipo-cuna-disponible"
+														] && (
+															<p>
+																Tipo de cuna:{" "}
+																{
+																	models[selectedMarca][selectedModelo][
+																		"tipo-cuna-disponible"
+																	]
+																}
+															</p>
+														)}
 													</div>
 												</motion.div>
 											))}

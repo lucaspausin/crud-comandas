@@ -106,20 +106,22 @@ export default function AllReservationsPage() {
 					reservation.clientes.nombre_completo
 						.toLowerCase()
 						.includes(searchTerm.toLowerCase()) ||
-					(reservation.clientes.dni != null && // Asegurarse de que no sea null o undefined
-						String(reservation.clientes.dni).includes(searchTerm)) || // Convertir DNI a string para la búsqueda
+					(reservation.clientes.dni != null &&
+						String(reservation.clientes.dni).includes(searchTerm)) ||
 					reservation.clientes.domicilio
 						.toLowerCase()
 						.includes(searchTerm.toLowerCase()) ||
 					reservation.clientes.localidad
 						.toLowerCase()
 						.includes(searchTerm.toLowerCase()) ||
-					(reservation.clientes.telefono != null && // Asegurarse de que no sea null o undefined
+					(reservation.clientes.telefono != null &&
 						String(reservation.clientes.telefono).includes(searchTerm)) ||
-					reservation.modelo_patente
-						.toLowerCase()
-						.includes(searchTerm.toLowerCase()) ||
-					reservation.equipo.toLowerCase().includes(searchTerm.toLowerCase())
+					(reservation.modelo_patente != null &&
+						reservation.modelo_patente
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())) ||
+					(reservation.equipo != null &&
+						reservation.equipo.toLowerCase().includes(searchTerm.toLowerCase()))
 			);
 		}
 

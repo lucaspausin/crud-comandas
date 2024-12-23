@@ -8,6 +8,7 @@ import {
 	Tooltip,
 } from "antd";
 import dayjs from "dayjs";
+import { CardContent } from "@/components/ui/card";
 import utc from "dayjs/plugin/utc";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -15,7 +16,7 @@ import myImage from "@/public/motorgas2.svg";
 import "dayjs/locale/es";
 import esES from "antd/locale/es_ES";
 import { getEventsCalendar } from "../reservations/reservations.api";
-import { CardContent } from "@/components/ui/card";
+
 // import { Tooltip } from "antd";
 
 import Aside from "@/components/Aside";
@@ -23,11 +24,9 @@ import Aside from "@/components/Aside";
 dayjs.locale("es");
 dayjs.extend(utc);
 
-export const dynamic = "force-dynamic";
-
 export default function Calendar() {
 	const [eventsCalendar, setEventsCalendar] = useState([]);
-	// const [eventosPorUsuario, setEventosPorUsuario] = useState({});
+
 	const [loading, setLoading] = useState(true);
 	// const [userEventCounts, setUserEventCounts] = useState({});
 
@@ -63,6 +62,7 @@ export default function Calendar() {
 	// 	if (eventsCalendar.length > 0) {
 	// 		const currentMonth = dayjs().startOf("month");
 	// 		const nextMonth = dayjs().endOf("month");
+	// 		const today = dayjs();
 
 	// 		// Filter events for current month
 	// 		const currentMonthEvents = eventsCalendar.filter((event) => {
@@ -74,12 +74,41 @@ export default function Calendar() {
 	// 			);
 	// 		});
 
-	// 		// Count events per user
-	// 		const counts = currentMonthEvents.reduce((acc, event) => {
-	// 			const userName = event.usuario;
-	// 			acc[userName] = (acc[userName] || 0) + 1;
-	// 			return acc;
-	// 		}, {});
+	// 		// Filter events from start of month until today
+	// 		const monthToDateEvents = currentMonthEvents.filter(
+	// 			(event) =>
+	// 				dayjs(event.date).isBefore(today) ||
+	// 				dayjs(event.date).isSame(today, "day")
+	// 		);
+
+	// 		// Filter completed events for current month
+	// 		const completedEvents = currentMonthEvents.filter(
+	// 			(event) =>
+	// 				event.estado === "confirmado" || event.estado === "completado"
+	// 		);
+
+	// 		// Initialize counts object with all users from current month events
+	// 		const counts = {};
+	// 		currentMonthEvents.forEach((event) => {
+	// 			if (!counts[event.usuario]) {
+	// 				counts[event.usuario] = { total: 0, untilToday: 0, completed: 0 };
+	// 			}
+	// 		});
+
+	// 		// Count total events per user
+	// 		currentMonthEvents.forEach((event) => {
+	// 			counts[event.usuario].total++;
+	// 		});
+
+	// 		// Count events until today
+	// 		monthToDateEvents.forEach((event) => {
+	// 			counts[event.usuario].untilToday++;
+	// 		});
+
+	// 		// Count completed events
+	// 		completedEvents.forEach((event) => {
+	// 			counts[event.usuario].completed++;
+	// 		});
 
 	// 		setUserEventCounts(counts);
 	// 	}
@@ -227,32 +256,68 @@ export default function Calendar() {
 									</div>
 
 									<AntCalendar cellRender={cellRender} />
+									{/* <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-200 opacity-10" />
+
+									<div className="absolute inset-0 rounded-xl" />
+
+									<CardContent className="relative py-0 px-0 overflow-hidden">
+									
+										<div className="relative h-full flex flex-col p-0">
+											<div className="space-y-4 mb-6">
+											
+											</div>
+
+											<div className="grid grid-cols-5 gap-0">
+												{Object.entries(userEventCounts)
+													.sort(([, a], [, b]) => b.total - a.total)
+													.map(([userName, counts], index) => (
+														<div
+															key={userName}
+															className="flex flex-col p-12 bg-white border border-zinc-100 hover:bg-zinc-50/80 transition-all duration-200"
+														>
+															<div className="flex items-center gap-3 mb-4">
+																<span className="text-lg text-zinc-400">
+																	0{index + 1}.
+																</span>
+																<span className="text-lg text-zinc-500 capitalize">
+																	{userName}
+																</span>
+															</div>
+															<div className="flex flex-col gap-3 text-sm">
+																<div className="space-y-1">
+																	<p className="text-zinc-500">Total del mes</p>
+																	<p className="text-zinc-700">
+																		{counts.total}{" "}
+																		{counts.total === 1
+																			? "vehículo"
+																			: "vehículos"}
+																	</p>
+																</div>
+																<div className="flex flex-row items-center gap-4">
+																	<div className="space-y-1 border-r pr-4">
+																		<p className="text-zinc-500">Hasta hoy</p>
+																		<p className="text-zinc-700">
+																			{counts.untilToday}
+																		</p>
+																	</div>
+																	<div className="space-y-1">
+																		<p className="text-zinc-500">Completados</p>
+																		<p className="text-zinc-700">
+																			{counts.completed}{" "}
+																			{counts.completed === 1
+																				? "vehículo"
+																				: "vehículos"}
+																		</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+													))}
+											</div>
+										</div>
+									</CardContent> */}
 								</CardContent>
 							</Card>
-							{/* <Card className="rounded-xl bg-white border-none shadow-lg p-0">
-								<CardContent>
-									<h3 className="text-lg font-normal mb-4 text-zinc-700">
-										Autos Reservados por Usuario
-									</h3>
-									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-										{Object.entries(userEventCounts)
-											.sort(([, a], [, b]) => b - a)
-											.map(([userName, count]) => (
-												<div
-													key={userName}
-													className="flex items-center justify-between p-3 bg-zinc-50 rounded-lg"
-												>
-													<span className="text-zinc-700 font-normal capitalize">
-														{userName}
-													</span>
-													<span className="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full text-sm font-normal">
-														{count} {count === 1 ? "auto" : "autos"}
-													</span>
-												</div>
-											))}
-									</div>
-								</CardContent>
-							</Card> */}
 						</main>
 					</>
 				)}

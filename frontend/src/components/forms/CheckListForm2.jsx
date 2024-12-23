@@ -64,9 +64,22 @@ export default function CheckListForm({
 		}));
 	};
 
+	const handleFormSubmit = (e) => {
+		e.preventDefault();
+		
+		if (signaturePadRef.current && !checkData.firma_tecnico) {
+			const firmaBase64 = signaturePadRef.current
+				.toDataURL("image/png")
+				.split(",")[1];
+			handleInputChange("firma_tecnico", firmaBase64);
+		}
+
+		handleSubmit(e);
+	};
+
 	return (
 		<Card className="rounded-xl shadow-lg border-none">
-			<form onSubmit={handleSubmit} className="rounded-xl">
+			<form onSubmit={handleFormSubmit} className="rounded-xl">
 				<CardHeader>
 					<CardTitle className="text-xl font-light text-zinc-800">
 						CheckList
@@ -458,6 +471,7 @@ export default function CheckListForm({
 									ref={canvasRef}
 									onMouseUp={handleEndStroke}
 									onTouchEnd={handleEndStroke}
+									onMouseLeave={handleEndStroke}
 									className="border rounded-lg"
 									style={{
 										width: "100%",

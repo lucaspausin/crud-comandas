@@ -35,15 +35,41 @@ function ReservationForm() {
 		telefono: "",
 	});
 
+	const [users, setUsers] = useState([]);
+
+	const fetchUsers = async () => {
+		try {
+			const response = await axios.get(
+				`${process.env.NEXT_PUBLIC_API_URL}/api/users/`
+			);
+			console.log("Usuarios obtenidos:", response.data);
+			setUsers(response.data);
+		} catch (error) {
+			console.error("Error al obtener usuarios:", error);
+		}
+	};
+
 	useEffect(() => {
 		if (status === "authenticated" && session?.user?.id) {
-			// Asegurar que sea un número válido
 			const userId = parseInt(session.user.id);
 			if (!isNaN(userId)) {
-				setClient((prev) => ({
-					...prev,
-					usuario_id: userId,
-				}));
+				// Si NO es el admin (ID 3), establecemos el usuario_id automáticamente
+				if (userId !== 1) {
+					setClient((prev) => ({
+						...prev,
+						usuario_id: userId,
+					}));
+				}
+				// Si es el admin, solo cargamos la lista de usuarios
+				if (userId === 1) {
+					console.log("Usuario es admin, cargando lista de usuarios");
+					fetchUsers();
+					// No establecemos usuario_id - se establecerá mediante el select
+					setClient((prev) => ({
+						...prev,
+						usuario_id: null, // Reseteamos a null hasta que se seleccione un usuario
+					}));
+				}
 			}
 		}
 	}, [session, status]);
@@ -51,8 +77,9 @@ function ReservationForm() {
 	// const userRole = session?.user?.role;
 	// const loggedUserEmail = session?.user?.email;
 	const loggedUserId = Number(session?.user?.id);
+	const loggedUserId2 = session?.user?.role;
 
-	console.log(loggedUserId);
+	console.log(loggedUserId2);
 
 	const [vehicle, setVehicle] = useState({
 		marca_vehiculo: "",
@@ -250,7 +277,11 @@ function ReservationForm() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true); // Start loading
-
+		if (loggedUserId === 3 && !client.usuario_id) {
+			setShowToast("Por favor, seleccione un usuario");
+			setLoading(false);
+			return;
+		}
 		const fechaInstalacion = vehicle.fecha_instalacion;
 
 		let formattedFechaInstalacion = "";
@@ -304,7 +335,10 @@ function ReservationForm() {
 				files.map(async (file) => {
 					const formData = new FormData();
 					formData.append("file", file.file);
-					formData.append("usuarioId", String(loggedUserId));
+					formData.append(
+						"usuarioId",
+						String(client.usuario_id || loggedUserId)
+					);
 					console.log(formData);
 
 					await axios.post(
@@ -400,6 +434,39 @@ function ReservationForm() {
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+						{loggedUserId2 === 3 && (
+							<div className="space-y-2">
+								<Label
+									htmlFor="usuario_id"
+									className="font-normal text-zinc-600"
+								>
+									Seleccionar Usuario *
+								</Label>
+								<select
+									name="usuario_id"
+									id="usuario_id"
+									className="w-full rounded-full px-2 py-2 border border-[#E4E4E7] focus:outline-none text-sm text-zinc-600"
+									onChange={(e) => {
+										console.log("Valor seleccionado:", e.target.value);
+										setClient((prev) => ({
+											...prev,
+											usuario_id: parseInt(e.target.value),
+										}));
+									}}
+									value={client.usuario_id || ""}
+									required
+								> 
+									<option value="">Seleccione un usuario</option>
+									{users
+										.filter((user) => user.id !== 2) // Filtrar usuarios con ID 1 y 2
+										.map((user) => (
+											<option key={user.id} value={user.id}>
+												{user.nombre_usuario}
+											</option>
+										))}
+								</select>
+							</div>
+						)}
 						<div className="space-y-2">
 							<Label
 								htmlFor="nombre_completo"

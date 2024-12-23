@@ -18,7 +18,14 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
-import { ClipboardList, ArrowUpRight, ArrowRight, Car } from "lucide-react";
+import {
+	ClipboardList,
+	ArrowUpRight,
+	ArrowRight,
+	Car,
+	PlusCircle,
+	Eye,
+} from "lucide-react";
 import Link from "next/link";
 
 import { useSession } from "next-auth/react";
@@ -114,8 +121,8 @@ export default function Dashboard() {
 		.slice(0, 5);
 
 	// Inicializar los estados fuera de vista
-	const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
-	const [cursorPosition, setCursorPosition] = useState({ x: -9999, y: -9999 });
+	// const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
+	// const [cursorPosition, setCursorPosition] = useState({ x: -9999, y: -9999 });
 
 	return (
 		<div className="flex-1 bg-zinc-50">
@@ -146,7 +153,7 @@ export default function Dashboard() {
 			) : (
 				<>
 					<Aside />
-
+				
 					<main className="flex flex-col items-stretch justify-normal p-6 z-50">
 						{/* Statistics */}
 						{userRole !== 2 && (
@@ -178,9 +185,117 @@ export default function Dashboard() {
 							</>
 						)}
 						{/* Reservas */}
-						<div className="grid grid-cols-1 gap-6 mb-0 lg:grid-cols-2 h-full">
+						<div className="grid grid-cols-1 gap-6 mb-0 lg:grid-cols-3 h-full">
 							{userRole !== 2 && (
-								<Card className="rounded-xl shadow-lg border-none pb-10">
+								<>
+									<Card className="relative rounded-xl shadow-lg overflow-hidden col-span-3 h-full bg-gradient-to-b from-white to-emerald-50 group border-none hover:cursor-[not-allowed]">
+										<style jsx global>{`
+											.not-available {
+												cursor:
+													url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='15' y1='9' x2='9' y2='15'%3E%3C/line%3E%3Cline x1='9' y1='9' x2='15' y2='15'%3E%3C/line%3E%3C/svg%3E")
+														12 12,
+													not-allowed !important;
+											}
+										`}</style>
+										<div className="absolute inset-0 bg-gradient-to-br from-emerald-200 to-green-300" />
+
+										<div className="absolute inset-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm bg-white" />
+
+										<div className="absolute inset-0 border border-emerald-200 rounded-xl group-hover:border-emerald-300 transition-all duration-500" />
+
+										<div className="relative h-full p-8 flex flex-col justify-between">
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<div className="flex items-center gap-2">
+													<span className="px-3 py-1 text-xs font-medium bg-emerald-100 text-emerald-600 rounded-full">
+														Próximamente
+													</span>
+												</div>
+												<h3 className="text-2xl font-light text-emerald-950">
+													Catálogo de Equipos
+												</h3>
+												<p className="text-emerald-700 text-sm font-light leading-relaxed">
+													Accede a nuestro catálogo completo de equipos y
+													especificaciones técnicas.
+												</p>
+											</div>
+											<div className="flex items-center text-emerald-600 transition-all duration-300 ease-in-out mt-4">
+												<span>En desarrollo</span>
+												<div className="ml-2 p-2 rounded-full bg-emerald-100">
+													<Eye className="w-4 h-4" />
+												</div>
+											</div>
+										</div>
+									</Card>
+									{/* <Card className="relative rounded-xl shadow-lg overflow-hidden col-span-3 h-full bg-gradient-to-b from-white to-emerald-50 group border-none hover:cursor-none">
+										<div className="absolute inset-0 bg-gradient-to-br from-emerald-200 to-green-300 opacity-10" />
+
+										<div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm bg-white/10" />
+
+										<div className="absolute inset-0 border border-emerald-200/50 rounded-xl group-hover:border-emerald-300/70 transition-all duration-500" />
+
+										<Link
+											href="/axis"
+											className="relative h-full p-8 flex flex-col justify-between"
+										>
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<div className="flex items-center gap-2">
+													<span className="px-3 py-1 text-xs font-medium bg-emerald-100 text-emerald-600 rounded-full">
+														Explorar
+													</span>
+												</div>
+												<h3 className="text-2xl font-light text-emerald-950">
+													Catálogo de Equipos
+												</h3>
+												<p className="text-emerald-700/70 text-sm font-light leading-relaxed">
+													Accede a nuestro catálogo completo de equipos y
+													especificaciones técnicas.
+												</p>
+											</div>
+											<div className="flex items-center text-emerald-600 transition-all duration-300 ease-in-out group-hover:text-emerald-700 mt-4">
+												<span>Ver catálogo</span>
+												<div className="ml-2 p-2 rounded-full bg-emerald-100 group-hover:bg-emerald-200 transition-all duration-300">
+													<Eye className="w-4 h-4" />
+												</div>
+											</div>
+										</Link>
+									</Card> */}
+									<Card className="relative rounded-xl shadow-lg overflow-hidden col-span-3 lg:col-span-1 h-full bg-gradient-to-b from-white to-rose-50 group border-none hover:cursor-none">
+										<div className="absolute inset-0 bg-gradient-to-br from-rose-200 to-red-300 opacity-10" />
+
+										<div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm bg-white/10" />
+
+										<div className="absolute inset-0 border border-rose-200/50 rounded-xl group-hover:border-rose-300/70 transition-all duration-500" />
+
+										<Link
+											href="/add-order"
+											className="relative h-full p-8 flex flex-col justify-between"
+										>
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<div className="flex items-center gap-2">
+													<span className="px-3 py-1 text-xs font-medium bg-rose-100 text-rose-600 rounded-full">
+														Crear Reserva
+													</span>
+												</div>
+												<h3 className="text-2xl font-light text-rose-950">
+													Nueva Reserva
+												</h3>
+												<p className="text-rose-700/70 text-sm font-light leading-relaxed">
+													Crea un nuevo boleto de reserva de manera rápida y
+													sencilla.
+												</p>
+											</div>
+											<div className="flex items-center text-rose-600 transition-all duration-300 ease-in-out group-hover:text-rose-700 mt-4">
+												<span>Comenzar</span>
+												<div className="ml-2 p-2 rounded-full bg-rose-100 group-hover:bg-rose-200 transition-all duration-300">
+													<PlusCircle className="w-4 h-4" />
+												</div>
+											</div>
+										</Link>
+									</Card>
+								</>
+							)}
+							{userRole !== 2 && (
+								<Card className="rounded-xl shadow-lg border-none col-span-3 lg:col-span-2">
 									<CardHeader>
 										<div className="flex flex-row items-center justify-between">
 											<div className="flex flex-col gap-0">
@@ -232,7 +347,7 @@ export default function Dashboard() {
 																router.push(`/reservations/${reservation.id}`)
 															}
 														>
-															<TableCell className="w-1/5 text-start md:text-center text-zinc-800">
+															<TableCell className="w-1/5 text-start md:text-center text-zinc-800 truncate">
 																{reservation.usuarios.nombre_usuario}
 															</TableCell>
 															<TableCell className="w-1/5 text-start md:text-center text-zinc-800 truncate">
@@ -279,8 +394,46 @@ export default function Dashboard() {
 								</Card>
 							)}
 							{userRole !== 2 && (
+								<>
+									<Card className="relative rounded-xl shadow-lg overflow-hidden col-span-3 lg:col-span-1 h-full bg-gradient-to-b from-white to-indigo-50 group border-none hover:cursor-none">
+										<div className="absolute inset-0 bg-gradient-to-br from-indigo-200 to-violet-300 opacity-10" />
+
+										<div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm bg-white/10" />
+
+										<div className="absolute inset-0 border border-indigo-200/50 rounded-xl group-hover:border-indigo-300/70 transition-all duration-500" />
+
+										<Link
+											href="/calendar"
+											className="relative h-full p-8 flex flex-col justify-between"
+										>
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<div className="flex items-center gap-2">
+													<span className="px-3 py-1 text-xs font-medium bg-indigo-100 text-indigo-600 rounded-full">
+														¡Nuevo!
+													</span>
+													<div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+												</div>
+												<h3 className="text-2xl font-light text-indigo-950">
+													Calendario
+												</h3>
+												<p className="text-indigo-700/70 text-sm font-light leading-relaxed">
+													Accede en tiempo real a todos tus eventos y reservas
+													en una vista unificada y elegante.
+												</p>
+											</div>
+											<div className="flex items-center text-indigo-600 transition-all duration-300 ease-in-out group-hover:text-indigo-700 mt-4">
+												<span>Explorar</span>
+												<div className="ml-2 p-2 rounded-full bg-indigo-100 group-hover:bg-indigo-200 transition-all duration-300">
+													<ArrowRight className="w-4 h-4" />
+												</div>
+											</div>
+										</Link>
+									</Card>
+								</>
+							)}
+							{userRole !== 2 && (
 								<Card
-									className={`rounded-xl shadow-lg border-none pb-10 ${
+									className={`rounded-xl shadow-lg border-none col-span-3 lg:col-span-2 ${
 										userRole === 1 ? "" : ""
 									}`}
 								>
@@ -352,7 +505,7 @@ export default function Dashboard() {
 																}
 															}}
 														>
-															<TableCell className="text-start md:text-center w-1/5 text-zinc-800">
+															<TableCell className="text-start md:text-center w-1/5 text-zinc-800 truncate">
 																{
 																	command.boletos_reservas.usuarios
 																		.nombre_usuario
@@ -422,84 +575,6 @@ export default function Dashboard() {
 								</Card>
 							)}
 							{userRole === 2 && <CommandsTable />}
-							{userRole !== 2 && (
-								<>
-									<Card
-										className="relative rounded-xl shadow-lg overflow-hidden col-span-1 h-[350px] bg-black group border-none cursor-none"
-										onMouseMove={(e) => {
-											const rect = e.currentTarget.getBoundingClientRect();
-											const x = ((e.clientX - rect.left) / rect.width) * 100;
-											const y = ((e.clientY - rect.top) / rect.height) * 100;
-											setMousePosition({ x, y });
-											setCursorPosition({
-												x: e.clientX - rect.left,
-												y: e.clientY - rect.top,
-											});
-										}}
-										onMouseLeave={() => {
-											setMousePosition({ x: -100, y: -100 });
-											setCursorPosition({ x: -9999, y: -9999 });
-										}}
-									>
-										<div className="absolute inset-0 bg-gradient-to-br from-violet-600 to-indigo-900 opacity-80" />
-										<div
-											className="absolute inset-0 opacity-0 group-hover:opacity-75 transition-all duration-300"
-											style={{
-												backgroundImage: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgb(139 92 246 / 0.75), transparent 70%)`,
-											}}
-										/>
-										<div
-											className="pointer-events-none absolute w-8 h-8 rounded-full mix-blend-difference transition-opacity duration-150 ease-out z-50"
-											style={{
-												background:
-													"radial-gradient(circle, rgb(139 92 246), rgb(67 56 202))",
-												transform: `translate(${cursorPosition.x - 16}px, ${
-													cursorPosition.y - 16
-												}px)`,
-												opacity: cursorPosition.x === -9999 ? 0 : 1,
-												visibility:
-													cursorPosition.x === -9999 ? "hidden" : "visible",
-											}}
-										/>
-										<div className="absolute inset-0 opacity-20">
-											<div
-												className="absolute blur-3xl w-40 h-40 rounded-full transition-all duration-500 ease-out"
-												style={{
-													background:
-														"linear-gradient(to right, rgb(139 92 246 / 0.8), rgb(67 56 202 / 0.8))",
-													transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`,
-													left: "-20%",
-													top: "-20%",
-												}}
-											/>
-										</div>
-										<Link
-											href={"/calendar"}
-											className="relative h-full p-8 flex flex-col justify-between cursor-none"
-										>
-											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												<div className="flex items-center gap-2">
-													<span className="px-3 py-1 text-xs font-medium bg-white/20 text-white rounded-full backdrop-blur-sm">
-														¡Nuevo!
-													</span>
-													<div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-												</div>
-												<h3 className="text-2xl font-light text-white">
-													Calendario
-												</h3>
-												<p className="text-zinc-200 text-sm font-light leading-relaxed">
-													Accede en tiempo real a todos tus eventos y reservas
-													en una vista unificada y elegante.
-												</p>
-											</div>
-											<div className="flex items-center text-white transition-all duration-300 ease-in-out">
-												<span>Explorar</span>
-												<ArrowRight className="w-5 h-5 ml-2" />
-											</div>
-										</Link>
-									</Card>
-								</>
-							)}
 						</div>
 					</main>
 				</>

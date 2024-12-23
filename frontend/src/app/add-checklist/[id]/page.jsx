@@ -113,24 +113,22 @@ export default function ComandaDetail({ params }) {
 
 	const handleSubmitDetails = async (e) => {
 		e.preventDefault();
-		setLoading(true); // Iniciar carga
+		setLoading(true);
 		const today = new Date();
 		const day = today.getDate();
 		const month = today.getMonth() + 1;
 
 		try {
-			const { firma_tecnico, ...restCheckData } = checkData;
-
 			const dataToUpdate = {
 				dia: day,
 				mes: month,
 				usuario_id: loggedUserId ? Number(loggedUserId) : null,
-				...restCheckData,
-				firma_tecnico: firma_tecnico || "",
+				firma_tecnico: checkData.firma_tecnico || "",
 				estado: "completo",
 				actualizado_en: new Date(
 					new Date().setHours(new Date().getHours() - 3)
 				),
+				...checkData,
 			};
 
 			console.log("Enviando datos a la API...", dataToUpdate);
@@ -158,7 +156,7 @@ export default function ComandaDetail({ params }) {
 		} catch (error) {
 			console.error("Error al actualizar la técnica:", error);
 		} finally {
-			setLoading(false); // Detener carga al finalizar
+			setLoading(false);
 		}
 	};
 

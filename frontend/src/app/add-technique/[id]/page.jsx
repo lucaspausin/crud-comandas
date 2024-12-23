@@ -63,6 +63,7 @@ export default function ComandaDetail({ params }) {
 
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [files, setFiles] = useState([]);
 
 	useEffect(() => {
 		const fetchTechnique = async () => {
@@ -134,7 +135,7 @@ export default function ComandaDetail({ params }) {
 
 	const handleSubmitDetails = async (e) => {
 		e.preventDefault();
-		setLoading(true); // Iniciar carga
+		setLoading(true);
 		const today = new Date();
 		const day = today.getDate();
 		const month = today.getMonth() + 1;
@@ -148,32 +149,31 @@ export default function ComandaDetail({ params }) {
 				dni: formData.dni,
 				modelo: formData.modelo,
 				patente: formData.patente,
-				// comanda_id: Number(params.id),
 				usuario_id: loggedUserId ? Number(loggedUserId) : null,
 				observaciones_personales: formData.observaciones_personales,
-				observaciones_tecnicas: formData.observaciones_tecnicas,
-				estado: "pendiente",
-				firma: formData.firma,
-				detalle1: formData.detalle1,
-				detalle2: formData.detalle2,
-				detalle3: formData.detalle3,
-				detalle4: formData.detalle4,
-				detalle5: formData.detalle5,
-				detalle6: formData.detalle6,
-				detalle7: formData.detalle7,
-				detalle8: formData.detalle8,
-				detalle9: formData.detalle9,
-				detalle10: formData.detalle10,
-				detalle11: formData.detalle11,
-				detalle12: formData.detalle12,
-				detalle13: formData.detalle13,
-				detalle14: formData.detalle14,
-				detalle15: formData.detalle15,
-				detalle16: formData.detalle16,
-				detalle17: formData.detalle17,
-				detalle18: formData.detalle18,
-				detalle19: formData.detalle19,
-				detalle20: formData.detalle20,
+					observaciones_tecnicas: formData.observaciones_tecnicas,
+					estado: "pendiente",
+					firma: formData.firma || "",
+					detalle1: formData.detalle1,
+					detalle2: formData.detalle2,
+					detalle3: formData.detalle3,
+					detalle4: formData.detalle4,
+					detalle5: formData.detalle5,
+					detalle6: formData.detalle6,
+					detalle7: formData.detalle7,
+					detalle8: formData.detalle8,
+					detalle9: formData.detalle9,
+					detalle10: formData.detalle10,
+					detalle11: formData.detalle11,
+					detalle12: formData.detalle12,
+					detalle13: formData.detalle13,
+					detalle14: formData.detalle14,
+					detalle15: formData.detalle15,
+					detalle16: formData.detalle16,
+					detalle17: formData.detalle17,
+					detalle18: formData.detalle18,
+					detalle19: formData.detalle19,
+					detalle20: formData.detalle20,
 			};
 
 			console.log("Enviando datos a la API...");
@@ -197,13 +197,31 @@ export default function ComandaDetail({ params }) {
 
 			await updateCalendar(calendarId, { estado: "completado" });
 
+			await Promise.all(
+				files.map(async (file) => {
+					const formData = new FormData();
+					formData.append("file", file.file);
+					formData.append("usuarioId", String(loggedUserId));
+
+					await axios.post(
+						`${process.env.NEXT_PUBLIC_API_URL}/api/files/${params.id}`,
+						formData,
+						{
+							headers: {
+								"Content-Type": "multipart/form-data",
+							},
+						}
+					);
+				})
+			);
+
 			setComanda((prevComanda) => ({ ...prevComanda, ...dataToUpdate }));
 			router.push("/dashboard");
 		} catch (error) {
 			console.error("Error al actualizar la técnica:", error);
 			setShowToast("Error al actualizar la técnica");
 		} finally {
-			setLoading(false); // Detener carga al finalizar
+			setLoading(false);
 		}
 	};
 
@@ -281,6 +299,44 @@ export default function ComandaDetail({ params }) {
 									<dd>{comanda.comandas_tecnica_comanda_idTocomandas.id}</dd>
 									<dt className="font-medium text-zinc-500">Servicio:</dt>
 									<dd>Instalación de GNC</dd>
+									<dt className="font-medium text-zinc-500">Vehículo:</dt>
+									<dd>
+										{
+											comanda.comandas_tecnica_comanda_idTocomandas
+												.boletos_reservas.marca_vehiculo
+										}{" "}
+										{
+											comanda.comandas_tecnica_comanda_idTocomandas
+												.boletos_reservas.modelo_vehiculo
+										}{" "}
+										{
+											comanda.comandas_tecnica_comanda_idTocomandas
+												.boletos_reservas.patente_vehiculo
+										}
+									</dd>
+									<dt className="font-medium text-zinc-500">Equipo:</dt>
+									<dd>
+										{
+											comanda.comandas_tecnica_comanda_idTocomandas
+												.boletos_reservas.equipo
+										}
+									</dd>
+									<dt className="font-medium text-zinc-500">
+										Reforma de Escape:
+									</dt>
+									<dd>
+										{comanda.comandas_tecnica_comanda_idTocomandas
+											.boletos_reservas.reforma_escape
+											? "Sí"
+											: "No"}
+									</dd>
+									<dt className="font-medium text-zinc-500">Carga Externa:</dt>
+									<dd>
+										{comanda.comandas_tecnica_comanda_idTocomandas
+											.boletos_reservas.carga_externa
+											? "Sí"
+											: "No"}
+									</dd>
 									<dt className="font-medium text-zinc-500">Creado:</dt>
 									<dd>
 										{new Date(comanda.creado_en).toLocaleString("es-AR", {
@@ -339,6 +395,8 @@ export default function ComandaDetail({ params }) {
 						handleInputChange={handleInputChange}
 						handleSubmit={handleSubmitDetails}
 						loading={loading}
+						files={files}
+						setFiles={setFiles}
 					/>
 				</div>
 			</main>

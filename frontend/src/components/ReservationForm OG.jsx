@@ -5,23 +5,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
-
+import { Loader2 } from "lucide-react";
 import ToastNotification from "@/components/ToastNotification";
 import { useSession } from "next-auth/react";
 // import { getEventsCalendar } from "../app/reservations/reservations.api";
 
 import axios from "axios";
+import { FilePond, registerPlugin } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+// Registrar los plugins de FilePond
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 function ReservationForm() {
 	const router = useRouter();
-	const { data: session } = useSession();
+	const { data: session, status } = useSession();
 
-	// const userRole = session?.user?.role;
-	// const loggedUserEmail = session?.user?.email;
-	const loggedUserId = session?.user?.id;
-
+	// Inicializar con null o 0 en lugar de un posible NaN
 	const [client, setClient] = useState({
-		usuario_id: loggedUserId ? Number(loggedUserId) : null,
+		usuario_id: null,
 		nombre_completo: "",
 		dni: "",
 		domicilio: "",
@@ -29,21 +35,44 @@ function ReservationForm() {
 		telefono: "",
 	});
 
+	useEffect(() => {
+		if (status === "authenticated" && session?.user?.id) {
+			// Asegurar que sea un número válido
+			const userId = parseInt(session.user.id);
+			if (!isNaN(userId)) {
+				setClient((prev) => ({
+					...prev,
+					usuario_id: userId,
+				}));
+			}
+		}
+	}, [session, status]);
+
+	// const userRole = session?.user?.role;
+	// const loggedUserEmail = session?.user?.email;
+	const loggedUserId = Number(session?.user?.id);
+
+	console.log(loggedUserId);
+
 	const [vehicle, setVehicle] = useState({
 		marca_vehiculo: "",
 		modelo_vehiculo: "",
 		patente_vehiculo: "",
+
 		equipo: "",
 		precio: "",
 		reforma_escape: false,
 		carga_externa: false,
 		sena: "",
 		monto_final_abonar: "",
+
 		fecha_instalacion: "", // Este campo se convertirá a un string ISO antes de enviar el formulario
 	});
 
 	const [eventCount, setEventCount] = useState(0);
 	const [warningMessage, setWarningMessage] = useState("");
+
+	const [files, setFiles] = useState([]); // State para almacenar los archivos seleccionados
 
 	const fetchEventCount = async (selectedDate) => {
 		try {
@@ -215,8 +244,12 @@ function ReservationForm() {
 
 	const [showToast, setShowToast] = useState("");
 
+	// Add loading state
+	const [loading, setLoading] = useState(false);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true); // Start loading
 
 		const fechaInstalacion = vehicle.fecha_instalacion;
 
@@ -260,8 +293,31 @@ function ReservationForm() {
 				reservationData
 			);
 
-			const reservationId = response.data?.reserva?.id;
-			console.log(reservationId);
+			const comandaId = response.data?.comanda?.id;
+			console.log(comandaId);
+
+			// Esperar un segundo antes de subir los archivos (opcional)
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
+			// Subir archivos a la comanda
+			await Promise.all(
+				files.map(async (file) => {
+					const formData = new FormData();
+					formData.append("file", file.file);
+					formData.append("usuarioId", String(loggedUserId));
+					console.log(formData);
+
+					await axios.post(
+						`${process.env.NEXT_PUBLIC_API_URL}/api/files/${comandaId}`,
+						formData,
+						{
+							headers: {
+								"Content-Type": "multipart/form-data",
+							},
+						}
+					);
+				})
+			);
 
 			if (form.current) form.current.reset();
 			setClient({
@@ -287,7 +343,7 @@ function ReservationForm() {
 			// const successMessage = "Reserva añadida exitosamente.";
 
 			// setShowToast(successMessage);
-			router.push(`/reservations/${reservationId}`);
+			router.push(`/reservations/${response.data?.reserva?.id}`);
 		} catch (error) {
 			let responseErrorMessage = "Error al crear la reserva";
 
@@ -300,6 +356,7 @@ function ReservationForm() {
 			// Muestra el mensaje de error capturado
 			console.log(responseErrorMessage); // Muestra el mensaje de error en consola
 			setShowToast(responseErrorMessage);
+			setLoading(false); // Stop loading on error
 		}
 		// setTimeout(() => {
 		// 	router.push("/reservations");
@@ -604,14 +661,53 @@ function ReservationForm() {
 						</div>
 					</div>
 				</div>
+
+				<div className="space-y-4">
+					<h3 className="text-xl font-light text-zinc-700 flex items-center">
+						Adjuntar Documentación
+						{/* <span className="px-2 py-1 text-xs font-normal rounded-full inline-flex items-center gap-1 justify-center bg-green-100 text-green-600 border border-green-100 ml-2">
+							¡Nuevo!
+						</span> */}
+					</h3>
+					<FilePond
+						files={files}
+						onupdatefiles={setFiles} // Actualiza el estado de los archivos
+						allowReorder={true}
+						allowMultiple={true} // Permitir múltiples archivos
+						maxFiles={5} // Limitar a 5 archivos
+						name="files" // Nombre del input
+						labelIdle='Arrastra y suelta tus archivos o <span class="filepond--label-action">Selecciona un archivo.</span>'
+						acceptedFileTypes={["image/*", "application/pdf"]} // Tipos de archivos aceptados
+						onprocessfile={(error, file) => {
+							if (error) {
+								console.error("Error al subir el archivo:", error);
+							} else {
+								console.log("Archivo subido:", file);
+							}
+						}}
+						onprocessfileprogress={(file, progress) => {
+							console.log(
+								`Progreso de carga para ${file.filename}: ${progress}%`
+							);
+						}}
+					/>
+				</div>
+
 				<Button
 					type="submit"
 					className={`w-full rounded-sm ${
 						eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""
 					}`}
-					disabled={eventCount >= 5} // Deshabilita el botón si el eventCount es 5 o más
+					disabled={eventCount >= 5 || loading}
 				>
-					Añadir Reserva
+					{loading ? (
+						<div className="flex items-center gap-2">
+							<Loader2 className="animate-spin w-4 h-4" />
+							Por favor, espera
+						</div>
+					) : (
+						"Añadir Reserva"
+					)}
 				</Button>
 			</form>
 			<ToastNotification

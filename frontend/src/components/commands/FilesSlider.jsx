@@ -1,20 +1,19 @@
 "use client";
 
-import { X, FileText, Trash2, CloudDownload, CheckCircle } from "lucide-react";
+import { X, FileText, Trash2, CloudDownload } from "lucide-react";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 // import { Button } from "@/components/ui/button";
-import { updateFileVerification } from "@/app/reservations/reservations.api";
+// import { updateFileVerification } from "@/app/reservations/reservations.api";
 
-const FilesSlider = ({ file, index, handleDeleteArchive, onVerify }) => {
+const FilesSlider = ({ file, index, handleDeleteArchive }) => {
 	const { data: session, status } = useSession();
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isImageLoaded, setIsImageLoaded] = useState(false);
 	const [isHovered, setIsHovered] = useState(false);
 	const [loggedUserId, setLoggedUserId] = useState(null);
-	const [isVerified, setIsVerified] = useState(file.verificado || false);
 
 	const openModal = () => setIsModalOpen(true);
 	const closeModal = () => setIsModalOpen(false);
@@ -29,6 +28,7 @@ const FilesSlider = ({ file, index, handleDeleteArchive, onVerify }) => {
 	}, [session, status]);
 
 	const currentUserId = loggedUserId;
+	console.log(currentUserId);
 
 	// console.log("Current User ID:", currentUserId);
 	// console.log("File User ID:", file.usuario_id);
@@ -67,6 +67,11 @@ const FilesSlider = ({ file, index, handleDeleteArchive, onVerify }) => {
 		setIsImageLoaded(true);
 	};
 
+	// Ignorar archivos con usuario_id igual a 2
+	if (file.usuario_id === 2) {
+		return null;
+	}
+
 	return (
 		<>
 			<div className="flex flex-col items-center w-[300px] shrink-0">
@@ -77,11 +82,6 @@ const FilesSlider = ({ file, index, handleDeleteArchive, onVerify }) => {
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
 					>
-						{!isVerified &&
-							file.usuario_id !== null &&
-							file.usuario_id !== currentUserId && (
-								<div className="absolute z-[89] top-2 right-2 h-2 w-2 bg-red-400 rounded-full animate-pulse" />
-							)}
 						<div className="relative h-full">
 							<div
 								className={`transition-transform duration-300 h-full ${
@@ -127,11 +127,6 @@ const FilesSlider = ({ file, index, handleDeleteArchive, onVerify }) => {
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
 					>
-						{!isVerified &&
-							file.usuario_id !== null &&
-							file.usuario_id !== currentUserId && (
-								<div className="absolute z-[89] top-2 right-2 h-2 w-2 bg-red-400 rounded-full animate-pulse" />
-							)}
 						<FileText
 							strokeWidth={1.25}
 							className="text-black h-9 w-9 flex items-center justify-center transition-transform duration-300 group-hover:scale-95"
@@ -147,11 +142,6 @@ const FilesSlider = ({ file, index, handleDeleteArchive, onVerify }) => {
 						onMouseEnter={() => setIsHovered(true)}
 						onMouseLeave={() => setIsHovered(false)}
 					>
-						{!isVerified &&
-							file.usuario_id !== null &&
-							file.usuario_id !== currentUserId && (
-								<div className="absolute z-[89] top-2 right-2 h-2 w-2 bg-red-400 rounded-full animate-pulse" />
-							)}
 						<FileText
 							strokeWidth={1.25}
 							className="text-black h-12 w-12 flex items-center justify-center transition-transform duration-300 group-hover:scale-95"
@@ -171,29 +161,7 @@ const FilesSlider = ({ file, index, handleDeleteArchive, onVerify }) => {
 							style={{
 								animation: "scaleUp 0.2s ease-out forwards",
 							}}
-							onClick={(e) => {
-								e.stopPropagation();
-								if (
-									file.usuario_id !== null &&
-									file.usuario_id !== currentUserId &&
-									!isVerified
-								) {
-									updateFileVerification(file.id)
-										.then(() => {
-											setIsVerified(true);
-											onVerify();
-										})
-										.catch((error) =>
-											console.error("Error al verificar el archivo:", error)
-										);
-								}
-							}}
 						>
-							{isVerified && (
-								<div className="absolute top-4 right-4">
-									<CheckCircle className="text-green-500 h-6 w-6" />
-								</div>
-							)}
 							<div className="border-b pb-4 pt-2 px-4 w-full flex items-center self-end justify-end">
 								<X
 									onClick={closeModal}

@@ -1,0 +1,2658 @@
+{
+  "alfa-romeo": {
+    "145": {
+      "nombre": "145",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "146": {
+      "nombre": "146",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    }
+  },
+  "chery": {
+    "face": {
+      "nombre": "Face",
+      "productos": [
+        "5ta-40l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada"
+    },
+    "qq": {
+      "nombre": "QQ",
+      "productos": [
+        "5ta-40l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada"
+    },
+    "tiggo20": {
+      "nombre": "Tiggo 2.0",
+      "productos": [
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    }
+  },
+  "dodge": {
+    "journey-24": {
+      "nombre": "Journey 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ],
+      "observaciones": "Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "journey-24-7a": {
+      "nombre": "Journey 2.4 (7 asientos)",
+      "productos": [
+        "5ta-30lx2b"
+      ],
+      "observaciones": "Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "journey-6cil": {
+      "nombre": "Journey 6 cil",
+      "productos": [
+        "5taesp-60l",
+        "5taesp-70l",
+        "5taesp-30lx2b"
+      ],
+      "6-cilindros": [
+        "5taesp-60l",
+        "5taesp-70l",
+        "5taesp-30lx2b"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros/Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "journey-6cil-7a": {
+      "nombre": "Journey 6 cil (7 asientos)",
+      "productos": [
+        "5taesp-30lx2b"
+      ],
+      "6-cilindros": [
+        "5taesp-30lx2b"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros/Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    }
+  },
+  "seat": {
+    "toledo": {
+      "nombre": "Toledo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "ibiza": {
+      "nombre": "Ibiza",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    }
+  },
+  "suzuki": {
+    "fun": {
+      "nombre": "Fun",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "fun-10": {
+      "nombre": "Fun 1.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "fun-14": {
+      "nombre": "Fun 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "grand-vitara-4cil": {
+      "nombre": "Grand Vitara 4 cil",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "grand-vitara-6cil": {
+      "nombre": "Grand Vitara 6 cil",
+      "productos": [
+        "5taesp-60l",
+        "5taesp-70l"
+      ],
+      "6-cilindros": [
+        "5taesp-60l",
+        "5taesp-70l"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "vitara": {
+      "nombre": "Vitara",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    }
+  },
+  "toyota": {
+    "camry": {
+      "nombre": "Camry",
+      "productos": [
+        "5taesp-60l",
+        "5taesp-70l"
+      ],
+      "6-cilindros": [
+        "5taesp-60l",
+        "5taesp-70l"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "camry-6v": {
+      "nombre": "Camry V6",
+      "productos": [
+        "5taesp-60l",
+        "5taesp-70l"
+      ],
+      "6-cilindros": [
+        "5taesp-60l",
+        "5taesp-70l"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "corolla-18": {
+      "nombre": "Corolla 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "corolla-20": {
+      "nombre": "Corolla 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "6ta-60l",
+        "6ta-40l"
+        
+      ],
+      "observaciones": "Es un Vehichulo inyeccion mixta, es directa e indirecta. si le pones un 5ta normal(solo funciona a gnc en bajas revoluciones) si le pones un 6ta( solo funciona a gas en altas revoluciones) estar atento",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "etios": {
+      "nombre": "Etios",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "innova": {
+      "nombre": "Innova",
+      "productos": [
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "rav4-24": {
+      "nombre": "RAV4 2.4L",
+      "productos": [
+        "5ta-60l"
+      ],
+      "observaciones": "Solamente con Tomasetto Achille por el litraje del motor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "yaris": {
+      "nombre": "Yaris",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    }
+  },
+  "fiat": {
+    "argo": {
+      "nombre": "Argo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "cronos": {
+      "nombre": "Cronos",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Cuidado con nuevo cronos motor turbo. llevan 6ta generacion 2024 en adelante",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "cronos-13": {
+      "nombre": "Cronos 1.3",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Cuidado con nuevo cronos motor turbo. llevan 6ta generacion 2024 en adelante",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "doblo": {
+      "nombre": "Doblo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "LLeva cilindros cortos bajo chasis",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "duna-14": {
+      "nombre": "Duna 1.4/1.6",
+      "productos": [
+        "3ra-40l",
+        "3ra-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "duna-fire-13": {
+      "nombre": "Duna Fire 1.3",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "fiorino2010": {
+      "nombre": "Fiorino hasta 2010",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "lleva cilindros cortos bajo chasis/algunos clientes pueden pedir instalarlo con 4ta generacion, se puede , pero siempre le ofrecemos lo que es 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "fiorino2011": {
+      "nombre": "Fiorino desde 2011",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "observaciones": "lleva cilindros cortos bajo chasis/algunos clientes pueden pedir instalarlo con 4ta generacion, se puede , pero siempre le ofrecemos lo que es 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "fiorino-novo": {
+      "nombre": "Fiorino Novo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "lleva cilindros cortos bajo chasis/algunos clientes pueden pedir instalarlo con 4ta generacion, se puede , pero siempre le ofrecemos lo que es 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "grand-siena": {
+      "nombre": "Grand Siena",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "LLeva un cilindro de 58 litros corto",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "idea-14": {
+      "nombre": "Idea 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "LLeva un cilindro de 60 litros corto",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "idea-16": {
+      "nombre": "Idea 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "LLeva un cilindro de 60 litros corto",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "idea-18": {
+      "nombre": "Idea 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "LLeva un cilindro de 60 litros corto",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "linea": {
+      "nombre": "Linea",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "LLeva un cilindro de 60 litros corto",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "mobi": {
+      "nombre": "Mobi",
+      "productos": [
+        "5ta-40l"
+      ],
+      "observaciones": "La rueda de auxilio no entra mas en el cuche de auxilio",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "palio-adventure-18": {
+      "nombre": "Palio Adventure 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Cuando se instala bajo chasis, se recomienda reforzar el piso",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "palio2008": {
+      "nombre": "Palio hasta 2008",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "palio2009": {
+      "nombre": "Palio desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "punto-14": {
+      "nombre": "Punto 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "punto-16": {
+      "nombre": "Punto 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "punto-18": {
+      "nombre": "Punto 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "qubo": {
+      "nombre": "Qubo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Bajo chasis lleva un cilindro mas corto que el otro, por la forma del chasis que tiene el vehiculo",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "siena2008": {
+      "nombre": "Siena hasta 2008",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "LLeva un cilindro de 60 litros corto/Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "siena2009": {
+      "nombre": "Siena desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "LLeva un cilindro de 60 litros corto/Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "strada": {
+      "nombre": "Strada",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "las anteriores al 2011, Pueden ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "toro": {
+      "nombre": "Toro",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "uno-14": {
+      "nombre": "Uno 1.4/1.6",
+      "productos": [
+        "3ra-40l",
+        "3ra-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "uno-fire-13": {
+      "nombre": "Uno Fire 1.3",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "uno-way": {
+      "nombre": "Uno Way",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    }
+  },
+  "ford": {
+    "ecoesport-15": {
+      "nombre": "Ecoesport 1.5 3 cilindros",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "ecoesport-16-2008": {
+      "nombre": "Ecoesport 1.6 hasta 2008",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación/Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "ecoesport-16-2009": {
+      "nombre": "Ecoesport 1.6 desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "ecoesport-20": {
+      "nombre": "Ecoesport 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "confirmar con foto del motor si es sexta generacion/Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "ecoesport-20-duratec": {
+      "nombre": "Ecoesport 2.0 Duratec GDI",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l",
+        "6ta-30lx2c"
+      ],
+      "refuerzo": [
+        "6ta-30lx2c"
+      ],
+      "observaciones": "confirmar con foto del motor si es sexta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "escort": {
+      "nombre": "Escort",
+      "productos": [
+        "3ra-40l",
+        "3ra-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "escort-zetec": {
+      "nombre": "Escort Zetec",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "escort-zetec-rural": {
+      "nombre": "Escort Zetec rural ",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "explorer-v6": {
+      "nombre": "Explorer V6",
+      "productos": [
+        "4ta-60l",
+        "4ta-70l"
+      ],
+      "observaciones": "lleva emulador de 6 cilindros y un reductor potenciado, consultar precio",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "fiesta2008": {
+      "nombre": "Fiesta hasta 2008",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "fiesta2009": {
+      "nombre": "Fiesta desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "fiesta-kinetic": {
+      "nombre": "Fiesta Kinetic",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "pedir foto del motor, por si es sexta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "focus-16-2008": {
+      "nombre": "Focus 1.6 hasta 2008",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "focus-16-2009": {
+      "nombre": "Focus 1.6 desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "pedir foto del motor, por si es sexta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "focus-20": {
+      "nombre": "Focus 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "pedir foto del motor, por si es sexta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "focus-duratec-20": {
+      "nombre": "Focus Duratec 2.0 GDI",
+      "productos": [
+        "6ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "focus-kinetic-duratec-20": {
+      "nombre": "Focus Kinetic Duratec 2.0 GDI",
+      "productos": [
+        "6ta-60l"
+      ],
+      "observaciones": "pedir foto del motor, por si es sexta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "focus-zetec-18": {
+      "nombre": "Focus Zetec 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "ka2008": {
+      "nombre": "KA hasta 2008",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "ka2009": {
+      "nombre": "KA desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "ka-15": {
+      "nombre": "KA 1.5 3 cilindros",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "kuga-25": {
+      "nombre": "Kuga 2.5 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "consultar con el equipo tecnico, hay modelos que no funcionan",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "kuga-20": {
+      "nombre": "Kuga 2.0 TSI",
+      "productos": [
+        "6ta-60l",
+        "6ta-70l"
+      ],
+      "observaciones": "consultar con el equipo tecnico, hay modelos que no funcionan",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "mondeo-25": {
+      "nombre": "Mondeo 2.5 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "consultar con el equipo tecnico, hay modelos que no funcionan",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "mondeo-zetec": {
+      "nombre": "Mondeo Zetec",
+      "productos": [
+        "4ta-60l",
+        "4ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "ranger-4-cil-2325": {
+      "nombre": "Ranger 4 cil 2.3/2.5",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "pueden ir tambien cilindros bajo chasis, como 2 x 30",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    }
+  },
+  "chevrolet": {
+    "agile": {
+      "nombre": "Agile",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "agile-14": {
+      "nombre": "Agile 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "astra": {
+      "nombre": "Astra",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "aveo": {
+      "nombre": "Aveo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "aveo-g3": {
+      "nombre": "Aveo G3",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "blazer": {
+      "nombre": "Blazer",
+      "productos": [
+        "4ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "captiva": {
+      "nombre": "Captiva",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "algunas llevan emulador de presion de rampa, consultar",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "celta": {
+      "nombre": "Celta",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "celta-14": {
+      "nombre": "Celta 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "cobalt": {
+      "nombre": "Cobalt",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "corsa": {
+      "nombre": "Corsa",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "los corsa hasta el 2008, es el unico vehiculo que no puede instalarse con 5ta generacion, 4ta si o si",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "corsa-2": {
+      "nombre": "Corsa 2",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "corsa-classic": {
+      "nombre": "Corsa Classic",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "los corsa hasta el 2008, es el unico vehiculo que no puede instalarse con 5ta generacion, 4ta si o si",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "corsa-wagon": {
+      "nombre": "Corsa Wagon",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "los corsa hasta el 2008, es el unico vehiculo que no puede instalarse con 5ta generacion, 4ta si o si",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "plana"
+    },
+    "cruze-18": {
+      "nombre": "Cruze 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "cruze-14-turbo": {
+      "nombre": "Cruze TLZ 1.4 Turbo",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "joy": {
+      "nombre": "Joy",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "meriva-18-8v-2008": {
+      "nombre": "Meriva 1.8 8V hasta 2008",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "meriva-18-16v-2008": {
+      "nombre": "Meriva 1.8 16V hasta 2008",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "meriva-18-8v-2009": {
+      "nombre": "Meriva 1.8 8V desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "meriva-18-16v-2009": {
+      "nombre": "Meriva 1.8 16V desde 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "montana": {
+      "nombre": "Montana",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "onix": {
+      "nombre": "Onix",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "onix-12": {
+      "nombre": "Onix 1.2",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "prisma": {
+      "nombre": "Prisma",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "sonic": {
+      "nombre": "Sonic",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "spin": {
+      "nombre": "Spin",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "spin-7a": {
+      "nombre": "Spin 7 asientos",
+      "productos": [
+        "5ta-30lx2b"
+      ],
+      "observaciones": "tambien se puede poner uno de 40 lts",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "tracker": {
+      "nombre": "Tracker",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "Es posible poner 2 cilindros de 25 lts, en el buche de la ruede de auxilio, siempre y cuando tenga rueda grande",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "tracker-premium-18": {
+      "nombre": "Tracker Premium 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "Es posible poner 2 cilindros de 25 lts, en el buche de la ruede de auxilio, siempre y cuando tenga rueda grande",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "vectra-202008": {
+      "nombre": "Vectra 2.0 hasta 2008",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "vectra-202009": {
+      "nombre": "Vectra 2.0 desde 2009",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "vectra-24": {
+      "nombre": "Vectra 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "zafira": {
+      "nombre": "Zafira",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    }
+  },
+  "chrysler": {
+    "caravan-6c": {
+      "nombre": "Caravan 6 cil",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "caravan-6c-7a": {
+      "nombre": "Caravan 6 cil (7 asientos)",
+      "productos": [
+        "5ta-30lx2b"
+      ],
+      "6-cilindros": [
+        "5ta-30lx2b"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "caravan-24": {
+      "nombre": "Caravan 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ],
+      "observaciones": "lleva un 5ta TA normal",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "caravan-24-7a": {
+      "nombre": "Caravan 2.4 (7 asientos)",
+      "productos": [
+        "5ta-30lx2b"
+      ],
+      "observaciones": "lleva un 5ta TA normal",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "neon": {
+      "nombre": "Neon",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l",
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "plana"
+    },
+    "ptcruiser-24": {
+      "nombre": "PT Cruiser 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "5ta normal, Ta",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    }
+  },
+  "citroen": {
+    "aircross-15": {
+      "nombre": "Aircross 1.5",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "aircross-16": {
+      "nombre": "Aircross 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "berlingo": {
+      "nombre": "Berlingo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "cactus-12": {
+      "nombre": "Cactus 1.2 THP",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "c3": {
+      "nombre": "C3",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "c3-picasso": {
+      "nombre": "C3 Picasso",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "c4": {
+      "nombre": "C4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "pedir foto del motor, por si es sexta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "c4-lounge-16": {
+      "nombre": "C4 Lounge 1.6 THP",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "c-elysee-16": {
+      "nombre": "C Elysee 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "picasso": {
+      "nombre": "Picasso",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "saxo-14": {
+      "nombre": "Saxo 1.4",
+      "productos": [
+        "4ta-40l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    }
+  },
+  "volkswagen": {
+    "bora-20": {
+      "nombre": "Bora 2.0",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "bora-18t": {
+      "nombre": "Bora 1.8 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "fox": {
+      "nombre": "Fox",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "fox-cross": {
+      "nombre": "Fox Cross",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "gol-country-16": {
+      "nombre": "Gol Country 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "gol-power-14": {
+      "nombre": "Gol Power 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "gol-power-16": {
+      "nombre": "Gol Power 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "gol-trend": {
+      "nombre": "Gol Trend",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "golf-14-tsi": {
+      "nombre": "Golf  1.4 TSI",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "golf-16": {
+      "nombre": "Golf  1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "golf-18t": {
+      "nombre": "Golf 1.8 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "mismo motor que el bora",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "golf-18201999": {
+      "nombre": "Golf  1.8/2.0 hasta 1999",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "golf-20": {
+      "nombre": "Golf  2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "passat-18t": {
+      "nombre": "Passat 1.8 T",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "turbo": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "mismo motor que el bora",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "passat-20tsi": {
+      "nombre": "Passat 2.0 TSI",
+      "productos": [
+        "6ta-60l",
+        "6ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "pointer": {
+      "nombre": "Pointer",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "polo": {
+      "nombre": "Polo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "polo-nuevo": {
+      "nombre": "Polo Nuevo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "saveiro2009": {
+      "nombre": "Saveiro hasta 2009",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "saveiro2010": {
+      "nombre": "Saveiro desde 2010",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "sharan-18t": {
+      "nombre": "Sharan 1.8 T",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ],
+      "turbo": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ],
+      "observaciones": "mismo motor que el bora",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "suran": {
+      "nombre": "Suran",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ],
+      "observaciones": "dentro del buche de auxilio",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "t-cross": {
+      "nombre": "T-Cross",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "tiguan-20tsi": {
+      "nombre": "Tiguan 2.0 TSI",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "up-pepper-10tsi": {
+      "nombre": "UP Pepper 1.0 TSI",
+      "productos": [
+        "6ta-40l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "up-10": {
+      "nombre": "UP 1.0",
+      "productos": [
+        "5ta-40l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "vento-25": {
+      "nombre": "Vento 2.5",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 5 cilindros",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "vento-14tsi": {
+      "nombre": "Vento 1.4 TSI",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "vento-20tsi": {
+      "nombre": "Vento 2.0 TSI",
+      "productos": [
+        "6ta-60l",
+        "6ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "virtus-16": {
+      "nombre": "Virtus 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "el virtus 1.0 lleva sexta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "voyage-16": {
+      "nombre": "Voyage 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada"
+    }
+  },
+  "jeep": {
+    "cherokee-v8-1998": {
+      "nombre": "Cherokee V8 hasta mod 1998",
+      "productos": [
+        "4ta-60l",
+        "4ta-30lx2b"
+      ],
+      "observaciones": "lleva doble reductor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "cherokee-v8-1999": {
+      "nombre": "Cherokee V8 desde mod 1999",
+      "productos": [
+        "5ta-60l",
+        "5ta-30lx2b"
+      ],
+      "8-cilindros": [
+        "5ta-60l",
+        "5ta-30lx2b"
+      ],
+      "observaciones": "lleva doble reductor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "compass": {
+      "nombre": "Compass",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "renegade": {
+      "nombre": "Renegade",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    }
+  },
+  "kia": {
+    "cerato": {
+      "nombre": "Cerato",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "sorento-v6": {
+      "nombre": "Sorento V6",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis"
+    },
+    "soul": {
+      "nombre": "Soul",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "sportage-20": {
+      "nombre": "Sportage 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Solamente con Tomasetto Achille por el litraje del motor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "rio": {
+      "nombre": "Rio",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    }
+  },
+  "lifan": {
+    "foison-furgon": {
+      "nombre": "Foison Furgon",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "observaciones": "puede ir bajo chasis a los laterales",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "foison-playo": {
+      "nombre": "Foison Playo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "observaciones": "puede ir bajo chasis a los laterales",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "myway-18": {
+      "nombre": "Myway 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    }
+  },
+  "renault": {
+    "19": {
+      "nombre": "19",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "captur": {
+      "nombre": "Captur",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "clio-12": {
+      "nombre": "Clio 1.2",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "siempre con 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "clio-16-8v-mono": {
+      "nombre": "Clio 1.6 8V Monopunto",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "clio-16-8v-multi": {
+      "nombre": "Clio 1.6 16V Multipunto",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Siempre con 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "clio-16-16v": {
+      "nombre": "Clio 1.6 16V",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "Siempre con 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "clio-mio-12": {
+      "nombre": "Clio Mio 1.2",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "duster": {
+      "nombre": "Duster",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "observaciones": "modelo 4x4, no entra bajo chasis/Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "duster-16": {
+      "nombre": "Duster 1.6",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "observaciones": "modelo 4x4, no entra bajo chasis/Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "duster-20": {
+      "nombre": "Duster 2.0",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "observaciones": "modelo 4x4, no entra bajo chasis/Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "duster-oroch": {
+      "nombre": "Duster Oroch",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "observaciones": "modelo 4x4, no entra bajo chasis",
+      "sugerencias-ventas": "Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "fluence": {
+      "nombre": "Fluence",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "fluence-16": {
+      "nombre": "Fluence 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "fluence-20": {
+      "nombre": "Fluence 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "kangoo": {
+      "nombre": "Kangoo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    },
+    "koleos": {
+      "nombre": "Koleos",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "kwid-3cilindros": {
+      "nombre": "Kwid 3cilindros",
+      "productos": [
+        "5ta-40l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "logan": {
+      "nombre": "Logan",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "megane": {
+      "nombre": "Megane",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "Siempre con 5ta generacion",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "nueva-kangoo": {
+      "nombre": "Nueva Kangoo",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "Si"
+    },
+    "sandero": {
+      "nombre": "Sandero",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "si tiene rueda de auxilio abajo, puede instalarse bajo chasis",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "sandero16": {
+      "nombre": "Sandero 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "si tiene rueda de auxilio abajo, puede instalarse bajo chasis",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "sandero-stepway": {
+      "nombre": "Sandero Stepway",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "si tiene rueda de auxilio abajo, puede instalarse bajo chasis",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "scenic": {
+      "nombre": "Scenic",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "symbol": {
+      "nombre": "Symbol",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    }
+  },
+  "peugeot": {
+    "207": {
+      "nombre": "207",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "208": {
+      "nombre": "208",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "301": {
+      "nombre": "301",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "306": {
+      "nombre": "306",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "307": {
+      "nombre": "307",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "308": {
+      "nombre": "308",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "2062001": {
+      "nombre": "206 hasta 2001",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "2062002": {
+      "nombre": "206 desde 2002",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "106-14": {
+      "nombre": "106 1.4",
+      "productos": [
+        "4ta-40l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "207-14": {
+      "nombre": "207 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "207-16": {
+      "nombre": "207 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "207-16-165cv": {
+      "nombre": "207 1.6 THP 165CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "Equipo se sexta solo desarrollado por Tomasetto Achille",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "207-compact-14": {
+      "nombre": "207 Compact 1.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "207-compact-16": {
+      "nombre": "207 Compact 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "207-compact-sw": {
+      "nombre": "207 Compact SW",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "308-16": {
+      "nombre": "308 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "308-16-thp-165cv": {
+      "nombre": "308 1.6 THP 165 CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "Equipo se sexta solo desarrollado por Tomasetto Achille",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "308-20": {
+      "nombre": "308 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Solamente con Tomasetto Achille por el litraje del motor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "408-16": {
+      "nombre": "408 1.6",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "408-20": {
+      "nombre": "408 2.0",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "Solamente con Tomasetto Achille por el litraje del motor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "408-16-thp-165cv": {
+      "nombre": "408 1.6 THP 165 CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "Equipo se sexta solo desarrollado por Tomasetto Achille",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "200816THP165CV": {
+      "nombre": "2008 1.6 THP 165 CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "Equipo se sexta solo desarrollado por Tomasetto Achille",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "200816115CV": {
+      "nombre": "2008 1.6 115 CV",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "300816165CV": {
+      "nombre": "3008 1.6 THP 165 CV",
+      "productos": [
+        "6ta-40l",
+        "6ta-60l"
+      ],
+      "observaciones": "Equipo se sexta solo desarrollado por Tomasetto Achille",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "partner": {
+      "nombre": "PARTNER",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2c"
+      ],
+      "refuerzo": [
+        "5ta-30lx2c"
+      ],
+      "observaciones": "Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana/BajoChasis",
+      "reforma-escape-info": "si"
+    }
+  },
+  "nissan": {
+    "pathfinder": {
+      "nombre": "Pathfinder",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "Plana/BajoChasis",
+      "tipo-cuna-disponible": "si"
+    },
+    "tiida-18": {
+      "nombre": "Tiida 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "versa-18": {
+      "nombre": "Versa 1.8",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "xtrail": {
+      "nombre": "Xtrail",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-70l",
+        "5ta-30lx2b"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    }
+  },
+  "hyundai": {
+    "elantra-2004": {
+      "nombre": "Elantra hasta 2004",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "elantra-2005": {
+      "nombre": "Elantra desde 2005",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "i10": {
+      "nombre": "i 10",
+      "productos": [
+        "5ta-40l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "i30": {
+      "nombre": "i 30",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "tucson": {
+      "nombre": "Tucson",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "Solamente con Tomasetto Achille por el litraje del motor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "santafe-24": {
+      "nombre": "Santa Fe 2.4",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "Solamente con Tomasetto Achille por el litraje del motor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "santafe-v6": {
+      "nombre": "Santa Fe V6",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    }
+  },
+  "honda": {
+    "accord-v6": {
+      "nombre": "Accord V6",
+      "productos": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "6-cilindros": [
+        "5ta-60l",
+        "5ta-70l"
+      ],
+      "observaciones": "LLeva un 5ta Especial para motores 6 cilindros",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "city": {
+      "nombre": "City",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "civic": {
+      "nombre": "Civic",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l"
+      ],
+      "observaciones": "",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Plana"
+    },
+    "crv-20": {
+      "nombre": "CRV 2.0",
+      "productos": [
+        "4ta-40l",
+        "4ta-60l",
+        "4ta-30lx2b"
+      ],
+      "observaciones": "Solamente con Tomasetto Achille por el litraje del motor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    },
+    "crv-24": {
+      "nombre": "CRV 2.4",
+      "productos": [
+        "5ta-40l",
+        "5ta-60l",
+        "5ta-30lx2b"
+      ],
+      "observaciones": "Solamente con Tomasetto Achille por el litraje del motor",
+      "sugerencias-ventas": "",
+      "tipo-cuna-disponible": "Elevada/Plana"
+    }
+  }
+}

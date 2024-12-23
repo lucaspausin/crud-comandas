@@ -32,8 +32,8 @@ import { useSession } from "next-auth/react";
 export default function ComandaDetail({ params }) {
 	const { data: session, status } = useSession();
 	const [loggedUserId, setLoggedUserId] = useState(null);
-	const [showToast, setShowToast] = useState("");
 	const [loading, setLoading] = useState(false);
+	const [showToast, setShowToast] = useState("");
 	useEffect(() => {
 		document.title = `Motorgas - Comanda ${params.id}`;
 	}, [params.id]); // Added params.id as a dependency
@@ -89,6 +89,7 @@ export default function ComandaDetail({ params }) {
 	}, [session, status]);
 
 	const currentUserId = loggedUserId;
+	console.log(currentUserId);
 
 	useEffect(() => {
 		const fetchComanda = async () => {
@@ -337,18 +338,6 @@ export default function ComandaDetail({ params }) {
 		saveAs(blob, "comanda.csv"); // Usamos la función saveAs de file-saver para descargar el archivo
 	};
 
-	const allFilesVerified = comanda?.archivo.every((file) => file.verificado); // Verifica si todos los archivos están verificados
-
-	const handleVerifyFile = () => {
-		// Actualiza el estado de comanda para reflejar que el archivo ha sido verificado
-		setComanda((prevComanda) => ({
-			...prevComanda,
-			archivo: prevComanda.archivo.map((file) =>
-				file.verificado ? file : { ...file, verificado: true }
-			),
-		}));
-	};
-
 	return (
 		<div className="flex-1 bg-zinc-50">
 			<Aside />
@@ -407,19 +396,19 @@ export default function ComandaDetail({ params }) {
 									</CardTitle>
 								</CardHeader> */}
 								<CardContent className="flex flex-col items-stretch h-full overflow-hidden p-6 pt-6 relative">
-									{!allFilesVerified &&
-										comanda.archivo.some(
-											(file) =>
-												file.usuario_id !== null &&
-												file.usuario_id !== currentUserId &&
-												!file.verificado
-										) && (
-											<div className="pt-6 absolute -top-2 left-6 w-full">
-												<p className="text-sm text-red-500">
-													Verificar la documentacion adjuntada por el usuario.
-												</p>
-											</div>
-										)}
+									{/* {comanda.archivo.some(
+										(file) =>
+											file.usuario_id !== null &&
+											file.usuario_id !== currentUserId &&
+											file.usuario_id !== 2 &&
+											!file.verificado
+									) && (
+										<div className="pt-6 absolute -top-2 left-6 w-full">
+											<p className="text-sm text-red-500">
+												Verificar la documentacion adjuntada por el usuario.
+											</p>
+										</div>
+									)} */}
 									<div className="flex overflow-x-auto gap-4 px-0 py-6 text-sm rounded-lg h-full w-full">
 										{comanda.archivo.map((file, index) => (
 											<FilesSlider
@@ -427,7 +416,6 @@ export default function ComandaDetail({ params }) {
 												file={file}
 												index={index}
 												handleDeleteArchive={handleDeleteArchive}
-												onVerify={handleVerifyFile}
 											/>
 										))}
 									</div>
@@ -436,7 +424,10 @@ export default function ComandaDetail({ params }) {
 						)}
 
 						<div className="grid grid-cols-2 gap-4 P-6 border-none rounded-lg col-span-2">
-							<TechnicalDetailsCard comanda={comanda} />
+							<TechnicalDetailsCard
+								comanda={comanda}
+								handleDeleteArchive={handleDeleteArchive}
+							/>
 							{/* <VehicleDetailsCard comanda={comanda} /> */}
 							<CheckListDetails comanda={comanda} />
 						</div>
