@@ -16,8 +16,12 @@ export class ReservationsService {
       localidad,
       telefono,
       patente_vehiculo,
+      sena,
       ...reservationData
     } = createReservationDto;
+
+    // Convierte sena a número, asegurando que sea un valor válido
+    const senaValue = sena ? parseFloat(sena.toString().replace(/\./g, '').replace(',', '.')) : 0;
 
     try {
       // Usamos una transacción para garantizar que ambas operaciones se realicen correctamente
@@ -87,10 +91,10 @@ export class ReservationsService {
 
           const eventoCalendario = await prisma.calendario.create({
             data: {
-              boleto_reserva_id: reserva.id, // Vincula el evento con la ID de la reserva
-              titulo: `${reserva.marca_vehiculo} ${reserva.modelo_vehiculo} ${reserva.patente_vehiculo} - ${reservationData.equipo} - ${usuario?.nombre_usuario || 'Usuario Desconocido'}`, // Título del evento
-              fecha_inicio: reservationData.fecha_instalacion, // Fecha de inicio del evento
-              estado: 'pendiente', // Estado del evento
+              boleto_reserva_id: reserva.id,
+              titulo: `${reserva.marca_vehiculo} ${reserva.modelo_vehiculo} ${reserva.patente_vehiculo} - ${reservationData.equipo} - ${usuario?.nombre_usuario || 'Usuario Desconocido'}`,
+              fecha_inicio: reservationData.fecha_instalacion,
+              estado: senaValue !== 0 ? 'senado' : 'pendiente',
             },
           });
 

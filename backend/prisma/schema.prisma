@@ -228,6 +228,7 @@ enum calendario_estado {
   completado
   cancelado
   no_presentado
+  senado
 }
 
 enum tecnica_estado {

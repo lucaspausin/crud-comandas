@@ -6,6 +6,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from '../users/users.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthController } from './auth.controller'; // Importa el controlador aquí
+import { GoogleStrategy } from './google.strategy';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { AuthController } from './auth.controller'; // Importa el controlador aq
     }),
     UsersModule,
   ],
-  providers: [AuthService, JwtStrategy, PrismaService],
+  providers: [AuthService, JwtStrategy, GoogleStrategy, PrismaService],
   exports: [AuthService],
   controllers: [AuthController], // Asegúrate de registrar el controlador aquí
 })
