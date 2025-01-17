@@ -401,14 +401,16 @@ function ReservationForm() {
 	return (
 		<>
 			<form
-				className={`space-y-6 p-6 border  rounded-lg  relative ${
-					warningMessage
-						? eventCount >= 5
-							? "border border-pink-900"
-							: eventCount === 4
-								? "border border-red-500"
-								: ""
-						: ""
+				className={`space-y-6 p-6 border rounded-lg relative ${
+					loggedUserId2 === 3 || !warningMessage
+						? ""
+						: warningMessage
+							? eventCount >= 5
+								? "border border-pink-900"
+								: eventCount === 4
+									? "border border-red-500"
+									: ""
+							: ""
 				}`}
 				onSubmit={handleSubmit}
 				ref={form}
@@ -418,7 +420,7 @@ function ReservationForm() {
 						<h3 className="text-xl font-light text-zinc-700">
 							Datos del cliente
 						</h3>
-						{warningMessage && (
+						{!(loggedUserId2 === 3) && warningMessage && (
 							<div
 								className={` text-sm z-[40] m-0 ${
 									eventCount >= 5
@@ -455,7 +457,7 @@ function ReservationForm() {
 									}}
 									value={client.usuario_id || ""}
 									required
-								> 
+								>
 									<option value="">Seleccione un usuario</option>
 									{users
 										.filter((user) => user.id !== 2) // Filtrar usuarios con ID 1 y 2
@@ -762,15 +764,13 @@ function ReservationForm() {
 
 				<Button
 					type="submit"
-					className={`w-full rounded-sm ${
-						eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""
-					}`}
-					disabled={eventCount >= 5 || loading}
+					className={`w-full rounded-sm ${loggedUserId2 === 3 ? "" : eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""}`}
+					disabled={eventCount >= 5 && loggedUserId2 !== 3 || loading}
 				>
 					{loading ? (
 						<div className="flex items-center gap-2">
 							<Loader2 className="animate-spin w-4 h-4" />
-							Por favor, espera
+								Por favor, espera
 						</div>
 					) : (
 						"Añadir Reserva"

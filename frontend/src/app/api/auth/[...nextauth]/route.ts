@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import type { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import type { NextAuthOptions, Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 
 const authOptions: NextAuthOptions = {
 	providers: [
@@ -9,14 +11,14 @@ const authOptions: NextAuthOptions = {
 			name: "Credentials",
 			credentials: {
 				nombre_usuario: {
-						label: "nombre_usuario",
-						type: "text",
-						placeholder: "nombre_usuario",
+					label: "nombre_usuario",
+					type: "text",
+					placeholder: "nombre_usuario",
 				},
 				email: {
-						label: "email",
-						type: "text",
-						placeholder: "email",
+					label: "email",
+					type: "text",
+					placeholder: "email",
 				},
 				contrase_a: { label: "contrase_a", type: "password" },
 			},
@@ -54,11 +56,81 @@ const authOptions: NextAuthOptions = {
 				}
 			},
 		}),
+		GoogleProvider({
+			clientId: process.env.GOOGLE_CLIENT_ID!,
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+			authorization: {
+				params: {
+					prompt: "select_account",
+					access_type: "offline",
+					response_type: "code",
+				},
+			},
+		}),
 	],
 	secret: process.env.NEXTAUTH_SECRET,
 	callbacks: {
-		async jwt({ token, user, trigger }) {
-			if (trigger === "signIn" && user) {
+		async signIn({ user, account }) {
+			if (account?.provider === "google") {
+				try {
+					const registerResponse = await fetch(
+						`${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/register`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								email: user.email,
+								nombre_usuario: user.name,
+								cover_image: user.image,
+							}),
+						}
+					);
+
+					let data;
+
+					if (registerResponse.status === 401) {
+						const loginResponse = await fetch(
+							`${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/callback`,
+							{
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								body: JSON.stringify({
+									email: user.email,
+									nombre_usuario: user.name,
+									cover_image: user.image,
+								}),
+							}
+						);
+
+						if (!loginResponse.ok) {
+							return false;
+						}
+
+						data = await loginResponse.json();
+					} else if (registerResponse.ok) {
+						data = await registerResponse.json();
+					} else {
+						return false;
+					}
+
+					(user as any).id = Number(data.id);
+					(user as any).role_id = Number(data.role);
+					(user as any).token = String(data.token);
+
+					return true;
+				} catch (error) {
+					console.error("Error en signIn callback:", error);
+					return false;
+				}
+			}
+			return true;
+		},
+		async jwt({ token, user, account }): Promise<JWT> {
+			if (account && user) {
 				token.id = Number(user.id);
 				token.email = String(user.email);
 				token.role = Number(user.role_id);
@@ -67,38 +139,27 @@ const authOptions: NextAuthOptions = {
 			}
 			return token;
 		},
-		async session({ session, token }): Promise<DefaultSession | any> {
-			if (!token.id) {
-				return session;
-			}
-			
+		async session({ session, token }): Promise<Session> {
 			return {
 				...session,
 				user: {
+					...session.user,
 					id: Number(token.id),
 					email: String(token.email),
 					role: Number(token.role),
 					nombre_usuario: String(token.nombre_usuario),
 					token: String(token.token),
-					exp: token.exp ? Number(token.exp) : undefined
-				}
+				},
 			};
 		},
+	},
+	pages: {
+		signIn: "/login",
+		error: "/login",
 	},
 	session: {
 		strategy: "jwt",
 		maxAge: 30 * 24 * 60 * 60,
-		updateAge: 24 * 60 * 60,
-	},
-	pages: {
-		signIn: "/login",
-	},
-	events: {
-		async signIn({ user }) {
-			if (!user.id || !user.email || !user.role_id) {
-				throw new Error('Datos de usuario incompletos');
-			}
-		},
 	},
 };
 

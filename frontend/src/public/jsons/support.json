@@ -1,122 +1,152 @@
 {
-    "3ra-30lx2c": {
-        "nombre": "3RA Generación con 2 tubos de 30L instalados bajo chasis",
-        "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "3ra-30lx2b": {
-        "nombre": "3RA Generación con 2 tubos de 30L instalados en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "3ra-40l": {
-        "nombre": "3RA Generación con 1 tubo de 40L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-10M3-40LTS-850X273.png",
-        "autonomia": "10 Litros de Nafta",
-        "equivalente-km": 100
-    },
-    "3ra-60l": {
-        "nombre": "3RA Generación con 1 tubo de 60L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-15M3-60LTS-930X323.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "3ra-70l": {
-        "nombre": "3RA Generación con 1 tubo de 70L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-17.5M3-70LTS-900X355.png",
-        "autonomia": "17,5 Litros de Nafta",
-        "equivalente-km": 175
-    },
-    "4ta-30lx2c": {
-        "nombre": "4TA Generación con 2 tubos de 30L instalados bajo chasis",
-        "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "4ta-30lx2b": {
-        "nombre": "4TA Generación con 2 tubos de 30L instalados en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "4ta-40l": {
-        "nombre": "4TA Generación con 1 tubo de 40L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-10M3-40LTS-850X273.png",
-        "autonomia": "10 Litros de Nafta",
-        "equivalente-km": 100
-    },
-    "4ta-60l": {
-        "nombre": "4TA Generación con 1 tubo de 60L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-15M3-60LTS-930X323.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "4ta-70l": {
-        "nombre": "4TA Generación con 1 tubo de 70L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-17.5M3-70LTS-900X355.png",
-        "autonomia": "17,5 Litros de Nafta",
-        "equivalente-km": 175
-    },
-    "5ta-30lx2c": {
-        "nombre": "5TA Generación con 2 tubos de 30L instalados bajo chasis",
-        "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "5ta-30lx2b": {
-        "nombre": "5TA Generación con 2 tubos de 30L instalados en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "5ta-40l": {
-        "nombre": "5TA Generación con 1 tubo de 40L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-10M3-40LTS-850X273.png",
-        "autonomia": "10 Litros de Nafta",
-        "equivalente-km": 100
-    },
-    "5ta-60l": {
-        "nombre": "5TA Generación con 1 tubo de 60L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-15M3-60LTS-930X323.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "5ta-70l": {
-        "nombre": "5TA Generación con 1 tubo de 70L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-17.5M3-70LTS-900X355.png",
-        "autonomia": "17,5 Litros de Nafta",
-        "equivalente-km": 175
-    },
-    "6ta-30lx2c": {
-        "nombre": "6TA Generación con 2 tubos de 30L instalados bajo chasis",
-        "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "6ta-30lx2b": {
-        "nombre": "6TA Generación con 2 tubos de 30L instalados en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-2X-75M3-30LTS-780X244.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "6ta-40l": {
-        "nombre": "6TA Generación con 1 tubo de 40L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-10M3-40LTS-850X273.png",
-        "autonomia": "10 Litros de Nafta",
-        "equivalente-km": 100
-    },
-    "6ta-60l": {
-        "nombre": "6TA Generación con 1 tubo de 60L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-15M3-60LTS-930X323.png",
-        "autonomia": "15 Litros de Nafta",
-        "equivalente-km": 150
-    },
-    "6ta-70l": {
-        "nombre": "6TA Generación con 1 tubo de 70L instalado en el baúl",
-        "imagen-principal": "images/equipos/TUBOGNC-17.5M3-70LTS-900X355.png",
-        "autonomia": "17,5 Litros de Nafta",
-        "equivalente-km": 175
-    }
+	"3ra-30lx2c": {
+		"nombre": "3RA Generación con 2 tubos de 30L instalados bajo chasis",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"3ra-30lx2b": {
+		"nombre": "3RA Generación con 2 tubos de 30L instalados en el baúl",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"3ra-40l": {
+		"nombre": "3RA Generación con 1 tubo de 40L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-10M3-40LTS-850X273.png",
+		"autonomia": "10 Litros de Nafta",
+		"equivalente-km": 100
+	},
+	"3ra-60l": {
+		"nombre": "3RA Generación con 1 tubo de 60L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-15M3-60LTS-930X323.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"3ra-70l": {
+		"nombre": "3RA Generación con 1 tubo de 70L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-17.5M3-70LTS-900X355.png",
+		"autonomia": "17,5 Litros de Nafta",
+		"equivalente-km": 175
+	},
+	"4ta-30lx2c": {
+		"nombre": "4TA Generación con 2 tubos de 30L instalados bajo chasis",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"4ta-30lx2b": {
+		"nombre": "4TA Generación con 2 tubos de 30L instalados en el baúl",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"4ta-40l": {
+		"nombre": "4TA Generación con 1 tubo de 40L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-10M3-40LTS-850X273.png",
+		"autonomia": "10 Litros de Nafta",
+		"equivalente-km": 100
+	},
+	"4ta-60l": {
+		"nombre": "4TA Generación con 1 tubo de 60L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-15M3-60LTS-930X323.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"4ta-70l": {
+		"nombre": "4TA Generación con 1 tubo de 70L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-17.5M3-70LTS-900X355.png",
+		"autonomia": "17,5 Litros de Nafta",
+		"equivalente-km": 175
+	},
+	"5ta-30lx2c": {
+		"nombre": "5TA Generación con 2 tubos de 30L instalados bajo chasis",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"5ta-30lx2b": {
+		"nombre": "5TA Generación con 2 tubos de 30L instalados en el baúl",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"5ta-40l": {
+		"nombre": "5TA Generación con 1 tubo de 40L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-10M3-40LTS-850X273.png",
+		"autonomia": "10 Litros de Nafta",
+		"equivalente-km": 100
+	},
+	"5ta-60l": {
+		"nombre": "5TA Generación con 1 tubo de 60L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-15M3-60LTS-930X323.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"5ta-70l": {
+		"nombre": "5TA Generación con 1 tubo de 70L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-17.5M3-70LTS-900X355.png",
+		"autonomia": "17,5 Litros de Nafta",
+		"equivalente-km": 175
+	},
+	"6ta-30lx2c": {
+		"nombre": "6TA Generación con 2 tubos de 30L instalados bajo chasis",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"6ta-30lx2b": {
+		"nombre": "6TA Generación con 2 tubos de 30L instalados en el baúl",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"6ta-40l": {
+		"nombre": "6TA Generación con 1 tubo de 40L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-10M3-40LTS-850X273.png",
+		"autonomia": "10 Litros de Nafta",
+		"equivalente-km": 100
+	},
+	"6ta-60l": {
+		"nombre": "6TA Generación con 1 tubo de 60L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-15M3-60LTS-930X323.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"6ta-70l": {
+		"nombre": "6TA Generación con 1 tubo de 70L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-17.5M3-70LTS-900X355.png",
+		"autonomia": "17,5 Litros de Nafta",
+		"equivalente-km": 175
+	},
+	"5taesp-30lx2c": {
+		"nombre": "5TA Generación especial ( vehiculos de 5, 6 y 8 cilindros) con 2 tubos de 30L instalados bajo chasis",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"5taesp-30lx2b": {
+		"nombre": "5TA Generación especial ( vehiculos de 5, 6 y 8 cilindros) con 2 tubos de 30L instalados en el baúl",
+		"imagen-principal": "TUBOGNC-2X-75M3-30LTS-780X244.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"5taesp-40l": {
+		"nombre": "5TA Generación Especial ( vehiculos de 5, 6 y 8 cilindros) con 1 tubo de 60L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-10M3-40LTS-850X273.png",
+		"autonomia": "10 Litros de Nafta",
+		"equivalente-km": 100
+	},
+	"5taesp-60l": {
+		"nombre": "5TA Generación Especial ( vehiculos de 5, 6 y 8 cilindros) con 1 tubo de 60L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-15M3-60LTS-930X323.png",
+		"autonomia": "15 Litros de Nafta",
+		"equivalente-km": 150
+	},
+	"5taesp-70l": {
+		"nombre": "5TA Generación Especial ( vehiculos de 5, 6 y 8 cilindros) con 1 tubo de 70L instalado en el baúl",
+		"imagen-principal": "TUBOGNC-17.5M3-70LTS-900X355.png",
+		"autonomia": "17,5 Litros de Nafta",
+		"equivalente-km": 175
+	}
 }

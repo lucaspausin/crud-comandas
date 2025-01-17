@@ -153,7 +153,7 @@ export default function Dashboard() {
 			) : (
 				<>
 					<Aside />
-				
+
 					<main className="flex flex-col items-stretch justify-normal p-6 z-50">
 						{/* Statistics */}
 						{userRole !== 2 && (
@@ -188,7 +188,7 @@ export default function Dashboard() {
 						<div className="grid grid-cols-1 gap-6 mb-0 lg:grid-cols-3 h-full">
 							{userRole !== 2 && (
 								<>
-									<Card className="relative rounded-xl shadow-lg overflow-hidden col-span-3 h-full bg-gradient-to-b from-white to-emerald-50 group border-none hover:cursor-[not-allowed]">
+									{/* <Card className="relative rounded-xl shadow-lg overflow-hidden col-span-3 h-full bg-gradient-to-b from-white to-emerald-50 group border-none hover:cursor-[not-allowed]">
 										<style jsx global>{`
 											.not-available {
 												cursor:
@@ -225,8 +225,8 @@ export default function Dashboard() {
 												</div>
 											</div>
 										</div>
-									</Card>
-									{/* <Card className="relative rounded-xl shadow-lg overflow-hidden col-span-3 h-full bg-gradient-to-b from-white to-emerald-50 group border-none hover:cursor-none">
+									</Card> */}
+									<Card className="relative rounded-xl shadow-lg overflow-hidden col-span-3 h-full bg-gradient-to-b from-white to-emerald-50 group border-none hover:cursor-none">
 										<div className="absolute inset-0 bg-gradient-to-br from-emerald-200 to-green-300 opacity-10" />
 
 										<div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 backdrop-blur-sm bg-white/10" />
@@ -246,7 +246,7 @@ export default function Dashboard() {
 												<h3 className="text-2xl font-light text-emerald-950">
 													Catálogo de Equipos
 												</h3>
-												<p className="text-emerald-700/70 text-sm font-light leading-relaxed">
+												<p className="text-emerald-700/70 text-sm font-normal leading-relaxed">
 													Accede a nuestro catálogo completo de equipos y
 													especificaciones técnicas.
 												</p>
@@ -258,7 +258,8 @@ export default function Dashboard() {
 												</div>
 											</div>
 										</Link>
-									</Card> */}
+									</Card>
+
 									<Card className="relative rounded-xl shadow-lg overflow-hidden col-span-3 lg:col-span-1 h-full bg-gradient-to-b from-white to-rose-50 group border-none hover:cursor-none">
 										<div className="absolute inset-0 bg-gradient-to-br from-rose-200 to-red-300 opacity-10" />
 
@@ -279,7 +280,7 @@ export default function Dashboard() {
 												<h3 className="text-2xl font-light text-rose-950">
 													Nueva Reserva
 												</h3>
-												<p className="text-rose-700/70 text-sm font-light leading-relaxed">
+												<p className="text-rose-700/70 text-sm font-normal leading-relaxed">
 													Crea un nuevo boleto de reserva de manera rápida y
 													sencilla.
 												</p>
@@ -416,7 +417,7 @@ export default function Dashboard() {
 												<h3 className="text-2xl font-light text-indigo-950">
 													Calendario
 												</h3>
-												<p className="text-indigo-700/70 text-sm font-light leading-relaxed">
+												<p className="text-indigo-700/70 text-sm font-normal leading-relaxed">
 													Accede en tiempo real a todos tus eventos y reservas
 													en una vista unificada y elegante.
 												</p>

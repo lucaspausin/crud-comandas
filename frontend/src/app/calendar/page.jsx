@@ -128,6 +128,8 @@ export default function Calendar() {
 				return "warning"; // Naranja
 			default:
 				return "default"; // Por defecto si no se encuentra
+			case "senado":
+				return "warning"; // Amarillo
 		}
 	};
 
@@ -242,6 +244,9 @@ export default function Calendar() {
 											/>
 										</div>
 										<div className="flex items-center">
+											<Badge status={getBadgeStatus("senado")} text="Señado" />
+										</div>
+										<div className="flex items-center">
 											<Badge
 												status={getBadgeStatus("completado")}
 												text="En Proceso"
@@ -261,11 +266,8 @@ export default function Calendar() {
 									<div className="absolute inset-0 rounded-xl" />
 
 									<CardContent className="relative py-0 px-0 overflow-hidden">
-									
 										<div className="relative h-full flex flex-col p-0">
-											<div className="space-y-4 mb-6">
-											
-											</div>
+											<div className="space-y-4 mb-6"></div>
 
 											<div className="grid grid-cols-5 gap-0">
 												{Object.entries(userEventCounts)

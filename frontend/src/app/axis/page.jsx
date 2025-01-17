@@ -7,6 +7,21 @@ import models from "@/public/jsons/modificaciones.json";
 import support from "@/public/jsons/support.json";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import cilindro40 from "@/public/TUBOGNC-10M3-40LTS-850X273.png";
+import cilindro60 from "@/public/TUBOGNC-15M3-60LTS-930X323.png";
+import cilindro70 from "@/public/TUBOGNC-17.5M3-70LTS-900X355.png";
+import cilindro2x30 from "@/public/TUBOGNC-2X-75M3-30LTS-780X244.png";
+import cilindro2x35 from "@/public/TUBOGNC-2X-75M3-35LTS-780X244.png";
+
+// Crear un objeto que mapee los nombres de archivo a las constantes importadas
+const imageMap = {
+	"TUBOGNC-10M3-40LTS-850X273.png": cilindro40,
+	"TUBOGNC-15M3-60LTS-930X323.png": cilindro60,
+	"TUBOGNC-17.5M3-70LTS-900X355.png": cilindro70,
+	"TUBOGNC-2X-75M3-30LTS-780X244.png": cilindro2x30,
+	"TUBOGNC-2X-75M3-35LTS-780X244.png": cilindro2x35,
+};
 
 export default function Axis() {
 	const [selectedMarca, setSelectedMarca] = useState("");
@@ -127,47 +142,64 @@ export default function Axis() {
 													animate={{ opacity: 1 }}
 													transition={{ delay: index * 0.1 }}
 													key={index}
-													className="relative bg-zinc-50/50 p-4 rounded-md space-y-2 border"
+													className="relative grid items-stretch grid-cols-1 lg:grid-cols-[auto,1fr] gap-4 bg-zinc-50/50 p-4 rounded-md space-y-2 border"
 												>
-													<h4 className="relative text-zinc-800">
-														{producto.nombre}
-													</h4>
-													<div className="relative space-y-1 text-sm text-zinc-600">
-														<p>Autonomía equivalente a {producto.autonomia}</p>
-														{models[selectedMarca][selectedModelo]
-															.observaciones && (
-															<p>
-																Observaciones:{" "}
-																{
-																	models[selectedMarca][selectedModelo]
-																		.observaciones
-																}
+													<Image
+														src={
+															imageMap[producto["imagen-principal"]] ||
+															producto["imagen-principal"]
+														}
+														width={250}
+														height={250}
+														alt="Descripción de la imagen"
+														className="w-[250px] h-full rounded-sm object-contain opacity-90"
+														loading="eager"
+														priority
+													/>
+													<div className="h-fit">
+														<h4 className="relative text-zinc-800">
+															{producto.nombre}
+														</h4>
+														<div className="relative h-full space-y-2 text-sm text-zinc-600">
+															<p className="my-2">
+																Autonomía equivalente a {producto.autonomia}
 															</p>
-														)}
-														{models[selectedMarca][selectedModelo][
-															"sugerencias-ventas"
-														] && (
-															<p>
-																Sugerencias de venta:{" "}
-																{
-																	models[selectedMarca][selectedModelo][
-																		"sugerencias-ventas"
-																	]
-																}
-															</p>
-														)}
-														{models[selectedMarca][selectedModelo][
-															"tipo-cuna-disponible"
-														] && (
-															<p>
-																Tipo de cuna:{" "}
-																{
-																	models[selectedMarca][selectedModelo][
-																		"tipo-cuna-disponible"
-																	]
-																}
-															</p>
-														)}
+
+															{models[selectedMarca][selectedModelo][
+																"sugerencias-ventas"
+															] && (
+																<p>
+																	Sugerencias de venta:{" "}
+																	{
+																		models[selectedMarca][selectedModelo][
+																			"sugerencias-ventas"
+																		]
+																	}
+																</p>
+															)}
+															{models[selectedMarca][selectedModelo][
+																"tipo-cuna-disponible"
+															] && (
+																<p>
+																	Tipo de cuna:{" "}
+																	{
+																		models[selectedMarca][selectedModelo][
+																			"tipo-cuna-disponible"
+																		]
+																	}
+																</p>
+															)}
+															{models[selectedMarca][selectedModelo]
+																.observaciones && (
+																<p className="h-fit">
+																	<span className="">Observaciones:</span>{" "}
+																	{
+																		models[selectedMarca][selectedModelo]
+																			.observaciones
+																	}
+																</p>
+															)}
+														</div>
 													</div>
 												</motion.div>
 											))}

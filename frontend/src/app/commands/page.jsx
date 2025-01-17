@@ -113,7 +113,7 @@ export default function AllOrdersPage() {
 						String(command.boletos_reservas.clientes.telefono).includes(
 							searchTerm
 						)) ||
-					(command.boletos_reservas.modelo_patente && 
+					(command.boletos_reservas.modelo_patente &&
 						command.boletos_reservas.modelo_patente
 							.toLowerCase()
 							.includes(searchTerm.toLowerCase())) ||
@@ -142,9 +142,17 @@ export default function AllOrdersPage() {
 		fifteenDaysAgo.setDate(currentDate.getDate() - 15);
 
 		if (sortOrder === "date-desc") {
-			filtered.sort((a, b) => new Date(b.creado_en) - new Date(a.creado_en));
+			filtered.sort(
+				(a, b) =>
+					new Date(b.boletos_reservas.fecha_instalacion) -
+					new Date(a.boletos_reservas.fecha_instalacion)
+			);
 		} else if (sortOrder === "date-asc") {
-			filtered.sort((a, b) => new Date(a.creado_en) - new Date(b.creado_en));
+			filtered.sort(
+				(a, b) =>
+					new Date(a.boletos_reservas.fecha_instalacion) -
+					new Date(b.boletos_reservas.fecha_instalacion)
+			);
 		} else if (sortOrder === "price-desc") {
 			filtered.sort(
 				(a, b) =>
@@ -159,11 +167,15 @@ export default function AllOrdersPage() {
 			);
 		} else if (sortOrder === "last-7-days") {
 			filtered = filtered.filter(
-				(reservation) => new Date(reservation.creado_en) >= sevenDaysAgo
+				(reservation) =>
+					new Date(reservation.boletos_reservas.fecha_instalacion) >=
+					sevenDaysAgo
 			);
 		} else if (sortOrder === "last-15-days") {
 			filtered = filtered.filter(
-				(reservation) => new Date(reservation.creado_en) >= fifteenDaysAgo
+				(reservation) =>
+					new Date(reservation.boletos_reservas.fecha_instalacion) >=
+					fifteenDaysAgo
 			);
 		}
 		return filtered;
@@ -448,12 +460,19 @@ export default function AllOrdersPage() {
 														{command.boletos_reservas.patente_vehiculo}
 													</TableCell>
 													<TableCell className="text-zinc-800">
-														{new Date(
-															command.boletos_reservas.creado_en
-														).toLocaleDateString("es-AR", {
-															day: "2-digit",
-															month: "2-digit",
-														})}
+														{(() => {
+															const utcDate = new Date(
+																command.boletos_reservas.fecha_instalacion
+															);
+															const localDate = new Date(
+																utcDate.getTime() + 3 * 60 * 60 * 1000
+															);
+
+															return localDate.toLocaleDateString("es-ES", {
+																day: "2-digit",
+																month: "2-digit",
+															});
+														})()}
 													</TableCell>
 													<TableCell>
 														<span

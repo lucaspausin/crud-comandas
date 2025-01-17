@@ -53,18 +53,24 @@ export default function TechniquesTable() {
 			.filter((technique) => technique.estado !== "completo")
 			.filter((technique) => {
 				if (!searchTermPending) return true;
-				
+
 				const searchLower = searchTermPending.toLowerCase();
 				const fields = [
-					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.clientes?.nombre_completo,
-					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.clientes?.dni,
-					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.marca_vehiculo,
-					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.modelo_vehiculo,
-					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.patente_vehiculo,
-					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.usuarios?.nombre_usuario
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+						?.clientes?.nombre_completo,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+						?.clientes?.dni,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+						?.marca_vehiculo,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+						?.modelo_vehiculo,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+						?.patente_vehiculo,
+					technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+						?.usuarios?.nombre_usuario,
 				];
 
-				return fields.some(field => 
+				return fields.some((field) =>
 					field?.toString().toLowerCase().includes(searchLower)
 				);
 			});
@@ -77,11 +83,15 @@ export default function TechniquesTable() {
 				const todayString = todayUTC.toISOString().split("T")[0];
 
 				return pendingTechniques.filter((technique) => {
-					const installationDate = technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion;
+					const installationDate =
+						technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
+							?.fecha_instalacion;
 					if (!installationDate) return false;
 
 					const installationUTC = new Date(installationDate);
-					const installationString = installationUTC.toISOString().split("T")[0];
+					const installationString = installationUTC
+						.toISOString()
+						.split("T")[0];
 
 					return installationString === todayString;
 				});
@@ -92,7 +102,7 @@ export default function TechniquesTable() {
 				const lastWeek = new Date(today);
 				lastWeek.setDate(lastWeek.getDate() - 7);
 
-				return pendingTechniques.filter((technique) => {
+				const filtered = pendingTechniques.filter((technique) => {
 					const installationDateStr =
 						technique.comandas_tecnica_comanda_idTocomandas?.boletos_reservas
 							?.fecha_instalacion;
@@ -101,16 +111,49 @@ export default function TechniquesTable() {
 					const installationDate = new Date(installationDateStr);
 					return installationDate >= lastWeek && installationDate <= today;
 				});
+				return filtered.sort((a, b) => {
+					// Ordenar por fecha de instalación
+					const dateA = new Date(
+						a.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+					);
+					const dateB = new Date(
+						b.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+					);
+					return dateB - dateA; // Ordenar de más reciente a más antiguo
+				});
 			}
-			case "all":
-				return pendingTechniques;
+			case "all": {
+				return pendingTechniques.sort((a, b) => {
+					// Ordenar por fecha de instalación
+					const dateA = new Date(
+						a.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+					);
+					const dateB = new Date(
+						b.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+					);
+					return dateB - dateA; // Ordenar de más reciente a más antiguo
+				});
+			}
 			default:
 				return pendingTechniques;
 		}
 	};
 
 	const filteredCompleteTechniques = () => {
-		return techniques.filter((technique) => technique.estado === "completo");
+		const completeTechniques = techniques.filter(
+			(technique) => technique.estado === "completo"
+		);
+
+		// Ordenar por fecha de instalación
+		return completeTechniques.sort((a, b) => {
+			const dateA = new Date(
+				a.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+			);
+			const dateB = new Date(
+				b.comandas_tecnica_comanda_idTocomandas?.boletos_reservas?.fecha_instalacion
+			);
+			return dateB - dateA; // Ordenar de más reciente a más antiguo
+		});
 	};
 
 	const filteredCompleteTechniquesBySearch = () => {
@@ -183,14 +226,17 @@ export default function TechniquesTable() {
 								<Table>
 									<TableHeader>
 										<TableRow>
-											<TableHead className="text-zinc-700 font-medium text-center">
+											{/* <TableHead className="text-zinc-700 font-medium text-center">
 												Asesor
-											</TableHead>
+											</TableHead> */}
 											<TableHead className="text-zinc-700 font-medium text-center">
 												Cliente
 											</TableHead>
 											<TableHead className="text-zinc-700 font-medium text-center">
 												Modelo
+											</TableHead>
+											<TableHead className="text-zinc-700 font-medium text-center">
+												Patente
 											</TableHead>
 											<TableHead className="text-zinc-700 font-medium text-center">
 												Fecha de Instalación
@@ -224,12 +270,12 @@ export default function TechniquesTable() {
 														}
 													}}
 												>
-													<TableCell className="text-zinc-700 font-medium text-center">
+													{/* <TableCell className="text-zinc-700 font-medium text-center">
 														{
 															technique.comandas_tecnica_comanda_idTocomandas
 																?.boletos_reservas?.usuarios?.nombre_usuario
 														}
-													</TableCell>
+													</TableCell> */}
 													<TableCell className="text-zinc-700 text-center">
 														{
 															technique.comandas_tecnica_comanda_idTocomandas
@@ -244,6 +290,12 @@ export default function TechniquesTable() {
 															technique.comandas_tecnica_comanda_idTocomandas
 																?.boletos_reservas?.modelo_vehiculo || ""
 														}`.trim()}
+													</TableCell>
+													<TableCell className="text-zinc-700 text-center">
+														{
+															technique.comandas_tecnica_comanda_idTocomandas
+																?.boletos_reservas?.patente_vehiculo
+														}
 													</TableCell>
 													<TableCell className="text-zinc-700 text-center">
 														{technique.comandas_tecnica_comanda_idTocomandas
@@ -347,13 +399,13 @@ export default function TechniquesTable() {
 							<TableHeader>
 								<TableRow>
 									<TableHead className="text-zinc-700 font-medium text-center">
-										Asesor
-									</TableHead>
-									<TableHead className="text-zinc-700 font-medium text-center">
 										Cliente
 									</TableHead>
 									<TableHead className="text-zinc-700 font-medium text-center">
 										Modelo
+									</TableHead>
+									<TableHead className="text-zinc-700 font-medium text-center">
+										Patente
 									</TableHead>
 									<TableHead className="text-zinc-700 font-medium text-center">
 										Fecha de Instalación
@@ -383,12 +435,12 @@ export default function TechniquesTable() {
 												}
 											}}
 										>
-											<TableCell className="text-zinc-700 font-medium text-center">
+											{/* <TableCell className="text-zinc-700 font-medium text-center">
 												{
 													technique.comandas_tecnica_comanda_idTocomandas
 														?.boletos_reservas?.usuarios?.nombre_usuario
 												}
-											</TableCell>
+											</TableCell> */}
 											<TableCell className="text-zinc-700 text-center">
 												{
 													technique.comandas_tecnica_comanda_idTocomandas
@@ -403,6 +455,12 @@ export default function TechniquesTable() {
 													technique.comandas_tecnica_comanda_idTocomandas
 														?.boletos_reservas?.modelo_vehiculo || ""
 												}`.trim()}
+											</TableCell>
+											<TableCell className="text-zinc-700 text-center">
+												{
+													technique.comandas_tecnica_comanda_idTocomandas
+														?.boletos_reservas?.patente_vehiculo
+												}
 											</TableCell>
 											<TableCell className="text-zinc-700 text-center">
 												{technique.comandas_tecnica_comanda_idTocomandas

@@ -132,7 +132,7 @@ export default function VehicleDetailsForm({
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
-		
+
 		// Capturar la firma actual si existe
 		if (signaturePadRef.current && !formData.firma) {
 			const firmaBase64 = signaturePadRef.current
@@ -226,37 +226,7 @@ export default function VehicleDetailsForm({
 						anio={formData.anio}
 						patente={formData.patente}
 					/>
-					<CardContent className="mt-6">
-						<div className="mb-4 flex flex-col gap-4 col-span-full border-none">
-							<Label htmlFor="firma" className="font-normal text-zinc-500">
-								Firma del Cliente
-							</Label>
-							<div className="border-none rounded-lg bg-white w-[275px] h-[160px]">
-								<canvas
-									ref={canvasRef}
-									onMouseUp={handleEndStroke}
-									onTouchEnd={handleEndStroke}
-									onMouseLeave={handleEndStroke}
-									className="border rounded-lg"
-									style={{
-										width: "100%",
-										height: "160px",
-										touchAction: "none",
-									}}
-								/>
-								<div className="flex gap-2 mt-4">
-									<Button
-										type="button"
-										variant="outline"
-										size="sm"
-										onClick={handleClearSignature}
-									>
-										Limpiar
-									</Button>
-								</div>
-							</div>
-						</div>
-					</CardContent>
+
 					{/* <CardHeader>
 						<CardTitle className="text-xl font-light text-zinc-800">
 							Inspección del Vehículo
@@ -421,7 +391,38 @@ export default function VehicleDetailsForm({
 								}}
 							/>
 						</div>
-						<div className="flex items-center gap-4 col-start-2 mt-12 col-end-3 justify-self-end self-end w-full">
+					</CardContent>
+					<CardContent className="mt-6">
+						<div className="mb-4 flex flex-col gap-4 col-span-full border-none">
+							<Label htmlFor="firma" className="font-normal text-zinc-500">
+								Firma del Cliente
+							</Label>
+							<div className="border-none rounded-lg bg-white w-[275px] h-[160px]">
+								<canvas
+									ref={canvasRef}
+									onMouseUp={handleEndStroke}
+									onTouchEnd={handleEndStroke}
+									onMouseLeave={handleEndStroke}
+									className="border rounded-lg"
+									style={{
+										width: "100%",
+										height: "160px",
+										touchAction: "none",
+									}}
+								/>
+								<div className="flex gap-2 mt-4">
+									<Button
+										type="button"
+										variant="outline"
+										size="sm"
+										onClick={handleClearSignature}
+									>
+										Limpiar
+									</Button>
+								</div>
+							</div>
+						</div>
+						<div className="flex items-center gap-4 col-start-2 mt-20 col-end-3 justify-self-end self-end w-full">
 							<Button
 								variant="default"
 								size="sm"
