@@ -48,24 +48,24 @@ export default function LoginPage() {
 		setLoading(false);
 	};
 
-	const handleGoogleLogin = async () => {
-		try {
-			setLoading(true);
-			const result = await signIn("google", {
-				redirect: true,
-				callbackUrl: "/dashboard",
-			});
+	// const handleGoogleLogin = async () => {
+	// 	try {
+	// 		setLoading(true);
+	// 		const result = await signIn("google", {
+	// 			redirect: true,
+	// 			callbackUrl: "/dashboard",
+	// 		});
 
-			if (result?.error) {
-				setErrors(["Error al iniciar sesión con Google"]);
-			}
-		} catch (error) {
-			console.error("Error during Google login:", error);
-			setErrors(["Error al iniciar sesión con Google"]);
-		} finally {
-			setLoading(false);
-		}
-	};
+	// 		if (result?.error) {
+	// 			setErrors(["Error al iniciar sesión con Google"]);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("Error during Google login:", error);
+	// 		setErrors(["Error al iniciar sesión con Google"]);
+	// 	} finally {
+	// 		setLoading(false);
+	// 	}
+	// };
 
 	return (
 		<div className="flex items-center justify-center min-h-[80vh] bg-zinc-50">
@@ -133,7 +133,7 @@ export default function LoginPage() {
 						</Button>
 					</form>
 
-					<div className="relative my-6">
+					{/* <div className="relative my-6">
 						<div className="absolute inset-0 flex items-center">
 							<div className="w-full border-t border-gray-300"></div>
 						</div>
@@ -142,9 +142,9 @@ export default function LoginPage() {
 								O continúa con
 							</span>
 						</div>
-					</div>
+					</div> */}
 
-					<Button
+					{/* <Button
 						type="button"
 						variant="outline"
 						className="w-full flex items-center justify-center gap-2 rounded-sm"
@@ -158,7 +158,7 @@ export default function LoginPage() {
 							className="w-5 h-5"
 						/>
 						Continuar con Google
-					</Button>
+					</Button> */}
 
 					{errors.length > 0 && (
 						<div className="my-4 px-2 py-2 text-center text-sm bg-red-100 text-red-500 rounded-sm">
