@@ -8,8 +8,13 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { FilesModule } from './files/files.module';
+import { BrandsModule } from './brands/brands.module';
+import { SupportModule } from './support/support.module';
+import { VehiclesModule } from './vehicles/vehicles.module';
+import { VehiclesImagesModule } from './vehicles_images/vehicles_images.module';
+import { SupportImagesModule } from './support_images/support_images.module';
 @Module({
-  imports: [ReservationsModule, ClientsModule, CommandsModule, TechniquesModule, UsersModule, AuthModule, CalendarModule, FilesModule],
+  imports: [ReservationsModule, ClientsModule, CommandsModule, TechniquesModule, UsersModule, AuthModule, CalendarModule, FilesModule, BrandsModule, SupportModule, VehiclesModule, VehiclesImagesModule, SupportImagesModule],
   controllers: [],
   providers: [PrismaService],
 })

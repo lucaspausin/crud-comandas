@@ -15,6 +15,7 @@ model boletos_reservas {
   precio             Decimal      @db.Decimal(10, 2)
   reforma_escape     Boolean?     @default(false)
   carga_externa      Boolean?     @default(false)
+  precio_carga_externa String?    @db.VarChar(100)
   sena               Decimal?     @db.Decimal(10, 2)
   monto_final_abonar Decimal      @db.Decimal(10, 2)
   fecha_instalacion  DateTime     @db.Date
@@ -214,6 +215,74 @@ model archivo {
 
   @@index([comanda_id])
   @@index([usuario_id], map: "fk_usuario_id")
+}
+
+model brands {
+  id         Int        @id @default(autoincrement())
+  code       String     @unique(map: "unique_code") @db.VarChar(50)
+  name       String     @db.VarChar(100)
+  created_at DateTime   @default(now()) @db.Timestamp(0)
+  updated_at DateTime   @default(now()) @db.Timestamp(0)
+  vehicles   vehicles[]
+}
+
+model support {
+  id             Int              @id @default(autoincrement())
+  code           String           @unique(map: "unique_code") @db.VarChar(50)
+  name           String           @db.VarChar(255)
+  autonomy       String?          @db.VarChar(100)
+  equivalent_km  Int?
+  created_at     DateTime         @default(now()) @db.Timestamp(0)
+  updated_at     DateTime         @default(now()) @db.Timestamp(0)
+  initial_price  Decimal?         @db.Decimal(10, 2)
+  list_price     Decimal?         @db.Decimal(10, 2)
+  promo_price    Decimal?         @db.Decimal(10, 2)
+  image          String?          @db.VarChar(255)
+  support_images support_images[]
+  vehicles       vehicles[]       @relation("supporttovehicles")
+}
+
+model support_images {
+  id         Int      @id @default(autoincrement())
+  url        String   @db.VarChar(255)
+  name       String   @db.VarChar(255)
+  type       String   @db.VarChar(100)
+  support_id Int
+  created_at DateTime @default(now()) @db.Timestamp(0)
+  updated_at DateTime @default(now()) @db.Timestamp(0)
+  support    support  @relation(fields: [support_id], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@index([support_id], map: "idx_support_id")
+}
+
+model vehicle_images {
+  id         Int      @id @default(autoincrement())
+  url        String   @db.VarChar(255)
+  name       String   @db.VarChar(255)
+  type       String   @db.VarChar(100)
+  vehicle_id Int
+  created_at DateTime @default(now()) @db.Timestamp(0)
+  updated_at DateTime @default(now()) @db.Timestamp(0)
+  vehicles   vehicles @relation(fields: [vehicle_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "vehicle_images_ibfk_1")
+
+  @@index([vehicle_id], map: "idx_vehicle_id")
+}
+
+model vehicles {
+  id                Int              @id @default(autoincrement())
+  brand_id          Int
+  name              String           @db.VarChar(255)
+  observations      String?          @db.Text
+  sales_suggestions String?          @db.Text
+  cradle_type       String?          @db.VarChar(100)
+  created_at        DateTime         @default(now()) @db.Timestamp(0)
+  updated_at        DateTime         @default(now()) @db.Timestamp(0)
+  exhaust_reform    Boolean?         @default(false)
+  vehicle_images    vehicle_images[]
+  brands            brands           @relation(fields: [brand_id], references: [id], onDelete: Cascade, onUpdate: Restrict)
+  support           support[]        @relation("supporttovehicles")
+
+  @@index([brand_id], map: "vehicles_brand_id_fkey")
 }
 
 enum comandas_estado {

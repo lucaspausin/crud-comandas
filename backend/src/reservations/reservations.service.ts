@@ -3,10 +3,14 @@ import { CreateReservationDto } from './dto/create-reservation.dto';
 import { UpdateReservationDto } from './dto/update-reservation.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
+import { CalendarGateway } from '../calendar/calendar.gateway';
 
 @Injectable()
 export class ReservationsService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private calendarGateway: CalendarGateway,
+  ) {}
 
   async create(createReservationDto: CreateReservationDto) {
     const {
@@ -17,11 +21,19 @@ export class ReservationsService {
       telefono,
       patente_vehiculo,
       sena,
+      precio,
+      monto_final_abonar,
+      precio_carga_externa,
       ...reservationData
     } = createReservationDto;
 
-    // Convierte sena a número, asegurando que sea un valor válido
-    const senaValue = sena ? parseFloat(sena.toString().replace(/\./g, '').replace(',', '.')) : 0;
+    // Convertir todos los valores numéricos a números, asegurando que sean válidos
+    const senaValue = sena ? Number(sena) : 0;
+    const precioValue = precio ? Number(precio) : 0;
+    const montoFinalValue = monto_final_abonar ? Number(monto_final_abonar) : 0;
+    const precioCargaExternaValue = precio_carga_externa
+      ? Number(precio_carga_externa)
+      : 0;
 
     try {
       // Usamos una transacción para garantizar que ambas operaciones se realicen correctamente
@@ -63,8 +75,12 @@ export class ReservationsService {
           const reserva = await prisma.boletos_reservas.create({
             data: {
               ...reservationData,
-              cliente_id: cliente.id, // Asegúrate de que 'cliente_id' es el campo correcto en tu tabla 'boletos_reservas'
-              patente_vehiculo, // Incluye el `modelo_patente` en la creación de la reserva
+              cliente_id: cliente.id,
+              patente_vehiculo,
+              sena: senaValue,
+              precio: precioValue,
+              monto_final_abonar: montoFinalValue,
+              precio_carga_externa: String(precioCargaExternaValue),
             },
           });
 
@@ -96,9 +112,22 @@ export class ReservationsService {
               fecha_inicio: reservationData.fecha_instalacion,
               estado: senaValue !== 0 ? 'senado' : 'pendiente',
             },
+            include: {
+              boletos_reservas: {
+                include: {
+                  usuarios: true,
+                },
+              },
+            },
           });
 
-          return [cliente, reserva, comanda, eventoCalendario, tecnica]; // Devuelve el cliente, la reserva, la comanda y la técnica
+          // Emitir solo el nuevo evento
+          await this.calendarGateway.emitCalendarUpdate(
+            eventoCalendario,
+            'single',
+          );
+
+          return [cliente, reserva, comanda, eventoCalendario, tecnica];
         });
 
       return { cliente, reserva, comanda, eventoCalendario, tecnica }; // Devuelve tanto la reserva como la comanda y la técnica creada
@@ -128,18 +157,18 @@ export class ReservationsService {
       include: {
         clientes: true,
         usuarios: {
-          // Incluye la relación 'usuarios' para obtener la información del usuario
           select: {
-            id: true, // Incluye el ID del usuario
+            id: true,
             nombre_usuario: true,
             roles: {
               select: {
                 id: true,
                 nombre: true,
               },
-            }, // Incluye el nombre del usuario
+            },
           },
-        }, // Incluye la relación 'clientes' para obtener la información del cliente
+        },
+        comandas: true,
       },
     });
   }
@@ -256,7 +285,18 @@ export class ReservationsService {
         },
         include: {
           clientes: true,
-          usuarios: true,
+          usuarios: {
+            select: {
+              id: true,
+              nombre_usuario: true,
+              roles: {
+                select: {
+                  id: true,
+                  nombre: true,
+                },
+              },
+            },
+          },
           comandas: true,
         },
       });

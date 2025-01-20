@@ -1,0 +1,1261 @@
+{
+	"alfa-romeo": {
+		"145": {
+			"brand_id": 2,
+			"name": "145",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"146": {
+			"brand_id": 2,
+			"name": "146",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		}
+	},
+	"chery": {
+		"face": {
+			"brand_id": 3,
+			"name": "Face",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				}
+			]
+		},
+		"qq": {
+			"brand_id": 3,
+			"name": "QQ",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				}
+			]
+		},
+		"tiggo20": {
+			"brand_id": 3,
+			"name": "Tiggo 2.0",
+			"observations": "Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		}
+	},
+	"dodge": {
+		"journey-24": {
+			"brand_id": 7,
+			"name": "Journey 2.4",
+			"observations": "Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"journey-24-7a": {
+			"brand_id": 7,
+			"name": "Journey 2.4 (7 asientos)",
+			"observations": "Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"journey-6cil": {
+			"brand_id": 7,
+			"name": "Journey 6 cil",
+			"observations": "LLeva un 5ta Especial para motores 6 cilindros/Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 21,
+					"version_type": "special"
+				},
+				{
+					"support_id": 22,
+					"version_type": "special"
+				}
+			]
+		},
+		"journey-6cil-7a": {
+			"brand_id": 7,
+			"name": "Journey 6 cil (7 asientos)",
+			"observations": "LLeva un 5ta Especial para motores 6 cilindros/Recomendar al cliente, reforzar suspension, si lo quiere bajo chasis",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 21,
+					"version_type": "special"
+				}
+			]
+		}
+	},
+	"seat": {
+		"toledo": {
+			"brand_id": 18,
+			"name": "Toledo",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"ibiza": {
+			"brand_id": 18,
+			"name": "Ibiza",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		}
+	},
+	"suzuki": {
+		"fun": {
+			"brand_id": 19,
+			"name": "Fun",
+			"observations": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generacion",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"fun-10": {
+			"brand_id": 19,
+			"name": "Fun 1.0",
+			"observations": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generacion",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"fun-14": {
+			"brand_id": 19,
+			"name": "Fun 1.4",
+			"observations": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generacion",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"grand-vitara-4cil": {
+			"brand_id": 19,
+			"name": "Grand Vitara 4 cil",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"grand-vitara-6cil": {
+			"brand_id": 19,
+			"name": "Grand Vitara 6 cil",
+			"observations": "LLeva un 5ta Especial para motores 6 cilindros",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 21,
+					"version_type": "special"
+				},
+				{
+					"support_id": 22,
+					"version_type": "special"
+				}
+			]
+		},
+		"vitara": {
+			"brand_id": 19,
+			"name": "Vitara",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		}
+	},
+	"toyota": {
+		"camry": {
+			"brand_id": 20,
+			"name": "Camry",
+			"observations": "LLeva un 5ta Especial para motores 6 cilindros",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 21,
+					"version_type": "special"
+				}
+			]
+		},
+		"camry-6v": {
+			"brand_id": 20,
+			"name": "Camry V6",
+			"observations": "LLeva un 5ta Especial para motores 6 cilindros",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 21,
+					"version_type": "special"
+				}
+			]
+		},
+		"corolla-18": {
+			"brand_id": 20,
+			"name": "Corolla 1.8",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"corolla-20": {
+			"brand_id": 20,
+			"name": "Corolla 2.0",
+			"observations": "Es un Vehichulo inyeccion mixta, es directa e indirecta. estar atento",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 19,
+					"version_type": "special"
+				}
+			]
+		},
+		"etios": {
+			"brand_id": 20,
+			"name": "Etios",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"innova": {
+			"brand_id": 20,
+			"name": "Innova",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"rav4-24": {
+			"brand_id": 20,
+			"name": "RAV4 2.4L",
+			"observations": "Solamente con Tomasetto Achille por el litraje del motor",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"yaris": {
+			"brand_id": 20,
+			"name": "Yaris",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		}
+	},
+	"fiat": {
+		"argo": {
+			"brand_id": 8,
+			"name": "Argo",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"cronos": {
+			"brand_id": 8,
+			"name": "Cronos",
+			"observations": "Cuidado con nuevo cronos motor turbo. llevan 6ta generacion 2024 en adelante",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"cronos-13": {
+			"brand_id": 8,
+			"name": "Cronos 1.3",
+			"observations": "Cuidado con nuevo cronos motor turbo. llevan 6ta generacion 2024 en adelante",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"doblo": {
+			"brand_id": 8,
+			"name": "Doblo",
+			"observations": "LLeva cilindros cortos bajo chasis",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"duna-14": {
+			"brand_id": 8,
+			"name": "Duna 1.4/1.6",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"duna-fire-13": {
+			"brand_id": 8,
+			"name": "Duna Fire 1.3",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"fiorino2010": {
+			"brand_id": 8,
+			"name": "Fiorino hasta 2010",
+			"observations": "lleva cilindros cortos bajo chasis/algunos clientes pueden pedir instalarlo con 4ta generacion, se puede , pero siempre le ofrecemos lo que es 5ta generacion",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"fiorino2011": {
+			"brand_id": 8,
+			"name": "Fiorino desde 2011",
+			"observations": "lleva cilindros cortos bajo chasis/algunos clientes pueden pedir instalarlo con 4ta generacion, se puede , pero siempre le ofrecemos lo que es 5ta generacion",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"fiorino-novo": {
+			"brand_id": 8,
+			"name": "Fiorino Novo",
+			"observations": "lleva cilindros cortos bajo chasis/algunos clientes pueden pedir instalarlo con 4ta generacion, se puede , pero siempre le ofrecemos lo que es 5ta generacion",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"grand-siena": {
+			"brand_id": 8,
+			"name": "Grand Siena",
+			"observations": "LLeva un cilindro de 58 litros corto",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"idea-14": {
+			"brand_id": 8,
+			"name": "Idea 1.4",
+			"observations": "LLeva un cilindro de 60 litros corto",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"idea-16": {
+			"brand_id": 8,
+			"name": "Idea 1.6",
+			"observations": "LLeva un cilindro de 60 litros corto",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"idea-18": {
+			"brand_id": 8,
+			"name": "Idea 1.8",
+			"observations": "LLeva un cilindro de 60 litros corto",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"linea": {
+			"brand_id": 8,
+			"name": "Linea",
+			"observations": "LLeva un cilindro de 60 litros corto",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"mobi": {
+			"brand_id": 8,
+			"name": "Mobi",
+			"observations": "La rueda de auxilio no entra mas en el cuche de auxilio",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				}
+			]
+		},
+		"palio-adventure-18": {
+			"brand_id": 8,
+			"name": "Palio Adventure 1.8",
+			"observations": "Cuando se instala bajo chasis, se recomienda reforzar el piso",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"palio2008": {
+			"brand_id": 8,
+			"name": "Palio hasta 2008",
+			"observations": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"palio2009": {
+			"brand_id": 8,
+			"name": "Palio desde 2009",
+			"observations": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"punto-14": {
+			"brand_id": 8,
+			"name": "Punto 1.4",
+			"observations": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"punto-16": {
+			"brand_id": 8,
+			"name": "Punto 1.6",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"punto-18": {
+			"brand_id": 8,
+			"name": "Punto 1.6",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"qubo": {
+			"brand_id": 8,
+			"name": "Qubo",
+			"observations": "Bajo chasis lleva un cilindro mas corto que el otro, por la forma del chasis que tiene el vehiculo",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"siena2008": {
+			"brand_id": 8,
+			"name": "Siena hasta 2008",
+			"observations": "LLeva un cilindro de 60 litros corto/Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"siena2009": {
+			"brand_id": 8,
+			"name": "Siena desde 2009",
+			"observations": "LLeva un cilindro de 60 litros corto/Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"strada": {
+			"brand_id": 8,
+			"name": "Strada",
+			"observations": "las anteriores al 2011, Pueden ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"toro": {
+			"brand_id": 8,
+			"name": "Toro",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"uno-14": {
+			"brand_id": 8,
+			"name": "Uno 1.4/1.6",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"uno-fire-13": {
+			"brand_id": 8,
+			"name": "Uno Fire 1.3",
+			"observations": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"uno-way": {
+			"brand_id": 8,
+			"name": "Uno Way",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		}
+	},
+	"ford": {
+		"ecoesport-15": {
+			"brand_id": 9,
+			"name": "Ecoesport 1.5 3 cilindros",
+			"observations": "Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"ecoesport-16-2008": {
+			"brand_id": 9,
+			"name": "Ecoesport 1.6 hasta 2008",
+			"observations": "Puede ir con 4ta gen, si el cliente lo pide. sino siempre ofrecer lo que es 5ta generación/Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"ecoesport-16-2009": {
+			"brand_id": 9,
+			"name": "Ecoesport 1.6 desde 2009",
+			"observations": "Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"ecoesport-20": {
+			"brand_id": 9,
+			"name": "Ecoesport 2.0",
+			"observations": "confirmar con foto del motor si es sexta generacion/Se le puede ofrecer un 40 bajo chasis, con reforma de escape",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"ecoesport-20-duratec": {
+			"brand_id": 9,
+			"name": "Ecoesport 2.0 Duratec GDI",
+			"observations": "confirmar con foto del motor si es sexta generacion",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 6,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 7,
+					"version_type": "standard"
+				}
+			]
+		},
+		"escort": {
+			"brand_id": 9,
+			"name": "Escort",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"escort-zetec": {
+			"brand_id": 9,
+			"name": "Escort Zetec",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 8,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 9,
+					"version_type": "standard"
+				}
+			]
+		},
+		"escort-zetec-rural": {
+			"brand_id": 9,
+			"name": "Escort Zetec rural ",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 8,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 9,
+					"version_type": "standard"
+				}
+			]
+		},
+		"explorer-v6": {
+			"brand_id": 9,
+			"name": "Explorer V6",
+			"observations": "lleva emulador de 6 cilindros y un reductor potenciado, consultar precio",
+			"sales_suggestions": "",
+			"cradle_type": "Plana/BajoChasis",
+			"cylinder_versions": [
+				{
+					"support_id": 21,
+					"version_type": "special"
+				},
+				{
+					"support_id": 22,
+					"version_type": "special"
+				}
+			]
+		}
+	},
+	"honda": {
+		"accord-v6": {
+			"brand_id": 10,
+			"name": "Accord V6",
+			"observations": "LLeva un 5ta Especial para motores 6 cilindros",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 21,
+					"version_type": "special"
+				},
+				{
+					"support_id": 22,
+					"version_type": "special"
+				}
+			]
+		},
+		"city": {
+			"brand_id": 10,
+			"name": "City",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"civic": {
+			"brand_id": 10,
+			"name": "Civic",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"crv-20": {
+			"brand_id": 10,
+			"name": "CRV 2.0",
+			"observations": "Solamente con Tomasetto Achille por el litraje del motor",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"crv-24": {
+			"brand_id": 10,
+			"name": "CRV 2.4",
+			"observations": "Solamente con Tomasetto Achille por el litraje del motor",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		}
+	},
+	"hyundai": {
+		"elantra-2004": {
+			"brand_id": 11,
+			"name": "Elantra hasta 2004",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"elantra-2005": {
+			"brand_id": 11,
+			"name": "Elantra desde 2005",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"i10": {
+			"brand_id": 11,
+			"name": "i 10",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				}
+			]
+		},
+		"i30": {
+			"brand_id": 11,
+			"name": "i 30",
+			"observations": "",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 3,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				}
+			]
+		},
+		"tucson": {
+			"brand_id": 11,
+			"name": "Tucson",
+			"observations": "Solamente con Tomasetto Achille por el litraje del motor",
+			"sales_suggestions": "",
+			"cradle_type": "Elevada/Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"santafe-24": {
+			"brand_id": 11,
+			"name": "Santa Fe 2.4",
+			"observations": "Solamente con Tomasetto Achille por el litraje del motor",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 4,
+					"version_type": "standard"
+				},
+				{
+					"support_id": 5,
+					"version_type": "standard"
+				}
+			]
+		},
+		"santafe-v6": {
+			"brand_id": 11,
+			"name": "Santa Fe V6",
+			"observations": "LLeva un 5ta Especial para motores 6 cilindros",
+			"sales_suggestions": "",
+			"cradle_type": "Plana",
+			"cylinder_versions": [
+				{
+					"support_id": 21,
+					"version_type": "special"
+				},
+				{
+					"support_id": 22,
+					"version_type": "special"
+				}
+			]
+		}
+	}
+}
