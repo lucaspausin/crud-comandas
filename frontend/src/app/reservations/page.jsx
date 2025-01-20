@@ -49,6 +49,8 @@ export default function AllReservationsPage() {
 	const [sortOrder, setSortOrder] = useState("date-desc");
 	const [userFilter, setUserFilter] = useState("all");
 	const [dataFetched, setDataFetched] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const itemsPerPage = 15;
 
 	useEffect(() => {
 		document.title = "Motorgas - Reservas";
@@ -116,8 +118,24 @@ export default function AllReservationsPage() {
 						.includes(searchTerm.toLowerCase()) ||
 					(reservation.clientes.telefono != null &&
 						String(reservation.clientes.telefono).includes(searchTerm)) ||
-					(reservation.modelo_patente != null &&
-						reservation.modelo_patente
+					(reservation.patente_vehiculo != null &&
+						reservation.patente_vehiculo
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())) ||
+					(reservation.equipo != null &&
+						reservation.equipo
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())) ||
+					(reservation.marca_vehiculo != null &&
+						reservation.marca_vehiculo
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())) ||
+					(reservation.modelo_vehiculo != null &&
+						reservation.modelo_vehiculo
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())) ||
+					(reservation.usuarios.nombre_usuario != null &&
+						reservation.usuarios.nombre_usuario
 							.toLowerCase()
 							.includes(searchTerm.toLowerCase())) ||
 					(reservation.equipo != null &&
@@ -160,6 +178,14 @@ export default function AllReservationsPage() {
 		}
 		return filtered;
 	};
+
+	const paginatedReservations = () => {
+		const filtered = filteredReservations();
+		const startIndex = (currentPage - 1) * itemsPerPage;
+		return filtered.slice(startIndex, startIndex + itemsPerPage);
+	};
+
+	const totalPages = Math.ceil(filteredReservations().length / itemsPerPage);
 
 	// const handleDeleteReservation = async (id) => {
 	// 	const confirmDelete = window.confirm(
@@ -210,16 +236,9 @@ export default function AllReservationsPage() {
 				<>
 					<Aside />
 					{/* Main Content */}
-					<main className="flex-1 p-6 overflow-y-auto">
-						<div className="flex items-center justify-between mb-6">
-							<div className="flex items-center gap-2">
-								<HomeIcon label="Volver"></HomeIcon>
-								<h2 className="text-zinc-700 text-base font-normal">
-									{session?.user?.role === 1 ? "Tus Reservas" : "Reservas"}
-								</h2>
-							</div>
-						</div>
-						<Card className="rounded-xl shadow-lg border-none">
+					<main className="flex-1 p-6 lg:px-8 xl:px-8 overflow-y-auto">
+						<HomeIcon />
+						<Card className="rounded-xl shadow-lg p-3 border-none">
 							<CardHeader>
 								<CardTitle className="text-xl font-light text-zinc-800">
 									Lista de Reservas
@@ -303,15 +322,15 @@ export default function AllReservationsPage() {
 										<TableRow>
 											<TableHead>Asesor</TableHead>
 											<TableHead>Cliente</TableHead>
-											<TableHead>Modelo</TableHead>
+											<TableHead>Vehículo</TableHead>
 											<TableHead>Fecha</TableHead>
 											<TableHead>Precio</TableHead>
 											<TableHead>Acciones</TableHead>
 										</TableRow>
 									</TableHeader>
 									<TableBody>
-										{filteredReservations().length > 0 ? (
-											filteredReservations().map((reservation) => (
+										{paginatedReservations().length > 0 ? (
+											paginatedReservations().map((reservation) => (
 												<TableRow
 													key={reservation.id}
 													className="cursor-pointer"
@@ -328,7 +347,7 @@ export default function AllReservationsPage() {
 													<TableCell className="text-zinc-800">
 														{`${reservation.marca_vehiculo || ""} ${
 															reservation.modelo_vehiculo || ""
-														}`.trim()}
+														} ${reservation.patente_vehiculo || ""}`.trim()}
 													</TableCell>
 													<TableCell className="text-zinc-800">
 														{new Date(reservation.creado_en).toLocaleDateString(
@@ -343,7 +362,7 @@ export default function AllReservationsPage() {
 														{new Intl.NumberFormat("es-AR", {
 															style: "currency",
 															currency: "ARS",
-														}).format(reservation.precio)}
+														}).format(reservation.monto_final_abonar)}
 													</TableCell>
 													<TableCell>
 														<div className="flex flex-row items-center gap-2">
@@ -401,6 +420,35 @@ export default function AllReservationsPage() {
 										)}
 									</TableBody>
 								</Table>
+								{totalPages > 1 && (
+									<div className="flex justify-center items-center gap-2 mt-4">
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={() =>
+												setCurrentPage((prev) => Math.max(prev - 1, 1))
+											}
+											disabled={currentPage === 1}
+											className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
+										>
+											Anterior
+										</Button>
+										<span className="text-sm text-zinc-600">
+											Página {currentPage} de {totalPages}
+										</span>
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={() =>
+												setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+											}
+											disabled={currentPage === totalPages}
+											className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
+										>
+											Siguiente
+										</Button>
+									</div>
+								)}
 							</CardContent>
 						</Card>
 					</main>

@@ -21,6 +21,7 @@ import { Search } from "lucide-react";
 import { getTechniques } from "../app/reservations/reservations.api";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export default function TechniquesTable() {
 	const [techniques, setTechniques] = useState([]);
@@ -28,6 +29,8 @@ export default function TechniquesTable() {
 	const [searchTermComplete, setSearchTermComplete] = useState("");
 	const [sortOrderPending, setSortOrderPending] = useState("today");
 	const [error, setError] = useState(null);
+	const [currentPage, setCurrentPage] = useState(1);
+	const itemsPerPage = 15;
 
 	const { data: session } = useSession();
 	const userRole = session?.user?.role;
@@ -181,6 +184,16 @@ export default function TechniquesTable() {
 			);
 		});
 	};
+
+	const paginatedCompleteTechniques = () => {
+		const filtered = filteredCompleteTechniquesBySearch();
+		const startIndex = (currentPage - 1) * itemsPerPage;
+		return filtered.slice(startIndex, startIndex + itemsPerPage);
+	};
+
+	const totalPages = Math.ceil(
+		filteredCompleteTechniquesBySearch().length / itemsPerPage
+	);
 
 	return (
 		<div className="flex flex-col gap-6 col-span-3">
@@ -421,8 +434,8 @@ export default function TechniquesTable() {
 								</TableRow>
 							</TableHeader>
 							<TableBody>
-								{filteredCompleteTechniquesBySearch().length > 0 ? (
-									filteredCompleteTechniquesBySearch().map((technique) => (
+								{paginatedCompleteTechniques().length > 0 ? (
+									paginatedCompleteTechniques().map((technique) => (
 										<TableRow
 											key={technique.id}
 											className="cursor-pointer hover:bg-gray-100 transition-colors duration-150"
@@ -505,6 +518,35 @@ export default function TechniquesTable() {
 								)}
 							</TableBody>
 						</Table>
+						{totalPages > 1 && (
+							<div className="flex justify-center items-center gap-2 mt-4">
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() =>
+										setCurrentPage((prev) => Math.max(prev - 1, 1))
+									}
+									disabled={currentPage === 1}
+									className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
+								>
+									Anterior
+								</Button>
+								<span className="text-sm text-zinc-600">
+									Página {currentPage} de {totalPages}
+								</span>
+								<Button
+									variant="outline"
+									size="sm"
+									onClick={() =>
+										setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+									}
+									disabled={currentPage === totalPages}
+									className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
+								>
+									Siguiente
+								</Button>
+							</div>
+						)}
 					</div>
 				</CardContent>
 			</Card>

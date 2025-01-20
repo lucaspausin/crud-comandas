@@ -19,17 +19,10 @@ export default function AddOrderPage() {
 			<Aside />
 
 			{/* Main Content */}
-			<main className="flex-1 p-6 z-[40]">
-				<div className="flex items-center justify-between mb-6">
-					<div className="flex items-center gap-2">
-						<HomeIcon label="Volver"></HomeIcon>
-						<h2 className="text-base font-normal text-zinc-700">
-							Añadir Reserva
-						</h2>
-					</div>
-				</div>
+			<main className="flex-1 p-6 lg:px-8 xl:px-8 z-[40]">
+				<HomeIcon />
 				<Card className="border-none shadow-lg">
-					<CardContent className="pt-6">
+					<CardContent className="pt-6 ">
 						<ReservationForm />
 					</CardContent>
 				</Card>

@@ -21,6 +21,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 // Registrar los plugins de FilePond
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
+import { motion } from "framer-motion"; // Importar motion de framer-motion
+
 function ReservationForm() {
 	const router = useRouter();
 	const { data: session, status } = useSession();
@@ -85,15 +87,14 @@ function ReservationForm() {
 		marca_vehiculo: "",
 		modelo_vehiculo: "",
 		patente_vehiculo: "",
-
 		equipo: "",
 		precio: "",
 		reforma_escape: false,
 		carga_externa: false,
-		sena: "",
+		precio_carga_externa: "",
+		sena: "0",
 		monto_final_abonar: "",
-
-		fecha_instalacion: "", // Este campo se convertirá a un string ISO antes de enviar el formulario
+		fecha_instalacion: "",
 	});
 
 	const [eventCount, setEventCount] = useState(0);
@@ -145,26 +146,56 @@ function ReservationForm() {
 		}));
 	};
 
-	const formatCurrency = (value) => {
-		const cleanedValue = value.replace(/[^0-9]/g, "");
-		return cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-	};
-
 	const handleVehicleChange = (e) => {
 		const { name, type, checked, value } = e.target;
-		const formattedValue =
-			name === "precio" || name === "sena" || name === "monto_final_abonar"
-				? formatCurrency(value)
-				: value.toUpperCase();
 
-		setVehicle((prevVehicle) => ({
-			...prevVehicle,
-			[name]: type === "checkbox" ? checked : formattedValue,
-		}));
+		// Función para limpiar y formatear valores numéricos
+		const cleanNumericValue = (val) => {
+			// Primero eliminar todos los puntos y comas
+			const cleanedValue = val.replace(/[^0-9]/g, "");
+			// Luego formatear con puntos para miles
+			return cleanedValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+		};
+
+		const formattedValue =
+			type === "checkbox"
+				? checked
+				: [
+							"precio",
+							"sena",
+							"monto_final_abonar",
+							"precio_carga_externa",
+					  ].includes(name)
+					? cleanNumericValue(value)
+					: value.toUpperCase();
+
+		setVehicle((prevVehicle) => {
+			const newVehicle = {
+				...prevVehicle,
+				[name]: formattedValue,
+			};
+
+			// Convertir valores a números para cálculos usando la misma lógica de limpieza
+			const precio = parseInt(newVehicle.precio?.replace(/\./g, "")) || 0;
+			const sena = parseInt(newVehicle.sena?.replace(/\./g, "")) || 0;
+			const precioCargaExterna =
+				parseInt(newVehicle.precio_carga_externa?.replace(/\./g, "")) || 0;
+
+			// Calcular monto final solo si el campo modificado es precio, seña o precio_carga_externa
+			if (
+				name === "precio" ||
+				name === "sena" ||
+				name === "precio_carga_externa"
+			) {
+				const montoFinal = precio - sena + precioCargaExterna;
+				newVehicle.monto_final_abonar = cleanNumericValue(String(montoFinal));
+			}
+
+			return newVehicle;
+		});
 
 		// Check if the name is "fecha_instalacion" and trigger event count check
 		if (name === "fecha_instalacion") {
-			// Verifica si el valor tiene exactamente 10 caracteres (formato YYYY-MM-DD)
 			if (value.length === 10) {
 				try {
 					const selectedDate = new Date(value).toISOString().split("T")[0];
@@ -173,7 +204,6 @@ function ReservationForm() {
 					console.error("Fecha inválida:", error);
 				}
 			} else {
-				// Resetea el mensaje de advertencia si no se ha ingresado una fecha completa
 				setWarningMessage("");
 			}
 		}
@@ -289,18 +319,11 @@ function ReservationForm() {
 		const utcDate = new Date(fechaInstalacion);
 
 		if (!isNaN(utcDate.getTime())) {
-			// Configurar la hora en UTC a las 08:30
 			utcDate.setUTCHours(8);
 			utcDate.setUTCMinutes(30);
 			utcDate.setUTCSeconds(0);
 			utcDate.setUTCMilliseconds(0);
-
-			// Convertir a formato ISO, lo cual será en UTC con la hora 08:30
 			formattedFechaInstalacion = utcDate.toISOString();
-			console.log(
-				"Fecha de instalación ajustada en UTC:",
-				formattedFechaInstalacion
-			);
 		} else {
 			console.error("Fecha de instalación inválida:", fechaInstalacion);
 		}
@@ -308,14 +331,14 @@ function ReservationForm() {
 		const reservationData = {
 			...client,
 			...vehicle,
-			fecha_instalacion: formattedFechaInstalacion, // Establecer la fecha y hora en el formato correcto
-			precio:
-				parseFloat(vehicle.precio.replace(/\./g, "").replace(",", ".")) || 0,
-			sena: parseFloat(vehicle.sena.replace(/\./g, "").replace(",", ".")) || 0,
-			monto_final_abonar:
-				parseFloat(
-					vehicle.monto_final_abonar.replace(/\./g, "").replace(",", ".")
-				) || 0,
+			fecha_instalacion: formattedFechaInstalacion,
+			// Asegurarse de que los valores numéricos se envíen sin puntos
+			precio: vehicle.precio?.replace(/\./g, "") || "0",
+			sena: vehicle.sena?.replace(/\./g, "") || "0",
+			precio_carga_externa: vehicle.carga_externa
+				? vehicle.precio_carga_externa?.replace(/\./g, "") || "0"
+				: "0",
+			monto_final_abonar: vehicle.monto_final_abonar?.replace(/\./g, "") || "0",
 		};
 
 		try {
@@ -370,7 +393,8 @@ function ReservationForm() {
 				precio: "",
 				reforma_escape: false,
 				carga_externa: false,
-				sena: "",
+				precio_carga_externa: "",
+				sena: "0",
 				monto_final_abonar: "",
 				fecha_instalacion: "",
 			});
@@ -401,17 +425,7 @@ function ReservationForm() {
 	return (
 		<>
 			<form
-				className={`space-y-6 p-6 border rounded-lg relative ${
-					loggedUserId2 === 3 || !warningMessage
-						? ""
-						: warningMessage
-							? eventCount >= 5
-								? "border border-pink-900"
-								: eventCount === 4
-									? "border border-red-500"
-									: ""
-							: ""
-				}`}
+				className={`space-y-6 p-3 border-none rounded-lg relative`}
 				onSubmit={handleSubmit}
 				ref={form}
 			>
@@ -420,19 +434,6 @@ function ReservationForm() {
 						<h3 className="text-xl font-light text-zinc-700">
 							Datos del cliente
 						</h3>
-						{!(loggedUserId2 === 3) && warningMessage && (
-							<div
-								className={` text-sm z-[40] m-0 ${
-									eventCount >= 5
-										? "text-pink-900"
-										: eventCount === 4
-											? "text-red-500"
-											: ""
-								}`}
-							>
-								{warningMessage} ({eventCount} reservas)
-							</div>
-						)}
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -642,7 +643,7 @@ function ReservationForm() {
 							<Input
 								name="precio"
 								id="precio"
-								type="text" // Cambiado a text
+								type="text"
 								placeholder="Precio"
 								value={vehicle.precio}
 								onChange={handleVehicleChange}
@@ -650,8 +651,9 @@ function ReservationForm() {
 								required
 							/>
 						</div>
+
 						<div className="flex flex-col justify-between mt-4 gap-4 md:gap-0">
-							<div className="flex items-center space-x-2 font-normal ">
+							<div className="flex items-center space-x-2 font-normal">
 								<Checkbox
 									id="reforma_escape"
 									checked={vehicle.reforma_escape}
@@ -664,20 +666,47 @@ function ReservationForm() {
 									Reforma de escape
 								</Label>
 							</div>
-							<div className="flex items-center space-x-2 ">
+							<div className="flex items-center space-x-2">
 								<Checkbox
 									id="carga_externa"
 									checked={vehicle.carga_externa}
 									onCheckedChange={handleCheckboxChange("carga_externa")}
+									className={`transition-colors duration-300 ${vehicle.carga_externa ? "data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500" : ""}`}
 								/>
 								<Label
 									htmlFor="carga_externa"
-									className="font-normal text-zinc-600"
+									className={`font-normal transition-colors duration-300 ${vehicle.carga_externa ? "text-orange-500" : "text-zinc-600"}`}
 								>
 									Carga externa
 								</Label>
 							</div>
 						</div>
+						{vehicle.carga_externa && (
+							<motion.div
+								initial={{ height: 0, opacity: 0 }}
+								animate={{ height: "auto", opacity: 1 }}
+								exit={{ height: 0, opacity: 0 }}
+								transition={{ duration: 0.3 }}
+								className="overflow-hidden space-y-2"
+							>
+								<Label
+									htmlFor="precio_carga_externa"
+									className="font-normal text-orange-500 transition-colors duration-300"
+								>
+									Precio carga externa *
+								</Label>
+								<Input
+									name="precio_carga_externa"
+									id="precio_carga_externa"
+									type="text"
+									placeholder="Precio carga externa"
+									value={vehicle.precio_carga_externa}
+									onChange={handleVehicleChange}
+									className="rounded-full focus-visible:ring-0 text-orange-500 placeholder:text-orange-500 border-orange-500"
+									required={vehicle.carga_externa}
+								/>
+							</motion.div>
+						)}
 						<div className="space-y-2">
 							<Label htmlFor="sena" className="font-normal text-zinc-600">
 								Seña
@@ -725,8 +754,35 @@ function ReservationForm() {
 								value={vehicle.fecha_instalacion} // Este campo se mantiene en formato YYYY-MM-DD
 								onChange={handleVehicleChange}
 								required
-								className="rounded-full"
+								className={`rounded-full focus-visible:ring-0 ${
+									loggedUserId2 === 3 || !warningMessage
+										? ""
+										: warningMessage
+											? eventCount >= 5
+												? "border border-pink-900"
+												: eventCount === 4
+													? "border border-red-500"
+													: ""
+											: ""
+								}`} // Añadido borde rojo si hay 5 o más eventos
 							/>
+							{!(loggedUserId2 === 3) && warningMessage && (
+								<motion.div
+									className={`text-sm z-[40] m-0 ${
+										eventCount >= 5
+											? "text-pink-900"
+											: eventCount === 4
+												? "text-red-500"
+												: ""
+									}`}
+									initial={{ opacity: 0, y: -10 }} // Estado inicial
+									animate={{ opacity: 1, y: 0 }} // Estado animado
+									exit={{ opacity: 0, y: -10 }} // Estado al salir
+									transition={{ duration: 0.3 }} // Duración de la transición
+								>
+									{warningMessage} ({eventCount} reservas)
+								</motion.div>
+							)}
 						</div>
 					</div>
 				</div>
@@ -764,13 +820,13 @@ function ReservationForm() {
 
 				<Button
 					type="submit"
-					className={`w-full rounded-sm ${loggedUserId2 === 3 ? "" : eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""}`}
-					disabled={eventCount >= 5 && loggedUserId2 !== 3 || loading}
+					className={`w-full py-[1.3rem] rounded-sm ${loggedUserId2 === 3 ? "" : eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""}`}
+					disabled={(eventCount >= 5 && loggedUserId2 !== 3) || loading}
 				>
 					{loading ? (
 						<div className="flex items-center gap-2">
 							<Loader2 className="animate-spin w-4 h-4" />
-								Por favor, espera
+							Por favor, espera
 						</div>
 					) : (
 						"Añadir Reserva"

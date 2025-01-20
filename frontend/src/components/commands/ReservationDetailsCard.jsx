@@ -20,31 +20,57 @@ const ReservationDetailsCard = ({ comanda }) => {
 				<dl className="grid grid-cols-2 gap-2 text-sm">
 					<dt className="font-normal text-zinc-600">Reserva:</dt>
 					<dd>{detallesReserva.id || "N/A"}</dd>
-
-					<dt className="font-normal text-zinc-600">Marca del vehículo:</dt>
-					<dd>{detallesReserva.marca_vehiculo || "N/A"}</dd>
-
-					<dt className="font-normal text-zinc-600">Modelo del vehículo:</dt>
-					<dd>{detallesReserva.modelo_vehiculo || "N/A"}</dd>
-
-					<dt className="font-normal text-zinc-600">Patente:</dt>
-					<dd>{detallesReserva.patente_vehiculo || "N/A"}</dd>
+					<dt className="font-normal text-zinc-600">Asesor:</dt>
+					<dd className="text-emerald-700">{detallesReserva.usuarios.nombre_usuario || "N/A"}</dd>
+					<dt className="font-normal text-zinc-600">Vehículo:</dt>
+					<dd>{`${detallesReserva.marca_vehiculo || "N/A"} ${detallesReserva.modelo_vehiculo || "N/A"} ${detallesReserva.patente_vehiculo || "N/A"}`}</dd>
 
 					<dt className="font-normal text-zinc-600">Equipo:</dt>
 					<dd>{detallesReserva.equipo || "N/A"}</dd>
 
 					<dt className="font-normal text-zinc-600">Precio:</dt>
 					<dd>
-						{detallesReserva.precio ? `$${detallesReserva.precio}` : "N/A"}
+						{detallesReserva.precio
+							? `$${parseFloat(detallesReserva.precio).toLocaleString("es-AR")}`
+							: "N/A"}
 					</dd>
-
-					<dt className="font-normal text-zinc-600">Seña:</dt>
-					<dd>{detallesReserva.sena ? `$${detallesReserva.sena}` : "N/A"}</dd>
+					<dt className="font-normal text-zinc-600">Carga Externa:</dt>
+					<dd className={detallesReserva.carga_externa ? "text-blue-500" : "text-red-500"}>
+						{detallesReserva.carga_externa ? "Carga Externa Incluida." : "No incluyo Carga Externa."}
+					</dd>
+					{detallesReserva.carga_externa && (
+						<>
+							<dt className="font-normal text-zinc-600">
+								Precio de la Carga Externa:
+							</dt>
+							<dd
+								className={
+									detallesReserva.precio_carga_externa === null ||
+									detallesReserva.precio_carga_externa === 0
+										? "text-red-500"
+										: ""
+								}
+							>
+								{detallesReserva.precio_carga_externa === null ||
+								detallesReserva.precio_carga_externa === 0
+									? "Consultar con el vendedor el precio proporcionado."
+									: `$${parseFloat(detallesReserva.precio_carga_externa).toLocaleString("es-AR")}`}
+							</dd>
+						</>
+					)}
+					{detallesReserva.sena > 0 && (
+						<>
+							<dt className="font-normal text-zinc-600">Seña:</dt>
+							<dd>
+								{`$${parseFloat(detallesReserva.sena).toLocaleString("es-AR")}`}
+							</dd>
+						</>
+					)}
 
 					<dt className="font-normal text-zinc-600">Monto Final:</dt>
 					<dd>
 						{detallesReserva.monto_final_abonar
-							? `$${detallesReserva.monto_final_abonar}`
+							? `$${parseFloat(detallesReserva.monto_final_abonar).toLocaleString("es-AR")}`
 							: "N/A"}
 					</dd>
 

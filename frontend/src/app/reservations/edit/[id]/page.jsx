@@ -25,6 +25,8 @@ import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
+import { motion } from "framer-motion";
+
 export default function AddOrderPage({ params }) {
 	const router = useRouter();
 
@@ -58,6 +60,7 @@ export default function AddOrderPage({ params }) {
 		precio: "",
 		reforma_escape: false,
 		carga_externa: false,
+		precio_carga_externa: "",
 		sena: "",
 		monto_final_abonar: "",
 		fecha_instalacion: "",
@@ -138,6 +141,7 @@ export default function AddOrderPage({ params }) {
 					precio: data.precio || "",
 					reforma_escape: data.reforma_escape || false,
 					carga_externa: data.carga_externa || false,
+					precio_carga_externa: data.precio_carga_externa || "",
 					sena: data.sena || "",
 					monto_final_abonar: data.monto_final_abonar || "",
 					fecha_instalacion: data.fecha_instalacion
@@ -170,14 +174,39 @@ export default function AddOrderPage({ params }) {
 	const handleVehicleChange = (e) => {
 		const { name, type, checked, value } = e.target;
 		const formattedValue =
-			name === "precio" || name === "sena" || name === "monto_final_abonar"
+			name === "precio" ||
+			name === "sena" ||
+			name === "monto_final_abonar" ||
+			name === "precio_carga_externa"
 				? formatCurrency(value)
 				: value.toUpperCase();
 
-		setVehicle((prevVehicle) => ({
-			...prevVehicle,
-			[name]: type === "checkbox" ? checked : formattedValue,
-		}));
+		setVehicle((prevVehicle) => {
+			const updatedVehicle = {
+				...prevVehicle,
+				[name]: type === "checkbox" ? checked : formattedValue,
+			};
+
+			// Actualizar monto_final_abonar cuando cambia precio, seña o precio_carga_externa
+			if (
+				name === "precio" ||
+				name === "sena" ||
+				name === "precio_carga_externa"
+			) {
+				const precio = Number(updatedVehicle.precio?.replace(/\./g, "") || 0);
+				const sena = Number(updatedVehicle.sena?.replace(/\./g, "") || 0);
+				const precioCargaExterna = Number(
+					updatedVehicle.precio_carga_externa?.replace(/\./g, "") || 0
+				);
+
+				const montoFinal = precio - sena + precioCargaExterna;
+				updatedVehicle.monto_final_abonar = formatCurrency(
+					montoFinal.toString()
+				);
+			}
+
+			return updatedVehicle;
+		});
 
 		// Check if the name is "fecha_instalacion" and trigger event count check
 		if (name === "fecha_instalacion") {
@@ -411,15 +440,8 @@ export default function AddOrderPage({ params }) {
 	return (
 		<div className="flex bg-zinc-50">
 			<Aside />
-			<main className="flex-1 p-6 z-50">
-				<div className="flex items-center justify-between mb-6">
-					<div className="flex items-center gap-2">
-						<HomeIcon href="/reservations" label="Volver"></HomeIcon>
-						<h2 className="text-base font-normal text-zinc-700">
-							Editar Reserva
-						</h2>
-					</div>
-				</div>
+			<main className="flex-1 p-6 lg:px-8 xl:px-8 z-50">
+				<HomeIcon />
 				<Card className="border-none shadow-lg">
 					<CardContent className="pt-6">
 						<form
@@ -649,7 +671,7 @@ export default function AddOrderPage({ params }) {
 										/>
 									</div>
 									<div className="flex flex-col justify-between mt-4 gap-4 md:gap-0">
-										<div className="flex items-center space-x-2 font-normal ">
+										<div className="flex items-center space-x-2 font-normal">
 											<Checkbox
 												id="reforma_escape"
 												checked={vehicle.reforma_escape}
@@ -662,20 +684,47 @@ export default function AddOrderPage({ params }) {
 												Reforma de escape
 											</Label>
 										</div>
-										<div className="flex items-center space-x-2 ">
+										<div className="flex items-center space-x-2">
 											<Checkbox
 												id="carga_externa"
 												checked={vehicle.carga_externa}
 												onCheckedChange={handleCheckboxChange("carga_externa")}
+												className={`transition-colors duration-300 ${vehicle.carga_externa ? "data-[state=checked]:bg-orange-500 data-[state=checked]:border-orange-500" : ""}`}
 											/>
 											<Label
 												htmlFor="carga_externa"
-												className="font-normal text-zinc-600"
+												className={`font-normal transition-colors duration-300 ${vehicle.carga_externa ? "text-orange-500" : "text-zinc-600"}`}
 											>
 												Carga externa
 											</Label>
 										</div>
 									</div>
+									{vehicle.carga_externa && (
+										<motion.div
+											initial={{ height: 0, opacity: 0 }}
+											animate={{ height: "auto", opacity: 1 }}
+											exit={{ height: 0, opacity: 0 }}
+											transition={{ duration: 0.3 }}
+											className="overflow-hidden space-y-2"
+										>
+											<Label
+												htmlFor="precio_carga_externa"
+												className="font-normal text-orange-500 transition-colors duration-300"
+											>
+												Precio carga externa *
+											</Label>
+											<Input
+												name="precio_carga_externa"
+												id="precio_carga_externa"
+												type="text"
+												placeholder="Precio carga externa"
+												value={vehicle.precio_carga_externa}
+												onChange={handleVehicleChange}
+												className="rounded-full focus-visible:ring-0 text-orange-500 placeholder:text-orange-500 border-orange-500"
+												required={vehicle.carga_externa}
+											/>
+										</motion.div>
+									)}
 									<div className="space-y-2">
 										<Label htmlFor="sena" className="font-normal text-zinc-600">
 											Seña
@@ -760,7 +809,7 @@ export default function AddOrderPage({ params }) {
 							</div>
 							<Button
 								type="submit"
-								className={`w-full rounded-sm ${
+								className={`w-full py-[1.3rem] rounded-sm ${
 									eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""
 								}`}
 								disabled={eventCount >= 5 || loading} // Deshabilitar si hay carga o si hay demasiados eventos

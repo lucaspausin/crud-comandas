@@ -50,6 +50,8 @@ export default function AllOrdersPage() {
 	const [selectedCommands, setSelectedCommands] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [dataFetched, setDataFetched] = useState(false);
+	const [currentPage, setCurrentPage] = useState(1);
+	const itemsPerPage = 15;
 
 	const { data: session } = useSession();
 	useEffect(() => {
@@ -113,13 +115,25 @@ export default function AllOrdersPage() {
 						String(command.boletos_reservas.clientes.telefono).includes(
 							searchTerm
 						)) ||
-					(command.boletos_reservas.modelo_patente &&
-						command.boletos_reservas.modelo_patente
+					(command.boletos_reservas.patente_vehiculo &&
+						command.boletos_reservas.patente_vehiculo
 							.toLowerCase()
 							.includes(searchTerm.toLowerCase())) ||
 					command.boletos_reservas.equipo
 						.toLowerCase()
-						.includes(searchTerm.toLowerCase())
+						.includes(searchTerm.toLowerCase()) ||
+					(command.boletos_reservas.modelo_vehiculo &&
+						command.boletos_reservas.modelo_vehiculo
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())) ||
+					(command.boletos_reservas.marca_vehiculo &&
+						command.boletos_reservas.marca_vehiculo
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())) ||
+					(command.boletos_reservas.equipo &&
+						command.boletos_reservas.equipo
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()))
 			);
 		}
 
@@ -180,6 +194,14 @@ export default function AllOrdersPage() {
 		}
 		return filtered;
 	};
+
+	const paginatedCommands = () => {
+		const filtered = filteredCommands();
+		const startIndex = (currentPage - 1) * itemsPerPage;
+		return filtered.slice(startIndex, startIndex + itemsPerPage);
+	};
+
+	const totalPages = Math.ceil(filteredCommands().length / itemsPerPage);
 
 	const handleDeleteCommand = async (id) => {
 		const confirmDelete = window.confirm(
@@ -307,15 +329,10 @@ export default function AllOrdersPage() {
 			) : (
 				<>
 					<Aside />
-					<main className="flex-1 p-6 overflow-y-auto">
-						<div className="flex items-center justify-between mb-6">
-							<div className="flex items-center gap-2">
-								<HomeIcon label="Volver"></HomeIcon>
-								<h2 className="text-zinc-700 text-base">Comandas</h2>
-							</div>
-						</div>
+					<main className="flex-1 p-6 lg:px-8 xl:px-8 overflow-y-auto">
+						<HomeIcon />
 
-						<Card className="rounded-xl shadow-lg border-none">
+						<Card className="rounded-xl shadow-lg border-none p-3">
 							<CardHeader>
 								<div className="flex justify-between items-center relative">
 									<CardTitle className="text-xl font-light text-zinc-800">
@@ -407,16 +424,15 @@ export default function AllOrdersPage() {
 											)}
 											<TableHead>Asesor</TableHead>
 											<TableHead>Cliente</TableHead>
-											<TableHead>Modelo</TableHead>
-											<TableHead>Patente</TableHead>
+											<TableHead>Vehículo</TableHead>
 											<TableHead>Fecha</TableHead>
 											<TableHead>Estado</TableHead>
 											{userRole !== 2 && <TableHead>Acciones</TableHead>}
 										</TableRow>
 									</TableHeader>
 									<TableBody>
-										{filteredCommands().length > 0 ? (
-											filteredCommands().map((command) => (
+										{paginatedCommands().length > 0 ? (
+											paginatedCommands().map((command) => (
 												<TableRow
 													key={command.id}
 													className="cursor-pointer"
@@ -454,11 +470,9 @@ export default function AllOrdersPage() {
 													<TableCell className="text-zinc-800">
 														{`${command.boletos_reservas.marca_vehiculo || ""} ${
 															command.boletos_reservas.modelo_vehiculo || ""
-														}`.trim()}
+														} ${command.boletos_reservas.patente_vehiculo || ""}`.trim()}
 													</TableCell>
-													<TableCell className="text-zinc-800">
-														{command.boletos_reservas.patente_vehiculo}
-													</TableCell>
+
 													<TableCell className="text-zinc-800">
 														{(() => {
 															const utcDate = new Date(
@@ -534,6 +548,35 @@ export default function AllOrdersPage() {
 										)}
 									</TableBody>
 								</Table>
+								{totalPages > 1 && (
+									<div className="flex justify-center items-center gap-2 mt-4">
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={() =>
+												setCurrentPage((prev) => Math.max(prev - 1, 1))
+											}
+											disabled={currentPage === 1}
+											className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
+										>
+											Anterior
+										</Button>
+										<span className="text-sm text-zinc-600">
+											Página {currentPage} de {totalPages}
+										</span>
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={() =>
+												setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+											}
+											disabled={currentPage === totalPages}
+											className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
+										>
+											Siguiente
+										</Button>
+									</div>
+								)}
 							</CardContent>
 						</Card>
 					</main>

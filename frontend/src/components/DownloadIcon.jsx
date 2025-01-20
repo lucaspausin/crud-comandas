@@ -1,39 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button"; // Importar el componente Button de Material-UI
-import { ArrowDownToLine } from "lucide-react";
-import { motion } from "framer-motion";
+import { Download } from "lucide-react";
 
-const DownloadIcon = ({ label = "Descargar", onClick }) => {
-	// Asegúrate de aceptar onClick como prop
-	const [hovered, setHovered] = useState(false);
-
+const DownloadIcon = ({ onClick, label }) => {
 	return (
-		<nav className="flex items-center">
-			<Button
-				className="flex items-center group px-4 py-2 bg-[#18181B] text-zinc-50 hover:bg-[#2F2F31] rounded-full"
-				variant="contained" // Estilo del botón
-				color="primary" // Color del botón (puedes cambiarlo)
-				onMouseEnter={() => setHovered(true)} // Mostrar texto al pasar el mouse
-				onMouseLeave={() => setHovered(false)} // Ocultar texto al salir el mouse
-				onClick={onClick} // Llama al prop onClick cuando se hace clic
+		<>
+			<div
+				className="flex items-center justify-between mb-2 bg-black text-white shadow-md rounded-lg w-full py-1 hover:bg-zinc-900 transition-all duration-300 border border-transparent hover:border-zinc-800 hover:text-zinc-300 group cursor-pointer"
+				onClick={onClick}
 			>
-				<ArrowDownToLine strokeWidth={2} className="w-4 h-4" />
-				<motion.span
-					className={`ml-2 whitespace-nowrap overflow-hidden text-sm font-normal transition-colors duration-300 ${
-						hovered ? "" : "opacity-0"
-					}`}
-					initial={{ opacity: 0, width: 0 }} // Comienza oculto
-					animate={{
-						opacity: hovered ? 1 : 0, // Mostrar u ocultar basado en el estado
-						width: hovered ? "auto" : 0, // Ajustar el ancho
-					}}
-					transition={{ duration: 0.3 }} // Duración de la transición
-				>
-					{label} {/* Usar el prop label */}
-				</motion.span>
-			</Button>
-		</nav>
+				<div className="flex items-center justify-center gap-2 w-full">
+					<nav className="flex gap-2 items-center">
+						<Button
+							variant={"solid"}
+							className="flex items-center group gap-2 py-2 text-zinc-100 rounded-full"
+						>
+							<Download
+								strokeWidth={1.5}
+								className={`w-5 h-5 text-white transition-transform duration-500 group-hover:scale-105`}
+							/>
+							{label}
+						</Button>
+					</nav>
+				</div>
+			</div>
+		</>
 	);
 };
 

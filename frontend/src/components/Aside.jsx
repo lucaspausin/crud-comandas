@@ -11,6 +11,7 @@ import {
 	CalendarDays,
 	LogIn,
 } from "lucide-react";
+// Settings,
 // User,
 // MessageCircleQuestion;
 import { motion } from "framer-motion";
@@ -102,12 +103,12 @@ function Aside() {
 				label: "Añadir Reserva",
 				showOnMobile: true,
 			},
-			{
-				href: reservationId ? "/reservations" : "/reservations",
-				icon: <Ticket className="w-5 h-5" />,
-				label: "Reservas",
-				showOnMobile: true,
-			},
+			// {
+			// 	href: reservationId ? "/reservations" : "/reservations",
+			// 	icon: <Ticket className="w-5 h-5" />,
+			// 	label: "Reservas",
+			// 	showOnMobile: true,
+			// },
 			{
 				href: commandId ? "/commands" : "/commands",
 				icon: <ClipboardList className="w-5 h-5" />,
@@ -120,6 +121,12 @@ function Aside() {
 				label: "Calendario",
 				showOnMobile: true,
 			}
+			// {
+			// 	href: "/settings",
+			// 	icon: <Settings className="w-5 h-5" />,
+			// 	label: "Ajustes",
+			// 	showOnMobile: true,
+			// }
 		);
 	}
 	if (!session) {
@@ -158,7 +165,7 @@ function Aside() {
 						loading="eager"
 					/>
 					<motion.span
-						className="ml-2 whitespace-nowrap overflow-hidden transition-colors duration-300 text-sm text-zinc-700 hidden sm:block"
+						className="ml-0 whitespace-nowrap overflow-hidden transition-colors duration-300 text-sm text-zinc-700 hidden sm:block"
 						initial={{ opacity: 0, width: 0 }}
 						animate={{
 							opacity:
@@ -171,9 +178,7 @@ function Aside() {
 									: 0,
 						}}
 						transition={{ duration: 0.3 }}
-					>
-						Dashboard
-					</motion.span>
+					></motion.span>
 				</Link>
 			</div>
 			<nav className="flex items-center gap-2 sm:gap-4">

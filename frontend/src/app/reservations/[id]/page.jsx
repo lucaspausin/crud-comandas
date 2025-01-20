@@ -86,32 +86,35 @@ export default function ReservationDetailPage({ params }) {
 					<Aside />
 
 					{/* Main Content */}
-					<main className="flex flex-col w-full p-6">
-						<div className="flex items-center justify-between mb-6">
-							<div className="flex items-center gap-2">
-								<HomeIcon label="Volver"></HomeIcon>
-								<h2 className="text-zinc-700 text-base">Reservas</h2>
+					<main className="flex flex-col w-full p-6 lg:px-8 xl:px-8">
+						<HomeIcon />
+						<Link
+							href={`/reservations/edit/${reservation.id}`}
+							className="flex items-center justify-between mb-2 bg-orange-100 shadow-md rounded-lg w-full py-1 hover:bg-orange-50 transition-all duration-300 border border-transparent hover:border-orange-300 hover:text-orange-300 group cursor-pointer"
+						>
+							<div className="flex items-center justify-center gap-2 w-full">
+								<nav className="flex items-center">
+									<>
+										<Button
+											variant="ghost"
+											size="sm"
+											className="rounded-full z-50 py-4 hover:bg-transparent"
+											onClick={(e) => {
+												e.stopPropagation(); // Previene que el clic se propague al TableRow
+											}}
+										>
+											<Pencil className="h-4 w-4 text-orange-600" />
+										</Button>
+									</>
+								</nav>
 							</div>
-							{/* <Button onClick={handleGeneratePdf}>Hola</Button> */}
-							<div className="flex items-center gap-4">
-								<Link href={`/reservations/edit/${reservation.id}`}>
-									<Button
-										variant="ghost"
-										size="sm"
-										className="rounded-full z-50 py-5 px-[0.75rem] bg-orange-100 hover:bg-orange-50"
-										onClick={(e) => {
-											e.stopPropagation(); // Previene que el clic se propague al TableRow
-										}}
-									>
-										<Pencil className="h-4 w-4 text-orange-600" />
-									</Button>
-								</Link>
-								<DownloadIcon
-									onClick={handleGeneratePdf} // Pasar el manejador aquí
-									label="Descargar"
-								/>
-							</div>
-						</div>
+						</Link>
+						<DownloadIcon
+							onClick={handleGeneratePdf} // Pasar el manejador aquí
+							label="Descargar"
+						/>
+
+						{/* <Button onClick={handleGeneratePdf}>Hola</Button> */}
 
 						<Card className="rounded-xl  bg-white border-none shadow-lg">
 							<CardHeader className="border-b">

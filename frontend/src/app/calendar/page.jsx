@@ -16,10 +16,10 @@ import myImage from "@/public/motorgas2.svg";
 import "dayjs/locale/es";
 import esES from "antd/locale/es_ES";
 import { getEventsCalendar } from "../reservations/reservations.api";
+import { io } from "socket.io-client";
+import Aside from "@/components/Aside";
 
 // import { Tooltip } from "antd";
-
-import Aside from "@/components/Aside";
 
 dayjs.locale("es");
 dayjs.extend(utc);
@@ -34,85 +34,91 @@ export default function Calendar() {
 		document.title = "Motorgas - Calendario";
 	}, []);
 
+	const formatEvents = (data) => {
+		return data.map((event) => {
+			let eventDate = dayjs.utc(event.fecha_inicio);
+			eventDate = eventDate.hour(8).minute(30).second(0);
+
+			return {
+				id: event.id,
+				title: event.titulo,
+				date: eventDate.local(),
+				usuario: event.boletos_reservas.usuarios.nombre_usuario,
+				estado: event.estado,
+			};
+		});
+	};
+
 	useEffect(() => {
 		const fetchEventsCalendar = async () => {
 			const data = await getEventsCalendar();
-
-			const formattedEvents = data.map((event) => {
-				let eventDate = dayjs.utc(event.fecha_inicio);
-				eventDate = eventDate.hour(8).minute(30).second(0);
-
-				return {
-					id: event.id,
-					title: event.titulo,
-					date: eventDate.local(), // Convierte a la hora local después de ajustar la hora
-					usuario: event.boletos_reservas.usuarios.nombre_usuario,
-					estado: event.estado,
-				};
-			});
-
-			setEventsCalendar(formattedEvents);
+			setEventsCalendar(formatEvents(data));
 			setLoading(false);
 		};
 
 		fetchEventsCalendar();
 	}, []);
 
-	// useEffect(() => {
-	// 	if (eventsCalendar.length > 0) {
-	// 		const currentMonth = dayjs().startOf("month");
-	// 		const nextMonth = dayjs().endOf("month");
-	// 		const today = dayjs();
+	useEffect(() => {
+		// Solo inicializar WebSocket después de que los datos iniciales se hayan cargado
+		if (!loading) {
+			const socket = io(
+				process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000",
+				{
+					withCredentials: true,
+					reconnection: true,
+					reconnectionAttempts: 5,
+					reconnectionDelay: 1000,
+					reconnectionDelayMax: 5000,
+					timeout: 10000,
+					autoConnect: false, // Cambiado a false para control manual
+					transports: ["websocket"], // Solo usar websocket para mejor rendimiento
+				}
+			);
 
-	// 		// Filter events for current month
-	// 		const currentMonthEvents = eventsCalendar.filter((event) => {
-	// 			const eventDate = dayjs(event.date);
-	// 			return (
-	// 				(eventDate.isAfter(currentMonth) && eventDate.isBefore(nextMonth)) ||
-	// 				eventDate.isSame(currentMonth, "day") ||
-	// 				eventDate.isSame(nextMonth, "day")
-	// 			);
-	// 		});
+			let retryCount = 0;
+			const maxRetries = 3;
 
-	// 		// Filter events from start of month until today
-	// 		const monthToDateEvents = currentMonthEvents.filter(
-	// 			(event) =>
-	// 				dayjs(event.date).isBefore(today) ||
-	// 				dayjs(event.date).isSame(today, "day")
-	// 		);
+			socket.on("connect_error", (error) => {
+				console.error("Error de conexión:", error);
+				if (retryCount < maxRetries) {
+					retryCount++;
+					setTimeout(() => {
+						console.log(`Intento de reconexión ${retryCount}...`);
+						socket.connect();
+					}, 1000 * retryCount);
+				}
+			});
 
-	// 		// Filter completed events for current month
-	// 		const completedEvents = currentMonthEvents.filter(
-	// 			(event) =>
-	// 				event.estado === "confirmado" || event.estado === "completado"
-	// 		);
+			socket.on("connect", () => {
+				console.log("Conectado al servidor de WebSocket");
+				retryCount = 0;
+				socket.emit("requestUpdate");
+			});
 
-	// 		// Initialize counts object with all users from current month events
-	// 		const counts = {};
-	// 		currentMonthEvents.forEach((event) => {
-	// 			if (!counts[event.usuario]) {
-	// 				counts[event.usuario] = { total: 0, untilToday: 0, completed: 0 };
-	// 			}
-	// 		});
+			socket.on("calendarUpdate", (updatedEvents) => {
+				if (updatedEvents && Array.isArray(updatedEvents)) {
+					setEventsCalendar(formatEvents(updatedEvents));
+				}
+			});
 
-	// 		// Count total events per user
-	// 		currentMonthEvents.forEach((event) => {
-	// 			counts[event.usuario].total++;
-	// 		});
+			socket.on("calendarEvent", ({ type, event }) => {
+				if (type === "add") {
+					setEventsCalendar((prevEvents) => {
+						const formattedEvent = formatEvents([event])[0];
+						return [...prevEvents, formattedEvent];
+					});
+				}
+			});
 
-	// 		// Count events until today
-	// 		monthToDateEvents.forEach((event) => {
-	// 			counts[event.usuario].untilToday++;
-	// 		});
+			// Conectar después de configurar todos los listeners
+			socket.connect();
 
-	// 		// Count completed events
-	// 		completedEvents.forEach((event) => {
-	// 			counts[event.usuario].completed++;
-	// 		});
-
-	// 		setUserEventCounts(counts);
-	// 	}
-	// }, [eventsCalendar]);
+			return () => {
+				socket.disconnect();
+			};
+		}
+	}, [loading]);
 
 	const getBadgeStatus = (estado) => {
 		switch (estado) {
@@ -226,14 +232,7 @@ export default function Calendar() {
 				) : (
 					<>
 						<Aside />
-						<main className="flex p-6 flex-col w-full gap-6">
-							{/* <div className="flex items-center justify-between mb-6">
-								<div className="flex items-center gap-2">
-									<HomeIcon href="/dashboard" label="Dashboard" />
-									<h2 className="text-zinc-700 text-base">Calendario</h2>
-								</div>
-							</div> */}
-
+						<main className="flex p-6 lg:px-8 xl:px-8 flex-col w-full gap-6">
 							<Card className="rounded-xl bg-white border-none shadow-lg p-0">
 								<CardContent className="p-0">
 									<div className="flex space-x-4 mb-4">
@@ -261,63 +260,6 @@ export default function Calendar() {
 									</div>
 
 									<AntCalendar cellRender={cellRender} />
-									{/* <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-200 opacity-10" />
-
-									<div className="absolute inset-0 rounded-xl" />
-
-									<CardContent className="relative py-0 px-0 overflow-hidden">
-										<div className="relative h-full flex flex-col p-0">
-											<div className="space-y-4 mb-6"></div>
-
-											<div className="grid grid-cols-5 gap-0">
-												{Object.entries(userEventCounts)
-													.sort(([, a], [, b]) => b.total - a.total)
-													.map(([userName, counts], index) => (
-														<div
-															key={userName}
-															className="flex flex-col p-12 bg-white border border-zinc-100 hover:bg-zinc-50/80 transition-all duration-200"
-														>
-															<div className="flex items-center gap-3 mb-4">
-																<span className="text-lg text-zinc-400">
-																	0{index + 1}.
-																</span>
-																<span className="text-lg text-zinc-500 capitalize">
-																	{userName}
-																</span>
-															</div>
-															<div className="flex flex-col gap-3 text-sm">
-																<div className="space-y-1">
-																	<p className="text-zinc-500">Total del mes</p>
-																	<p className="text-zinc-700">
-																		{counts.total}{" "}
-																		{counts.total === 1
-																			? "vehículo"
-																			: "vehículos"}
-																	</p>
-																</div>
-																<div className="flex flex-row items-center gap-4">
-																	<div className="space-y-1 border-r pr-4">
-																		<p className="text-zinc-500">Hasta hoy</p>
-																		<p className="text-zinc-700">
-																			{counts.untilToday}
-																		</p>
-																	</div>
-																	<div className="space-y-1">
-																		<p className="text-zinc-500">Completados</p>
-																		<p className="text-zinc-700">
-																			{counts.completed}{" "}
-																			{counts.completed === 1
-																				? "vehículo"
-																				: "vehículos"}
-																		</p>
-																	</div>
-																</div>
-															</div>
-														</div>
-													))}
-											</div>
-										</div>
-									</CardContent> */}
 								</CardContent>
 							</Card>
 						</main>

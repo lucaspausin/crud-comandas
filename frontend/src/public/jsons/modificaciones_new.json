@@ -1,0 +1,36 @@
+[
+	{
+		"brand_id": 2,
+		"name": "145",
+		"observations": "",
+		"sales_suggestions": "",
+		"cradle_type": "Elevada/Plana",
+		"cylinder_versions": [
+			{
+				"support_id": 13,
+				"version_type": "standard"
+			},
+			{
+				"support_id": 2,
+				"version_type": "standard"
+			}
+		]
+	},
+	{
+		"brand_id": 2,
+		"name": "145",
+		"observations": "",
+		"sales_suggestions": "",
+		"cradle_type": "Elevada/Plana",
+		"cylinder_versions": [
+			{
+				"support_id": 1,
+				"version_type": "standard"
+			},
+			{
+				"support_id": 2,
+				"version_type": "standard"
+			}
+		]
+	}
+]

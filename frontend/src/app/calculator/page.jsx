@@ -47,12 +47,9 @@ export default function Calculator() {
 			<motion.main
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
-				className="flex-1 p-6 overflow-y-auto"
+				className="flex-1 p-6 lg:px-8 xl:px-8 overflow-y-auto"
 			>
-				<div className="flex items-center mb-8">
-					<HomeIcon label="Volver" />
-					<h2 className="text-zinc-700 text-base">Calculadora de Cuotas</h2>
-				</div>
+				<HomeIcon />
 
 				<motion.div
 					initial={{ y: 20 }}

@@ -9,7 +9,9 @@ import Image from "next/image";
 // import { Button } from "@/components/ui/button";
 import myImage from "@/public/motorgas2.svg";
 import { saveAs } from "file-saver";
-
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Eye } from "lucide-react";
 import {
 	getCommand,
 	updateCommand,
@@ -335,23 +337,41 @@ export default function ComandaDetail({ params }) {
 
 		// Descargar el CSV utilizando file-saver
 		const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
-		saveAs(blob, "comanda.csv"); // Usamos la función saveAs de file-saver para descargar el archivo
+		saveAs(blob, `comanda-${data[0].id}.csv`); // Usamos la función saveAs de file-saver para descargar el archivo
 	};
 
 	return (
 		<div className="flex-1 bg-zinc-50">
 			<Aside />
-			<main className="flex flex-col p-6 z-50 w-full">
-				<div className="flex items-center justify-between mb-6">
-					<div className="flex items-center gap-2">
-						<HomeIcon label="Volver"></HomeIcon>
-						<h2 className="text-zinc-700 text-base">Comandas</h2>
+			<main className="flex flex-col p-6 lg:px-8 xl:px-8 z-50 w-full">
+				<HomeIcon />
+				<Link
+					href={`/reservations/${comanda.boletos_reservas.id}`}
+					className="flex items-center justify-between mb-2 bg-emerald-100 shadow-md rounded-lg w-full py-1 hover:bg-emerald-50 transition-all duration-300 border border-transparent hover:border-emerald-300 hover:text-emerald-300 group cursor-pointer"
+				>
+					<div className="flex items-center justify-center gap-2 w-full">
+						<nav className="flex items-center">
+							<>
+								<Button
+									variant="ghost"
+									size="sm"
+									className="rounded-full text-emerald-600 hover:text-emerald-600 flex items-center gap-2 z-50 py-4 hover:bg-transparent text-sm"
+									onClick={(e) => {
+										e.stopPropagation(); // Previene que el clic se propague al TableRow
+									}}
+								>
+									Ver Reserva
+									<Eye className="h-5 w-5 text-emerald-600" />
+								</Button>
+							</>
+						</nav>
 					</div>
-					<DownloadIcon
-						onClick={() => downloadCsv(params.id)}
-						label="Descargar"
-					/>
-				</div>
+				</Link>
+				<DownloadIcon
+					onClick={() => downloadCsv(params.id)}
+					label="Descargar"
+				/>
+
 				<div className="grid gap-6 w-full">
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 						{/* //TODO: INFORMACION GENERAL DE LA COMANDA. */}

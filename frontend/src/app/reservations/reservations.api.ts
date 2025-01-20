@@ -2,6 +2,13 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
 // import { signOut } from "next-auth/react";
+
+declare module "next-auth" {
+	interface User {
+		exp?: number;
+	}
+}
+
 export const dynamic = "force-dynamic";
 export async function getReservations() {
 	const { data } = await axios.get(
@@ -118,7 +125,7 @@ async function getAuthHeaders() {
 	}
 
 	// Verificar si el token está próximo a expirar (por ejemplo, en 1 hora)
-	const tokenExp = session.user.exp;
+	const tokenExp = (session.user as any).exp;
 	const now = Math.floor(Date.now() / 1000);
 
 	if (tokenExp && tokenExp - now < 3600) {
