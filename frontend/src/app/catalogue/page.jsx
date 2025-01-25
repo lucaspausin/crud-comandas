@@ -1,12 +1,13 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Aside from "@/components/Aside";
-import HomeIcon from "@/components/HomeIcon";
+// import HomeIcon from "@/components/HomeIcon";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import api from "@/lib/axios";
 import myImage from "@/public/motorgas2.svg";
+// import { useRouter } from "next/navigation";
 
 export default function Catalogue() {
 	const [brands, setBrands] = useState({});
@@ -18,6 +19,7 @@ export default function Catalogue() {
 	const [loading, setLoading] = useState(true);
 	const [imageCache, setImageCache] = useState({});
 	const [loadingImages, setLoadingImages] = useState(true);
+	// const router = useRouter();
 
 	// Cargar datos iniciales
 	useEffect(() => {
@@ -59,13 +61,17 @@ export default function Catalogue() {
 						support.support_images?.[0]?.url || support.image || "";
 
 					acc[support.code] = {
+						code: support.code,
 						nombre: support.name,
 						autonomia: support.autonomy,
 						"imagen-principal": imageUrl,
 						"kilometros-equivalentes": support.equivalent_km,
-						"precio-inicial": support.initial_price,
-						"precio-lista": support.list_price,
-						"precio-promo": support.promo_price,
+						initial_price_brc: support.initial_price_brc || 0,
+						list_price_brc: support.list_price_brc || 0,
+						promo_price_brc: support.promo_price_brc || 0,
+						initial_price_ta: support.initial_price_ta || 0,
+						list_price_ta: support.list_price_ta || 0,
+						promo_price_ta: support.promo_price_ta || 0,
 					};
 					return acc;
 				}, {});
@@ -134,6 +140,22 @@ export default function Catalogue() {
 		}
 	};
 
+	// const handleCardClick = (support) => {
+		
+	// 	const params = new URLSearchParams({
+	// 		initial_price_brc: support.initial_price_brc?.toString() || "0",
+	// 		list_price_brc: support.list_price_brc?.toString() || "0",
+	// 		promo_price_brc: support.promo_price_brc?.toString() || "0",
+	// 		initial_price_ta: support.initial_price_ta?.toString() || "0",
+	// 		list_price_ta: support.list_price_ta?.toString() || "0",
+	// 		promo_price_ta: support.promo_price_ta?.toString() || "0",
+	// 		support_name: support.nombre,
+	// 		support_code: support.code,
+	// 	});
+
+	// 	router.push(`/calculator?${params.toString()}`);
+	// };
+
 	if (loading) {
 		return (
 			<div className="flex flex-col items-center justify-center h-[80vh] mx-auto">
@@ -169,7 +191,7 @@ export default function Catalogue() {
 				animate={{ opacity: 1 }}
 				className="flex-1 p-6 lg:px-8 xl:px-8 overflow-y-auto"
 			>
-				<HomeIcon />
+				{/* <HomeIcon /> */}
 
 				<motion.div
 					initial={{ y: 20 }}
@@ -279,7 +301,8 @@ export default function Catalogue() {
 													animate={{ opacity: 1 }}
 													transition={{ delay: index * 0.1 }}
 													key={index}
-													className="relative text-center flex flex-col p-4 rounded-md border bg-zinc-50 hover:bg-zinc-100 transition-all duration-300"
+													// onClick={() => handleCardClick(producto)}
+													className="relative text-center flex flex-col p-4 rounded-md border bg-zinc-50 hover:bg-zinc-100 transition-all duration-300 cursor-pointer"
 												>
 													<div className="aspect-[3/1] flex items-center justify-center mb-4 relative">
 														{!imageCache[producto["imagen-principal"]] && (

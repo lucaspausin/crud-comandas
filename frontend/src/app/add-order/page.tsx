@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import ReservationForm from "@/components/ReservationForm";
 import { useEffect } from "react";
 
-import HomeIcon from "@/components/HomeIcon";
+// import HomeIcon from "@/components/HomeIcon";
 
 import Aside from "@/components/Aside";
 
@@ -20,7 +20,7 @@ export default function AddOrderPage() {
 
 			{/* Main Content */}
 			<main className="flex-1 p-6 lg:px-8 xl:px-8 z-[40]">
-				<HomeIcon />
+				{/* <HomeIcon /> */}
 				<Card className="border-none shadow-lg">
 					<CardContent className="pt-6 ">
 						<ReservationForm />

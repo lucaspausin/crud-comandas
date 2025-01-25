@@ -11,20 +11,19 @@ export default function HomeIcon() {
 
 	return (
 		<>
-			<div
-				className="flex items-center justify-between mb-2 bg-zinc-50 shadow-md rounded-lg w-full py-1 hover:bg-zinc-100 transition-all duration-300 border border-transparent hover:border-zinc-300 hover:text-zinc-300 group cursor-pointer"
-				onClick={() => router.back()}
-			>
+			<div className="flex items-center justify-between bg-zinc-50 rounded-lg w-full transition-all duration-300 border border-transparent hover:text-zinc-300 group cursor-pointer mb-2">
 				<div className="flex items-center justify-center gap-2 w-full">
 					<nav className="flex items-center">
 						<Button
 							variant={"solid"}
-							className="flex items-center group py-2 text-zinc-700 hover:bg-zinc-100 rounded-full"
+							onClick={() => router.back()}
+							className="flex items-center font-normal  group gap-1 py-2.5 px-4 text-zinc-700 hover:bg-zinc-200/40 rounded-full transition-all duration-300"
 						>
 							<ChevronLeft
 								strokeWidth={1.25}
 								className={`w-5 h-5 text-black transition-transform duration-500 group-hover:scale-105`}
 							/>
+							Atrás
 						</Button>
 					</nav>
 				</div>

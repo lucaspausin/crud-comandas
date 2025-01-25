@@ -484,11 +484,11 @@ export default function AddOrderPage({ params }) {
 										>
 											Nombre completo
 										</Label>
-										<Input
+										<input
 											name="nombre_completo"
 											id="nombre_completo"
 											placeholder="Nombre completo"
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											value={client.nombre_completo}
 											onChange={handleClientChange}
 											required
@@ -498,12 +498,12 @@ export default function AddOrderPage({ params }) {
 										<Label htmlFor="dni" className="font-normal text-zinc-600">
 											DNI
 										</Label>
-										<Input
+										<input
 											name="dni"
 											id="dni"
 											type="number"
 											placeholder="Número de DNI"
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											value={client.dni}
 											onChange={handleClientChange}
 											required
@@ -516,12 +516,12 @@ export default function AddOrderPage({ params }) {
 										>
 											Domicilio
 										</Label>
-										<Input
+										<input
 											name="domicilio"
 											id="domicilio"
 											placeholder="Dirección"
 											value={client.domicilio}
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											onChange={handleClientChange}
 										/>
 									</div>
@@ -533,7 +533,7 @@ export default function AddOrderPage({ params }) {
 											Localidad
 										</Label>
 										<div className="relative w-full" ref={inputRef}>
-											<Input
+											<input
 												type="text"
 												name="localidad"
 												id="localidad"
@@ -541,7 +541,7 @@ export default function AddOrderPage({ params }) {
 												onChange={handleLocalidadChange}
 												onFocus={handleInputFocus} // Mostrar todas las localidades al enfocar
 												placeholder="Buscar localidad..."
-												className="w-full rounded-full px-4 py-[0.5rem] border-[#E4E4E7] border focus:outline placeholder:font-normal placeholder:text-zinc-500"
+												className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											/>
 											{showSuggestions && (
 												<ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md max-h-60 overflow-auto">
@@ -590,13 +590,13 @@ export default function AddOrderPage({ params }) {
 										>
 											Marca
 										</Label>
-										<Input
+										<input
 											name="marca_vehiculo"
 											id="marca_vehiculo"
 											placeholder="Marca del vehículo"
 											value={vehicle.marca_vehiculo}
 											onChange={handleVehicleChange}
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											required
 										/>
 									</div>
@@ -607,13 +607,13 @@ export default function AddOrderPage({ params }) {
 										>
 											Modelo
 										</Label>
-										<Input
+										<input
 											name="modelo_vehiculo"
 											id="modelo_vehiculo"
 											placeholder="Modelo del vehículo"
 											value={vehicle.modelo_vehiculo}
 											onChange={handleVehicleChange}
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											required
 										/>
 									</div>
@@ -624,13 +624,13 @@ export default function AddOrderPage({ params }) {
 										>
 											Patente
 										</Label>
-										<Input
+										<input
 											name="patente_vehiculo"
 											id="patente_vehiculo"
 											placeholder="Patente"
 											value={vehicle.patente_vehiculo}
 											onChange={handleVehicleChange}
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											required
 										/>
 									</div>
@@ -641,13 +641,13 @@ export default function AddOrderPage({ params }) {
 										>
 											Equipo
 										</Label>
-										<Input
+										<input
 											name="equipo"
 											id="equipo"
 											placeholder="Equipo"
 											value={vehicle.equipo}
 											onChange={handleVehicleChange}
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											required
 										/>
 									</div>
@@ -659,14 +659,14 @@ export default function AddOrderPage({ params }) {
 										>
 											Precio
 										</Label>
-										<Input
+										<input
 											name="precio"
 											id="precio"
 											type="text" // Cambiado a text
 											placeholder="Precio"
 											value={vehicle.precio}
 											onChange={handleVehicleChange}
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											required
 										/>
 									</div>
@@ -720,7 +720,7 @@ export default function AddOrderPage({ params }) {
 												placeholder="Precio carga externa"
 												value={vehicle.precio_carga_externa}
 												onChange={handleVehicleChange}
-												className="rounded-full focus-visible:ring-0 text-orange-500 placeholder:text-orange-500 border-orange-500"
+												className="focus-visible:ring-0 text-orange-500 placeholder:text-orange-500 border-orange-500 w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none  bg-white/50"
 												required={vehicle.carga_externa}
 											/>
 										</motion.div>
@@ -729,14 +729,14 @@ export default function AddOrderPage({ params }) {
 										<Label htmlFor="sena" className="font-normal text-zinc-600">
 											Seña
 										</Label>
-										<Input
+										<input
 											name="sena"
 											id="sena"
 											type="text" // Cambiado a text
 											placeholder="Monto de seña"
 											value={vehicle.sena}
 											onChange={handleVehicleChange}
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 										/>
 									</div>
 									<div className="space-y-2">
@@ -746,14 +746,14 @@ export default function AddOrderPage({ params }) {
 										>
 											Monto final a abonar
 										</Label>
-										<Input
+										<input
 											name="monto_final_abonar"
 											id="monto_final_abonar"
 											type="text" // Cambiado a text
 											placeholder="Monto final"
 											value={vehicle.monto_final_abonar}
 											onChange={handleVehicleChange}
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											required
 										/>
 									</div>
@@ -765,14 +765,14 @@ export default function AddOrderPage({ params }) {
 										>
 											Fecha de instalación
 										</Label>
-										<Input
+										<input
 											name="fecha_instalacion"
 											id="fecha_instalacion"
 											type="date"
 											value={vehicle.fecha_instalacion} // Este campo se mantiene en formato YYYY-MM-DD
 											onChange={handleVehicleChange}
 											required
-											className="rounded-full"
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 										/>
 									</div>
 								</div>

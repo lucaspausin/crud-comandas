@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Trash, Download, Search } from "lucide-react";
 
-import HomeIcon from "@/components/HomeIcon";
+// import HomeIcon from "@/components/HomeIcon";
 
 import {
 	getCommands,
@@ -330,7 +330,7 @@ export default function AllOrdersPage() {
 				<>
 					<Aside />
 					<main className="flex-1 p-6 lg:px-8 xl:px-8 overflow-y-auto">
-						<HomeIcon />
+						{/* <HomeIcon /> */}
 
 						<Card className="rounded-xl shadow-lg border-none p-3">
 							<CardHeader>
@@ -420,13 +420,15 @@ export default function AllOrdersPage() {
 									<TableHeader>
 										<TableRow>
 											{userRole === 3 && (
-												<TableHead className="w-[50px]">Seleccionar</TableHead>
+												<TableHead className="w-[50px] font-normal">
+													Seleccionar
+												</TableHead>
 											)}
-											<TableHead>Asesor</TableHead>
-											<TableHead>Cliente</TableHead>
-											<TableHead>Vehículo</TableHead>
-											<TableHead>Fecha</TableHead>
-											<TableHead>Estado</TableHead>
+											<TableHead className="font-normal">Asesor</TableHead>
+											<TableHead className="font-normal">Cliente</TableHead>
+											<TableHead className="font-normal">Vehículo</TableHead>
+											<TableHead className="font-normal">Fecha</TableHead>
+											<TableHead className="font-normal">Estado</TableHead>
 											{userRole !== 2 && <TableHead>Acciones</TableHead>}
 										</TableRow>
 									</TableHeader>

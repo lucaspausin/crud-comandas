@@ -10,6 +10,7 @@ import {
 	Ticket,
 	CalendarDays,
 	LogIn,
+	Settings,
 } from "lucide-react";
 // Settings,
 // User,
@@ -27,6 +28,8 @@ function Aside() {
 	const reservationId = pathname.startsWith("/reservations") ? params.id : null;
 	// const userId = pathname.startsWith("/users") ? session?.user?.id : null;
 	const commandId = pathname.startsWith("/commands") ? params.id : null;
+
+	const settingsId = pathname.startsWith("/settings") ? params.id : null;
 
 	// Determinar el rol del usuario
 	const userRole = session?.user?.role; // Asume que el rol se almacena aquí
@@ -101,7 +104,7 @@ function Aside() {
 				href: "/add-order",
 				icon: <PlusCircle className="w-5 h-5" />,
 				label: "Añadir Reserva",
-				showOnMobile: true,
+				showOnMobile: false,
 			},
 			// {
 			// 	href: reservationId ? "/reservations" : "/reservations",
@@ -120,13 +123,13 @@ function Aside() {
 				icon: <CalendarDays className="w-5 h-5" />,
 				label: "Calendario",
 				showOnMobile: true,
+			},
+			{
+				href: settingsId ? "/settings" : "/settings",
+				icon: <Settings className="w-5 h-5" />,
+				label: "Ajustes",
+				showOnMobile: true,
 			}
-			// {
-			// 	href: "/settings",
-			// 	icon: <Settings className="w-5 h-5" />,
-			// 	label: "Ajustes",
-			// 	showOnMobile: true,
-			// }
 		);
 	}
 	if (!session) {
@@ -185,7 +188,10 @@ function Aside() {
 				{menuItems.map(({ href, icon, label, showOnMobile }, index) => {
 					const isActive =
 						pathname === href ||
-						(href === "/reservations" && pathname.startsWith("/reservations"));
+						(href === "/reservations" &&
+							pathname.startsWith("/reservations")) ||
+						(href === "/commands" && pathname.startsWith("/commands")) ||
+						(href === "/settings" && pathname.startsWith("/settings"));
 
 					return (
 						<Link

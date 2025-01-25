@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useRouter } from "next/navigation";
@@ -477,11 +477,11 @@ function ReservationForm() {
 							>
 								Nombre completo
 							</Label>
-							<Input
+							<input
 								name="nombre_completo"
 								id="nombre_completo"
 								placeholder="Nombre completo"
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								value={client.nombre_completo}
 								onChange={handleClientChange}
 								required
@@ -491,12 +491,12 @@ function ReservationForm() {
 							<Label htmlFor="dni" className="font-normal text-zinc-600">
 								DNI
 							</Label>
-							<Input
+							<input
 								name="dni"
 								id="dni"
 								type="number"
 								placeholder="Número de DNI"
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								value={client.dni}
 								onChange={handleClientChange}
 								required
@@ -506,12 +506,12 @@ function ReservationForm() {
 							<Label htmlFor="domicilio" className="font-normal text-zinc-600">
 								Domicilio
 							</Label>
-							<Input
+							<input
 								name="domicilio"
 								id="domicilio"
 								placeholder="Dirección"
 								value={client.domicilio}
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								onChange={handleClientChange}
 							/>
 						</div>
@@ -523,7 +523,7 @@ function ReservationForm() {
 								Localidad
 							</Label>
 							<div className="relative w-full" ref={inputRef}>
-								<Input
+								<input
 									type="text"
 									name="localidad"
 									id="localidad"
@@ -531,7 +531,7 @@ function ReservationForm() {
 									onChange={handleLocalidadChange}
 									onFocus={handleInputFocus} // Mostrar todas las localidades al enfocar
 									placeholder="Buscar localidad..."
-									className="w-full rounded-full px-4 py-[0.5rem] border-[#E4E4E7] border focus:outline placeholder:font-normal placeholder:text-zinc-500"
+									className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								/>
 								{showSuggestions && (
 									<ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md max-h-60 overflow-auto">
@@ -552,14 +552,14 @@ function ReservationForm() {
 							<Label htmlFor="telefono" className="font-normal text-zinc-600">
 								Teléfono (Ej: 1124033487, sin +549)
 							</Label>
-							<Input
+							<input
 								name="telefono"
 								id="telefono"
 								type="number"
 								placeholder="Número de teléfono"
 								value={client.telefono}
 								onChange={handleClientChange}
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								required
 							/>
 						</div>
@@ -577,13 +577,13 @@ function ReservationForm() {
 							>
 								Marca
 							</Label>
-							<Input
+							<input
 								name="marca_vehiculo"
 								id="marca_vehiculo"
 								placeholder="Marca del vehículo"
 								value={vehicle.marca_vehiculo}
 								onChange={handleVehicleChange}
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								required
 							/>
 						</div>
@@ -594,13 +594,13 @@ function ReservationForm() {
 							>
 								Modelo
 							</Label>
-							<Input
+							<input
 								name="modelo_vehiculo"
 								id="modelo_vehiculo"
 								placeholder="Model del vehículo"
 								value={vehicle.modelo_vehiculo}
 								onChange={handleVehicleChange}
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								required
 							/>
 						</div>
@@ -611,13 +611,13 @@ function ReservationForm() {
 							>
 								Patente
 							</Label>
-							<Input
+							<input
 								name="patente_vehiculo"
 								id="patente_vehiculo"
 								placeholder="Patente"
 								value={vehicle.patente_vehiculo}
 								onChange={handleVehicleChange}
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								required
 							/>
 						</div>
@@ -625,13 +625,13 @@ function ReservationForm() {
 							<Label htmlFor="equipo" className="font-normal text-zinc-600">
 								Equipo
 							</Label>
-							<Input
+							<input
 								name="equipo"
 								id="equipo"
 								placeholder="Equipo"
 								value={vehicle.equipo}
 								onChange={handleVehicleChange}
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								required
 							/>
 						</div>
@@ -640,14 +640,14 @@ function ReservationForm() {
 							<Label htmlFor="precio" className="font-normal text-zinc-600">
 								Precio
 							</Label>
-							<Input
+							<input
 								name="precio"
 								id="precio"
 								type="text"
 								placeholder="Precio"
 								value={vehicle.precio}
 								onChange={handleVehicleChange}
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								required
 							/>
 						</div>
@@ -695,14 +695,14 @@ function ReservationForm() {
 								>
 									Precio carga externa *
 								</Label>
-								<Input
+								<input
 									name="precio_carga_externa"
 									id="precio_carga_externa"
 									type="text"
 									placeholder="Precio carga externa"
 									value={vehicle.precio_carga_externa}
 									onChange={handleVehicleChange}
-									className="rounded-full focus-visible:ring-0 text-orange-500 placeholder:text-orange-500 border-orange-500"
+									className="focus-visible:ring-0 text-orange-500 placeholder:text-orange-500 border-orange-500 w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none  bg-white/50"
 									required={vehicle.carga_externa}
 								/>
 							</motion.div>
@@ -711,14 +711,14 @@ function ReservationForm() {
 							<Label htmlFor="sena" className="font-normal text-zinc-600">
 								Seña
 							</Label>
-							<Input
+							<input
 								name="sena"
 								id="sena"
 								type="text" // Cambiado a text
 								placeholder="Monto de seña"
 								value={vehicle.sena}
 								onChange={handleVehicleChange}
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 							/>
 						</div>
 						<div className="space-y-2">
@@ -728,14 +728,14 @@ function ReservationForm() {
 							>
 								Monto final a abonar
 							</Label>
-							<Input
+							<input
 								name="monto_final_abonar"
 								id="monto_final_abonar"
 								type="text" // Cambiado a text
 								placeholder="Monto final"
 								value={vehicle.monto_final_abonar}
 								onChange={handleVehicleChange}
-								className="rounded-full"
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								required
 							/>
 						</div>
@@ -747,14 +747,14 @@ function ReservationForm() {
 							>
 								Fecha de instalación
 							</Label>
-							<Input
+							<input
 								name="fecha_instalacion"
 								id="fecha_instalacion"
 								type="date"
 								value={vehicle.fecha_instalacion} // Este campo se mantiene en formato YYYY-MM-DD
 								onChange={handleVehicleChange}
 								required
-								className={`rounded-full focus-visible:ring-0 ${
+								className={`w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200 ${
 									loggedUserId2 === 3 || !warningMessage
 										? ""
 										: warningMessage
@@ -820,7 +820,7 @@ function ReservationForm() {
 
 				<Button
 					type="submit"
-					className={`w-full py-[1.3rem] rounded-sm ${loggedUserId2 === 3 ? "" : eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""}`}
+					className={`w-full py-[1.4rem] rounded-sm ${loggedUserId2 === 3 ? "" : eventCount >= 5 ? "opacity-50 cursor-not-allowed" : ""}`}
 					disabled={(eventCount >= 5 && loggedUserId2 !== 3) || loading}
 				>
 					{loading ? (

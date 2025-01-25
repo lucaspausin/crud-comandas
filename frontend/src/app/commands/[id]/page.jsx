@@ -355,13 +355,13 @@ export default function ComandaDetail({ params }) {
 								<Button
 									variant="ghost"
 									size="sm"
-									className="rounded-full text-emerald-600 hover:text-emerald-600 flex items-center gap-2 z-50 py-4 hover:bg-transparent text-sm"
+									className="rounded-full font-normal text-emerald-600 hover:text-emerald-600 flex items-center gap-2 z-50 py-4 hover:bg-transparent text-sm"
 									onClick={(e) => {
 										e.stopPropagation(); // Previene que el clic se propague al TableRow
 									}}
 								>
 									Ver Reserva
-									<Eye className="h-5 w-5 text-emerald-600" />
+									<Eye strokeWidth={1.5} className="h-5 w-5 text-emerald-600" />
 								</Button>
 							</>
 						</nav>

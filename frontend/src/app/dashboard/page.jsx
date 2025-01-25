@@ -19,15 +19,12 @@ export default function Dashboard() {
 
 	const [dashboardData, setDashboardData] = useState({
 		reservations: [],
-		commands: [],
-		calendarData: [],
 		stats: {
 			totalSales: 0,
 			currentMonthSales: 0,
 		},
 	});
 	const [loading, setLoading] = useState(true);
-	// const [isExpanded, setIsExpanded] = useState(false);
 
 	useEffect(() => {
 		const fetchDashboardData = async () => {
@@ -35,61 +32,19 @@ export default function Dashboard() {
 
 			setLoading(true);
 			try {
-				const [calendarResponse, reservationsResponse, commandsResponse] =
-					await Promise.all([
-						api.get("/api/calendar"),
-						api.get("/api/reservations"),
-						api.get("/api/commands"),
-					]);
 
-				// Filtrar y procesar datos del calendario
-				const calendarData = calendarResponse.data;
-				const today = new Date();
-				const firstDayOfMonth = new Date(
-					today.getFullYear(),
-					today.getMonth(),
-					1
-				);
+				const token = session.user.token;
 
-				// Calcular estadísticas basadas en el rol del usuario
-				let totalSales = 0;
-				let currentMonthSales = 0;
+				api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-				if (userRole === 1) {
-					// Para vendedores, filtrar por su ID
-					const userSales = calendarData.filter(
-						(item) => item.boletos_reservas.usuarios.id === session.user.id
-					);
-					totalSales = userSales.length;
-
-					// Para ventas del mes, aplicar filtro de estados
-					currentMonthSales = userSales.filter(
-						(item) =>
-							["senado", "confirmado", "completado"].includes(item.estado) &&
-							new Date(item.fecha_inicio) >= firstDayOfMonth &&
-							new Date(item.fecha_inicio) <= today
-					).length;
-				} else if (userRole === 3) {
-					// Para admin, mostrar todas las ventas sin filtro de estado
-					totalSales = calendarData.length;
-
-					// Para ventas del mes, aplicar filtro de estados
-					currentMonthSales = calendarData.filter(
-						(item) =>
-							["senado", "confirmado", "completado"].includes(item.estado) &&
-							new Date(item.fecha_inicio) >= firstDayOfMonth &&
-							new Date(item.fecha_inicio) <= today
-					).length;
-				}
+				const [reservationsResponse, statsResponse] = await Promise.all([
+					api.get("/api/reservations"),
+					api.get("/api/reservations/dashboard-stats"),
+				]);
 
 				setDashboardData({
 					reservations: reservationsResponse.data,
-					commands: commandsResponse.data,
-					calendarData,
-					stats: {
-						totalSales,
-						currentMonthSales,
-					},
+					stats: statsResponse.data,
 				});
 			} catch (error) {
 				console.error("Error loading dashboard:", error);
@@ -104,11 +59,11 @@ export default function Dashboard() {
 		if (session) {
 			fetchDashboardData();
 		}
-	}, [session, router, userRole]);
+	}, [session, router]);
 
 	return (
 		<div className="flex-1 bg-zinc-50">
-			{/* Sidebar */}
+			
 			{loading ? ( // Condicional para mostrar un loader
 				<div className="flex flex-col items-center justify-center h-[80vh] mx-auto">
 					<motion.div
@@ -135,9 +90,9 @@ export default function Dashboard() {
 			) : (
 				<>
 					<Aside />
-					<main className="flex flex-col items-stretch justify-normal p-6 pt-0 px-0 z-50">
+					<main className="flex flex-col items-center justify-center p-6 px-0 z-50">
 						{userRole !== 2 && (
-							<div className="grid grid-cols-2 gap-4 p-6 lg:px-6 xl:px-6 mb-8 lg:grid-cols-4 h-full">
+							<div className="grid grid-cols-2 gap-4 p-6 lg:px-6 xl:px-6 lg:grid-cols-4 h-full ">
 								<Card className="rounded-xl shadow-xl overflow-hidden col-span-3 lg:col-span-2 min-h-[250px] bg-gradient-to-b from-white to-zinc-50 group border-zinc-100 border pb-10 relative hover:border-zinc-300 duration-300 transition-all ease-in-out">
 									<div className="h-fit p-8 z-10">
 										<div className="flex items-center justify-between mb-6">
@@ -414,7 +369,7 @@ export default function Dashboard() {
 								<div className="grid grid-cols-2 grid-rows-[auto,2fr,2fr] gap-4 col-span-2">
 									{userRole !== 2 && (
 										<>
-											<Card className="rounded-xl flex flex-col gap-0 shadow-lg min-h-[150px] group border border-zinc-100 hover:border-zinc-300/80 transition-all duration-300 bg-zinc-50">
+											<Card className="rounded-xl flex flex-col gap-0 shadow-lg min-h-[150px] group border border-zinc-100 hover:border-zinc-300/80 transition-all duration-300 bg-zinc-50 p-1">
 												<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 													<CardTitle className="text-xl font-light text-zinc-800">
 														Ventas Totales
@@ -432,7 +387,7 @@ export default function Dashboard() {
 													</p>
 												</CardContent>
 											</Card>
-											<Card className="rounded-xl flex flex-col gap-0 shadow-lg min-h-[150px] group border border-zinc-100 hover:border-zinc-300/80 transition-all duration-300 bg-zinc-50">
+											<Card className="rounded-xl flex flex-col gap-0 shadow-lg min-h-[150px] group border border-zinc-100 hover:border-zinc-300/80 transition-all duration-300 bg-zinc-50 p-1">
 												<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 													<CardTitle className="text-xl font-light text-zinc-800">
 														Ventas del Mes
@@ -458,7 +413,7 @@ export default function Dashboard() {
 											className="relative h-full p-8 flex flex-col justify-between"
 										>
 											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												<h3 className="text-2xl font-light text-rose-950">
+												<h3 className="text-xl font-light text-rose-950">
 													Nueva Reserva
 												</h3>
 												<p className="text-rose-900/70 text-sm font-normal leading-relaxed">
@@ -467,7 +422,7 @@ export default function Dashboard() {
 												</p>
 											</div>
 											<div className="flex items-center text-rose-900 transition-all duration-300 ease-in-out group-hover:text-rose-700 mt-4">
-												<span>Comenzar</span>
+												<span className="text-sm">Comenzar</span>
 												<div className="ml-2 p-2 rounded-full bg-rose-100 group-hover:bg-rose-100/60 transition-all duration-300">
 													<PlusCircle className="w-4 h-4" />
 												</div>
@@ -480,7 +435,7 @@ export default function Dashboard() {
 											className="relative h-full p-8 flex flex-col justify-between"
 										>
 											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												<h3 className="text-2xl font-light text-emerald-950">
+												<h3 className="text-xl font-light text-emerald-950">
 													Catálogo
 												</h3>
 												<p className="text-emerald-900/70 text-sm font-normal leading-relaxed">
@@ -489,7 +444,7 @@ export default function Dashboard() {
 												</p>
 											</div>
 											<div className="flex items-center text-emerald-900 transition-all duration-300 ease-in-out group-hover:text-emerald-700 mt-4">
-												<span>Ver catálogo</span>
+												<span className="text-sm">Ver catálogo</span>
 												<div className="ml-2 p-2 rounded-full bg-emerald-100 group-hover:bg-emerald-100/60 transition-all duration-300">
 													<Eye className="w-4 h-4" />
 												</div>
@@ -522,7 +477,7 @@ export default function Dashboard() {
 										<div className="relative h-full p-8 flex flex-col justify-between">
 											<div className="space-y-4 transition-all duration-300 ease-in-out">
 												<div className="flex items-center gap-2">
-													<h3 className="text-2xl font-light text-violet-950">
+													<h3 className="text-xl font-light text-violet-950">
 														Calculadora
 													</h3>
 												</div>
@@ -532,7 +487,7 @@ export default function Dashboard() {
 												</p>
 											</div>
 											<div className="flex items-center text-violet-900/70 transition-all duration-300 ease-in-out mt-4">
-												<span>Calcular</span>
+												<span className="text-sm">Calcular</span>
 												<div className="ml-2 p-2 rounded-full bg-violet-100/70">
 													<ArrowRight className="w-4 h-4" />
 												</div>
@@ -545,12 +500,7 @@ export default function Dashboard() {
 											className="relative h-full p-8 flex flex-col justify-between"
 										>
 											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												{/* <div className="flex items-center gap-2">
-													<span className="px-3 py-1 text-xs font-medium bg-indigo-100 text-indigo-600 rounded-full">
-														¡Nuevo!
-													</span>
-											</div> */}
-												<h3 className="text-2xl font-light text-emerald-950">
+												<h3 className="text-xl font-light text-emerald-950">
 													Calendario
 												</h3>
 												<p className="text-indigo-900/70 text-sm font-normal leading-relaxed">
@@ -559,7 +509,7 @@ export default function Dashboard() {
 												</p>
 											</div>
 											<div className="flex items-center text-indigo-900 transition-all duration-300 ease-in-out group-hover:text-indigo-700 mt-4">
-												<span>Explorar</span>
+												<span className="text-sm">Explorar</span>
 												<div className="ml-2 p-2 rounded-full bg-indigo-100 group-hover:bg-indigo-100/60 transition-all duration-300">
 													<ArrowRight className="w-4 h-4" />
 												</div>

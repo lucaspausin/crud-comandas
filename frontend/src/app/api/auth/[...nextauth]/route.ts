@@ -159,7 +159,8 @@ const authOptions: NextAuthOptions = {
 	},
 	session: {
 		strategy: "jwt",
-		maxAge: 30 * 24 * 60 * 60,
+		maxAge: 365 * 24 * 60 * 60, // 1 año
+		updateAge: 24 * 60 * 60, // Actualizar la sesión cada día
 	},
 };
 

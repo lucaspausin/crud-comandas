@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 // import Link from "next/link";
 import Image from "next/image";
@@ -91,11 +91,11 @@ export default function LoginPage() {
 								>
 									Correo Electrónico
 								</Label>
-								<Input
+								<input
 									type="email"
 									placeholder="16kkarter@gmail.com"
 									name="email"
-									className="rounded-full"
+									className="w-full border border-zinc-200 rounded-xl px-4 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 									value={email}
 									onChange={(event) => setEmail(event.target.value)}
 								/>
@@ -107,11 +107,11 @@ export default function LoginPage() {
 								>
 									Contraseña
 								</Label>
-								<Input
+								<input
 									type="password"
 									placeholder="@!adH2s"
 									name="contrase_a"
-									className="rounded-full"
+									className="w-full border border-zinc-200 rounded-xl px-4 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 									value={contrase_a}
 									onChange={(event) => setPassword(event.target.value)}
 								/>
@@ -119,7 +119,7 @@ export default function LoginPage() {
 						</div>
 						<Button
 							type="submit"
-							className="w-full rounded-sm"
+							className="w-full rounded-xl py-5"
 							disabled={loading}
 						>
 							{loading ? (

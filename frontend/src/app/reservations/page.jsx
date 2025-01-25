@@ -24,7 +24,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-import HomeIcon from "@/components/HomeIcon";
+// import HomeIcon from "@/components/HomeIcon";
 import Image from "next/image";
 import myImage from "@/public/motorgas2.svg";
 import {
@@ -237,7 +237,7 @@ export default function AllReservationsPage() {
 					<Aside />
 					{/* Main Content */}
 					<main className="flex-1 p-6 lg:px-8 xl:px-8 overflow-y-auto">
-						<HomeIcon />
+						{/* <HomeIcon /> */}
 						<Card className="rounded-xl shadow-lg p-3 border-none">
 							<CardHeader>
 								<CardTitle className="text-xl font-light text-zinc-800">
@@ -320,12 +320,12 @@ export default function AllReservationsPage() {
 								<Table>
 									<TableHeader>
 										<TableRow>
-											<TableHead>Asesor</TableHead>
-											<TableHead>Cliente</TableHead>
-											<TableHead>Vehículo</TableHead>
-											<TableHead>Fecha</TableHead>
-											<TableHead>Precio</TableHead>
-											<TableHead>Acciones</TableHead>
+											<TableHead className="font-normal">Asesor</TableHead>
+											<TableHead className="font-normal">Cliente</TableHead>
+											<TableHead className="font-normal">Vehículo</TableHead>
+											<TableHead className="font-normal">Fecha</TableHead>
+											<TableHead className="font-normal">Precio</TableHead>
+											<TableHead className="font-normal">Acciones</TableHead>
 										</TableRow>
 									</TableHeader>
 									<TableBody>

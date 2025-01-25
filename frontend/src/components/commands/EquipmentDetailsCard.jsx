@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+// import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -56,12 +56,12 @@ export default function EquipmentDetailsCard({
 			<CardContent className="px-6 pt-6 pb-6">
 				<form
 					onSubmit={(e) => handleSubmitDetails(e, comanda.id)}
-					className="grid grid-cols-2 gap-6 text-sm"
+					className="grid grid-cols-2 gap-4 text-sm"
 				>
 					<div className="flex flex-col items-start gap-2">
 						<dt className="font-normal text-zinc-600">Reductor COD:</dt>
-						<Input
-							className="rounded-full focus-visible:ring-0"
+						<input
+							className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 							type="text"
 							required
 							value={formData.reductor_cod}
@@ -72,8 +72,8 @@ export default function EquipmentDetailsCard({
 					</div>
 					<div className="flex flex-col items-start gap-2">
 						<dt className="font-normal text-zinc-600">Reductor N°</dt>
-						<Input
-							className="rounded-full focus-visible:ring-0"
+						<input
+							className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 							value={formData.reductor_numero || ""}
 							required
 							onChange={(e) =>
@@ -112,8 +112,8 @@ export default function EquipmentDetailsCard({
 										<dt className="font-normal text-zinc-600">
 											Cilindro {index + 1} COD:
 										</dt>
-										<Input
-											className="rounded-full focus-visible:ring-0"
+										<input
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											value={formData[`cilindro_${index + 1}_cod`] || ""}
 											onChange={(e) =>
 												handleInputChange(
@@ -125,8 +125,8 @@ export default function EquipmentDetailsCard({
 										<dt className="font-normal text-zinc-600">
 											Cilindro {index + 1} N°
 										</dt>
-										<Input
-											className="rounded-full focus-visible:ring-0"
+										<input
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											value={formData[`cilindro_${index + 1}_numero`] || ""}
 											onChange={(e) =>
 												handleInputChange(
@@ -144,8 +144,8 @@ export default function EquipmentDetailsCard({
 										<dt className="font-normal text-zinc-600">
 											Válvula {index + 1} COD:
 										</dt>
-										<Input
-											className="rounded-full focus-visible:ring-0"
+										<input
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											value={formData[`valvula_${index + 1}_cod`] || ""}
 											onChange={(e) =>
 												handleInputChange(
@@ -157,8 +157,8 @@ export default function EquipmentDetailsCard({
 										<dt className="font-normal text-zinc-600">
 											Válvula {index + 1} N°
 										</dt>
-										<Input
-											className="rounded-full focus-visible:ring-0"
+										<input
+											className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 											value={formData[`valvula_${index + 1}_numero`] || ""}
 											onChange={(e) =>
 												handleInputChange(
@@ -182,7 +182,7 @@ export default function EquipmentDetailsCard({
 												index < prev ? prev - 1 : prev
 											);
 										}}
-										className="absolute -top-3 right-0 flex items-center gap-2 font-normal rounded-full text-red-400 hover:text-red-600 hover:bg-transparent hover:scale-105 hover:rotate-6"
+										className="absolute -top-3 right-0 flex items-center gap-2 font-normal rounded-full text-red-400 hover:text-red-600 hover:bg-transparent hover:scale-105 hover:rotate-6 "
 										variant="ghost"
 									>
 										<Minus strokeWidth={2.5} className="h-4 w-4" />
@@ -198,7 +198,7 @@ export default function EquipmentDetailsCard({
 								setNumCilindros((prev) => prev + 1);
 								setNumValvulas((prev) => prev + 1);
 							}}
-							className="mt-2 col-span-2 flex items-center gap-2 text-zinc-600 font-normal"
+							className="mt-2 col-span-2 flex items-center gap-2 text-zinc-600 font-normal py-5 rounded-xl"
 							variant="outline"
 						>
 							<Plus className="h-4 w-4" />
@@ -208,15 +208,15 @@ export default function EquipmentDetailsCard({
 
 					<div className="flex flex-col items-start gap-2">
 						<dt className="font-normal text-zinc-600">Reforma Escape:</dt>
-						<Input
-							className="rounded-full focus-visible:ring-0"
+						<input
+							className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 							value={formData.reforma_escape_texto || ""}
 							onChange={(e) =>
 								handleInputChange("reforma_escape_texto", e.target.value)
 							}
 						/>
 					</div>
-					<div className="flex flex-col items-start gap-2 my-6">
+					<div className="flex flex-col items-start justify-start self-start gap-2 my-8">
 						<label className="font-normal text-zinc-600 flex items-center gap-2">
 							<span>Carga Externa:</span>
 							<Input
@@ -231,8 +231,8 @@ export default function EquipmentDetailsCard({
 					</div>
 					<div className="flex flex-col items-start gap-2">
 						<dt className="font-normal text-zinc-600">Precio Carga Externa:</dt>
-						<Input
-							className="rounded-full focus-visible:ring-0"
+						<input
+							className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 							value={formData.precio_carga_externa || ""}
 							onChange={(e) =>
 								handleInputChange("precio_carga_externa", e.target.value)
@@ -241,16 +241,16 @@ export default function EquipmentDetailsCard({
 					</div>
 					<div className="flex flex-col items-start gap-2">
 						<dt className="font-normal text-zinc-600">Cuna:</dt>
-						<Input
-							className="rounded-full focus-visible:ring-0"
+						<input
+							className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 							value={formData.cuna || ""}
 							onChange={(e) => handleInputChange("cuna", e.target.value)}
 						/>
 					</div>
 					<div className="flex h-full flex-col items-start gap-2">
 						<dt className="font-normal text-zinc-600">Materiales:</dt>
-						<Textarea
-							className="h-full w-full rounded-xl align-top focus-visible:ring-0"
+						<textarea
+							className="h-full align-top w-full border border-zinc-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200 rounded-xl"
 							value={formData.materiales || ""}
 							onChange={(e) => handleInputChange("materiales", e.target.value)}
 						/>
@@ -281,8 +281,8 @@ export default function EquipmentDetailsCard({
 						<dt className="font-normal text-zinc-600">
 							Monto en Efectivo o Transferencia:
 						</dt>
-						<Input
-							className="rounded-full focus-visible:ring-0"
+						<input
+							className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 							value={formData.pagos_efectivo_transferencia || ""}
 							onChange={(e) =>
 								handleInputChange(
@@ -293,8 +293,8 @@ export default function EquipmentDetailsCard({
 						/>
 						<div className="flex flex-col items-start gap-2 w-full">
 							<dt className="font-normal text-zinc-600">Dolares:</dt>
-							<Input
-								className="rounded-full focus-visible:ring-0"
+							<input
+								className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 								value={formData.pagos_dolares || ""}
 								onChange={(e) =>
 									handleInputChange("pagos_dolares", e.target.value)
@@ -339,8 +339,8 @@ export default function EquipmentDetailsCard({
 										<Minus strokeWidth={2.5} className="h-4 w-4" />
 									</Button>
 								</div>
-								<Input
-									className="rounded-full focus-visible:ring-0"
+								<input
+									className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 									value={formData[`pagos_tarjeta_${index + 1}`] || ""}
 									onChange={(e) =>
 										handleInputChange(
@@ -352,8 +352,8 @@ export default function EquipmentDetailsCard({
 								<dt className="font-normal text-zinc-600">
 									Plan Tarjeta N° {index + 1}:
 								</dt>
-								<Input
-									className="rounded-full focus-visible:ring-0"
+								<input
+									className="w-full border border-zinc-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-zinc-200 bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
 									value={formData[`pagos_plan_tarjeta_${index + 1}`] || ""}
 									onChange={(e) =>
 										handleInputChange(
@@ -369,7 +369,7 @@ export default function EquipmentDetailsCard({
 						<Button
 							type="button"
 							onClick={() => setNumTarjetas((prev) => prev + 1)}
-							className="mt-2 flex items-center gap-2 text-zinc-600 font-normal"
+							className="mt-[1.7rem] flex items-center gap-2 text-zinc-600 font-normal py-5 rounded-xl"
 							variant="outline"
 						>
 							<Plus className="h-4 w-4" />
@@ -397,7 +397,7 @@ export default function EquipmentDetailsCard({
 					<Button
 						type="submit"
 						disabled={loading} // Deshabilitar si hay carga o si hay demasiados eventos
-						className="col-span-2"
+						className="col-span-2 py-5 rounded-sm"
 					>
 						{loading ? (
 							<div className="flex items-center gap-2 w-full">
