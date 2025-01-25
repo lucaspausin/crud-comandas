@@ -28,7 +28,9 @@ export class ReservationsService {
     } = createReservationDto;
 
     // Convertir todos los valores numéricos a números, asegurando que sean válidos
-    const senaValue = sena ? Number(sena) : 0;
+    const senaValue = sena
+      ? parseFloat(String(sena).replace(/[^\d.-]/g, ''))
+      : 0;
     const precioValue = precio ? Number(precio) : 0;
     const montoFinalValue = monto_final_abonar ? Number(monto_final_abonar) : 0;
     const precioCargaExternaValue = precio_carga_externa
@@ -108,7 +110,11 @@ export class ReservationsService {
           const eventoCalendario = await prisma.calendario.create({
             data: {
               boleto_reserva_id: reserva.id,
-              titulo: `${reserva.marca_vehiculo} ${reserva.modelo_vehiculo} ${reserva.patente_vehiculo} - ${reservationData.equipo} - ${usuario?.nombre_usuario || 'Usuario Desconocido'}`,
+              titulo: `${reserva.marca_vehiculo} ${reserva.modelo_vehiculo} ${
+                reserva.patente_vehiculo
+              } - ${reservationData.equipo} - ${
+                usuario?.nombre_usuario || 'Usuario Desconocido'
+              }`,
               fecha_inicio: reservationData.fecha_instalacion,
               estado: senaValue !== 0 ? 'senado' : 'pendiente',
             },
@@ -377,7 +383,11 @@ export class ReservationsService {
         }
 
         // Construye el nuevo título para el evento del calendario
-        const nuevoTitulo = `${reservation.marca_vehiculo} ${reservation.modelo_vehiculo} ${reservation.patente_vehiculo} - ${equipo || reservationWithClientAndUser.equipo} - ${nombre_usuario}`;
+        const nuevoTitulo = `${reservation.marca_vehiculo} ${
+          reservation.modelo_vehiculo
+        } ${reservation.patente_vehiculo} - ${
+          equipo || reservationWithClientAndUser.equipo
+        } - ${nombre_usuario}`;
 
         // Actualiza el evento del calendario asociado a la reserva si cambian `fecha_instalacion`, `modelo_patente` o `equipo`
         await prisma.calendario.updateMany({
@@ -433,6 +443,47 @@ export class ReservationsService {
     return {
       reservationDeleted,
       calendarioDeleted,
+    };
+  }
+
+  async getDashboardStats(user: any) {
+    const today = new Date();
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    // Primero obtenemos el total de ventas según el rol
+    const totalQuery = this.prismaService.boletos_reservas.findMany({
+      where: {
+        ...(user.role === 1 ? { usuario_id: user.userId } : {}),
+      },
+    });
+
+    // Luego obtenemos las ventas del mes actual con los estados específicos
+    const currentMonthQuery = this.prismaService.calendario.findMany({
+      where: {
+        estado: {
+          in: ['senado', 'confirmado', 'completado'],
+        },
+        fecha_inicio: {
+          gte: firstDayOfMonth,
+          lte: today,
+        },
+        boletos_reservas: {
+          ...(user.role === 1 ? { usuario_id: user.userId } : {}),
+        },
+      },
+      include: {
+        boletos_reservas: true,
+      },
+    });
+
+    const [reservations, currentMonthReservations] = await Promise.all([
+      totalQuery,
+      currentMonthQuery,
+    ]);
+
+    return {
+      totalSales: reservations.length,
+      currentMonthSales: currentMonthReservations.length,
     };
   }
 }

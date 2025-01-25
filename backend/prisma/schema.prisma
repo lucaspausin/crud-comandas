@@ -234,9 +234,12 @@ model support {
   equivalent_km  Int?
   created_at     DateTime         @default(now()) @db.Timestamp(0)
   updated_at     DateTime         @default(now()) @db.Timestamp(0)
-  initial_price  Decimal?         @db.Decimal(10, 2)
-  list_price     Decimal?         @db.Decimal(10, 2)
-  promo_price    Decimal?         @db.Decimal(10, 2)
+  initial_price_brc  Decimal?         @db.Decimal(10, 2)
+  list_price_brc     Decimal?         @db.Decimal(10, 2)
+  promo_price_brc    Decimal?         @db.Decimal(10, 2)
+  initial_price_ta   Decimal?         @db.Decimal(10, 2)
+  list_price_ta      Decimal?         @db.Decimal(10, 2)
+  promo_price_ta     Decimal?         @db.Decimal(10, 2)
   image          String?          @db.VarChar(255)
   support_images support_images[]
   vehicles       vehicles[]       @relation("supporttovehicles")

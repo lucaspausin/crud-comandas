@@ -37,6 +37,12 @@ export class ReservationsController {
     return await this.reservationsService.findSummary(userId, userRole);
   }
 
+  @Get('dashboard-stats')
+  @UseGuards(AuthGuard('jwt'))
+  async getDashboardStats(@Request() req) {
+    return this.reservationsService.getDashboardStats(req.user);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.reservationsService.findOne(+id);
