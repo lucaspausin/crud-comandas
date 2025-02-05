@@ -455,7 +455,11 @@ export class ReservationsService {
     const day15OfMonth = new Date(today.getFullYear(), today.getMonth(), 15);
     day15OfMonth.setUTCHours(23, 59, 59, 999);
 
-    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    const lastDayOfMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0,
+    );
     lastDayOfMonth.setUTCHours(23, 59, 59, 999);
 
     // Primero obtenemos el total de ventas según el rol
