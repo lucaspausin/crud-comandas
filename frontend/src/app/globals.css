@@ -114,8 +114,8 @@
 
 body {
 	font-family: Arial, Helvetica, sans-serif;
-	max-width: 1366px;
-	margin: 80px auto 0;
+	max-width: 1266px;
+	margin: 80px auto 15px;
 	color: #4b5563;
 	background-color: #f9fafb;
 }

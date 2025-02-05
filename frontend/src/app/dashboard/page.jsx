@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { ClipboardList, ArrowRight, Car, PlusCircle, Eye } from "lucide-react";
+import { ArrowRight, PlusCircle, Eye } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -22,6 +22,8 @@ export default function Dashboard() {
 		stats: {
 			totalSales: 0,
 			currentMonthSales: 0,
+			firstHalfMonthSales: 0,
+			secondHalfMonthSales: 0,
 		},
 	});
 	const [loading, setLoading] = useState(true);
@@ -32,7 +34,6 @@ export default function Dashboard() {
 
 			setLoading(true);
 			try {
-
 				const token = session.user.token;
 
 				api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -63,7 +64,6 @@ export default function Dashboard() {
 
 	return (
 		<div className="flex-1 bg-zinc-50">
-			
 			{loading ? ( // Condicional para mostrar un loader
 				<div className="flex flex-col items-center justify-center h-[80vh] mx-auto">
 					<motion.div
@@ -92,8 +92,96 @@ export default function Dashboard() {
 					<Aside />
 					<main className="flex flex-col items-center justify-center p-6 px-0 z-50">
 						{userRole !== 2 && (
-							<div className="grid grid-cols-2 gap-4 p-6 lg:px-6 xl:px-6 lg:grid-cols-4 h-full ">
-								<Card className="rounded-xl shadow-xl overflow-hidden col-span-3 lg:col-span-2 min-h-[250px] bg-gradient-to-b from-white to-zinc-50 group border-zinc-100 border pb-10 relative hover:border-zinc-300 duration-300 transition-all ease-in-out">
+							<div className="grid grid-cols-2 gap-4 px-6 lg:px-6 xl:px-6 lg:grid-cols-4 h-full ">
+								<div className="grid grid-cols-4 grid-rows-1 gap-4 col-span-4 col-start-1 col-end-5">
+									<Card className="relative rounded-xl shadow-xl overflow-visible col-span-2 md:col-span-1 min-h-[250px] bg-transparent group border-rose-100 hover:border-rose-200 hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
+										<Link
+											href="/add-order"
+											className="relative h-full p-8 flex flex-col justify-between"
+										>
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<h3 className="text-xl font-light text-rose-950">
+													Nueva Reserva
+												</h3>
+												<p className="text-rose-900/70 text-sm font-normal leading-relaxed">
+													Crea un nuevo boleto de reserva fácilmente.
+												</p>
+											</div>
+											<div className="flex items-center text-rose-900 transition-all duration-300 ease-in-out group-hover:text-rose-700 mt-4">
+												<span className="text-sm">Comenzar</span>
+												<div className="ml-2 p-2 rounded-full bg-rose-100 group-hover:bg-rose-100/60 transition-all duration-300">
+													<PlusCircle className="w-4 h-4" />
+												</div>
+											</div>
+										</Link>
+									</Card>
+									<Card className="relative rounded-xl shadow-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-emerald-50 group border-emerald-100 hover:border-emerald-200/80 hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
+										<Link
+											href="/catalogue"
+											className="relative h-full p-8 flex flex-col justify-between"
+										>
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<h3 className="text-xl font-light text-emerald-950">
+													Catálogo
+												</h3>
+												<p className="text-emerald-900/70 text-sm font-normal leading-relaxed">
+													Accede a nuestro catálogo de equipos.
+												</p>
+											</div>
+											<div className="flex items-center text-emerald-900 transition-all duration-300 ease-in-out group-hover:text-emerald-700 mt-4">
+												<span className="text-sm">Ver catálogo</span>
+												<div className="ml-2 p-2 rounded-full bg-emerald-100 group-hover:bg-emerald-100/60 transition-all duration-300">
+													<Eye className="w-4 h-4" />
+												</div>
+											</div>
+										</Link>
+									</Card>
+									<Card className="relative rounded-xl shadow-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-violet-50 group border-violet-200 hover:border-violet-300/80 hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
+										<Link
+											href="/calculator"
+											className="relative h-full p-8 flex flex-col justify-between"
+										>
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<h3 className="text-xl font-light text-violet-950">
+													Calculadora
+												</h3>
+												<p className="text-violet-900/70 text-sm font-normal leading-relaxed">
+													Calcula cotizaciones de equipos y genera presupuestos
+													de manera rápida y precisa.
+												</p>
+											</div>
+											<div className="flex items-center text-violet-900 transition-all duration-300 ease-in-out group-hover:text-violet-700 mt-4">
+												<span className="text-sm">Calcular</span>
+												<div className="ml-2 p-2 rounded-full bg-violet-100 group-hover:bg-violet-100/60 transition-all duration-300">
+													<ArrowRight className="w-4 h-4" />
+												</div>
+											</div>
+										</Link>
+									</Card>
+
+									<Card className="relative rounded-xl shadow-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-indigo-50 group border-indigo-200/80 hover:border-indigo-300/70 hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
+										<Link
+											href="/calendar"
+											className="relative h-full p-8 flex flex-col justify-between"
+										>
+											<div className="space-y-4 transition-all duration-300 ease-in-out">
+												<h3 className="text-xl font-light text-indigo-900">
+													Calendario
+												</h3>
+												<p className="text-indigo-900/70 text-sm font-normal leading-relaxed">
+													Vista unificada de eventos y reservas en tiempo real.
+												</p>
+											</div>
+											<div className="flex items-center text-indigo-900 transition-all duration-300 ease-in-out group-hover:text-indigo-700 mt-4">
+												<span className="text-sm">Explorar</span>
+												<div className="ml-2 p-2 rounded-full bg-indigo-100 group-hover:bg-indigo-100/60 transition-all duration-300">
+													<ArrowRight className="w-4 h-4" />
+												</div>
+											</div>
+										</Link>
+									</Card>
+								</div>
+								<Card className="rounded-xl shadow-xl overflow-hidden col-span-4 lg:col-span-4 min-h-[250px] bg-gradient-to-b from-white to-zinc-50 group border-zinc-100 border pb-10 relative hover:border-zinc-300 duration-300 transition-all ease-in-out">
 									<div className="h-fit p-8 z-10">
 										<div className="flex items-center justify-between mb-6">
 											<div className="space-y-1">
@@ -126,6 +214,21 @@ export default function Dashboard() {
 															return installationString === todayString;
 														});
 
+													// Check for future installations
+													const futureInstallations =
+														userFilteredReservations.filter((reservation) => {
+															const installationDate = new Date(
+																reservation.fecha_instalacion
+															);
+															installationDate.setHours(
+																installationDate.getHours() + 3
+															);
+															const installationString = installationDate
+																.toISOString()
+																.split("T")[0];
+															return installationString > todayString;
+														});
+
 													if (todayInstallations.length > 0) {
 														return (
 															<>
@@ -139,7 +242,10 @@ export default function Dashboard() {
 														);
 													}
 
-													if (userFilteredReservations.length === 0) {
+													if (
+														todayInstallations.length === 0 &&
+														futureInstallations.length === 0
+													) {
 														return (
 															<>
 																<h3 className="text-2xl font-light text-zinc-900">
@@ -262,8 +368,14 @@ export default function Dashboard() {
 																				` ${new Intl.NumberFormat("es-AR", {
 																					style: "currency",
 																					currency: "ARS",
+																					minimumFractionDigits: 0,
+																					maximumFractionDigits: 0,
 																				}).format(
-																					reservation.precio_carga_externa
+																					parseFloat(
+																						reservation.precio_carga_externa
+																							.replace(/\./g, "")
+																							.replace(/,/g, ".")
+																					)
 																				)}`}
 																		</div>
 																	)}
@@ -366,157 +478,148 @@ export default function Dashboard() {
 										</motion.div>
 									</div>
 								</Card>
-								<div className="grid grid-cols-2 grid-rows-[auto,2fr,2fr] gap-4 col-span-2">
-									{userRole !== 2 && (
-										<>
-											<Card className="rounded-xl flex flex-col gap-0 shadow-lg min-h-[150px] group border border-zinc-100 hover:border-zinc-300/80 transition-all duration-300 bg-zinc-50 p-1">
-												<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-													<CardTitle className="text-xl font-light text-zinc-800">
-														Ventas Totales
-													</CardTitle>
-													<ClipboardList className="w-4 h-4 text-zinc-800 text-muted-foreground" />
-												</CardHeader>
-												<CardContent className="flex flex-col justify-between gap-2">
-													<div className="text-xl font-light text-zinc-800">
-														{dashboardData.stats.totalSales}
+								{userRole !== 2 && (
+									<>
+										<div className="grid col-start-1 col-end-5 grid-cols-2 gap-3 col-span-4 border rounded-lg bg-white shadow-lg hover:border-zinc-300 transition-all duration-300 border-zinc-100 grid-rows-[auto] px-4 py-4">
+											<Card className="rounded-lg border-none shadow-sm hover:shadow-md transition-all duration-300 bg-white p-2">
+												<CardHeader className="p-4 pb-2 space-y-0">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-sm font-normal text-zinc-600">
+															1° Quincena
+														</CardTitle>
 													</div>
-													<p className="text-sm font-normal text-zinc-500 leading-relaxed text-muted-foreground">
+												</CardHeader>
+												<CardContent className="p-4 pt-1">
+													<div className="text-2xl font-normal text-zinc-900">
+														{dashboardData.stats.firstHalfMonthSales}
+													</div>
+													<p className="text-xs text-zinc-600 mt-1">
 														{userRole === 1
-															? "Estas son tus ventas totales acumuladas hasta la fecha."
-															: "Estas son todas las ventas totales acumuladas hasta la fecha."}
+															? "Tus ventas del inicio del mes hasta el 15."
+															: "Ventas del inicio del mes hasta el 15."}
 													</p>
 												</CardContent>
 											</Card>
-											<Card className="rounded-xl flex flex-col gap-0 shadow-lg min-h-[150px] group border border-zinc-100 hover:border-zinc-300/80 transition-all duration-300 bg-zinc-50 p-1">
-												<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-													<CardTitle className="text-xl font-light text-zinc-800">
-														Ventas del Mes
-													</CardTitle>
-													<Car className="w-4 h-4 text-muted-foreground" />
+
+											<Card className="rounded-lg border-none shadow-sm hover:shadow-md transition-all duration-300 bg-white p-2">
+												<CardHeader className="p-4 pb-2 space-y-0">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-sm font-normal text-zinc-600">
+															2° Quincena
+														</CardTitle>
+													</div>
 												</CardHeader>
-												<CardContent className="flex flex-col justify-between gap-2">
-													<div className="text-xl font-light text-zinc-800">
+												<CardContent className="p-4 pt-1">
+													<div className="text-2xl font-normal text-zinc-900">
+														{dashboardData.stats.secondHalfMonthSales}
+													</div>
+													<p className="text-xs text-zinc-600 mt-1">
+														{userRole === 1
+															? "Tus ventas del 16 hasta el final del mes."
+															: "Ventas del 16 hasta el final del mes."}
+													</p>
+												</CardContent>
+											</Card>
+
+											<Card className="rounded-lg border-none shadow-sm hover:shadow-md transition-all duration-300 bg-white p-2">
+												<CardHeader className="p-4 pb-2 space-y-0">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-sm font-normal text-zinc-600">
+															Mes Actual
+														</CardTitle>
+													</div>
+												</CardHeader>
+												<CardContent className="p-4 pt-1">
+													<div className="text-2xl font-normal text-zinc-700">
 														{dashboardData.stats.currentMonthSales}
 													</div>
-													<p className="text-sm font-normal text-zinc-500 leading-relaxed text-muted-foreground">
+													<p className="text-xs text-zinc-600 mt-1">
 														{userRole === 1
-															? "Estas son tus ventas del mes que han sido señaladas o procesadas hasta la fecha."
-															: "Estas son todas las ventas del mes que han sido señaladas o procesadas hasta la fecha."}
+															? "Tus ventas del mes."
+															: "Ventas del mes."}
 													</p>
 												</CardContent>
 											</Card>
-										</>
-									)}
-									<Card className="relative rounded-xl shadow-xl overflow-visible col-span-2 md:col-span-1 min-h-[250px] bg-transparent group border-rose-100 hover:border-rose-200 hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
-										<Link
-											href="/add-order"
-											className="relative h-full p-8 flex flex-col justify-between"
-										>
-											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												<h3 className="text-xl font-light text-rose-950">
-													Nueva Reserva
-												</h3>
-												<p className="text-rose-900/70 text-sm font-normal leading-relaxed">
-													Crea un nuevo boleto de reserva de manera rápida y
-													sencilla.
-												</p>
-											</div>
-											<div className="flex items-center text-rose-900 transition-all duration-300 ease-in-out group-hover:text-rose-700 mt-4">
-												<span className="text-sm">Comenzar</span>
-												<div className="ml-2 p-2 rounded-full bg-rose-100 group-hover:bg-rose-100/60 transition-all duration-300">
-													<PlusCircle className="w-4 h-4" />
-												</div>
-											</div>
-										</Link>
-									</Card>
-									<Card className="relative rounded-xl shadow-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-emerald-50 group border-emerald-100 hover:border-emerald-200/80 hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
-										<Link
-											href="/catalogue"
-											className="relative h-full p-8 flex flex-col justify-between"
-										>
-											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												<h3 className="text-xl font-light text-emerald-950">
-													Catálogo
-												</h3>
-												<p className="text-emerald-900/70 text-sm font-normal leading-relaxed">
-													Accede a nuestro catálogo completo de equipos y
-													especificaciones técnicas.
-												</p>
-											</div>
-											<div className="flex items-center text-emerald-900 transition-all duration-300 ease-in-out group-hover:text-emerald-700 mt-4">
-												<span className="text-sm">Ver catálogo</span>
-												<div className="ml-2 p-2 rounded-full bg-emerald-100 group-hover:bg-emerald-100/60 transition-all duration-300">
-													<Eye className="w-4 h-4" />
-												</div>
-											</div>
-										</Link>
-									</Card>
-									{/* <Card className="relative rounded-xl shadow-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-violet-50 group border-violet-200 hover:border-violet-300/80 hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
-										<Link
-											href="/calculator"
-											className="relative h-full p-8 flex flex-col justify-between"
-										>
-											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												<h3 className="text-2xl font-light text-violet-950">
-													Calculadora
-												</h3>
-												<p className="text-violet-900/70 text-sm font-normal leading-relaxed">
-													Calcula cotizaciones de equipos y genera presupuestos
-													de manera rápida y precisa.
-												</p>
-											</div>
-											<div className="flex items-center text-violet-900 transition-all duration-300 ease-in-out group-hover:text-violet-700 mt-4">
-												<span>Calcular</span>
-												<div className="ml-2 p-2 rounded-full bg-violet-100 group-hover:bg-violet-100/60 transition-all duration-300">
-													<ArrowRight className="w-4 h-4" />
-												</div>
-											</div>
-										</Link>
-									</Card> */}
-									<Card className="relative rounded-xl shadow-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-violet-50/50 group border-violet-100 cursor-not-allowed opacity-60 transform transition-all duration-300">
-										<div className="relative h-full p-8 flex flex-col justify-between">
-											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												<div className="flex items-center gap-2">
-													<h3 className="text-xl font-light text-violet-950">
-														Calculadora
-													</h3>
-												</div>
-												<p className="text-violet-900/70 text-sm font-normal leading-relaxed">
-													Calcula cotizaciones de equipos y genera presupuestos
-													de manera rápida y precisa.
-												</p>
-											</div>
-											<div className="flex items-center text-violet-900/70 transition-all duration-300 ease-in-out mt-4">
-												<span className="text-sm">Calcular</span>
-												<div className="ml-2 p-2 rounded-full bg-violet-100/70">
-													<ArrowRight className="w-4 h-4" />
-												</div>
-											</div>
+											<Card className="rounded-lg border-none shadow-sm hover:shadow-md transition-all duration-300 bg-white p-2">
+												<CardHeader className="p-4 pb-2 space-y-0">
+													<div className="flex items-center justify-between">
+														<CardTitle className="text-sm font-normal text-zinc-600">
+															Total
+														</CardTitle>
+													</div>
+												</CardHeader>
+												<CardContent className="p-4 pt-1">
+													<div className="text-2xl font-normal text-zinc-900">
+														{dashboardData.stats.totalSales}
+													</div>
+													<p className="text-xs text-zinc-600 mt-1">
+														{userRole === 1
+															? "Tus ventas totales."
+															: "Ventas totales."}
+													</p>
+												</CardContent>
+											</Card>
+
+											{/* <p className="text-xs font-light text-zinc-900 px-2 col-span-4 my-0">
+													Ventas contabilizadas únicamente si están procesadas,
+													con señas o completas. *
+												</p> */}
 										</div>
+									</>
+								)}
+
+								{/* {userRole !== 2 && userRole !== 2 && (
+								<div className="col-span-4 text-center hover:border-zinc-300 transition-all duration-300 border-zinc-100 border rounded-lg">
+									<Card className="rounded-lg border-none shadow-sm hover:shadow-md transition-all duration-300 bg-white p-2 text-center">
+										<CardHeader className="p-4 pb-2 space-y-0 text-center">
+											<div className="flex items-center justify-center text-center">
+												<CardTitle className="text-sm font-normal text-center text-zinc-600">
+													A cobrar de la primera quincena
+												</CardTitle>
+											</div>
+										</CardHeader>
+										<CardContent className="p-4 pt-1">
+											<div className="text-2xl font-normal text-zinc-900">
+												{new Intl.NumberFormat("es-AR", {
+													style: "currency",
+													currency: "ARS",
+												}).format(
+													dashboardData.stats.firstHalfMonthSales * 50000
+												)}
+											</div>
+											<p className="text-xs text-zinc-600 mt-1">
+												{userRole === 1
+													? "Tus ventas del inicio del mes hasta el 15."
+													: "Ventas del inicio del mes hasta el 15."}
+											</p>
+										</CardContent>
 									</Card>
-									<Card className="relative rounded-xl shadow-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-indigo-50 group border-indigo-200/80 hover:border-indigo-300/70 hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
-										<Link
-											href="/calendar"
-											className="relative h-full p-8 flex flex-col justify-between"
-										>
-											<div className="space-y-4 transition-all duration-300 ease-in-out">
-												<h3 className="text-xl font-light text-emerald-950">
-													Calendario
-												</h3>
-												<p className="text-indigo-900/70 text-sm font-normal leading-relaxed">
-													Accede en tiempo real a todos tus eventos y reservas
-													en una vista unificada y elegante.
-												</p>
+									<Card className="rounded-lg border-none shadow-sm hover:shadow-md transition-all duration-300 bg-white p-2">
+										<CardHeader className="p-4 pb-2 space-y-0">
+											<div className="flex items-center justify-center">
+												<CardTitle className="text-sm font-normal text-zinc-600">
+													A cobrar de la segunda quincena
+												</CardTitle>
 											</div>
-											<div className="flex items-center text-indigo-900 transition-all duration-300 ease-in-out group-hover:text-indigo-700 mt-4">
-												<span className="text-sm">Explorar</span>
-												<div className="ml-2 p-2 rounded-full bg-indigo-100 group-hover:bg-indigo-100/60 transition-all duration-300">
-													<ArrowRight className="w-4 h-4" />
-												</div>
+										</CardHeader>
+										<CardContent className="p-4 pt-1">
+											<div className="text-2xl font-normal text-zinc-900">
+												{new Intl.NumberFormat("es-AR", {
+													style: "currency",
+													currency: "ARS",
+												}).format(
+													dashboardData.stats.secondHalfMonthSales * 50000
+												)}
 											</div>
-										</Link>
+											<p className="text-xs text-zinc-600 mt-1">
+												{userRole === 1
+													? "Tus ventas del inicio del mes hasta el 15."
+													: "Ventas del inicio del mes hasta el 15."}
+											</p>
+										</CardContent>
 									</Card>
 								</div>
+								)} */}
 							</div>
 						)}
 						{userRole === 2 && <CommandsTable />}

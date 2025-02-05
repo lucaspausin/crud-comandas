@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -20,6 +20,17 @@ export default function Calculator() {
 	const [selectedPrice, setSelectedPrice] = useState("list"); // "initial", "list", "promo"
 	const [supports, setSupports] = useState([]);
 	const [selectedSupport, setSelectedSupport] = useState(null);
+	const [paymentPlans, setPaymentPlans] = useState({});
+	const [selectedGeneration, setSelectedGeneration] = useState("");
+
+	// Agregar array con los códigos de los supports más utilizados
+	const topSupports = ["5ta-40l", "5ta-60l", "5ta-30lx2b"];
+
+	// Envolver generations en useMemo
+	const generations = useMemo(
+		() => ["3ra-", "4ta-", "5ta-", "5taesp", "6ta-", "6taesp"],
+		[]
+	);
 
 	useEffect(() => {
 		// Cargar los soportes al montar el componente
@@ -33,6 +44,13 @@ export default function Calculator() {
 				if (supportCode) {
 					const support = response.data.find((s) => s.code === supportCode);
 					if (support) {
+						// Encontrar la generación correspondiente
+						const generation = generations.find((gen) =>
+							support.code.startsWith(gen)
+						);
+						if (generation) {
+							setSelectedGeneration(generation);
+						}
 						setSelectedSupport(support);
 					}
 				}
@@ -42,7 +60,7 @@ export default function Calculator() {
 		};
 
 		fetchSupports();
-	}, [searchParams]);
+	}, [searchParams, generations]);
 
 	useEffect(() => {
 		// Si hay un soporte seleccionado, actualizar los precios según el modo BRC/TA
@@ -78,8 +96,51 @@ export default function Calculator() {
 		}
 	}, [searchParams, isBRC, selectedSupport]);
 
+	useEffect(() => {
+		// Cargar los planes de pago al montar el componente
+		const fetchPaymentPlans = async () => {
+			try {
+				const response = await api.get("/api/payment-plans");
+				// Convertir el array de planes a un objeto con el formato requerido
+				const plans = response.data.reduce((acc, plan) => {
+					if (plan.active) {
+						// Usar el ID como key si no hay code, o crear un key basado en el nombre
+						const key = plan.name.toLowerCase().replace(/\s+/g, "");
+						acc[key] = {
+							interest: Number(plan.interest),
+							installments: plan.installments,
+							label: plan.name,
+						};
+					}
+					return acc;
+				}, {});
+				setPaymentPlans(plans);
+			} catch (error) {
+				console.error("Error fetching payment plans:", error);
+			}
+		};
+
+		fetchPaymentPlans();
+	}, []);
+
 	const handleSupportSelect = (support) => {
+		// Si no hay soporte seleccionado, solo limpiamos los estados
+		if (!support) {
+			setSelectedSupport(null);
+			setSelectedGeneration("");
+			setInitialPrice("");
+			setListPrice("");
+			setPromoPrice("");
+			return;
+		}
+
 		setSelectedSupport(support);
+
+		// Actualizar la generación seleccionada basada en el código del soporte
+		const generation = generations.find((gen) => support.code.startsWith(gen));
+		if (generation) {
+			setSelectedGeneration(generation);
+		}
 
 		// Actualizar precios según el modo actual
 		if (isBRC) {
@@ -105,16 +166,6 @@ export default function Calculator() {
 		}
 	};
 
-	// Objeto con los planes de pago y sus intereses
-	const paymentPlans = {
-		debit: { interest: 1.13, installments: 1, label: "Débito" },
-		onePayment: { interest: 1.23, installments: 1, label: "1 Pago" },
-		threePayments: { interest: 1.75, installments: 3, label: "3 Pagos" },
-		sixPayments: { interest: 1.92, installments: 6, label: "6 Pagos" },
-		simpleThree: { interest: 1.18, installments: 3, label: "Cuota Simple 3" },
-		simpleSix: { interest: 1.25, installments: 6, label: "Cuota Simple 6" },
-	};
-
 	// Función para formatear números a formato de moneda argentina
 	const formatCurrency = (number) => {
 		return new Intl.NumberFormat("es-AR", {
@@ -136,6 +187,17 @@ export default function Calculator() {
 			installmentAmount: formatCurrency(installmentAmount),
 			totalAmount: formatCurrency(totalAmount),
 		};
+	};
+
+	// Función para agrupar los soportes por generación
+	const getSupportsByGeneration = (generation) => {
+		return supports.filter((support) => support.code.startsWith(generation));
+	};
+
+	// Función para manejar el cambio de generación
+	const handleGenerationChange = (e) => {
+		setSelectedGeneration(e.target.value);
+		setSelectedSupport(null); // Reset selected support when generation changes
 	};
 
 	return (
@@ -204,31 +266,108 @@ export default function Calculator() {
 									</motion.button>
 								</div>
 							</div>
-							<select
-								value={selectedPrice}
-								onChange={(e) => setSelectedPrice(e.target.value)}
-								className="w-full border border-zinc-200 rounded-md px-2 py-2.5 text-sm focus:outline-none  bg-white/50 text-zinc-900 placeholder:text-zinc-600 transition-all duration-200"
-							>
-								<option value="initial">Precio Inicial</option>
-								<option value="list">Precio de Lista</option>
-								<option value="promo">Precio Promocional</option>
-							</select>
-							<div className="grid grid-cols-3 md:grid-cols-8 gap-2">
-								{supports.map((support) => (
-									<div
-										key={support.id}
-										onClick={() => handleSupportSelect(support)}
-										className={`cursor-pointer p-2.5 rounded-md text-sm border ${
-											selectedSupport?.id === support.id
-												? isBRC
-													? "border hover:border-red-100 border-red-200 bg-zinc-50 text-red-500"
-													: "border hover:border-blue-100 border-blue-200 bg-blue-50 text-blue-500"
-												: "bg-white text-zinc-600 border-zinc-200 hover:border-zinc-300"
-										} transition-colors`}
+
+							<div className="space-y-4">
+								<motion.div
+									className="space-y-2"
+									initial={{ opacity: 0, y: 10 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.3 }}
+								>
+									<p className="text-sm font-normal text-zinc-600">
+										Seleccionar Generación
+									</p>
+									<select
+										value={selectedGeneration}
+										onChange={handleGenerationChange}
+										className="w-full border border-zinc-200 rounded-md px-2 py-2.5 text-sm focus:outline-none bg-white/50 text-zinc-600 placeholder:text-zinc-600 transition-all duration-200"
 									>
-										{support.code}
+										<option value="">Seleccionar generación</option>
+										{generations.map((gen) => (
+											<option key={gen} value={gen}>
+												{gen.replace("-", "")} Generación
+											</option>
+										))}
+									</select>
+
+									{selectedGeneration && (
+										<>
+											<p className="text-sm font-normal text-zinc-600">
+												Seleccionar Cilindro
+											</p>
+											<motion.select
+												initial={{ opacity: 0, y: 5 }}
+												animate={{ opacity: 1, y: 0 }}
+												transition={{ duration: 0.2 }}
+												value={selectedSupport?.id || ""}
+												onChange={(e) => {
+													const support = supports.find(
+														(s) => s.id === Number(e.target.value)
+													);
+													handleSupportSelect(support);
+												}}
+												className="w-full border border-zinc-200 rounded-md px-2 py-2.5 text-sm focus:outline-none bg-white/50 text-zinc-600 placeholder:text-zinc-600 transition-all duration-200"
+											>
+												<option value="">Seleccionar soporte</option>
+												{getSupportsByGeneration(selectedGeneration).map(
+													(support) => (
+														<option key={support.id} value={support.id}>
+															{support.code}
+														</option>
+													)
+												)}
+											</motion.select>
+										</>
+									)}
+								</motion.div>
+
+								<motion.div
+									className="space-y-2"
+									initial={{ opacity: 0, y: 10 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.3, delay: 0.1 }}
+								>
+									<p className="text-sm font-normal text-zinc-600">
+										Soportes más utilizados
+									</p>
+									<div className="flex flex-wrap gap-2">
+										{supports
+											.filter((support) => topSupports.includes(support.code))
+											.map((support, index) => (
+												<motion.div
+													key={support.id}
+													initial={{ opacity: 0, scale: 0.95 }}
+													animate={{ opacity: 1, scale: 1 }}
+													transition={{ duration: 0.2, delay: index * 0.05 }}
+													whileHover={{ scale: 1.02 }}
+													whileTap={{ scale: 0.98 }}
+													onClick={() => handleSupportSelect(support)}
+													className={`cursor-pointer p-2.5 rounded-md text-sm border ${
+														selectedSupport?.id === support.id
+															? isBRC
+																? "border hover:border-red-100 border-red-200 "
+																: "border hover:border-blue-100 border-blue-200 "
+															: "bg-white text-zinc-600 border-zinc-200 hover:border-zinc-300"
+													} transition-colors`}
+												>
+													{support.code}
+												</motion.div>
+											))}
 									</div>
-								))}
+								</motion.div>
+
+								<motion.select
+									initial={{ opacity: 0, y: 10 }}
+									animate={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.3, delay: 0.2 }}
+									value={selectedPrice}
+									onChange={(e) => setSelectedPrice(e.target.value)}
+									className="w-full border border-zinc-200 rounded-md px-2 py-2.5 text-sm focus:outline-none bg-white/50 text-zinc-600 placeholder:text-zinc-600 transition-all duration-200"
+								>
+									<option value="initial">Precio Inicial</option>
+									<option value="list">Precio de Lista</option>
+									<option value="promo">Precio Promocional</option>
+								</motion.select>
 							</div>
 						</div>
 						<div className="p-6 pt-0">
@@ -284,45 +423,55 @@ export default function Calculator() {
 											const payment = calculatePayment(getActivePrice(), plan);
 											return (
 												<motion.div
+													key={`${key}-${isBRC}`}
 													initial={{ opacity: 0 }}
-													animate={{ opacity: 1 }}
-													transition={{ delay: index * 0.1 }}
-													key={key}
-													className={`p-4 rounded-md space-y-2 border transition-colors ${
+													animate={{
+														opacity: 1,
+														rotateY: [-10, 0],
+														scale: [0.95, 1],
+													}}
+													transition={{
+														duration: 0.4,
+														ease: "easeOut",
+														delay: index * 0.1,
+													}}
+													style={{
+														perspective: 1000,
+														transformStyle: "preserve-3d",
+													}}
+													className={`p-4 rounded-md space-y-2 border  text-zinc-600 font-light transition-all duration-300 ${
 														isBRC
-															? "bg-zinc-50 border-red-100 hover:border-red-200"
-															: "bg-zinc-50 border-blue-100 hover:border-blue-200"
+															? "border-none shadow-sm hover:shadow-md"
+															: "border-none shadow-sm hover:shadow-md"
 													}`}
 												>
-													<h4
-														className={`font-normal ${
-															isBRC ? "text-red-700" : "text-blue-700"
-														}`}
+													<motion.div
+														animate={{
+															rotateX: [-2, 0],
+															y: [10, 0],
+														}}
+														transition={{
+															duration: 0.4,
+															ease: "easeOut",
+															delay: index * 0.1,
+														}}
 													>
-														{plan.label}
-													</h4>
-													<div className="space-y-1 text-sm">
-														<p
-															className={
-																isBRC ? "text-red-600/70" : "text-blue-600/70"
-															}
-														>
-															Cuota:{" "}
-															<span className="font-medium">
-																ARS ${payment.installmentAmount}
-															</span>
-														</p>
-														<p
-															className={
-																isBRC ? "text-red-600/70" : "text-blue-600/70"
-															}
-														>
-															Total:{" "}
-															<span className="font-medium">
-																ARS ${payment.totalAmount}
-															</span>
-														</p>
-													</div>
+														<h4 className="font-normal">{plan.label}</h4>
+														<div className="space-y-1 text-sm">
+															<p>
+																Cuota:{" "}
+																<span className="font-medium">
+																	ARS ${payment.installmentAmount}
+																</span>
+															</p>
+															<p>
+																Total:{" "}
+																<span className="font-medium">
+																	ARS ${payment.totalAmount}
+																</span>
+															</p>
+														</div>
+													</motion.div>
 												</motion.div>
 											);
 										})}

@@ -182,7 +182,7 @@ export default function Settings() {
 											}}
 											type="button"
 											onClick={() => setEditingBrand(null)}
-											className="px-4 py-3.5 rounded-sm border border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition-colors duration-200 w-full font-normal text-sm"
+											className="px-4 py-2.5 rounded-sm border border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition-colors duration-200 w-full font-normal text-sm"
 										>
 											Cancelar
 										</motion.button>

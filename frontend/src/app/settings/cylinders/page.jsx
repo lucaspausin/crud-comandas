@@ -855,94 +855,98 @@ export default function Settings() {
 									animate={{ opacity: 1 }}
 									className="flex flex-col text-sm gap-4"
 								>
-									{["3ra", "4ta", "5ta"].map((prefix) => {
-										const categorySupports = supports.filter((support) =>
-											support.code
-												.toLowerCase()
-												.startsWith(prefix.toLowerCase())
-										);
+									{["3ra-", "4ta-", "5ta-", "5taesp", "6ta-", "6taesp"].map(
+										(prefix) => {
+											const categorySupports = supports.filter((support) =>
+												support.code
+													.toLowerCase()
 
-										return (
-											<motion.div
-												key={prefix}
-												initial={{ opacity: 0, y: 10 }}
-												animate={{ opacity: 1, y: 0 }}
-												className="w-full"
-											>
-												<div className="bg-white/50 backdrop-blur-sm border border-zinc-200 rounded-lg p-4 hover:border-zinc-300 transition-all duration-200">
-													<div
-														onClick={() => handleExpandCard(prefix)}
-														className="flex gap-2 cursor-pointer"
-													>
-														<h3 className="text-base font-normal text-zinc-600">
-															<span className="uppercase">{prefix}</span>{" "}
-															Generación
-														</h3>
-														<p className="text-sm text-zinc-500 mt-1">
-															- {categorySupports.length} cilindros disponibles.
-														</p>
-													</div>
+													.startsWith(prefix.toLowerCase())
+											);
 
-													<AnimatePresence>
-														{expandedCard === prefix && (
-															<motion.div
-																initial={{ opacity: 0, height: 0 }}
-																animate={{ opacity: 1, height: "auto" }}
-																exit={{ opacity: 0, height: 0 }}
-																transition={{ duration: 0.2 }}
-																className="bg-white rounded-lg mt-4 overflow-hidden"
-															>
-																<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-																	{loadingSupports
-																		? // Skeleton loading cards
-																			[...Array(4)].map((_, index) => (
-																				<div
-																					key={`skeleton-${index}`}
-																					className="bg-white/50 backdrop-blur-sm border border-zinc-100 rounded-lg p-4"
-																				>
-																					<div className="mb-3 w-full h-48 bg-zinc-200 animate-pulse rounded-lg"></div>
-																					<div className="space-y-2">
-																						<div className="h-4 bg-zinc-200 animate-pulse rounded"></div>
-																						<div className="h-3 bg-zinc-200 animate-pulse rounded w-3/4"></div>
-																					</div>
-																				</div>
-																			))
-																		: categoryDetails[prefix]?.map(
-																				(support) => (
+											return (
+												<motion.div
+													key={prefix}
+													initial={{ opacity: 0, y: 10 }}
+													animate={{ opacity: 1, y: 0 }}
+													className="w-full"
+												>
+													<div className="bg-white/50 backdrop-blur-sm border border-zinc-200 rounded-lg p-4 hover:border-zinc-300 transition-all duration-200">
+														<div
+															onClick={() => handleExpandCard(prefix)}
+															className="flex gap-2 cursor-pointer"
+														>
+															<h3 className="text-base font-normal text-zinc-600">
+																<span className="uppercase">{prefix}</span>{" "}
+																Generación
+															</h3>
+															<p className="text-sm text-zinc-500 mt-1">
+																- {categorySupports.length} cilindros
+																disponibles.
+															</p>
+														</div>
+
+														<AnimatePresence>
+															{expandedCard === prefix && (
+																<motion.div
+																	initial={{ opacity: 0, height: 0 }}
+																	animate={{ opacity: 1, height: "auto" }}
+																	exit={{ opacity: 0, height: 0 }}
+																	transition={{ duration: 0.2 }}
+																	className="bg-white rounded-lg mt-4 overflow-hidden"
+																>
+																	<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+																		{loadingSupports
+																			? // Skeleton loading cards
+																				[...Array(4)].map((_, index) => (
 																					<div
-																						key={support.id}
-																						className="bg-white/50 backdrop-blur-sm border border-zinc-200 rounded-lg p-4 hover:border-zinc-300 transition-all duration-200 flex flex-col h-full"
+																						key={`skeleton-${index}`}
+																						className="bg-white/50 backdrop-blur-sm border border-zinc-100 rounded-lg p-4"
 																					>
-																						{support.support_images &&
-																							support.support_images.length >
-																								0 && (
-																								<div className="mb-3 w-full h-48 relative overflow-hidden">
-																									<Image
-																										src={
-																											support.support_images[0]
-																												.url
-																										}
-																										alt={
-																											support.support_images[0]
-																												.name
-																										}
-																										fill
-																										sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-																										className="object-contain w-full h-full max-h-48"
-																										priority={false}
-																									/>
+																						<div className="mb-3 w-full h-48 bg-zinc-200 animate-pulse rounded-lg"></div>
+																						<div className="space-y-2">
+																							<div className="h-4 bg-zinc-200 animate-pulse rounded"></div>
+																							<div className="h-3 bg-zinc-200 animate-pulse rounded w-3/4"></div>
+																						</div>
+																					</div>
+																				))
+																			: categoryDetails[prefix]?.map(
+																					(support) => (
+																						<div
+																							key={support.id}
+																							className="bg-white/50 backdrop-blur-sm border border-zinc-200 rounded-lg p-4 hover:border-zinc-300 transition-all duration-200 flex flex-col h-full"
+																						>
+																							{support.support_images &&
+																								support.support_images.length >
+																									0 && (
+																									<div className="mb-3 w-full h-48 relative overflow-hidden">
+																										<Image
+																											src={
+																												support
+																													.support_images[0].url
+																											}
+																											alt={
+																												support
+																													.support_images[0]
+																													.name
+																											}
+																											fill
+																											sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+																											className="object-contain w-full h-full max-h-48"
+																											priority={false}
+																										/>
+																									</div>
+																								)}
+																							<div className="flex flex-col flex-grow">
+																								<div>
+																									<p className="text-base text-zinc-800">
+																										{support.code}
+																									</p>
+																									<p className="text-xs mt-2 font-normal text-zinc-600">
+																										{support.name}
+																									</p>
 																								</div>
-																							)}
-																						<div className="flex flex-col flex-grow">
-																							<div>
-																								<p className="text-base text-zinc-800">
-																									{support.code}
-																								</p>
-																								<p className="text-xs mt-2 font-normal text-zinc-600">
-																									{support.name}
-																								</p>
-																							</div>
-																							{/* <div className="space-y-1">
+																								{/* <div className="space-y-1">
 																								<p className="text-xs text-zinc-600">
 																									Autonomía: {support.autonomy}
 																								</p>
@@ -954,38 +958,39 @@ export default function Settings() {
 																									Precio: ${support.list_price}
 																								</p>
 																							</div> */}
-																							<div className="flex gap-2 pt-4 mt-auto">
-																								<button
-																									onClick={() =>
-																										handleEditClick(support)
-																									}
-																									className="flex-1 p-1.5 rounded-md text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors"
-																								>
-																									<Edit className="w-4 h-4 mx-auto" />
-																								</button>
-																								<button
-																									onClick={() =>
-																										handleDeleteSupport(
-																											support.id
-																										)
-																									}
-																									className="flex-1 p-1.5 rounded-md text-zinc-600 hover:text-red-600 hover:bg-red-50 transition-colors"
-																								>
-																									<Trash2 className="w-4 h-4 mx-auto" />
-																								</button>
+																								<div className="flex gap-2 pt-4 mt-auto">
+																									<button
+																										onClick={() =>
+																											handleEditClick(support)
+																										}
+																										className="flex-1 p-1.5 rounded-md text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors"
+																									>
+																										<Edit className="w-4 h-4 mx-auto" />
+																									</button>
+																									<button
+																										onClick={() =>
+																											handleDeleteSupport(
+																												support.id
+																											)
+																										}
+																										className="flex-1 p-1.5 rounded-md text-zinc-600 hover:text-red-600 hover:bg-red-50 transition-colors"
+																									>
+																										<Trash2 className="w-4 h-4 mx-auto" />
+																									</button>
+																								</div>
 																							</div>
 																						</div>
-																					</div>
-																				)
-																			)}
-																</div>
-															</motion.div>
-														)}
-													</AnimatePresence>
-												</div>
-											</motion.div>
-										);
-									})}
+																					)
+																				)}
+																	</div>
+																</motion.div>
+															)}
+														</AnimatePresence>
+													</div>
+												</motion.div>
+											);
+										}
+									)}
 								</motion.div>
 							</div>
 						</div>

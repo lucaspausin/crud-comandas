@@ -518,7 +518,7 @@ function ReservationForm() {
 						<div className="space-y-2 flex flex-col justify-center text-sm">
 							<Label
 								htmlFor="localidad"
-								className="font-normal mt-2 text-zinc-800"
+								className="font-normal mt-2 text-zinc-600"
 							>
 								Localidad
 							</Label>
@@ -573,7 +573,7 @@ function ReservationForm() {
 						<div className="space-y-2">
 							<Label
 								htmlFor="marca_vehiculo"
-								className="text-zinc-800 font-normal"
+								className="text-zinc-600 font-normal"
 							>
 								Marca
 							</Label>
@@ -590,7 +590,7 @@ function ReservationForm() {
 						<div className="space-y-2">
 							<Label
 								htmlFor="modelo_vehiculo"
-								className="text-zinc-800 font-normal"
+								className="text-zinc-600 font-normal"
 							>
 								Modelo
 							</Label>
@@ -607,7 +607,7 @@ function ReservationForm() {
 						<div className="space-y-2">
 							<Label
 								htmlFor="patente_vehiculo"
-								className="text-zinc-800 font-normal"
+								className="text-zinc-600 font-normal"
 							>
 								Patente
 							</Label>
