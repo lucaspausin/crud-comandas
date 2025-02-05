@@ -13,8 +13,9 @@ import { SupportModule } from './support/support.module';
 import { VehiclesModule } from './vehicles/vehicles.module';
 import { VehiclesImagesModule } from './vehicles_images/vehicles_images.module';
 import { SupportImagesModule } from './support_images/support_images.module';
+import { PaymentPlansModule } from './payment-plans/payment-plans.module';
 @Module({
-  imports: [ReservationsModule, ClientsModule, CommandsModule, TechniquesModule, UsersModule, AuthModule, CalendarModule, FilesModule, BrandsModule, SupportModule, VehiclesModule, VehiclesImagesModule, SupportImagesModule],
+  imports: [ReservationsModule, ClientsModule, CommandsModule, TechniquesModule, UsersModule, AuthModule, CalendarModule, FilesModule, BrandsModule, SupportModule, VehiclesModule, VehiclesImagesModule, SupportImagesModule, PaymentPlansModule],
   controllers: [],
   providers: [PrismaService],
 })

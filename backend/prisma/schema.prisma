@@ -307,3 +307,13 @@ enum tecnica_estado {
   pendiente
   completo
 }
+
+model payment_plans {
+  id           Int      @id @default(autoincrement())
+  name         String   @db.VarChar(100)         // e.g. "Débito", "1 Pago", etc
+  interest     Decimal  @db.Decimal(10, 2)       // e.g. 1.13, 1.23, etc
+  installments Int      @default(1)              // e.g. 1, 3, 6
+  active       Boolean  @default(true)           // Para habilitar/deshabilitar planes
+  created_at   DateTime @default(now()) @db.Timestamp(0)
+  updated_at   DateTime @default(now()) @db.Timestamp(0)
+}

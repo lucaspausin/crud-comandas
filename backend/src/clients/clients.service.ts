@@ -45,7 +45,19 @@ export class ClientsService {
   async findAll() {
     return this.prismaService.clientes.findMany({
       include: {
-        boletos_reservas: true,
+        boletos_reservas: {
+          include: {
+            calendario: {
+              orderBy: {
+                fecha_inicio: 'asc',
+              },
+            },
+          usuarios: true,
+          },
+        },
+      },
+      orderBy: {
+        creado_en: 'desc',
       },
     });
   }
@@ -56,7 +68,15 @@ export class ClientsService {
         id: id,
       },
       include: {
-        boletos_reservas: true,
+        boletos_reservas: {
+          include: {
+            calendario: {
+              orderBy: {
+                fecha_inicio: 'asc',
+              },
+            },
+          },
+        },
       },
     });
 

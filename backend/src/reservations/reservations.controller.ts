@@ -8,6 +8,7 @@ import {
   UseGuards,
   Request,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ReservationsService } from './reservations.service';
 import { CreateReservationDto } from './dto/create-reservation.dto';
@@ -39,8 +40,16 @@ export class ReservationsController {
 
   @Get('dashboard-stats')
   @UseGuards(AuthGuard('jwt'))
-  async getDashboardStats(@Request() req) {
-    return this.reservationsService.getDashboardStats(req.user);
+  async getDashboardStats(
+    @Request() req,
+    @Query('userId') userId: string,
+    @Query('role') role: string,
+  ) {
+    const user = {
+      userId: parseInt(userId),
+      role: parseInt(role),
+    };
+    return this.reservationsService.getDashboardStats(user);
   }
 
   @Get(':id')

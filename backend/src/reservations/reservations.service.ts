@@ -448,12 +448,28 @@ export class ReservationsService {
 
   async getDashboardStats(user: any) {
     const today = new Date();
+    // Ajustamos las fechas para que cubran días completos
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    firstDayOfMonth.setUTCHours(0, 0, 0, 0);
+
+    const day15OfMonth = new Date(today.getFullYear(), today.getMonth(), 15);
+    day15OfMonth.setUTCHours(23, 59, 59, 999);
+
+    const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    lastDayOfMonth.setUTCHours(23, 59, 59, 999);
 
     // Primero obtenemos el total de ventas según el rol
     const totalQuery = this.prismaService.boletos_reservas.findMany({
       where: {
         ...(user.role === 1 ? { usuario_id: user.userId } : {}),
+      },
+      include: {
+        usuarios: {
+          select: {
+            nombre_usuario: true,
+          },
+        },
+        clientes: true,
       },
     });
 
@@ -472,18 +488,116 @@ export class ReservationsService {
         },
       },
       include: {
-        boletos_reservas: true,
+        boletos_reservas: {
+          include: {
+            usuarios: {
+              select: {
+                nombre_usuario: true,
+              },
+            },
+            clientes: true,
+          },
+        },
       },
     });
 
-    const [reservations, currentMonthReservations] = await Promise.all([
-      totalQuery,
-      currentMonthQuery,
-    ]);
+    // Primera quincena
+    const firstHalfQuery = this.prismaService.calendario.findMany({
+      where: {
+        estado: {
+          in: ['senado', 'confirmado', 'completado'],
+        },
+        fecha_inicio: {
+          gte: firstDayOfMonth,
+          lte: day15OfMonth,
+        },
+        boletos_reservas: {
+          ...(user.role === 1 ? { usuario_id: user.userId } : {}),
+        },
+      },
+      include: {
+        boletos_reservas: {
+          include: {
+            usuarios: {
+              select: {
+                nombre_usuario: true,
+              },
+            },
+            clientes: true,
+          },
+        },
+      },
+    });
+
+    // Segunda quincena
+    const secondHalfQuery = this.prismaService.calendario.findMany({
+      where: {
+        estado: {
+          in: ['senado', 'confirmado', 'completado'],
+        },
+        fecha_inicio: {
+          gt: day15OfMonth,
+          lte: lastDayOfMonth,
+        },
+        boletos_reservas: {
+          ...(user.role === 1 ? { usuario_id: user.userId } : {}),
+        },
+      },
+      include: {
+        boletos_reservas: {
+          include: {
+            usuarios: {
+              select: {
+                nombre_usuario: true,
+              },
+            },
+            clientes: true,
+          },
+        },
+      },
+    });
+
+    const [reservations, currentMonthReservations, firstHalf, secondHalf] =
+      await Promise.all([
+        totalQuery,
+        currentMonthQuery,
+        firstHalfQuery,
+        secondHalfQuery,
+      ]);
 
     return {
       totalSales: reservations.length,
+      totalSalesDetails: reservations.map((r) => ({
+        id: r.id,
+        fecha: r.fecha_instalacion,
+        cliente: r.clientes.nombre_completo,
+        vendedor: r.usuarios.nombre_usuario,
+        patente: r.patente_vehiculo,
+      })),
       currentMonthSales: currentMonthReservations.length,
+      currentMonthDetails: currentMonthReservations.map((r) => ({
+        id: r.boletos_reservas.id,
+        fecha: r.boletos_reservas.fecha_instalacion,
+        cliente: r.boletos_reservas.clientes.nombre_completo,
+        vendedor: r.boletos_reservas.usuarios.nombre_usuario,
+        patente: r.boletos_reservas.patente_vehiculo,
+      })),
+      firstHalfMonthSales: firstHalf.length,
+      firstHalfDetails: firstHalf.map((r) => ({
+        id: r.boletos_reservas.id,
+        fecha: r.boletos_reservas.fecha_instalacion,
+        cliente: r.boletos_reservas.clientes.nombre_completo,
+        vendedor: r.boletos_reservas.usuarios.nombre_usuario,
+        patente: r.boletos_reservas.patente_vehiculo,
+      })),
+      secondHalfMonthSales: secondHalf.length,
+      secondHalfDetails: secondHalf.map((r) => ({
+        id: r.boletos_reservas.id,
+        fecha: r.boletos_reservas.fecha_instalacion,
+        cliente: r.boletos_reservas.clientes.nombre_completo,
+        vendedor: r.boletos_reservas.usuarios.nombre_usuario,
+        patente: r.boletos_reservas.patente_vehiculo,
+      })),
     };
   }
 }
