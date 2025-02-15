@@ -448,7 +448,6 @@ export class ReservationsService {
 
   async getDashboardStats(user: any) {
     const today = new Date();
-    // Ajustamos las fechas para que cubran días completos
     const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
     firstDayOfMonth.setUTCHours(0, 0, 0, 0);
 
@@ -462,11 +461,30 @@ export class ReservationsService {
     );
     lastDayOfMonth.setUTCHours(23, 59, 59, 999);
 
+    // Asegurarnos que tenemos los valores correctos
+    const userRole =
+      typeof user.role === 'string' ? parseInt(user.role) : user.role;
+    const userId =
+      typeof user.userId === 'string' ? parseInt(user.userId) : user.userId;
+
+    // Función helper para aplicar el filtro de rol
+    const getRoleBasedFilter = (role: number, userId: number) => {
+      if (role === 1) {
+        // Vendedor
+        return { usuario_id: userId };
+      } else if (role === 3) {
+        // Admin
+        return {}; // Sin filtro, ve todo
+      } else {
+        return { usuario_id: -1 }; // Para otros roles, no ver nada
+      }
+    };
+
+    const roleFilter = getRoleBasedFilter(userRole, userId);
+
     // Primero obtenemos el total de ventas según el rol
     const totalQuery = this.prismaService.boletos_reservas.findMany({
-      where: {
-        ...(user.role === 1 ? { usuario_id: user.userId } : {}),
-      },
+      where: roleFilter,
       include: {
         usuarios: {
           select: {
@@ -487,9 +505,7 @@ export class ReservationsService {
           gte: firstDayOfMonth,
           lte: lastDayOfMonth,
         },
-        boletos_reservas: {
-          ...(user.role === 1 ? { usuario_id: user.userId } : {}),
-        },
+        boletos_reservas: roleFilter,
       },
       include: {
         boletos_reservas: {
@@ -515,9 +531,7 @@ export class ReservationsService {
           gte: firstDayOfMonth,
           lte: day15OfMonth,
         },
-        boletos_reservas: {
-          ...(user.role === 1 ? { usuario_id: user.userId } : {}),
-        },
+        boletos_reservas: roleFilter,
       },
       include: {
         boletos_reservas: {
@@ -543,9 +557,7 @@ export class ReservationsService {
           gt: day15OfMonth,
           lte: lastDayOfMonth,
         },
-        boletos_reservas: {
-          ...(user.role === 1 ? { usuario_id: user.userId } : {}),
-        },
+        boletos_reservas: roleFilter,
       },
       include: {
         boletos_reservas: {
@@ -571,37 +583,10 @@ export class ReservationsService {
 
     return {
       totalSales: reservations.length,
-      totalSalesDetails: reservations.map((r) => ({
-        id: r.id,
-        fecha: r.fecha_instalacion,
-        cliente: r.clientes.nombre_completo,
-        vendedor: r.usuarios.nombre_usuario,
-        patente: r.patente_vehiculo,
-      })),
       currentMonthSales: currentMonthReservations.length,
-      currentMonthDetails: currentMonthReservations.map((r) => ({
-        id: r.boletos_reservas.id,
-        fecha: r.boletos_reservas.fecha_instalacion,
-        cliente: r.boletos_reservas.clientes.nombre_completo,
-        vendedor: r.boletos_reservas.usuarios.nombre_usuario,
-        patente: r.boletos_reservas.patente_vehiculo,
-      })),
       firstHalfMonthSales: firstHalf.length,
-      firstHalfDetails: firstHalf.map((r) => ({
-        id: r.boletos_reservas.id,
-        fecha: r.boletos_reservas.fecha_instalacion,
-        cliente: r.boletos_reservas.clientes.nombre_completo,
-        vendedor: r.boletos_reservas.usuarios.nombre_usuario,
-        patente: r.boletos_reservas.patente_vehiculo,
-      })),
       secondHalfMonthSales: secondHalf.length,
-      secondHalfDetails: secondHalf.map((r) => ({
-        id: r.boletos_reservas.id,
-        fecha: r.boletos_reservas.fecha_instalacion,
-        cliente: r.boletos_reservas.clientes.nombre_completo,
-        vendedor: r.boletos_reservas.usuarios.nombre_usuario,
-        patente: r.boletos_reservas.patente_vehiculo,
-      })),
+      reservations: reservations,
     };
   }
 }

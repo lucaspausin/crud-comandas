@@ -40,15 +40,13 @@ export class ReservationsController {
 
   @Get('dashboard-stats')
   @UseGuards(AuthGuard('jwt'))
-  async getDashboardStats(
-    @Request() req,
-    @Query('userId') userId: string,
-    @Query('role') role: string,
-  ) {
+  async getDashboardStats(@Request() req) {
+  
     const user = {
-      userId: parseInt(userId),
-      role: parseInt(role),
+      userId: parseInt(req.user.userId),
+      role: parseInt(req.user.role),
     };
+  
     return this.reservationsService.getDashboardStats(user);
   }
 
