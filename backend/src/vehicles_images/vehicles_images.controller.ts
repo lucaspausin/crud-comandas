@@ -11,6 +11,7 @@ import {
   ParseIntPipe,
   BadRequestException,
   NotFoundException,
+  Res,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { VehiclesImagesService } from './vehicles_images.service';
@@ -92,5 +93,44 @@ export class VehiclesImagesController {
     @Body() updateDto: UpdateVehiclesImageDto,
   ) {
     return this.vehiclesImagesService.update(id, updateDto);
+  }
+
+  @Get('download/:id')
+  async downloadImage(@Param('id', ParseIntPipe) id: number, @Res() res) {
+    const image = await this.vehiclesImagesService.findOne(id);
+    if (!image) {
+      throw new NotFoundException('Image not found');
+    }
+
+    const fileStream = await this.vehiclesImagesService.getS3FileStream(
+      image.url,
+    );
+    res.set({
+      'Content-Type': image.type,
+      'Content-Disposition': `attachment; filename="${image.name}"`,
+    });
+
+    fileStream.pipe(res);
+  }
+
+  @Get('download-all/:vehicleId')
+  async downloadAllImages(
+    @Param('vehicleId', ParseIntPipe) vehicleId: number,
+    @Res() res,
+  ) {
+    const images =
+      await this.vehiclesImagesService.findAllByVehicleId(vehicleId);
+    if (!images || images.length === 0) {
+      throw new NotFoundException('No images found for this vehicle');
+    }
+
+    const zipBuffer = await this.vehiclesImagesService.createImagesZip(images);
+
+    res.set({
+      'Content-Type': 'application/zip',
+      'Content-Disposition': `attachment; filename="vehicle-${vehicleId}-images.zip"`,
+    });
+
+    res.send(zipBuffer);
   }
 }

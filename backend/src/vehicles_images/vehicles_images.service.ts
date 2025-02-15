@@ -8,6 +8,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import * as AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import { extname } from 'path';
+import * as JSZip from 'jszip';
+import axios from 'axios';
 
 @Injectable()
 export class VehiclesImagesService {
@@ -155,5 +157,44 @@ export class VehiclesImagesService {
       await this.updateFileMetadata(fileKey);
     }
     return { message: 'Metadatos actualizados correctamente.' };
+  }
+
+  async getS3FileStream(url: string) {
+    const key = url.replace(
+      `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/`,
+      '',
+    );
+
+    const params = {
+      Bucket: process.env.AWS_S3_BUCKET,
+      Key: key,
+    };
+
+    return this.s3.getObject(params).createReadStream();
+  }
+
+  async findAllByVehicleId(vehicleId: number) {
+    return this.prismaService.vehicle_images.findMany({
+      where: { vehicle_id: vehicleId },
+    });
+  }
+
+  async createImagesZip(images: any[]) {
+    const zip = new JSZip();
+
+    // Download all images and add them to the zip
+    const downloadPromises = images.map(async (image) => {
+      try {
+        const response = await axios.get(image.url, {
+          responseType: 'arraybuffer',
+        });
+        zip.file(image.name || `image-${image.id}.jpg`, response.data);
+      } catch (error) {
+        console.error(`Error downloading image ${image.id}:`, error);
+      }
+    });
+
+    await Promise.all(downloadPromises);
+    return zip.generateAsync({ type: 'nodebuffer' });
   }
 }

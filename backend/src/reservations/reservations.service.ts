@@ -485,7 +485,7 @@ export class ReservationsService {
         },
         fecha_inicio: {
           gte: firstDayOfMonth,
-          lte: today,
+          lte: lastDayOfMonth,
         },
         boletos_reservas: {
           ...(user.role === 1 ? { usuario_id: user.userId } : {}),
