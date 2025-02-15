@@ -110,6 +110,7 @@ export default function Calculator() {
 							interest: Number(plan.interest),
 							installments: plan.installments,
 							label: plan.name,
+							position: plan.position,
 						};
 					}
 					return acc;
@@ -269,54 +270,62 @@ export default function Calculator() {
 
 							<div className="space-y-4">
 								<motion.div
-									className="space-y-2"
+									className="grid grid-cols-2 items-center gap-4"
 									initial={{ opacity: 0, y: 10 }}
 									animate={{ opacity: 1, y: 0 }}
 									transition={{ duration: 0.3 }}
 								>
-									<p className="text-sm font-normal text-zinc-600">
-										Seleccionar Generación
-									</p>
-									<select
-										value={selectedGeneration}
-										onChange={handleGenerationChange}
-										className="w-full border border-zinc-200 rounded-md px-2 py-2.5 text-sm focus:outline-none bg-white/50 text-zinc-600 placeholder:text-zinc-600 transition-all duration-200"
-									>
-										<option value="">Seleccionar generación</option>
-										{generations.map((gen) => (
-											<option key={gen} value={gen}>
-												{gen.replace("-", "")} Generación
-											</option>
-										))}
-									</select>
-
-									{selectedGeneration && (
+									<div className="grid grid-cols-1 md:grid-cols-[auto,1fr] items-center gap-4">
+										<p className="text-sm font-normal text-zinc-600">
+											Elegir Generación
+										</p>
+										<select
+											value={selectedGeneration}
+											onChange={handleGenerationChange}
+											className="w-full border border-zinc-200 rounded-md px-2 py-2.5 text-sm focus:outline-none bg-white/50 text-zinc-600 placeholder:text-zinc-600 transition-all duration-200"
+										>
+											<option value="">Elegir generación</option>
+											{generations.map((gen) => (
+												<option key={gen} value={gen}>
+													{gen.replace("-", "")} Generación
+												</option>
+											))}
+										</select>
+									</div>
+									{selectedGeneration && selectedGeneration !== "" && (
 										<>
-											<p className="text-sm font-normal text-zinc-600">
-												Seleccionar Cilindro
-											</p>
-											<motion.select
-												initial={{ opacity: 0, y: 5 }}
-												animate={{ opacity: 1, y: 0 }}
+											<motion.div
+												initial={{ opacity: 0, x: -20 }}
+												animate={{ opacity: 1, x: 0 }}
 												transition={{ duration: 0.2 }}
-												value={selectedSupport?.id || ""}
-												onChange={(e) => {
-													const support = supports.find(
-														(s) => s.id === Number(e.target.value)
-													);
-													handleSupportSelect(support);
-												}}
-												className="w-full border border-zinc-200 rounded-md px-2 py-2.5 text-sm focus:outline-none bg-white/50 text-zinc-600 placeholder:text-zinc-600 transition-all duration-200"
+												className="grid grid-cols-1 md:grid-cols-[auto,1fr] items-center gap-4"
 											>
-												<option value="">Seleccionar soporte</option>
-												{getSupportsByGeneration(selectedGeneration).map(
-													(support) => (
-														<option key={support.id} value={support.id}>
-															{support.code}
-														</option>
-													)
-												)}
-											</motion.select>
+												<p className="text-sm font-normal text-zinc-600">
+													Elegir Cilindro
+												</p>
+												<motion.select
+													initial={{ opacity: 0, y: 5 }}
+													animate={{ opacity: 1, y: 0 }}
+													transition={{ duration: 0.2 }}
+													value={selectedSupport?.id || ""}
+													onChange={(e) => {
+														const support = supports.find(
+															(s) => s.id === Number(e.target.value)
+														);
+														handleSupportSelect(support);
+													}}
+													className="w-full border border-zinc-200 rounded-md px-2 py-2.5 text-sm focus:outline-none bg-white/50 text-zinc-600 placeholder:text-zinc-600 transition-all duration-200"
+												>
+													<option value="">Elegir soporte</option>
+													{getSupportsByGeneration(selectedGeneration).map(
+														(support) => (
+															<option key={support.id} value={support.id}>
+																{support.code}
+															</option>
+														)
+													)}
+												</motion.select>
+											</motion.div>
 										</>
 									)}
 								</motion.div>
@@ -419,62 +428,67 @@ export default function Calculator() {
 
 								<div className="mt-8">
 									<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-										{Object.entries(paymentPlans).map(([key, plan], index) => {
-											const payment = calculatePayment(getActivePrice(), plan);
-											return (
-												<motion.div
-													key={`${key}-${isBRC}`}
-													initial={{ opacity: 0 }}
-													animate={{
-														opacity: 1,
-														rotateY: [-10, 0],
-														scale: [0.95, 1],
-													}}
-													transition={{
-														duration: 0.4,
-														ease: "easeOut",
-														delay: index * 0.1,
-													}}
-													style={{
-														perspective: 1000,
-														transformStyle: "preserve-3d",
-													}}
-													className={`p-4 rounded-md space-y-2 border  text-zinc-600 font-light transition-all duration-300 ${
-														isBRC
-															? "border-none shadow-sm hover:shadow-md"
-															: "border-none shadow-sm hover:shadow-md"
-													}`}
-												>
+										{Object.entries(paymentPlans)
+											.sort((a, b) => a[1].position - b[1].position)
+											.map(([key, plan], index) => {
+												const payment = calculatePayment(
+													getActivePrice(),
+													plan
+												);
+												return (
 													<motion.div
+														key={`${key}-${isBRC}`}
+														initial={{ opacity: 0 }}
 														animate={{
-															rotateX: [-2, 0],
-															y: [10, 0],
+															opacity: 1,
+															rotateY: [-10, 0],
+															scale: [0.95, 1],
 														}}
 														transition={{
 															duration: 0.4,
 															ease: "easeOut",
 															delay: index * 0.1,
 														}}
+														style={{
+															perspective: 1000,
+															transformStyle: "preserve-3d",
+														}}
+														className={`p-4 rounded-md space-y-2 border  text-zinc-600 font-light transition-all duration-300 ${
+															isBRC
+																? "border-none shadow-sm hover:shadow-md"
+																: "border-none shadow-sm hover:shadow-md"
+														}`}
 													>
-														<h4 className="font-normal">{plan.label}</h4>
-														<div className="space-y-1 text-sm">
-															<p>
-																Cuota:{" "}
-																<span className="font-medium">
-																	ARS ${payment.installmentAmount}
-																</span>
-															</p>
-															<p>
-																Total:{" "}
-																<span className="font-medium">
-																	ARS ${payment.totalAmount}
-																</span>
-															</p>
-														</div>
+														<motion.div
+															animate={{
+																rotateX: [-2, 0],
+																y: [10, 0],
+															}}
+															transition={{
+																duration: 0.4,
+																ease: "easeOut",
+																delay: index * 0.1,
+															}}
+														>
+															<h4 className="font-normal">{plan.label}</h4>
+															<div className="space-y-1 text-sm">
+																<p>
+																	Cuota:{" "}
+																	<span className="font-medium">
+																		ARS ${payment.installmentAmount}
+																	</span>
+																</p>
+																<p>
+																	Total:{" "}
+																	<span className="font-medium">
+																		ARS ${payment.totalAmount}
+																	</span>
+																</p>
+															</div>
+														</motion.div>
 													</motion.div>
-												</motion.div>
-											);
-										})}
+												);
+											})}
 									</div>
 								</div>
 							</div>

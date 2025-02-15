@@ -644,7 +644,7 @@ export default function Settings() {
 													).includes(support.code)
 														? "border hover:border-emerald-300 border-emerald-300 bg-emerald-100 text-emerald-600"
 														: "bg-white text-zinc-600 border-zinc-200 hover:border-zinc-300"
-												} transition-colors`}
+												} transition-colors whitespace-nowrap overflow-hidden text-ellipsis text-center`}
 											>
 												{support.code}
 											</div>

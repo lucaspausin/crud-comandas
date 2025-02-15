@@ -5,7 +5,7 @@ import Aside from "@/components/Aside";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import api from "@/lib/axios";
 import myImage from "@/public/motorgas2.svg";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -150,6 +150,7 @@ export default function Catalogue() {
 		setSelectedMarca(newMarca);
 		setSelectedModelo("");
 		setProductInfo([]);
+		setSelectedVehicle(null);
 
 		// Actualizar URL
 		const params = new URLSearchParams(searchParams.toString());
@@ -192,6 +193,53 @@ export default function Catalogue() {
 		});
 
 		router.push(`/calculator?${params.toString()}`);
+	};
+
+	const handleDownloadImage = async (url, filename, imageId) => {
+		try {
+			const response = await api.get(
+				`/api/vehicles-images/download/${imageId}`,
+				{
+					responseType: "blob",
+				}
+			);
+			const blob = new Blob([response.data]);
+			const downloadUrl = window.URL.createObjectURL(blob);
+			const link = document.createElement("a");
+			link.href = downloadUrl;
+			link.download = filename;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			window.URL.revokeObjectURL(downloadUrl);
+		} catch (error) {
+			console.error("Error downloading image:", error);
+		}
+	};
+
+	const handleDownloadAllImages = async () => {
+		if (!selectedVehicle?.vehicle_images?.length) return;
+
+		try {
+			const response = await api.get(
+				`/api/vehicles-images/download-all/${selectedVehicle.id}`,
+				{
+					responseType: "blob",
+				}
+			);
+
+			const blob = new Blob([response.data]);
+			const downloadUrl = window.URL.createObjectURL(blob);
+			const link = document.createElement("a");
+			link.href = downloadUrl;
+			link.download = `vehicle-images-${selectedVehicle.id}.zip`;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			window.URL.revokeObjectURL(downloadUrl);
+		} catch (error) {
+			console.error("Error downloading images:", error);
+		}
 	};
 
 	if (loading) {
@@ -324,7 +372,8 @@ export default function Catalogue() {
 													key={index}
 													className="text-sm font-normal text-zinc-600 mb-4"
 												>
-													{producto.code}{index < productInfo.length - 1 ? ',' : '.'}
+													{producto.code}
+													{index < productInfo.length - 1 ? "," : "."}
 												</p>
 											))}
 										</div>
@@ -342,14 +391,14 @@ export default function Catalogue() {
 													key={index}
 													onClick={() => handleCardClick(producto)}
 													className="group bg-gradient-to-b from-white/80 to-white/40 backdrop-blur-sm rounded-3xl overflow-hidden 
-                                                    hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 border hover:border-zinc-300 
+                                                     transition-all duration-300 border hover:border-zinc-300 
                                                     cursor-pointer relative hover:-translate-y-1 hover:scale-[1.01]"
 												>
 													{/* Add a dark overlay that appears on hover */}
 													<div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-300" />
 
 													<div className="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-														<span className="flex items-center gap-1 bg-zinc-800 text-white font-light text-sm px-4 py-1 rounded-full">
+														<span className="flex items-center gap-1 bg-zinc-800 text-white font-normal text-sm px-4 py-2 rounded-full">
 															Calculadora{" "}
 															<ArrowRight
 																strokeWidth={1.75}
@@ -382,10 +431,7 @@ export default function Catalogue() {
 																	</div>
 																)}
 																{producto["kilometros-equivalentes"] && (
-																	<div
-																		className="flex flex-col items-center px-3 py-1 rounded-full bg-white/80 
-                                                                backdrop-blur-sm text-sm text-zinc-600 shadow-sm"
-																	>
+																	<div className="flex flex-col items-center px-3 py-1 rounded-full bg-zinc-100/80 text-sm text-zinc-600">
 																		<span className="mr-2">
 																			Km. Equivalente:
 																		</span>
@@ -444,17 +490,24 @@ export default function Catalogue() {
 
 								{selectedVehicle &&
 									selectedVehicle.vehicle_images &&
-									selectedVehicle.vehicle_images.length > 0 &&
-									(console.log("2"),
-									(
+									selectedVehicle.vehicle_images.length > 0 && (
 										<motion.div
 											initial={{ opacity: 0, y: 20 }}
 											animate={{ opacity: 1, y: 0 }}
 											className="mt-8"
 										>
-											<h3 className="text-xl font-light text-zinc-800 mb-8">
-												Imágenes de Instalación
-											</h3>
+											<div className="flex justify-between items-center mb-8">
+												<h3 className="text-xl font-light text-zinc-800">
+													Imágenes de Instalación
+												</h3>
+												<button
+													onClick={handleDownloadAllImages}
+													className="flex items-center gap-2 px-4 py-2 bg-zinc-800 text-white rounded-full hover:bg-zinc-700 transition-colors text-sm"
+												>
+													<Download size={16} />
+													Descargar Todas
+												</button>
+											</div>
 											<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 												{selectedVehicle.vehicle_images
 													.slice(0, 8)
@@ -464,7 +517,7 @@ export default function Catalogue() {
 															initial={{ opacity: 0 }}
 															animate={{ opacity: 1 }}
 															transition={{ delay: index * 0.05 }}
-															className="group relative aspect-video rounded-lg overflow-hidden bg-zinc-50"
+															className="group relative aspect-video overflow-hidden bg-zinc-50"
 														>
 															{!imageCache[image.url] && (
 																<div className="absolute inset-0 flex items-center justify-center">
@@ -491,11 +544,24 @@ export default function Catalogue() {
 																loading={index < 4 ? "eager" : "lazy"}
 															/>
 															<div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300" />
+															<button
+																onClick={() =>
+																	handleDownloadImage(
+																		image.url,
+																		image.name || `image-${image.id}.jpg`,
+																		image.id
+																	)
+																}
+																className="absolute bottom-2 right-2 p-2 bg-white/90 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+																title="Descargar imagen"
+															>
+																<Download size={16} className="text-zinc-800" />
+															</button>
 														</motion.div>
 													))}
 											</div>
 										</motion.div>
-									))}
+									)}
 							</div>
 						</CardContent>
 					</Card>

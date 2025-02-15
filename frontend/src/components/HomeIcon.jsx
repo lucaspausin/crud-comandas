@@ -3,11 +3,20 @@ import React from "react";
 // import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 // import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
-export default function HomeIcon() {
+export default function HomeIcon({ forcePath }) {
 	const router = useRouter();
+	const pathname = usePathname();
+
+	const handleBack = () => {
+		if (pathname === "/settings/customers" || forcePath) {
+			router.push("/settings");
+		} else {
+			router.back();
+		}
+	};
 
 	return (
 		<>
@@ -16,7 +25,7 @@ export default function HomeIcon() {
 					<nav className="flex items-center">
 						<Button
 							variant={"solid"}
-							onClick={() => router.back()}
+							onClick={handleBack}
 							className="flex items-center font-normal  group gap-1 py-2.5 px-4 text-zinc-700 hover:bg-zinc-200/40 rounded-full transition-all duration-300"
 						>
 							<ChevronLeft

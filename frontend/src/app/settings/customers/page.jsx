@@ -13,7 +13,7 @@ import {
 	FileText,
 } from "lucide-react";
 import HomeIcon from "@/components/HomeIcon";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -101,7 +101,14 @@ export default function CustomerSettings() {
 	}, [searchTerm, searchFilter, clients]);
 
 	const formatDate = (date) => {
-		return format(new Date(date), "d 'de' MMMM 'de' yyyy", { locale: es });
+		const parsedDate = parseISO(date);
+		const adjustedDate = new Date(
+			parsedDate.getTime() + parsedDate.getTimezoneOffset() * 60 * 1000
+		);
+
+		return format(adjustedDate, "d 'de' MMMM 'de' yyyy", {
+			locale: es,
+		});
 	};
 
 	const indexOfLastClient = currentPage * clientsPerPage;
@@ -212,7 +219,7 @@ export default function CustomerSettings() {
 				animate={{ opacity: 1 }}
 				className="flex-1 p-6 lg:px-8 xl:px-8 mt-12 overflow-y-auto"
 			>
-				<HomeIcon />
+				<HomeIcon forcePath="/settings" />
 				<div className="space-y-6">
 					<div className="rounded-xl h-fit bg-white/50 backdrop-blur-sm p-6 shadow-xl">
 						<div className="p-8 pt-0 space-y-8">
