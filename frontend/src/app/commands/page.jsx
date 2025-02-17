@@ -5,14 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@/components/ui/table";
-import {
 	Select,
 	SelectContent,
 	SelectItem,
@@ -51,7 +43,7 @@ export default function AllOrdersPage() {
 	const [loading, setLoading] = useState(true);
 	const [dataFetched, setDataFetched] = useState(false);
 	const [currentPage, setCurrentPage] = useState(1);
-	const itemsPerPage = 15;
+	const itemsPerPage = 8;
 
 	const { data: session } = useSession();
 	useEffect(() => {
@@ -76,7 +68,9 @@ export default function AllOrdersPage() {
 				]);
 
 				setCommands(commandsData);
-				const filteredUsers = usersData.filter((user) => user.role_id === 1);
+				const filteredUsers = usersData.filter(
+					(user) => user.role_id === 1 || user.id === 1
+				);
 				setUsers(filteredUsers);
 				setDataFetched(true);
 			} catch (error) {
@@ -167,41 +161,85 @@ export default function AllOrdersPage() {
 					new Date(a.boletos_reservas.fecha_instalacion) -
 					new Date(b.boletos_reservas.fecha_instalacion)
 			);
-		} else if (sortOrder === "price-desc") {
+		} else if (sortOrder === "first-fortnight") {
+			const today = new Date();
+			const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+			const fifteenthDay = new Date(today.getFullYear(), today.getMonth(), 15);
+			filtered = filtered.filter((command) => {
+				const installationDate = new Date(
+					command.boletos_reservas.fecha_instalacion
+				);
+				return installationDate >= firstDay && installationDate <= fifteenthDay;
+			});
 			filtered.sort(
 				(a, b) =>
-					parseFloat(b.boletos_reservas.precio) -
-					parseFloat(a.boletos_reservas.precio)
+					new Date(a.boletos_reservas.fecha_instalacion) -
+					new Date(b.boletos_reservas.fecha_instalacion)
 			);
-		} else if (sortOrder === "price-asc") {
+		} else if (sortOrder === "second-fortnight") {
+			const today = new Date();
+			const sixteenthDay = new Date(today.getFullYear(), today.getMonth(), 16);
+			const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+			filtered = filtered.filter((command) => {
+				const installationDate = new Date(
+					command.boletos_reservas.fecha_instalacion
+				);
+				return installationDate >= sixteenthDay && installationDate <= lastDay;
+			});
 			filtered.sort(
 				(a, b) =>
-					parseFloat(a.boletos_reservas.precio) -
-					parseFloat(b.boletos_reservas.precio)
+					new Date(a.boletos_reservas.fecha_instalacion) -
+					new Date(b.boletos_reservas.fecha_instalacion)
 			);
-		} else if (sortOrder === "last-7-days") {
-			filtered = filtered.filter(
-				(reservation) =>
-					new Date(reservation.boletos_reservas.fecha_instalacion) >=
-					sevenDaysAgo
+		} else if (sortOrder === "next-week") {
+			const today = new Date();
+			today.setHours(0, 0, 0, 0);
+			const nextWeekStart = new Date(today);
+			nextWeekStart.setDate(today.getDate() + 1); // Empezar desde mañana
+			const nextWeekEnd = new Date(today);
+			nextWeekEnd.setDate(today.getDate() + 7); // 7 días desde hoy
+			filtered = filtered.filter((command) => {
+				const installationDate = new Date(
+					command.boletos_reservas.fecha_instalacion
+				);
+				installationDate.setHours(0, 0, 0, 0);
+				return (
+					installationDate >= nextWeekStart && installationDate <= nextWeekEnd
+				);
+			});
+			filtered.sort(
+				(a, b) =>
+					new Date(a.boletos_reservas.fecha_instalacion) -
+					new Date(b.boletos_reservas.fecha_instalacion)
 			);
-		} else if (sortOrder === "last-15-days") {
-			filtered = filtered.filter(
-				(reservation) =>
-					new Date(reservation.boletos_reservas.fecha_instalacion) >=
-					fifteenDaysAgo
+		} else if (sortOrder === "next-month") {
+			const today = new Date();
+			const nextMonthStart = new Date(
+				today.getFullYear(),
+				today.getMonth() + 1,
+				1
+			);
+			const nextMonthEnd = new Date(
+				today.getFullYear(),
+				today.getMonth() + 2,
+				0
+			);
+			filtered = filtered.filter((command) => {
+				const installationDate = new Date(
+					command.boletos_reservas.fecha_instalacion
+				);
+				return (
+					installationDate >= nextMonthStart && installationDate <= nextMonthEnd
+				);
+			});
+			filtered.sort(
+				(a, b) =>
+					new Date(a.boletos_reservas.fecha_instalacion) -
+					new Date(b.boletos_reservas.fecha_instalacion)
 			);
 		}
 		return filtered;
 	};
-
-	const paginatedCommands = () => {
-		const filtered = filteredCommands();
-		const startIndex = (currentPage - 1) * itemsPerPage;
-		return filtered.slice(startIndex, startIndex + itemsPerPage);
-	};
-
-	const totalPages = Math.ceil(filteredCommands().length / itemsPerPage);
 
 	const handleDeleteCommand = async (id) => {
 		const confirmDelete = window.confirm(
@@ -264,13 +302,11 @@ export default function AllOrdersPage() {
 			data = [data];
 		}
 
-		// Obtener todas las claves únicas de los objetos
 		const allKeys = new Set();
 		data.forEach((item) => {
 			Object.keys(item).forEach((key) => allKeys.add(key));
 		});
 
-		// Convertir Set a Array y ordenar las columnas principales primero
 		const mainColumns = [
 			"id",
 			"equipo",
@@ -330,8 +366,6 @@ export default function AllOrdersPage() {
 				<>
 					<Aside />
 					<main className="flex-1 p-6 lg:px-8 xl:px-8 overflow-y-auto">
-						{/* <HomeIcon /> */}
-
 						<Card className="rounded-xl shadow-lg border-none p-3">
 							<CardHeader>
 								<div className="flex justify-between items-center relative">
@@ -352,233 +386,820 @@ export default function AllOrdersPage() {
 								</div>
 							</CardHeader>
 							<CardContent>
-								<div className="flex flex-col md:flex-row gap-4 mb-6">
-									<div className="flex items-center w-full md:w-1/3 relative">
+								<div className="flex flex-col gap-4 mb-6">
+									<div className="flex items-center w-full relative bg-white rounded-2xl shadow-sm border border-zinc-200 p-1">
+										<Search
+											className="w-5 h-5 ml-3 text-zinc-800"
+											strokeWidth="1.5"
+										/>
 										<Input
-											placeholder="Buscar comandas"
-											className="rounded-full focus-visible:ring-0"
+											placeholder="Buscar por cliente, vehículo, asesor o equipo..."
+											className="border-0 rounded-full focus-visible:ring-0 bg-transparent pl-2"
 											value={searchTerm}
 											onChange={(e) => setSearchTerm(e.target.value)}
 										/>
-										<Search
-											className="w-5 h-5 absolute right-2 text-[#71717A]"
-											strokeWidth="1.75"
-										></Search>
 									</div>
 
-									<Select onValueChange={setUserFilter}>
-										<SelectTrigger className="w-full md:w-1/4 rounded-full">
-											<SelectValue placeholder="Filtrar por usuario" />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem value="all">Todos</SelectItem>
-											{users.map((user) => (
-												<SelectItem key={user.id} value={user.id}>
-													{user.nombre_usuario}
+									<div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+										<Select
+											onValueChange={setUserFilter}
+											className="py-4 border-none active:border-none focus-visible:border-none focus:border-none focus:ring-0 active:ring-0 focus-visible:ring-0 outline-none ring-0 ring-offset-0"
+										>
+											<SelectTrigger className="w-full rounded-2xl bg-white border-zinc-200 focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0 data-[state=active]:ring-0 data-[state=focus]:ring-0 text-zinc-800">
+												<SelectValue placeholder="Filtrar por asesor" />
+											</SelectTrigger>
+											<SelectContent className="focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0 text-zinc-800">
+												<SelectItem
+													value="all"
+													className="focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0"
+												>
+													Todos los asesores
 												</SelectItem>
-											))}
-										</SelectContent>
-									</Select>
-									<Select onValueChange={setFilterModel}>
-										<SelectTrigger className="w-full md:w-1/4 rounded-full">
-											<SelectValue placeholder="Filtrar por estado" />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem value="all">Todos</SelectItem>
-											<SelectItem value="pendiente">Pendiente</SelectItem>
-											<SelectItem value="en_proceso">En Proceso</SelectItem>
-											<SelectItem value="completado">Completado</SelectItem>
-										</SelectContent>
-									</Select>
-									<Select onValueChange={setSortOrder}>
-										<SelectTrigger className="w-full md:w-1/4 rounded-full">
-											<SelectValue placeholder="Ordenar por" />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem value="date-desc">
-												Fecha (Más reciente)
-											</SelectItem>
-											<SelectItem value="last-7-days">
-												Fecha (Últimos 7 días)
-											</SelectItem>
-											<SelectItem value="last-15-days">
-												Fecha (Última quincena)
-											</SelectItem>
-											<SelectItem value="date-asc">
-												Fecha (Más antigua)
-											</SelectItem>
-											<SelectItem value="price-desc">
-												Precio (Mayor a menor)
-											</SelectItem>
-											<SelectItem value="price-asc">
-												Precio (Menor a mayor)
-											</SelectItem>
-										</SelectContent>
-									</Select>
-								</div>
-								<Table>
-									<TableHeader>
-										<TableRow>
-											{userRole === 3 && (
-												<TableHead className="w-[50px] font-normal">
-													Seleccionar
-												</TableHead>
-											)}
-											<TableHead className="font-normal">Asesor</TableHead>
-											<TableHead className="font-normal">Cliente</TableHead>
-											<TableHead className="font-normal">Vehículo</TableHead>
-											<TableHead className="font-normal">Fecha</TableHead>
-											<TableHead className="font-normal">Estado</TableHead>
-											{userRole !== 2 && <TableHead>Acciones</TableHead>}
-										</TableRow>
-									</TableHeader>
-									<TableBody>
-										{paginatedCommands().length > 0 ? (
-											paginatedCommands().map((command) => (
-												<TableRow
-													key={command.id}
-													className="cursor-pointer"
-													onClick={(e) => {
-														// Solo navegar si no se hace clic en el checkbox o botones
-														if (
-															!e.target.closest("button") &&
-															!e.target.closest(".checkbox-cell")
-														) {
-															if (userRole === 2) {
-																router.push(`/add-technique/${command.id}/`);
-															} else if (userRole === 3) {
-																router.push(`/commands/${command.id}`);
-															}
-														}
-													}}
-												>
-													{userRole === 3 && (
-														<TableCell className="checkbox-cell">
-															<Checkbox
-																checked={selectedCommands.includes(command.id)}
-																onCheckedChange={() =>
-																	handleCommandSelection(command.id)
-																}
-																onClick={(e) => e.stopPropagation()}
-															/>
-														</TableCell>
-													)}
-													<TableCell className="text-zinc-800">
-														{command.boletos_reservas.usuarios.nombre_usuario}
-													</TableCell>
-													<TableCell className="text-zinc-800">
-														{command.boletos_reservas.clientes.nombre_completo}
-													</TableCell>
-													<TableCell className="text-zinc-800">
-														{`${command.boletos_reservas.marca_vehiculo || ""} ${
-															command.boletos_reservas.modelo_vehiculo || ""
-														} ${command.boletos_reservas.patente_vehiculo || ""}`.trim()}
-													</TableCell>
+												{users.map((user) => (
+													<SelectItem
+														key={user.id}
+														value={user.id}
+														className="focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0"
+													>
+														{user.nombre_usuario}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
 
-													<TableCell className="text-zinc-800">
-														{(() => {
-															const utcDate = new Date(
-																command.boletos_reservas.fecha_instalacion
-															);
-															const localDate = new Date(
-																utcDate.getTime() + 3 * 60 * 60 * 1000
-															);
-
-															return localDate.toLocaleDateString("es-ES", {
-																day: "2-digit",
-																month: "2-digit",
-															});
-														})()}
-													</TableCell>
-													<TableCell>
-														<span
-															className={`px-2 truncate py-1 text-xs font-normal rounded-full ${
-																command.estado === "en_proceso"
-																	? "bg-blue-100 text-blue-700"
-																	: command.estado === "completado"
-																		? "bg-green-100 text-green-700"
-																		: "bg-yellow-100 text-yellow-700"
-															}`}
-														>
-															{command.estado === "en_proceso"
-																? "En Proceso"
-																: command.estado === "completado"
-																	? "Completada"
-																	: "Pendiente"}
-														</span>
-													</TableCell>
-													{userRole !== 2 && (
-														<TableCell>
-															<div className="flex flex-row items-start gap-2">
-																<Button
-																	variant="ghost"
-																	size="sm"
-																	className="rounded-full z-50 px-[0.5rem] bg-blue-100 hover:bg-blue-50"
-																	onClick={(e) => {
-																		e.stopPropagation();
-																		downloadCsv(command.id);
-																	}}
-																>
-																	<Download className="h-4 w-4 text-blue-600" />
-																</Button>
-																<Button
-																	variant="ghost"
-																	size="sm"
-																	className="rounded-full z-50 px-[0.5rem] bg-red-100 hover:bg-red-50"
-																	onClick={(e) => {
-																		e.stopPropagation();
-																		handleDeleteCommand(command.id);
-																	}}
-																>
-																	<Trash className="h-4 w-4 text-red-600" />
-																</Button>
-															</div>
-														</TableCell>
-													)}
-												</TableRow>
-											))
-										) : (
-											<TableRow>
-												<TableCell
-													colSpan={7}
-													className="text-center text-gray-600"
+										<Select
+											onValueChange={setFilterModel}
+											className="py-4 border-none active:border-none focus-visible:border-none focus:border-none focus:ring-0 active:ring-0 focus-visible:ring-0 outline-none ring-0 ring-offset-0"
+										>
+											<SelectTrigger className="w-full rounded-2xl bg-white border-zinc-200 focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0 data-[state=active]:ring-0 data-[state=focus]:ring-0 text-zinc-800">
+												<SelectValue placeholder="Estado de la comanda" />
+											</SelectTrigger>
+											<SelectContent className="focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0 text-zinc-800">
+												<SelectItem
+													value="all"
+													className="focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0"
 												>
-													No se encontraron resultados para los filtros
-													aplicados.
-												</TableCell>
-											</TableRow>
-										)}
-									</TableBody>
-								</Table>
-								{totalPages > 1 && (
-									<div className="flex justify-center items-center gap-2 mt-4">
-										<Button
-											variant="outline"
-											size="sm"
-											onClick={() =>
-												setCurrentPage((prev) => Math.max(prev - 1, 1))
-											}
-											disabled={currentPage === 1}
-											className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
+													Todos los estados
+												</SelectItem>
+												<SelectItem
+													value="pendiente"
+													className="focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0"
+												>
+													Pendientes
+												</SelectItem>
+												<SelectItem
+													value="en_proceso"
+													className="focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0"
+												>
+													En Proceso
+												</SelectItem>
+												<SelectItem
+													value="completado"
+													className="focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0"
+												>
+													Completadas
+												</SelectItem>
+											</SelectContent>
+										</Select>
+
+										<Select
+											onValueChange={setSortOrder}
+											className="py-4 border-none active:border-none focus-visible:border-none focus:border-none focus:ring-0 active:ring-0 focus-visible:ring-0 outline-none ring-0 ring-offset-0 "
 										>
-											Anterior
-										</Button>
-										<span className="text-sm text-zinc-600">
-											Página {currentPage} de {totalPages}
-										</span>
-										<Button
-											variant="outline"
-											size="sm"
-											onClick={() =>
-												setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-											}
-											disabled={currentPage === totalPages}
-											className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
-										>
-											Siguiente
-										</Button>
+											<SelectTrigger className="w-full rounded-2xl bg-white border-zinc-200 focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0 data-[state=active]:ring-0 data-[state=focus]:ring-0 text-zinc-800">
+												<SelectValue placeholder="Ordenar comandas" />
+											</SelectTrigger>
+											<SelectContent className="focus:ring-0 focus-visible:ring-0 focus:outline-none focus-visible:outline-none active:outline-none ring-0 ring-offset-0 text-zinc-800">
+												<SelectItem value="date-desc">
+													Próximas instalaciones
+												</SelectItem>
+												<SelectItem value="date-asc">
+													Instalaciones más antiguas
+												</SelectItem>
+												<SelectItem value="first-fortnight">
+													Primera quincena del mes
+												</SelectItem>
+												<SelectItem value="second-fortnight">
+													Segunda quincena del mes
+												</SelectItem>
+												<SelectItem value="next-week">
+													Próxima semana
+												</SelectItem>
+												<SelectItem value="next-month">Próximo mes</SelectItem>
+											</SelectContent>
+										</Select>
 									</div>
-								)}
+								</div>
+
+								<div className="flex flex-col gap-6">
+									{(() => {
+										const todayUTC = new Date();
+										todayUTC.setHours(todayUTC.getHours() - 3);
+										const todayString = todayUTC.toISOString().split("T")[0];
+
+										const todayCommands = filteredCommands().filter(
+											(command) => {
+												const installationDate = new Date(
+													command.boletos_reservas.fecha_instalacion
+												);
+												installationDate.setHours(
+													installationDate.getHours() + 3
+												);
+												const installationString = installationDate
+													.toISOString()
+													.split("T")[0];
+												return installationString === todayString;
+											}
+										);
+
+										const otherCommands = filteredCommands().filter(
+											(command) => {
+												const installationDate = new Date(
+													command.boletos_reservas.fecha_instalacion
+												);
+												installationDate.setHours(
+													installationDate.getHours() + 3
+												);
+												const installationString = installationDate
+													.toISOString()
+													.split("T")[0];
+												return installationString !== todayString;
+											}
+										);
+
+										// Filtrar las próximas instalaciones
+										const upcomingInstallations = otherCommands
+											.filter((command) => {
+												const installationDate = new Date(
+													command.boletos_reservas.fecha_instalacion
+												);
+												installationDate.setHours(
+													installationDate.getHours() + 3
+												);
+												const installationString = installationDate
+													.toISOString()
+													.split("T")[0];
+												return installationString > todayString;
+											})
+											.sort(
+												(a, b) =>
+													new Date(a.boletos_reservas.fecha_instalacion) -
+													new Date(b.boletos_reservas.fecha_instalacion)
+											)
+											.slice(0, 5);
+
+										const startIndex = (currentPage - 1) * itemsPerPage;
+										const paginatedOtherCommands = otherCommands
+											.filter(
+												(command) =>
+													!upcomingInstallations.some(
+														(upcoming) => upcoming.id === command.id
+													)
+											)
+											.slice(startIndex, startIndex + itemsPerPage);
+
+										return (
+											<>
+												{todayCommands.length > 0 ? (
+													<div className="flex flex-col gap-4">
+														<div className="flex items-center gap-2">
+															<h3 className="text-xl font-light text-zinc-800">
+																Instalaciones de hoy
+															</h3>
+															<span className="text-sm text-zinc-500">
+																({todayCommands.length})
+															</span>
+														</div>
+														<div className="grid grid-cols-2 gap-4">
+															{todayCommands.map((command) => (
+																<div
+																	key={command.id}
+																	onClick={() => {
+																		if (userRole === 2) {
+																			router.push(
+																				`/add-technique/${command.id}/`
+																			);
+																		} else if (userRole === 3) {
+																			router.push(`/commands/${command.id}`);
+																		}
+																	}}
+																	className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer border border-zinc-100/80 relative group"
+																>
+																	<div className="flex flex-col md:flex-row justify-between items-start gap-4">
+																		<div className="flex-1">
+																			<div className="flex justify-between items-start mb-4">
+																				<div className="flex flex-col">
+																					<div className="flex items-center gap-2 text-sm text-zinc-500">
+																						<span className="flex items-center gap-1">
+																							Instalación:{" "}
+																							{(() => {
+																								const date = new Date(
+																									command.boletos_reservas.fecha_instalacion
+																								);
+																								date.setHours(
+																									date.getHours() + 3
+																								);
+																								return date.toLocaleDateString(
+																									"es-AR",
+																									{
+																										day: "2-digit",
+																										month: "2-digit",
+																										year: "2-digit",
+																									}
+																								);
+																							})()}
+																						</span>
+																						<span className="text-zinc-300">
+																							•
+																						</span>
+																						<span className="flex items-center gap-1">
+																							Creada:{" "}
+																							{(() => {
+																								const date = new Date(
+																									command.creado_en
+																								);
+																								return date.toLocaleDateString(
+																									"es-AR",
+																									{
+																										day: "2-digit",
+																										month: "2-digit",
+																										year: "2-digit",
+																									}
+																								);
+																							})()}
+																						</span>
+																					</div>
+																				</div>
+																			</div>
+
+																			<div className="flex flex-col gap-2 mb-4">
+																				<div className="text-sm text-zinc-600">
+																					<span className="font-medium">
+																						Vehículo:
+																					</span>{" "}
+																					{`${command.boletos_reservas.marca_vehiculo || ""} ${
+																						command.boletos_reservas
+																							.modelo_vehiculo || ""
+																					} ${
+																						command.boletos_reservas
+																							.patente_vehiculo || ""
+																					}`.trim()}
+																				</div>
+																				<div className="text-sm text-zinc-600">
+																					<span className="font-medium">
+																						Cliente:
+																					</span>{" "}
+																					{
+																						command.boletos_reservas.clientes
+																							.nombre_completo
+																					}
+																				</div>
+																				<div className="text-sm text-zinc-600">
+																					<span className="font-medium">
+																						Asesor:
+																					</span>{" "}
+																					{
+																						command.boletos_reservas.usuarios
+																							.nombre_usuario
+																					}
+																				</div>
+																			</div>
+
+																			<div className="flex flex-wrap gap-3 items-center">
+																				<span
+																					className={`px-3 py-1 text-sm font-normal rounded-full ${
+																						command.estado === "en_proceso"
+																							? "bg-blue-100 text-blue-700"
+																							: command.estado === "completado"
+																								? "bg-green-100 text-green-700"
+																								: "bg-yellow-100 text-yellow-700"
+																					}`}
+																				>
+																					{command.estado === "en_proceso"
+																						? "En Proceso"
+																						: command.estado === "completado"
+																							? "Completada"
+																							: "Pendiente"}
+																				</span>
+																				<span className="text-sm font-medium text-emerald-600">
+																					{new Intl.NumberFormat("es-AR", {
+																						style: "currency",
+																						currency: "ARS",
+																					}).format(
+																						command.boletos_reservas.precio
+																					)}
+																				</span>
+																				{command.boletos_reservas
+																					.carga_externa > 0 && (
+																					<span className="text-sm font-medium text-blue-600">
+																						Carga Externa Incl.
+																						{command.boletos_reservas
+																							.precio_carga_externa > 0 &&
+																							` ${new Intl.NumberFormat(
+																								"es-AR",
+																								{
+																									style: "currency",
+																									currency: "ARS",
+																								}
+																							).format(
+																								command.boletos_reservas
+																									.precio_carga_externa
+																							)}`}
+																					</span>
+																				)}
+																			</div>
+																		</div>
+
+																		{userRole !== 2 && (
+																			<div className="flex gap-2 md:flex-col items-center">
+																				{userRole === 3 && (
+																					<Checkbox
+																						checked={selectedCommands.includes(
+																							command.id
+																						)}
+																						onCheckedChange={() =>
+																							handleCommandSelection(command.id)
+																						}
+																						onClick={(e) => e.stopPropagation()}
+																						className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 rounded-full border-zinc-400 group-hover:border-zinc-500 transition-all duration-300"
+																					/>
+																				)}
+																				<Button
+																					variant="ghost"
+																					size="sm"
+																					className="rounded-full z-50 px-[0.5rem] bg-blue-100 hover:bg-blue-50"
+																					onClick={(e) => {
+																						e.stopPropagation();
+																						downloadCsv(command.id);
+																					}}
+																				>
+																					<Download className="h-4 w-4 text-blue-600" />
+																				</Button>
+																				<Button
+																					variant="ghost"
+																					size="sm"
+																					className="rounded-full z-50 px-[0.5rem] bg-red-100 hover:bg-red-50"
+																					onClick={(e) => {
+																						e.stopPropagation();
+																						handleDeleteCommand(command.id);
+																					}}
+																				>
+																					<Trash className="h-4 w-4 text-red-600" />
+																				</Button>
+																			</div>
+																		)}
+																	</div>
+																</div>
+															))}
+														</div>
+													</div>
+												) : upcomingInstallations.length > 0 ? (
+													<div className="flex flex-col gap-4">
+														<div className="flex items-center gap-2">
+															<h3 className="text-xl font-light text-zinc-800">
+																Próximas instalaciones
+															</h3>
+															<span className="text-sm text-zinc-500">
+																(próximos 5 días)
+															</span>
+														</div>
+														<div className="grid grid-cols-2 gap-4">
+															{upcomingInstallations.map((command) => (
+																<div
+																	key={command.id}
+																	onClick={() => {
+																		if (userRole === 2) {
+																			router.push(
+																				`/add-technique/${command.id}/`
+																			);
+																		} else if (userRole === 3) {
+																			router.push(`/commands/${command.id}`);
+																		}
+																	}}
+																	className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer border border-zinc-100/80 relative group"
+																>
+																	<div className="flex flex-col md:flex-row justify-between items-start gap-4">
+																		<div className="flex-1">
+																			<div className="flex justify-between items-start mb-4">
+																				<div className="flex flex-col">
+																					<div className="flex items-center gap-2 text-sm text-zinc-500">
+																						<span className="flex items-center gap-1">
+																							Instalación:{" "}
+																							{(() => {
+																								const date = new Date(
+																									command.boletos_reservas.fecha_instalacion
+																								);
+																								date.setHours(
+																									date.getHours() + 3
+																								);
+																								return date.toLocaleDateString(
+																									"es-AR",
+																									{
+																										day: "2-digit",
+																										month: "2-digit",
+																										year: "2-digit",
+																									}
+																								);
+																							})()}
+																						</span>
+																						<span className="text-zinc-300">
+																							•
+																						</span>
+																						<span className="flex items-center gap-1">
+																							Creada:{" "}
+																							{(() => {
+																								const date = new Date(
+																									command.creado_en
+																								);
+																								return date.toLocaleDateString(
+																									"es-AR",
+																									{
+																										day: "2-digit",
+																										month: "2-digit",
+																										year: "2-digit",
+																									}
+																								);
+																							})()}
+																						</span>
+																					</div>
+																				</div>
+																			</div>
+
+																			<div className="flex flex-col gap-2 mb-4">
+																				<div className="text-sm text-zinc-600">
+																					<span className="font-medium">
+																						Vehículo:
+																					</span>{" "}
+																					{`${command.boletos_reservas.marca_vehiculo || ""} ${
+																						command.boletos_reservas
+																							.modelo_vehiculo || ""
+																					} ${
+																						command.boletos_reservas
+																							.patente_vehiculo || ""
+																					}`.trim()}
+																				</div>
+																				<div className="text-sm text-zinc-600">
+																					<span className="font-medium">
+																						Cliente:
+																					</span>{" "}
+																					{
+																						command.boletos_reservas.clientes
+																							.nombre_completo
+																					}
+																				</div>
+																				<div className="text-sm text-zinc-600">
+																					<span className="font-medium">
+																						Asesor:
+																					</span>{" "}
+																					{
+																						command.boletos_reservas.usuarios
+																							.nombre_usuario
+																					}
+																				</div>
+																			</div>
+
+																			<div className="flex flex-wrap gap-3 items-center">
+																				<span
+																					className={`px-3 py-1 text-sm font-normal rounded-full ${
+																						command.estado === "en_proceso"
+																							? "bg-blue-100 text-blue-700"
+																							: command.estado === "completado"
+																								? "bg-green-100 text-green-700"
+																								: "bg-yellow-100 text-yellow-700"
+																					}`}
+																				>
+																					{command.estado === "en_proceso"
+																						? "En Proceso"
+																						: command.estado === "completado"
+																							? "Completada"
+																							: "Pendiente"}
+																				</span>
+																				<span className="text-sm font-medium text-emerald-600">
+																					{new Intl.NumberFormat("es-AR", {
+																						style: "currency",
+																						currency: "ARS",
+																					}).format(
+																						command.boletos_reservas.precio
+																					)}
+																				</span>
+																				{command.boletos_reservas
+																					.carga_externa > 0 && (
+																					<span className="text-sm font-medium text-blue-600">
+																						Carga Externa Incl.
+																						{command.boletos_reservas
+																							.precio_carga_externa > 0 &&
+																							` ${new Intl.NumberFormat(
+																								"es-AR",
+																								{
+																									style: "currency",
+																									currency: "ARS",
+																								}
+																							).format(
+																								command.boletos_reservas
+																									.precio_carga_externa
+																							)}`}
+																					</span>
+																				)}
+																			</div>
+																		</div>
+
+																		{userRole !== 2 && (
+																			<div className="flex gap-2 md:flex-col items-center">
+																				{userRole === 3 && (
+																					<Checkbox
+																						checked={selectedCommands.includes(
+																							command.id
+																						)}
+																						onCheckedChange={() =>
+																							handleCommandSelection(command.id)
+																						}
+																						onClick={(e) => e.stopPropagation()}
+																						className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 rounded-full border-zinc-400 group-hover:border-zinc-500 transition-all duration-300"
+																					/>
+																				)}
+																				<Button
+																					variant="ghost"
+																					size="sm"
+																					className="rounded-full z-50 px-[0.5rem] bg-blue-100 hover:bg-blue-50"
+																					onClick={(e) => {
+																						e.stopPropagation();
+																						downloadCsv(command.id);
+																					}}
+																				>
+																					<Download className="h-4 w-4 text-blue-600" />
+																				</Button>
+																				<Button
+																					variant="ghost"
+																					size="sm"
+																					className="rounded-full z-50 px-[0.5rem] bg-red-100 hover:bg-red-50"
+																					onClick={(e) => {
+																						e.stopPropagation();
+																						handleDeleteCommand(command.id);
+																					}}
+																				>
+																					<Trash className="h-4 w-4 text-red-600" />
+																				</Button>
+																			</div>
+																		)}
+																	</div>
+																</div>
+															))}
+														</div>
+													</div>
+												) : null}
+
+												{paginatedOtherCommands.length > 0 && (
+													<div className="flex flex-col gap-4">
+														{(todayCommands.length > 0 ||
+															upcomingInstallations.length > 0) && (
+															<div className="flex items-center justify-center w-full">
+																<div className="h-px bg-zinc-200 w-full" />
+																<span className="px-4 text-zinc-400 whitespace-nowrap text-sm">
+																	General ({otherCommands.length})
+																</span>
+																<div className="h-px bg-zinc-200 w-full" />
+															</div>
+														)}
+														<div className="grid grid-cols-2 gap-4">
+															{paginatedOtherCommands.map((command) => (
+																<div
+																	key={command.id}
+																	onClick={() => {
+																		if (userRole === 2) {
+																			router.push(
+																				`/add-technique/${command.id}/`
+																			);
+																		} else if (userRole === 3) {
+																			router.push(`/commands/${command.id}`);
+																		}
+																	}}
+																	className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer border border-zinc-100/80 relative group"
+																>
+																	<div className="flex flex-col md:flex-row justify-between items-start gap-4">
+																		<div className="flex-1">
+																			<div className="flex justify-between items-start mb-4">
+																				<div className="flex flex-col">
+																					<div className="flex items-center gap-2 text-sm text-zinc-500">
+																						{userRole === 3 && (
+																							<Checkbox
+																								checked={selectedCommands.includes(
+																									command.id
+																								)}
+																								onCheckedChange={() =>
+																									handleCommandSelection(
+																										command.id
+																									)
+																								}
+																								onClick={(e) =>
+																									e.stopPropagation()
+																								}
+																								className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 rounded-full border-zinc-400 group-hover:border-zinc-500 transition-all duration-300"
+																							/>
+																						)}
+																						<span className="flex items-center gap-1">
+																							Instalación:{" "}
+																							{(() => {
+																								const date = new Date(
+																									command.boletos_reservas.fecha_instalacion
+																								);
+																								date.setHours(
+																									date.getHours() + 3
+																								);
+																								return date.toLocaleDateString(
+																									"es-AR",
+																									{
+																										day: "2-digit",
+																										month: "2-digit",
+																										year: "2-digit",
+																									}
+																								);
+																							})()}
+																						</span>
+																						<span className="text-zinc-300">
+																							•
+																						</span>
+																						<span className="flex items-center gap-1">
+																							Creada:{" "}
+																							{(() => {
+																								const date = new Date(
+																									command.creado_en
+																								);
+																								return date.toLocaleDateString(
+																									"es-AR",
+																									{
+																										day: "2-digit",
+																										month: "2-digit",
+																										year: "2-digit",
+																									}
+																								);
+																							})()}
+																						</span>
+																					</div>
+																				</div>
+																			</div>
+
+																			<div className="flex flex-col gap-2 mb-4">
+																				<div className="text-sm text-zinc-600">
+																					<span className="font-medium">
+																						Vehículo:
+																					</span>{" "}
+																					{`${command.boletos_reservas.marca_vehiculo || ""} ${
+																						command.boletos_reservas
+																							.modelo_vehiculo || ""
+																					} ${
+																						command.boletos_reservas
+																							.patente_vehiculo || ""
+																					}`.trim()}
+																				</div>
+																				<div className="text-sm text-zinc-600">
+																					<span className="font-medium">
+																						Cliente:
+																					</span>{" "}
+																					{
+																						command.boletos_reservas.clientes
+																							.nombre_completo
+																					}
+																				</div>
+																				<div className="text-sm text-zinc-600">
+																					<span className="font-medium">
+																						Asesor:
+																					</span>{" "}
+																					{
+																						command.boletos_reservas.usuarios
+																							.nombre_usuario
+																					}
+																				</div>
+																			</div>
+
+																			<div className="flex flex-wrap gap-3 items-center">
+																				<span
+																					className={`px-3 py-1 text-sm font-normal rounded-full ${
+																						command.estado === "en_proceso"
+																							? "bg-blue-100 text-blue-700"
+																							: command.estado === "completado"
+																								? "bg-green-100 text-green-700"
+																								: "bg-yellow-100 text-yellow-700"
+																					}`}
+																				>
+																					{command.estado === "en_proceso"
+																						? "En Proceso"
+																						: command.estado === "completado"
+																							? "Completada"
+																							: "Pendiente"}
+																				</span>
+																				<span className="text-sm font-medium text-emerald-600">
+																					{new Intl.NumberFormat("es-AR", {
+																						style: "currency",
+																						currency: "ARS",
+																					}).format(
+																						command.boletos_reservas.precio
+																					)}
+																				</span>
+																				{command.boletos_reservas
+																					.carga_externa > 0 && (
+																					<span className="text-sm font-medium text-blue-600">
+																						Carga Externa Incl.
+																						{command.boletos_reservas
+																							.precio_carga_externa > 0 &&
+																							` ${new Intl.NumberFormat(
+																								"es-AR",
+																								{
+																									style: "currency",
+																									currency: "ARS",
+																								}
+																							).format(
+																								command.boletos_reservas
+																									.precio_carga_externa
+																							)}`}
+																					</span>
+																				)}
+																			</div>
+																		</div>
+
+																		{userRole !== 2 && (
+																			<div className="flex gap-2 md:flex-col items-center">
+																				<Button
+																					variant="ghost"
+																					size="sm"
+																					className="rounded-full z-50 px-[0.5rem] bg-white hover:border-blue-600 border border-blue-200 transition-all duration-300 ease-in-out"
+																					onClick={(e) => {
+																						e.stopPropagation();
+																						downloadCsv(command.id);
+																					}}
+																				>
+																					<Download className="h-4 w-4 text-blue-600" />
+																				</Button>
+																				<Button
+																					variant="ghost"
+																					size="sm"
+																					className="rounded-full z-50 px-[0.5rem] bg-white border border-red-200 hover:border-red-600 transition-all duration-300 ease-in-out hover:bg-red-50"
+																					onClick={(e) => {
+																						e.stopPropagation();
+																						handleDeleteCommand(command.id);
+																					}}
+																				>
+																					<Trash className="h-4 w-4 text-red-600" />
+																				</Button>
+																			</div>
+																		)}
+																	</div>
+																</div>
+															))}
+														</div>
+													</div>
+												)}
+
+												{filteredCommands().length === 0 && (
+													<div className="text-center text-gray-600 py-8">
+														No se encontraron resultados para los filtros
+														aplicados.
+													</div>
+												)}
+
+												{otherCommands.length > 0 && (
+													<div className="flex justify-center items-center gap-2 mt-6">
+														<Button
+															variant="outline"
+															size="sm"
+															onClick={() =>
+																setCurrentPage((prev) => Math.max(prev - 1, 1))
+															}
+															disabled={currentPage === 1}
+															className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
+														>
+															Anterior
+														</Button>
+														<span className="text-sm text-zinc-600">
+															Página {currentPage} de{" "}
+															{Math.ceil(otherCommands.length / itemsPerPage)}
+														</span>
+														<Button
+															variant="outline"
+															size="sm"
+															onClick={() =>
+																setCurrentPage((prev) =>
+																	Math.min(
+																		prev + 1,
+																		Math.ceil(
+																			otherCommands.length / itemsPerPage
+																		)
+																	)
+																)
+															}
+															disabled={
+																currentPage ===
+																Math.ceil(otherCommands.length / itemsPerPage)
+															}
+															className="rounded-full px-4 py-2 text-zinc-600 hover:text-zinc-600 font-normal bg-zinc-100 hover:bg-zinc-50 border-none text-sm"
+														>
+															Siguiente
+														</Button>
+													</div>
+												)}
+											</>
+										);
+									})()}
+								</div>
 							</CardContent>
 						</Card>
 					</main>

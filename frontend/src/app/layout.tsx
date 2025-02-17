@@ -21,7 +21,7 @@ export default function RootLayout({
 			<link rel="icon" href="/favicon.ico" sizes="any" />
 			<body className={inter.className} suppressHydrationWarning={true}>
 				<p className="text-xs text-zinc-500 font-light fixed top-2 right-2 z-[9999]">
-					v1.3.7
+					v1.4.0
 				</p>
 				<SessionAuthProvider>{children}</SessionAuthProvider>
 			</body>

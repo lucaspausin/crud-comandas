@@ -25,7 +25,7 @@ export default function Settings() {
 							</p>
 						</div>
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 grid-rows-1 gap-8 md:gap-4 col-span-2">
-							<Card className="relative rounded-xl  overflow-visible col-span-2 md:col-span-1 min-h-[250px] bg-transparent group border-none shadow-none hover:shadow-md hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
+							<Card className="relative rounded-xl overflow-visible col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-zinc-50/30 to-zinc-100/20 border-[1.5px] border-zinc-200 group shadow-sm hover:shadow-md hover:cursor-pointer hover:from-zinc-100/30 hover:to-zinc-200/20 transform transition-all duration-300 ease-in-out hover:scale-[1]">
 								<Link
 									href="/settings/brands"
 									className="relative h-full p-8 flex flex-col justify-between"
@@ -46,7 +46,7 @@ export default function Settings() {
 									</div>
 								</Link>
 							</Card>
-							<Card className="relative rounded-xl  overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-zinc-50 group border-none shadow-none hover:shadow-md hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
+							<Card className="relative rounded-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-zinc-50/30 to-zinc-100/20 border-[1.5px] border-zinc-200 group shadow-sm hover:shadow-md hover:cursor-pointer hover:from-zinc-100/30 hover:to-zinc-200/20 transform transition-all duration-300 ease-in-out hover:scale-[1]">
 								<Link
 									href="/settings/cylinders"
 									className="relative h-full p-8 flex flex-col justify-between"
@@ -67,7 +67,7 @@ export default function Settings() {
 									</div>
 								</Link>
 							</Card>
-							<Card className="relative rounded-xl  overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-zinc-50 group border-none shadow-none hover:shadow-md hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
+							<Card className="relative rounded-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-zinc-50/30 to-zinc-100/20 border-[1.5px] border-zinc-200 group shadow-sm hover:shadow-md hover:cursor-pointer hover:from-zinc-100/30 hover:to-zinc-200/20 transform transition-all duration-300 ease-in-out hover:scale-[1]">
 								<Link
 									href="/settings/vehicles"
 									className="relative h-full p-8 flex flex-col justify-between"
@@ -90,7 +90,7 @@ export default function Settings() {
 									</div>
 								</Link>
 							</Card>
-							<Card className="relative rounded-xl  overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-white to-zinc-50 group border-none shadow-none hover:shadow-md hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
+							<Card className="relative rounded-xl overflow-hidden col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-amber-50/20 to-amber-100/10 border-[1.5px] border-amber-100 group shadow-sm hover:shadow-md hover:cursor-pointer hover:from-amber-100/20 hover:to-amber-200/10 transform transition-all duration-300 ease-in-out hover:scale-[1]">
 								<Link
 									href="/settings/interest"
 									className="relative h-full p-8 flex flex-col justify-between"
@@ -113,17 +113,8 @@ export default function Settings() {
 									</div>
 								</Link>
 							</Card>
-							<div className="rounded-xl h-fit p-6 col-span-4">
-								<div className="mb-0 text-center">
-									<h2 className="text-2xl font-light text-zinc-900">
-										Base de Datos
-									</h2>
-									{/* <p className="text-zinc-600 text-sm mt-1">
-										Gestiona todos los elementos de la base de datos.
-									</p> */}
-								</div>
-							</div>
-							<Card className="relative rounded-xl  overflow-visible col-span-2 md:col-span-1 min-h-[250px] bg-transparent group border-none shadow-none hover:shadow-md hover:cursor-pointer transform transition-all duration-300">
+
+							<Card className="relative rounded-xl overflow-visible col-span-2 md:col-span-1 min-h-[250px] bg-gradient-to-b from-rose-50/20 to-rose-100/10 border-[1.5px] border-rose-100 group shadow-sm hover:shadow-md hover:cursor-pointer hover:from-rose-100/20 hover:to-rose-200/10 transform transition-all duration-300 ease-in-out">
 								<Link
 									href="/settings/customers"
 									className="relative h-full p-8 flex flex-col justify-between"
@@ -144,7 +135,7 @@ export default function Settings() {
 									</div>
 								</Link>
 							</Card>
-							<Card className="relative rounded-xl  overflow-visible col-span-2 md:col-span-1 min-h-[250px] bg-transparent group border-none shadow-none hover:shadow-md hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
+							{/* <Card className="relative rounded-xl  overflow-visible col-span-2 md:col-span-1 min-h-[250px] bg-transparent group border-none shadow-none hover:shadow-md hover:cursor-pointer transform transition-all duration-300 hover:scale-[1]">
 								<Link
 									href="/settings/sellers"
 									className="relative h-full p-8 flex flex-col justify-between"
@@ -164,7 +155,7 @@ export default function Settings() {
 										</div>
 									</div>
 								</Link>
-							</Card>
+							</Card> */}
 						</div>
 					</div>
 				</div>
