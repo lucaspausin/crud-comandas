@@ -74,12 +74,17 @@ export class PaymentPlansController {
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     try {
-      await this.paymentPlansService.remove(id);
-      return { message: 'Payment plan deleted successfully' };
+      const result = await this.paymentPlansService.remove(id);
+      return result;
     } catch (error) {
-      throw new BadRequestException(
-        'Error deleting payment plan: ' + error.message,
-      );
+      console.error('Controller delete error:', error);
+      if (error.message.includes('not found')) {
+        throw new NotFoundException(error.message);
+      }
+      throw new BadRequestException({
+        message: error.message,
+        details: error.stack,
+      });
     }
   }
 }

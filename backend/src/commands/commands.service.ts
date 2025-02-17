@@ -300,90 +300,59 @@ export class CommandsService {
   }
 
   async remove(id: number) {
-    const [
-      reservationDeleted,
-      comandaDeleted,
-      clientDeleted,
-      calendarioDeleted,
-    ] = await this.prismaService.$transaction(async (prisma) => {
-      // Paso 1: Encontrar la reserva por su ID
-      const comanda = await prisma.comandas.findUnique({
-        where: { id },
-      });
-
-      if (!comanda) {
-        throw new NotFoundException(
-          `No fue encontrada la comanda. Número: ${id}`,
-        );
-      }
-
-      // Paso 2: Buscar la reserva asociada a la comanda
-      const reservation = await prisma.boletos_reservas.findUnique({
-        where: { id: comanda.boleto_reserva_id }, // Buscar la reserva usando boleto_reserva_id
-      });
-
-      if (!reservation) {
-        throw new NotFoundException(
-          `No fue encontrada la reserva asociada a la comanda. Número de comanda: ${id}`,
-        );
-      }
-
-      // Paso 3: Desvincular el tecnico_id en la comanda (si existe)
-      if (comanda.tecnica_id) {
-        await prisma.comandas.update({
-          where: { id: comanda.id },
-          data: {
-            tecnica_id: null,
-            estado: 'pendiente', // Se actualiza el campo para desvincular la técnica
+    const [comandaDeleted, calendarioDeleted] =
+      await this.prismaService.$transaction(async (prisma) => {
+        // Paso 1: Encontrar la comanda por su ID
+        const comanda = await prisma.comandas.findUnique({
+          where: { id },
+          include: {
+            boletos_reservas: true,
           },
         });
 
-        // Borrar el técnico vinculado a la comanda
-        await prisma.tecnica.delete({
-          where: { id: comanda.tecnica_id },
+        if (!comanda) {
+          throw new NotFoundException(
+            `No fue encontrada la comanda. Número: ${id}`,
+          );
+        }
+
+        // Paso 2: Desvincular y borrar el técnico si existe
+        if (comanda.tecnica_id) {
+          // Primero actualizamos la comanda para desvincular el técnico
+          await prisma.comandas.update({
+            where: { id: comanda.id },
+            data: {
+              tecnica_id: null,
+              estado: 'pendiente',
+            },
+          });
+
+          // Luego borramos el técnico
+          await prisma.tecnica.delete({
+            where: { id: comanda.tecnica_id },
+          });
+        }
+
+        // Paso 3: Borrar el evento del calendario vinculado a la reserva
+        const calendarioDeleted = await prisma.calendario.deleteMany({
+          where: {
+            boleto_reserva_id: comanda.boleto_reserva_id,
+          },
         });
-      }
 
-      // Paso 4: Borrar el evento del calendario vinculado a la reserva
-      const calendarioDeleted = await prisma.calendario.deleteMany({
-        where: {
-          boleto_reserva_id: reservation.id, // Usamos el id de la reserva para buscar el calendario
-        },
+        // Paso 4: Borrar la comanda
+        const comandaDeleted = await prisma.comandas.delete({
+          where: {
+            id: comanda.id,
+          },
+        });
+
+        return [comandaDeleted, calendarioDeleted];
       });
-
-      // Paso 5: Borrar la comanda
-      const comandaDeleted = await prisma.comandas.delete({
-        where: {
-          id: comanda.id,
-        },
-      });
-
-      // Paso 6: Borrar la reserva
-      const reservationDeleted = await prisma.boletos_reservas.delete({
-        where: {
-          id: reservation.id,
-        },
-      });
-
-      // Paso 7: Borrar el cliente vinculado a la reserva
-      const clientDeleted = await prisma.clientes.delete({
-        where: {
-          id: reservation.cliente_id,
-        },
-      });
-
-      return [
-        reservationDeleted,
-        comandaDeleted,
-        clientDeleted,
-        calendarioDeleted,
-      ];
-    });
 
     return {
-      reservationDeleted,
+      message: 'Comanda eliminada exitosamente',
       comandaDeleted,
-      clientDeleted,
       calendarioDeleted,
     };
   }

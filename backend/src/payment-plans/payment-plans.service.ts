@@ -19,6 +19,14 @@ export class PaymentPlansService {
         ...createPaymentPlanDto,
         position: nextPosition,
       },
+      select: {
+        id: true,
+        name: true,
+        interest: true,
+        installments: true,
+        active: true,
+        position: true,
+      },
     });
   }
 
@@ -30,12 +38,28 @@ export class PaymentPlansService {
       orderBy: {
         position: 'asc',
       },
+      select: {
+        id: true,
+        name: true,
+        interest: true,
+        installments: true,
+        active: true,
+        position: true,
+      },
     });
   }
 
   async findOne(id: number) {
     return this.prisma.payment_plans.findUnique({
       where: { id },
+      select: {
+        id: true,
+        name: true,
+        interest: true,
+        installments: true,
+        active: true,
+        position: true,
+      },
     });
   }
 
@@ -43,12 +67,24 @@ export class PaymentPlansService {
     return this.prisma.payment_plans.update({
       where: { id },
       data: updatePaymentPlanDto,
+      select: {
+        id: true,
+        name: true,
+        interest: true,
+        installments: true,
+        active: true,
+        position: true,
+      },
     });
   }
 
   async updatePosition(id: number, newPosition: number) {
     const plan = await this.prisma.payment_plans.findUnique({
       where: { id },
+      select: {
+        id: true,
+        position: true,
+      },
     });
 
     if (!plan) {
@@ -92,34 +128,47 @@ export class PaymentPlansService {
       data: {
         position: newPosition,
       },
+      select: {
+        id: true,
+        name: true,
+        interest: true,
+        installments: true,
+        active: true,
+        position: true,
+      },
     });
   }
 
   async remove(id: number) {
-    const plan = await this.prisma.payment_plans.findUnique({
-      where: { id },
-    });
+    try {
+      // Primero intentamos obtener el plan sin campos temporales
+      const planExists = await this.prisma.payment_plans.findUnique({
+        where: { id },
+        select: { id: true },
+      });
 
-    if (!plan) {
-      throw new Error('Plan not found');
+      if (!planExists) {
+        throw new Error(`Payment plan with id ${id} not found`);
+      }
+
+      const result = await this.prisma.payment_plans.delete({
+        where: { id },
+        select: {
+          id: true,
+          name: true,
+          position: true,
+        },
+      });
+
+      return {
+        success: true,
+        message: 'Plan deleted successfully',
+        data: result,
+      };
+    } catch (error) {
+      // Capturamos el error específico de Prisma
+      console.error('Delete error details:', error);
+      throw new Error(`Failed to delete payment plan: ${error.message}`);
     }
-
-    // Actualizar las posiciones de los planes que están después del eliminado
-    await this.prisma.payment_plans.updateMany({
-      where: {
-        position: {
-          gt: plan.position,
-        },
-      },
-      data: {
-        position: {
-          decrement: 1,
-        },
-      },
-    });
-
-    return this.prisma.payment_plans.delete({
-      where: { id },
-    });
   }
 }
